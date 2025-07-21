@@ -11,7 +11,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.*;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.states.*;
+import frc.robot.commands.States.Climbing;
+import frc.robot.commands.States.HasAlgae;
+import frc.robot.commands.States.HasCoral;
+import frc.robot.commands.States.None;
+import frc.robot.commands.States.PrepAlgaeZero;
+import frc.robot.commands.States.PrepAlgaeZeroWithCoral;
+import frc.robot.commands.States.PrepClimb;
+import frc.robot.commands.States.PrepCoralLv;
+import frc.robot.commands.States.PrepCoralWithAlgae;
+import frc.robot.commands.States.PrepCoralZero;
+import frc.robot.commands.States.PrepCoralZeroWithAlgae;
+import frc.robot.commands.States.PrepNet;
+import frc.robot.commands.States.PrepNetWithCoral;
+import frc.robot.commands.States.PrepProcessor;
+import frc.robot.commands.States.PrepProcessorWithCoral;
+import frc.robot.commands.States.*;
 import frc.robot.subsystems.*;
 
 @Logged
@@ -30,13 +45,13 @@ public class StateMachine extends SubsystemBase {
   StateMachine subStateMachine = this;
 
   /** Creates a new StateMachine. */
-  public StateMachine(Drivetrain subDrivetrain, Elevator subElevator, Intake subIntake,
-      Climber subClimber) {
+  public StateMachine(Drivetrain subDrivetrain, Intake subIntake, Climber subClimber,
+      Elevator subElevator) {
     currentRobotState = RobotState.NONE;
     currentDriverState = DriverState.MANUAL;
-    this.subElevator = subElevator;
     this.subIntake = subIntake;
     this.subClimber = subClimber;
+    this.subElevator = subElevator;
 
     this.subDrivetrain = subDrivetrain;
   }
@@ -64,290 +79,291 @@ public class StateMachine extends SubsystemBase {
           case NONE:
             return new None(subStateMachine);
         }
-      
+
         break;
 
-// climbing states
+      // climbing states
 
       case PREP_CLIMB:
         switch (currentRobotState) {
-          
+          case NONE:
             return new PrepClimb(subStateMachine);
-          
+
         }
         break;
 
       case CLIMBING:
         switch (currentRobotState) {
-          
+          case NONE:
             return new Climbing(subStateMachine);
-          
+
         }
         break;
 
-// Prep Coral only        
-      case PREP_CORAL_ZERO:   
+      // Prep Coral only
+      case PREP_CORAL_ZERO:
         switch (currentRobotState) {
-  
-    return new PrepCoralZero(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralZero(subStateMachine);
 
-case PREP_CORAL_L1:   
+        }
+        break;
+
+      case PREP_CORAL_L1:
         switch (currentRobotState) {
-  
-    return new PrepCoralLv(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralLv(subStateMachine);
 
-case PREP_CORAL_L2:   
+        }
+        break;
+
+      case PREP_CORAL_L2:
         switch (currentRobotState) {
-  
-    return new PrepCoralLv(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralLv(subStateMachine);
 
-case PREP_CORAL_L3:   
+        }
+        break;
+
+      case PREP_CORAL_L3:
         switch (currentRobotState) {
-  
-    return new PrepCoralLv(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralLv(subStateMachine);
 
-case PREP_CORAL_L4:   
+        }
+        break;
+
+      case PREP_CORAL_L4:
         switch (currentRobotState) {
-  
-    return new PrepCoralLv(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralLv(subStateMachine);
 
-// prep Coral with Algae
-      
-case PREP_CORAL_WITH_ALGAE_L1:   
+        }
+        break;
+
+      // prep Coral with Algae
+
+      case PREP_CORAL_WITH_ALGAE_L1:
         switch (currentRobotState) {
-  
-    return new PrepCoralWithAlgae(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralWithAlgae(subStateMachine);
 
-case PREP_CORAL_WITH_ALGAE_L2:   
+        }
+        break;
+
+      case PREP_CORAL_WITH_ALGAE_L2:
         switch (currentRobotState) {
-  
-    return new PrepCoralWithAlgae(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralWithAlgae(subStateMachine);
 
-case PREP_CORAL_WITH_ALGAE_L3:   
+        }
+        break;
+
+      case PREP_CORAL_WITH_ALGAE_L3:
         switch (currentRobotState) {
-  
-    return new PrepCoralWithAlgae(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralWithAlgae(subStateMachine);
 
-case PREP_CORAL_WITH_ALGAE_L4:   
+        }
+        break;
+
+      case PREP_CORAL_WITH_ALGAE_L4:
         switch (currentRobotState) {
-  
-    return new PrepCoralWithAlgae(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralWithAlgae(subStateMachine);
 
-case PREP_CORAL_ZERO_WITH_ALGAE:   
+        }
+        break;
+
+      case PREP_CORAL_ZERO_WITH_ALGAE:
         switch (currentRobotState) {
-  
-    return new PrepCoralWithAlgae(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepCoralZeroWithAlgae(subStateMachine);
 
-// prep Algae only  
+        }
+        break;
 
-case PREP_ALGAE_NET:   
+      // prep Algae only
+
+      case PREP_ALGAE_NET:
         switch (currentRobotState) {
-  
-    return new PrepNet(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepNet(subStateMachine);
 
-case PREP_ALGAE_PROCESSOR:   
+        }
+        break;
+
+      case PREP_ALGAE_PROCESSOR:
         switch (currentRobotState) {
-  
-    return new PrepProcessor(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepProcessor(subStateMachine);
 
-case PREP_ALGAE_ZERO:   
+        }
+        break;
+
+      case PREP_ALGAE_ZERO:
         switch (currentRobotState) {
-  
-    return new PrepZero(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepAlgaeZero(subStateMachine);
 
-// prep Algae with Coral
+        }
+        break;
 
-case PREP_ALGAE_NET_WITH_CORAL:   
+      // prep Algae with Coral
+
+      case PREP_ALGAE_NET_WITH_CORAL:
         switch (currentRobotState) {
-  
-    return new PrepNetWithCoral(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepNetWithCoral(subStateMachine);
 
-case PREP_ALGAE_PROCESSOR_WITH_CORAL:   
+        }
+        break;
+
+      case PREP_ALGAE_PROCESSOR_WITH_CORAL:
         switch (currentRobotState) {
-  
-    return new PrepProcessorWithCoral(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepProcessorWithCoral(subStateMachine);
 
-case PREP_ALGAE_ZERO_WITH_CORAL:   
+        }
+        break;
+
+      case PREP_ALGAE_ZERO_WITH_CORAL:
         switch (currentRobotState) {
-  
-    return new PrepZeroWithCoral(subStateMachine);
-  
-}
-break;
+          case NONE:
+            return new PrepAlgaeZeroWithCoral(subStateMachine);
 
-// holding 1 game piece
+        }
+        break;
+
+      // holding 1 game piece
 
       case HAS_CORAL:
         switch (currentRobotState) {
-          
+          case NONE:
             return new HasCoral(subStateMachine);
         }
         break;
 
       case HAS_ALGAE:
         switch (currentRobotState) {
-         
+          case NONE:
             return new HasAlgae(subStateMachine);
         }
         break;
 
-// holding 2 game pieces
+      // holding 2 game pieces
       case HAS_CORAL_AND_ALGAE:
         switch (currentRobotState) {
-          
+          case NONE:
             return new HasCoralAndAlgae(subStateMachine);
         }
         break;
 
-// manipulating 1 game piece
-
+      // manipulating 1 game piece
 
       case SCORING_CORAL:
         switch (currentRobotState) {
-          
+          case NONE:
             return new ScoringCoral(subStateMachine);
         }
         break;
 
       case SCORING_ALGAE:
         switch (currentRobotState) {
-          
+          case NONE:
             return new ScoringAlgae(subStateMachine);
         }
         break;
 
       case CLEAN_HIGH:
         switch (currentRobotState) {
-          
+          case NONE:
             return new CleanHigh(subStateMachine);
         }
         break;
 
       case CLEAN_LOW:
         switch (currentRobotState) {
-          
+          case NONE:
             return new CleanLow(subStateMachine);
         }
         break;
 
       case INTAKE_CORAL_STATION:
         switch (currentRobotState) {
-          
+          case NONE:
             return new IntakeCoralStation(subStateMachine);
         }
         break;
 
       case INTAKE_ALGAE_GROUND:
         switch (currentRobotState) {
-          
+          case NONE:
             return new IntakeAlgaeGround(subStateMachine);
         }
         break;
 
-// manipulating 2 game pieces
+      // manipulating 2 game pieces
       case EJECTING:
         switch (currentRobotState) {
-          
+          case NONE:
             return new Ejecting(subStateMachine);
         }
         break;
 
       case SCORING_ALGAE_WITH_CORAL:
         switch (currentRobotState) {
-          
+          case NONE:
             return new ScoringAlgaeWithCoral(subStateMachine);
         }
         break;
 
       case SCORING_CORAL_WITH_ALGAE:
         switch (currentRobotState) {
-          
+          case NONE:
             return new ScoringCoralWithAlgae(subStateMachine);
         }
         break;
 
       case CLEAN_HIGH_WITH_CORAL:
         switch (currentRobotState) {
-          
+          case NONE:
             return new CleanHighWithCoral(subStateMachine);
         }
         break;
 
       case CLEAN_LOW_WITH_CORAL:
         switch (currentRobotState) {
-          
+          case NONE:
             return new CleanLowWithCoral(subStateMachine);
         }
         break;
 
       case INTAKE_CORAL_GROUND:
         switch (currentRobotState) {
-          
+          case NONE:
             return new IntakeCoralGround(subStateMachine);
         }
         break;
 
       case INTAKE_CORAL_WITH_ALGAE_GROUND:
         switch (currentRobotState) {
-          
+          case NONE:
             return new IntakeCoralWithAlgaeGround(subStateMachine);
         }
         break;
 
       case INTAKE_ALGAE_WITH_CORAL_GROUND:
         switch (currentRobotState) {
-          
+          case NONE:
             return new IntakeAlgaeWithCoralGround(subStateMachine);
         }
         break;
 
-    }return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "+desiredState.toString()+" while at "+currentRobotState.toString());
-}
+    }
+    return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "
+        + desiredState.toString() + " while at " + currentRobotState.toString());
+  }
 
   public enum DriverState {
     MANUAL,
