@@ -1,0 +1,185 @@
+digraph statemachine {
+
+  // Setup Styles
+  rankdir=LR;
+  fontsize=12;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica"];
+  edge [arrowhead=vee, arrowsize=1.0, penwidth=1.5, color=black];
+
+
+  // Initial state
+  NONE [label="None", color=red, fillcolor="#FDD7D7"];
+
+  // Climbing States
+  subgraph cluster_climbing {
+      label="Climbing";
+      style="rounded,filled";
+      color=gray;
+      fillcolor="#ECE0E0";
+
+      PREP_CLIMB
+      CLIMBING
+  }
+
+  // Prepping States
+  subgraph cluster_prepping {
+      label="Prepping States";
+      style="rounded,filled";
+      color=purple;
+      fillcolor="#DC9EDC";
+
+      // Prepping Coral
+      subgraph cluster_coral {
+          label="Prepping Coral";
+          style="rounded,filled";
+          color=black;
+          fillcolor="#8C8C8C";
+
+          PREP_CORAL_L1;
+          PREP_CORAL_L2;
+          PREP_CORAL_L3;
+          PREP_CORAL_L4;
+          PREP_CORAL_ZERO;
+          PREP_CORAL_WITH_ALGAE_L1;
+          PREP_CORAL_WITH_ALGAE_L2;
+          PREP_CORAL_WITH_ALGAE_L3;
+          PREP_CORAL_WITH_ALGAE_L4;
+          PREP_CORAL_ZERO_WITH_ALGAE;
+      }
+
+      // Prepping Algae
+      subgraph cluster_algae {
+          label="Prepping Algae";
+          style="rounded,filled";
+          color=black;
+          fillcolor="#8C8C8C";
+
+          PREP_ALGAE_NET;
+          PREP_ALGAE_PROCESSOR;
+          PREP_ALGAE_ZERO;
+          PREP_ALGAE_NET_WITH_CORAL;
+          PREP_ALGAE_PROCESSOR_WITH_CORAL;
+          PREP_ALGAE_ZERO_WITH_CORAL;
+      }
+  }
+
+  // Holding/Scoring States
+  HAS_CORAL
+  HAS_ALGAE
+  HAS_CORAL_AND_ALGAE
+  EJECTING
+  SCORING_CORAL;
+  SCORING_ALGAE;
+  SCORING_ALGAE_WITH_CORAL;
+  SCORING_CORAL_WITH_ALGAE;
+
+  // Cleaning States
+  CLEAN_HIGH_WITH_CORAL
+  CLEAN_LOW_WITH_CORAL
+  CLEAN_HIGH
+  CLEAN_LOW
+
+  // Intaking States
+  INTAKE_CORAL_GROUND
+  INTAKE_CORAL_STATION
+  INTAKE_ALGAE_GROUND
+  INTAKE_CORAL_WITH_ALGAE_GROUND
+  INTAKE_ALGAE_WITH_CORAL_GROUND
+  INTAKE_CORAL_WITH_ALGAE_STATION
+
+  // Transitions from NONE
+  NONE -> INTAKE_CORAL_GROUND;
+  NONE -> INTAKE_CORAL_STATION;
+  NONE -> INTAKE_ALGAE_GROUND;
+  NONE -> CLEAN_HIGH_WITH_CORAL;
+  NONE -> CLEAN_LOW_WITH_CORAL;
+  NONE -> CLEAN_HIGH;
+  NONE -> CLEAN_LOW;
+  NONE -> PREP_CLIMB;
+  NONE -> EJECTING;
+
+  // Transitions from INTAKE_ALGAE_WITH_CORAL_GROUND
+  INTAKE_ALGAE_WITH_CORAL_GROUND -> HAS_CORAL_AND_ALGAE
+  INTAKE_ALGAE_WITH_CORAL_GROUND -> HAS_CORAL
+
+  // Ejecting
+  EJECTING -> NONE;
+
+  // Coral Intake
+  INTAKE_CORAL_GROUND -> HAS_CORAL;
+  INTAKE_CORAL_GROUND -> NONE;
+  INTAKE_CORAL_STATION -> HAS_CORAL;
+  INTAKE_CORAL_STATION -> NONE;
+
+  // Algae Intake
+  INTAKE_ALGAE_GROUND -> HAS_ALGAE;
+  INTAKE_ALGAE_GROUND -> NONE;
+
+  // Clean with coral
+  CLEAN_HIGH_WITH_CORAL -> HAS_CORAL_AND_ALGAE;
+  CLEAN_HIGH_WITH_CORAL -> HAS_CORAL;
+  CLEAN_LOW_WITH_CORAL -> HAS_CORAL_AND_ALGAE;
+  CLEAN_LOW_WITH_CORAL -> HAS_CORAL;
+
+  // Clean algae only
+  CLEAN_HIGH -> HAS_ALGAE;
+  CLEAN_HIGH -> NONE;
+  CLEAN_LOW -> HAS_ALGAE;
+  CLEAN_LOW -> NONE;
+
+  // HAS_CORAL transitions
+  HAS_CORAL -> INTAKE_ALGAE_WITH_CORAL_GROUND;
+  HAS_CORAL -> CLEAN_HIGH_WITH_CORAL;
+  HAS_CORAL -> CLEAN_LOW_WITH_CORAL;
+  HAS_CORAL -> PREP_CORAL_L1;
+  HAS_CORAL -> PREP_CORAL_L2;
+  HAS_CORAL -> PREP_CORAL_L3;
+  HAS_CORAL -> PREP_CORAL_L4;
+  HAS_CORAL -> PREP_CORAL_ZERO;
+
+  // HAS_CORAL_AND_ALGAE transitions
+  HAS_CORAL_AND_ALGAE -> PREP_CORAL_WITH_ALGAE_L1;
+  HAS_CORAL_AND_ALGAE -> PREP_CORAL_WITH_ALGAE_L2;
+  HAS_CORAL_AND_ALGAE -> PREP_CORAL_WITH_ALGAE_L3;
+  HAS_CORAL_AND_ALGAE -> PREP_CORAL_WITH_ALGAE_L4;
+  HAS_CORAL_AND_ALGAE -> PREP_CORAL_ZERO_WITH_ALGAE
+
+  // HAS_ALGAE transitions
+  HAS_ALGAE -> INTAKE_CORAL_WITH_ALGAE_GROUND;
+  HAS_ALGAE -> INTAKE_CORAL_WITH_ALGAE_STATION;
+  HAS_ALGAE -> PREP_ALGAE_ZERO;
+  HAS_ALGAE -> PREP_ALGAE_NET;
+  HAS_ALGAE -> PREP_ALGAE_PROCESSOR;
+  HAS_ALGAE -> PREP_ALGAE_ZERO;
+
+  // Climbing Transitions
+  PREP_CLIMB -> CLIMBING;
+  PREP_CLIMB -> NONE;
+  CLIMBING -> NONE;
+  CLIMBING -> PREP_CLIMB;
+
+  // Scoring Coral
+  PREP_CORAL_L1 -> SCORING_CORAL;
+  PREP_CORAL_L2 -> SCORING_CORAL;
+  PREP_CORAL_L3 -> SCORING_CORAL;
+  PREP_CORAL_L4 -> SCORING_CORAL;
+  PREP_CORAL_WITH_ALGAE_L1 -> SCORING_CORAL_WITH_ALGAE;
+  PREP_CORAL_WITH_ALGAE_L2 -> SCORING_CORAL_WITH_ALGAE;
+  PREP_CORAL_WITH_ALGAE_L3 -> SCORING_CORAL_WITH_ALGAE;
+  PREP_CORAL_WITH_ALGAE_L4 -> SCORING_CORAL_WITH_ALGAE;
+  PREP_CORAL_ZERO_WITH_ALGAE -> SCORING_CORAL_WITH_ALGAE;
+  PREP_CORAL_ZERO -> SCORING_CORAL;
+  SCORING_CORAL -> NONE;
+  SCORING_CORAL_WITH_ALGAE -> HAS_ALGAE;
+
+  // Scoring Algae
+  PREP_ALGAE_NET -> SCORING_ALGAE;
+  PREP_ALGAE_PROCESSOR -> SCORING_ALGAE;
+  PREP_ALGAE_ZERO -> SCORING_ALGAE;
+  PREP_ALGAE_NET_WITH_CORAL -> SCORING_ALGAE_WITH_CORAL;
+  PREP_ALGAE_PROCESSOR_WITH_CORAL -> SCORING_ALGAE_WITH_CORAL;
+  PREP_ALGAE_ZERO_WITH_CORAL -> SCORING_ALGAE_WITH_CORAL;
+  SCORING_ALGAE -> NONE;
+  SCORING_ALGAE_WITH_CORAL -> HAS_CORAL
+}
