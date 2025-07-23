@@ -5,6 +5,8 @@
 package frc.robot.commands.States;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -12,7 +14,7 @@ public class PrepCoralWithAlgae extends Command {
   /** Creates a new PrepCoralWithAlgae. */
   StateMachine globalStateMachine;
 
-  public PrepCoralWithAlgae(StateMachine globalStateMachine) {
+  public PrepCoralWithAlgae(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
