@@ -12,6 +12,36 @@ import edu.wpi.first.wpilibj2.command.Command.*;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.States.*;
+import frc.robot.commands.States.climbing.Climbing;
+import frc.robot.commands.States.climbing.PrepClimb;
+import frc.robot.commands.States.climbing.RetractingClimber;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralStation;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
+import frc.robot.commands.States.hold_scoring_elements.HasCoral;
+import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
+import frc.robot.commands.States.prep_algae.PrepAlgaeZero;
+import frc.robot.commands.States.prep_algae.PrepAlgaeZeroWithCoral;
+import frc.robot.commands.States.prep_algae.PrepNet;
+import frc.robot.commands.States.prep_algae.PrepNetWithCoral;
+import frc.robot.commands.States.prep_algae.PrepProcessor;
+import frc.robot.commands.States.prep_algae.PrepProcessorWithCoral;
+import frc.robot.commands.States.prep_coral.PrepCoralLv;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgae;
+import frc.robot.commands.States.prep_coral.PrepCoralZero;
+import frc.robot.commands.States.prep_coral.PrepCoralZeroWithAlgae;
+import frc.robot.commands.States.scoring.ScoringAlgae;
+import frc.robot.commands.States.scoring.ScoringAlgaeWithCoral;
+import frc.robot.commands.States.scoring.ScoringCoral;
+import frc.robot.commands.States.scoring.ScoringCoralWithAlgae;
+import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
+import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
+import frc.robot.commands.States.second_scoring_element.Ejecting;
+import frc.robot.commands.States.second_scoring_element.IntakeAlgaeWithCoralGround;
+import frc.robot.commands.States.second_scoring_element.IntakeCoralWithAlgaeGround;
 import frc.robot.subsystems.*;
 
 @Logged
@@ -79,7 +109,16 @@ public class StateMachine extends SubsystemBase {
 
         }
         break;
+      case RETRACTING_CLIMBER:
+        switch (currentRobotState) {
+          case PREP_CLIMB:
+          case CLIMBING:
+          case NONE:
+            return new RetractingClimber(subStateMachine, subClimber);
 
+        }
+
+        break;
       case CLIMBING:
         switch (currentRobotState) {
           case PREP_CLIMB:
@@ -504,6 +543,7 @@ public class StateMachine extends SubsystemBase {
     NONE,
     // climbing states
     PREP_CLIMB,
+    RETRACTING_CLIMBER,
     CLIMBING,
     // Prep Coral only
     PREP_CORAL_ZERO,
