@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Degrees;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
@@ -15,6 +16,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Voltage;
@@ -26,133 +28,232 @@ import frc.robot.RobotMap.mapElevator;
 
 @Logged
 public class Elevator extends SubsystemBase {
-  private TalonFX leftMotorFollower;
-  private TalonFX rightMotorLeader;
+  private TalonFX leftElevatorMotorFollower;
+  private TalonFX rightElevatorMotorLeader;
+  private TalonFX leftElevatorPivotMotorFollower;
+  private TalonFX rightElevatorPivotMotorLeader;
 
-  private Distance lastDesiredPosition;
+  private Distance lastDesiredElevatorPosition;
+  private Angle lastDesiredElevatorPivotAngle;
 
-  Distance currentLeftPosition = Units.Inches.of(0);
-  Distance currentRightPosition = Units.Inches.of(0);
+  Distance currentLeftElevatorPosition = Units.Inches.of(0);
+  Distance currentRightElevatorPosition = Units.Inches.of(0);
 
-  PositionVoltage positionRequest;
-  VoltageOut voltageRequest = new VoltageOut(0);
+  PositionVoltage elevatorPositionRequest;
+  VoltageOut elevatorVoltageRequest = new VoltageOut(0);
+  PositionVoltage elevatorPivotPositionRequest;
+  VoltageOut elevatorPivotVoltageRequest = new VoltageOut(0);
 
-  public boolean attemptingZeroing = false;
-  public boolean hasZeroed = false;
 
-  MotionMagicExpoVoltage motionRequest;
+  public boolean attemptingElevatorZeroing = false;
+  public boolean hasZeroedElevator = false;
+  public boolean attemptingElevatorPivotZeroing = false;
+  public boolean hasZeroedElevatorPivot = false;
+
+  MotionMagicExpoVoltage elevatorMotionRequest;
+  MotionMagicExpoVoltage elevatorPivotMotionRequest;
 
   /** Creates a new Elevator. */
   public Elevator() {
-    leftMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_CAN);
-    rightMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_CAN);
+    leftElevatorMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_CAN);
+    rightElevatorMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_CAN);
+    leftElevatorPivotMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_PIVOT_CAN);
+    rightElevatorPivotMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_PIVOT_CAN);
 
-    lastDesiredPosition = Units.Inches.of(0);
-    voltageRequest = new VoltageOut(0);
-    motionRequest = new MotionMagicExpoVoltage(0);
+    lastDesiredElevatorPosition = Units.Inches.of(0);
+    elevatorVoltageRequest = new VoltageOut(0);
+    elevatorMotionRequest = new MotionMagicExpoVoltage(0);
+    lastDesiredElevatorPivotAngle = Degrees.of(0);
+    elevatorVoltageRequest = new VoltageOut(0);
+    elevatorMotionRequest = new MotionMagicExpoVoltage(0);
 
-    rightMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
-    leftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    rightElevatorMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    leftElevatorMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    leftElevatorPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+    rightElevatorPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
   }
 
   public Distance getElevatorPosition() {
     if (Robot.isSimulation()) {
-      return getLastDesiredPosition();
+      return getLastDesiredElevatorPosition();
     }
-    return Units.Inches.of(rightMotorLeader.getPosition().getValueAsDouble());
+    return Units.Inches.of(rightElevatorMotorLeader.getPosition().getValueAsDouble());
   }
 
-  public boolean atDesiredPosition() {
-    return isAtSetPointWithTolerance(getLastDesiredPosition(), Constants.constElevator.DEADZONE_DISTANCE);
+  public Angle getElevatorPivotAngle() {
+    if (Robot.isSimulation()) {
+      return getLastDesiredElevatorPivotAngle();
+    }
+    return Units.Degrees.of(rightElevatorPivotMotorLeader.getPosition().getValueAsDouble());
   }
 
-  public boolean isAtSpecificSetpoint(Distance setpoint) {
-    return isAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_DISTANCE);
+  public boolean elevatorAtDesiredPosition() {
+    return isElevatorAtSetPointWithTolerance(getLastDesiredElevatorPosition(), Constants.constElevator.DEADZONE_DISTANCE);
   }
 
-  public boolean isAtSetPointWithTolerance(Distance position, Distance tolerance) {
+  public boolean elevatorPivotAtDesiredAngle() {
+    return isElevatorPivotAtSetPointWithTolerance(getLastDesiredElevatorPivotAngle(), Constants.constElevator.DEADZONE_ANGLE);
+  }
+
+  public boolean elevatorIsAtSpecificSetpoint(Distance setpoint) {
+    return isElevatorAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_DISTANCE);
+  }
+
+  public boolean elevatorPivotIsAtSpecificSetpoint(Angle setpoint) {
+    return isElevatorPivotAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_ANGLE);
+  }
+
+  public boolean isElevatorAtSetPointWithTolerance(Distance position, Distance tolerance) {
     if (Robot.isSimulation()) {
       return true;
     }
     return (getElevatorPosition()
-        .compareTo(position.minus(tolerance)) > 0) &&
-        getElevatorPosition().compareTo(position.plus(tolerance)) < 0;
-  }
+      .compareTo(position.minus(tolerance)) > 0) &&
+      getElevatorPosition().compareTo(position.plus(tolerance)) < 0;
+    }
 
-  public boolean isAtAnyCoralScoringPosition() {
-    if (isAtSpecificSetpoint(constElevator.CORAL_L1_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L2_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L3_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L4_HEIGHT)) {
+    public boolean isElevatorPivotAtSetPointWithTolerance(Angle position, Angle tolerance) {
+    if (Robot.isSimulation()) {
+      return true;
+    }
+    return (getElevatorPivotAngle()
+      .compareTo(position.minus(tolerance)) > 0) &&
+      getElevatorPivotAngle().compareTo(position.plus(tolerance)) < 0;
+    }
+
+    public boolean isAtAnyCoralScoringPosition() {
+    if (elevatorIsAtSpecificSetpoint(constElevator.CORAL_L1_HEIGHT) && elevatorPivotIsAtSpecificSetpoint(constElevator.CORAL_L1_ANGLE) ||
+        elevatorIsAtSpecificSetpoint(constElevator.CORAL_L2_HEIGHT) && elevatorPivotIsAtSpecificSetpoint(constElevator.CORAL_L2_ANGLE) ||
+        elevatorIsAtSpecificSetpoint(constElevator.CORAL_L3_HEIGHT) && elevatorPivotIsAtSpecificSetpoint(constElevator.CORAL_L3_ANGLE) ||
+        elevatorIsAtSpecificSetpoint(constElevator.CORAL_L4_HEIGHT) && elevatorPivotIsAtSpecificSetpoint(constElevator.CORAL_L4_ANGLE)) {
       return true;
     }
     return false;
   }
 
   public boolean isAtAnyAlgaeScoringPosition() {
-    if (isAtSpecificSetpoint(constElevator.ALGAE_PREP_NET)) {
+    if (elevatorIsAtSpecificSetpoint(constElevator.ALGAE_PREP_NET) && elevatorPivotIsAtSpecificSetpoint(constElevator.ALGAE_PREP_NET_ANGLE)) {
       return true;
     }
     return false;
   }
 
-  public AngularVelocity getRotorVelocity() {
-    return rightMotorLeader.getRotorVelocity().getValue();
+  public AngularVelocity getElevatorRotorVelocity() {
+    return rightElevatorMotorLeader.getRotorVelocity().getValue();
   }
 
-  public Distance getLastDesiredPosition() {
-    return lastDesiredPosition;
+  public AngularVelocity getElevatorPivotRotorVelocity() {
+    return rightElevatorPivotMotorLeader.getRotorVelocity().getValue();
   }
 
-  public void setCoastMode(Boolean coastMode) {
+  public Distance getLastDesiredElevatorPosition() {
+    return lastDesiredElevatorPosition;
+  }
+
+  public Angle getLastDesiredElevatorPivotAngle() {
+    return lastDesiredElevatorPivotAngle;
+  }
+
+  public void setElevatorCoastMode(Boolean coastMode) {
     if (coastMode) {
-      rightMotorLeader.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
-      leftMotorFollower.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
+      rightElevatorMotorLeader.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
+      leftElevatorMotorFollower.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
     } else {
-      rightMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
-      leftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+      rightElevatorMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+      leftElevatorMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
     }
   }
 
-  public boolean isRotorVelocityZero() {
-    return getRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
+  public void setElevatorPivotCoastMode(Boolean coastMode) {
+    if (coastMode) {
+      rightElevatorPivotMotorLeader.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
+      leftElevatorPivotMotorFollower.getConfigurator().apply(constElevator.COAST_MODE_CONFIGURATION);
+    } else {
+      rightElevatorPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+      leftElevatorPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+    }
   }
 
-  public void setPosition(Distance height) {
-    rightMotorLeader.setControl(motionRequest.withPosition(height.in(Units.Inches)));
-    leftMotorFollower.setControl(new Follower(rightMotorLeader.getDeviceID(), true));
-    lastDesiredPosition = height;
+  public boolean isElevatorRotorVelocityZero() {
+    return getElevatorRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
+  }
+  
+  public boolean isElevatorPivotRotorVelocityZero() {
+    return getElevatorPivotRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public void setNeutral() {
-    rightMotorLeader.setControl(new NeutralOut());
-    leftMotorFollower.setControl(new NeutralOut());
+  public void setElevatorPosition(Distance height) {
+    rightElevatorMotorLeader.setControl(elevatorMotionRequest.withPosition(height.in(Units.Inches)));
+    leftElevatorMotorFollower.setControl(new Follower(rightElevatorMotorLeader.getDeviceID(), true));
+    lastDesiredElevatorPosition = height;
   }
 
-  public void setVoltage(Voltage voltage) {
-    rightMotorLeader.setControl(voltageRequest.withOutput(voltage));
-    leftMotorFollower.setControl(new Follower(rightMotorLeader.getDeviceID(), true));
+  public void setElevatorPivotAngle(Angle angle) {
+    rightElevatorPivotMotorLeader.setControl(elevatorPivotMotionRequest.withPosition(angle.in(Units.Degrees)));
+    leftElevatorPivotMotorFollower.setControl(new Follower(rightElevatorPivotMotorLeader.getDeviceID(), true));
+    lastDesiredElevatorPivotAngle = angle;
   }
 
-  public void setSoftwareLimitsEnable(boolean reverseLimitEnable, boolean forwardLimitEnable) {
+  public void setElevatorNeutral() {
+    rightElevatorMotorLeader.setControl(new NeutralOut());
+    leftElevatorMotorFollower.setControl(new NeutralOut());
+  }
+
+  public void setElevatorPivotNeutral() {
+    rightElevatorPivotMotorLeader.setControl(new NeutralOut());
+    leftElevatorPivotMotorFollower.setControl(new NeutralOut());
+  }
+
+  public void setElevatorVoltage(Voltage voltage) {
+    rightElevatorMotorLeader.setControl(elevatorVoltageRequest.withOutput(voltage));
+    leftElevatorMotorFollower.setControl(new Follower(rightElevatorMotorLeader.getDeviceID(), true));
+  }
+
+  public void setElevatorPivotVoltage(Voltage voltage) {
+    rightElevatorPivotMotorLeader.setControl(elevatorPivotVoltageRequest.withOutput(voltage));
+    leftElevatorPivotMotorFollower.setControl(new Follower(rightElevatorPivotMotorLeader.getDeviceID(), true));
+  }
+
+  public void setElevatorSoftwareLimitsEnable(boolean reverseLimitEnable, boolean forwardLimitEnable) {
     constElevator.ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
     constElevator.ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
 
-    rightMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
-    leftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    rightElevatorMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    leftElevatorMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
   }
 
-  public void setSoftwareLimits(double reverseLimit, double forwardLimit) {
+  public void setElevatorPivotSoftwareLimitsEnable(boolean reverseLimitEnable, boolean forwardLimitEnable) {
+    constElevator.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
+    constElevator.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
+
+    rightElevatorMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+    leftElevatorMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+  }
+
+  public void setElevatorSoftwareLimits(double reverseLimit, double forwardLimit) {
+    constElevator.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseLimit;
+    constElevator.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardLimit;
+
+    rightElevatorPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    leftElevatorPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+  }
+
+  public void setElevatorPivotSoftwareLimits(double reverseLimit, double forwardLimit) {
     constElevator.ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseLimit;
     constElevator.ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardLimit;
 
-    rightMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
-    leftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    rightElevatorPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
+    leftElevatorPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_CONFIG);
   }
 
-  public void resetSensorPosition(Distance setpoint) {
-    rightMotorLeader.setPosition(setpoint.in(Inches));
-    leftMotorFollower.setPosition(setpoint.in(Inches));
+  public void resetElevatorSensorPosition(Distance setpoint) {
+    rightElevatorMotorLeader.setPosition(setpoint.in(Inches));
+    leftElevatorMotorFollower.setPosition(setpoint.in(Inches));
+  }
+
+  public void resetElevatorPivotSensorPosition(Angle setpoint) {
+    rightElevatorPivotMotorLeader.setPosition(setpoint.in(Degrees));
+    leftElevatorPivotMotorFollower.setPosition(setpoint.in(Degrees));
   }
 
   @Override
