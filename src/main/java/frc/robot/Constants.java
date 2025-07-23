@@ -242,8 +242,11 @@ public final class Constants {
   }
 
   public static class constElevator {
-    public static final Distance NORMAL_REVERSE_LIMIT = Units.Inches.of(0);
-    public static final Distance NORMAL_FORWARD_LIMIT = Units.Inches.of(62);
+    public static final Distance NORMAL_ELEVATOR_REVERSE_LIMIT = Units.Inches.of(0);
+    public static final Distance NORMAL_ELEVATOR_FORWARD_LIMIT = Units.Inches.of(62);
+
+    public static final Angle NORMAL_ELEVATOR_PIVOT_REVERSE_LIMIT = Units.Degrees.of(0);
+    public static final Angle NORMAL_ELEVATOR_PIVOT_FORWARD_LIMIT = Units.Degrees.of(0);
 
     public static TalonFXConfiguration ELEVATOR_CONFIG = new TalonFXConfiguration();
     static {
@@ -251,9 +254,9 @@ public final class Constants {
       ELEVATOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_FORWARD_LIMIT.in(Units.Inches);
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_ELEVATOR_FORWARD_LIMIT.in(Units.Inches);
       ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_REVERSE_LIMIT.in(Units.Inches);
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_ELEVATOR_REVERSE_LIMIT.in(Units.Inches);
 
       ELEVATOR_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
       // Elevator motors will provide feedback in INCHES the carriage has moved
@@ -270,13 +273,50 @@ public final class Constants {
 
       ELEVATOR_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       ELEVATOR_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
-      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
-      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.0;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.0;
 
       ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
       ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
       ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+
+    }
+
+    public static TalonFXConfiguration ELEVATOR_PIVOT_CONFIG = new TalonFXConfiguration();
+    static {
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_ELEVATOR_PIVOT_FORWARD_LIMIT
+          .in(Units.Degrees);
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_ELEVATOR_PIVOT_REVERSE_LIMIT
+          .in(Units.Degrees);
+
+      ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      // Elevator Pivot motors will provide feedback in Degrees the carriage has moved
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+
+      ELEVATOR_PIVOT_CONFIG.Slot0.kG = 0.0; // Volts to overcome gravity
+      ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.0; // Volts to overcome static friction
+      ELEVATOR_PIVOT_CONFIG.Slot0.kV = 0.0; // Volts for a velocity target of 1 rps
+      ELEVATOR_PIVOT_CONFIG.Slot0.kA = 0.0; // Volts for an acceleration of 1 rps/
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.0;
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.0;
+
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
 
     }
 
@@ -306,8 +346,15 @@ public final class Constants {
     public static final Distance MAX_HEIGHT = Units.Inches.of(0);
     public static final Distance SAFE_TO_SLIDE = Units.Inches.of(32.55);
 
+    public static final Angle CORAL_L1_ANGLE = Units.Degrees.of(0);
+    public static final Angle CORAL_L2_ANGLE = Units.Degrees.of(0);
+    public static final Angle CORAL_L3_ANGLE = Units.Degrees.of(0);
+    public static final Angle CORAL_L4_ANGLE = Units.Degrees.of(0);
+    public static final Angle ALGAE_PREP_NET_ANGLE = Units.Degrees.of(0);
+    public static final Angle DEADZONE_ANGLE = Units.Degrees.of(2);
+
     public static final Distance CORAL_STUCK_OFFSET = Units.Inches.of(0);
-    public static final Distance CORAL_STUCK_REVERSE_LIMIT = NORMAL_REVERSE_LIMIT.plus(CORAL_STUCK_OFFSET);
+    public static final Distance CORAL_STUCK_REVERSE_LIMIT = NORMAL_ELEVATOR_REVERSE_LIMIT.plus(CORAL_STUCK_OFFSET);
 
     public static final Time ZEROING_TIMEOUT = Units.Seconds.of(3);
 
