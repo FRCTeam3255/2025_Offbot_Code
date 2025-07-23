@@ -241,49 +241,49 @@ public final class Constants {
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
-    public static class constElevator {
-      public static final Distance NORMAL_REVERSE_LIMIT = Units.Inches.of(0);
-      public static final Distance NORMAL_FORWARD_LIMIT = Units.Inches.of(62);
+  public static class constElevator {
+    public static final Distance NORMAL_REVERSE_LIMIT = Units.Inches.of(0);
+    public static final Distance NORMAL_FORWARD_LIMIT = Units.Inches.of(62);
 
-      public static TalonFXConfiguration ELEVATOR_CONFIG = new TalonFXConfiguration();
-      static {
-        ELEVATOR_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        ELEVATOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    public static TalonFXConfiguration ELEVATOR_CONFIG = new TalonFXConfiguration();
+    static {
+      ELEVATOR_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-        ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-        ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_FORWARD_LIMIT.in(Units.Inches);
-        ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-        ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_REVERSE_LIMIT.in(Units.Inches);
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_FORWARD_LIMIT.in(Units.Inches);
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_REVERSE_LIMIT.in(Units.Inches);
 
-        ELEVATOR_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-        // Elevator motors will provide feedback in INCHES the carriage has moved
-        ELEVATOR_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+      ELEVATOR_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+      // Elevator motors will provide feedback in INCHES the carriage has moved
+      ELEVATOR_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
 
-        ELEVATOR_CONFIG.Slot0.kG = 0.0; // Volts to overcome gravity
-        ELEVATOR_CONFIG.Slot0.kS = 0.0; // Volts to overcome static friction
-        ELEVATOR_CONFIG.Slot0.kV = 0.0; // Volts for a velocity target of 1 rps
-        ELEVATOR_CONFIG.Slot0.kA = 0.0; // Volts for an acceleration of 1 rps/
-        ELEVATOR_CONFIG.Slot0.kP = 0.0;
-        ELEVATOR_CONFIG.Slot0.kI = 0.0;
-        ELEVATOR_CONFIG.Slot0.kD = 0.0;
-        ELEVATOR_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+      ELEVATOR_CONFIG.Slot0.kG = 0.0; // Volts to overcome gravity
+      ELEVATOR_CONFIG.Slot0.kS = 0.0; // Volts to overcome static friction
+      ELEVATOR_CONFIG.Slot0.kV = 0.0; // Volts for a velocity target of 1 rps
+      ELEVATOR_CONFIG.Slot0.kA = 0.0; // Volts for an acceleration of 1 rps/
+      ELEVATOR_CONFIG.Slot0.kP = 0.0;
+      ELEVATOR_CONFIG.Slot0.kI = 0.0;
+      ELEVATOR_CONFIG.Slot0.kD = 0.0;
+      ELEVATOR_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
 
-        ELEVATOR_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
-        ELEVATOR_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
-        ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
-        ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
+      ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
 
-        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
-        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+      ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
 
-      }
+    }
 
-      public static TalonFXConfiguration COAST_MODE_CONFIGURATION = new TalonFXConfiguration();
-      static {
-        COAST_MODE_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        COAST_MODE_CONFIGURATION.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    public static TalonFXConfiguration COAST_MODE_CONFIGURATION = new TalonFXConfiguration();
+    static {
+      COAST_MODE_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      COAST_MODE_CONFIGURATION.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     }
 
     public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
@@ -340,6 +340,65 @@ public final class Constants {
         Units.Meters.convertFrom(194, Units.Millimeters), 0,
         Units.Meters.convertFrom(318 + 40, Units.Millimeters),
         new Rotation3d(0, Units.Radians.convertFrom(35, Units.Degrees), 0));
+  }
+
+  public static class constIntake {
+
+    public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
+    public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+    public static final Angle MAX_POS = Units.Degrees.of(57);
+    public static final Angle MIN_POS = Units.Degrees.of(-37);
+    public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
+    static {
+      ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      INTAKE_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = MAX_POS.in(Units.Rotations);
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = MIN_POS.in(Units.Rotations);
+
+      // Why don't scientists trust atoms? Because they make up everything!
+      // Why do crabs never share their things? - Because they are shellfish!
+
+      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;
+
+      INTAKE_PIVOT_CONFIG.Slot0.kG = 0.53; // Volts to overcome gravity
+      INTAKE_PIVOT_CONFIG.Slot0.kS = 0.5; // Volts to overcome static friction
+      INTAKE_PIVOT_CONFIG.Slot0.kV = 0.0; // Volts for a velocity target of 1 rps
+      INTAKE_PIVOT_CONFIG.Slot0.kA = 0.0; // Volts for an acceleration of 1 rps/s
+      INTAKE_PIVOT_CONFIG.Slot0.kP = 25;
+      INTAKE_PIVOT_CONFIG.Slot0.kI = 0.0;
+      INTAKE_PIVOT_CONFIG.Slot0.kD = 0.00;
+
+      INTAKE_PIVOT_CONFIG.Slot1.kG = 0.5; // Volts to overcome gravity
+      INTAKE_PIVOT_CONFIG.Slot1.kS = 0.5; // Volts to overcome static friction
+      INTAKE_PIVOT_CONFIG.Slot1.kV = 0.0; // Volts for a velocity target of 1 rps
+      INTAKE_PIVOT_CONFIG.Slot1.kA = 0.0; // Volts for an acceleration of 1 rps/s
+      INTAKE_PIVOT_CONFIG.Slot1.kP = 25;
+      INTAKE_PIVOT_CONFIG.Slot1.kI = 0.0;
+      INTAKE_PIVOT_CONFIG.Slot1.kD = 0.00;
+
+      INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+    }
+    public static final Angle DEADZONE_DISTANCE = Units.Degrees.of(4);
   }
 
   public static class constVision {
