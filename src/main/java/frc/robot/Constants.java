@@ -10,9 +10,11 @@ import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -34,6 +36,8 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
+import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -235,6 +239,107 @@ public final class Constants {
     };
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
+  }
+
+    public static class constElevator {
+      public static final Distance NORMAL_REVERSE_LIMIT = Units.Inches.of(0);
+      public static final Distance NORMAL_FORWARD_LIMIT = Units.Inches.of(62);
+
+      public static TalonFXConfiguration ELEVATOR_CONFIG = new TalonFXConfiguration();
+      static {
+        ELEVATOR_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        ELEVATOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+        ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        ELEVATOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = NORMAL_FORWARD_LIMIT.in(Units.Inches);
+        ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        ELEVATOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = NORMAL_REVERSE_LIMIT.in(Units.Inches);
+
+        ELEVATOR_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+        // Elevator motors will provide feedback in INCHES the carriage has moved
+        ELEVATOR_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+
+        ELEVATOR_CONFIG.Slot0.kG = 0.0; // Volts to overcome gravity
+        ELEVATOR_CONFIG.Slot0.kS = 0.0; // Volts to overcome static friction
+        ELEVATOR_CONFIG.Slot0.kV = 0.0; // Volts for a velocity target of 1 rps
+        ELEVATOR_CONFIG.Slot0.kA = 0.0; // Volts for an acceleration of 1 rps/
+        ELEVATOR_CONFIG.Slot0.kP = 0.0;
+        ELEVATOR_CONFIG.Slot0.kI = 0.0;
+        ELEVATOR_CONFIG.Slot0.kD = 0.0;
+        ELEVATOR_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+        ELEVATOR_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+        ELEVATOR_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+        ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
+        ELEVATOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+
+        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+        ELEVATOR_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+
+      }
+
+      public static TalonFXConfiguration COAST_MODE_CONFIGURATION = new TalonFXConfiguration();
+      static {
+        COAST_MODE_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        COAST_MODE_CONFIGURATION.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    }
+
+    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(0);
+    public static final Distance ALGAE_PREP_NET = Units.Inches.of(0);
+    public static final Distance ALGAE_PREP_PROCESSOR_HEIGHT = Units.Inches.of(0);
+    public static final Distance ALGAE_L3_CLEANING = Units.Inches.of(0);
+    public static final Distance ALGAE_L2_CLEANING = Units.Inches.of(0);
+    public static final Distance ALGAE_GROUND_INTAKE = Units.Inches.of(0);
+    public static final Distance PREP_0 = Units.Inches.of(0);
+    public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
+    public static final Distance NET_TOLERANCE = Units.Inches.of(0); // phr :)
+    public static final Distance EJECT_DEADZONE = Units.Inches.of(0);
+    public static final Distance CORAL_INTAKE_HIGHT = Units.Inches.of(0);
+    public static final Distance INIT_TIP_HEIGHT = Units.Inches.of(0);
+    public static final Distance AFTER_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance EJECT_HOPPER_HEIGHT = Units.Inches.of(0);
+    public static final Distance MAX_HEIGHT = Units.Inches.of(0);
+    public static final Distance SAFE_TO_SLIDE = Units.Inches.of(32.55);
+
+    public static final Distance CORAL_STUCK_OFFSET = Units.Inches.of(0);
+    public static final Distance CORAL_STUCK_REVERSE_LIMIT = NORMAL_REVERSE_LIMIT.plus(CORAL_STUCK_OFFSET);
+
+    public static final Time ZEROING_TIMEOUT = Units.Seconds.of(3);
+
+    public static final AngularVelocity MANUAL_ZEROING_START_VELOCITY = Units.RotationsPerSecond.of(5);
+    public static final AngularVelocity MANUAL_ZEROING_DELTA_VELOCITY = Units.RotationsPerSecond.of(5);
+
+    /**
+     * The voltage supplied to the motor in order to zero
+     */
+    public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(-1);
+
+    /**
+     * The value that the motor reports when it is at it's zeroed position. This
+     * may not necessarily be 0 due to mechanical slop
+     */
+    public static final Distance ZEROED_POS = Units.Meters.of(0);
+
+    /**
+     * The velocity that the motor goes at once it has zeroed (and can no longer
+     * continue in that direction)
+     */
+    public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
+
+    /**
+     * The elapsed time required to consider the motor as zeroed
+     */
+    public static final Time ZEROED_TIME = Units.Seconds.of(1);
+
+    public static final Transform3d CARRIAGE_TO_CORAL = new Transform3d(
+        Units.Meters.convertFrom(194, Units.Millimeters), 0,
+        Units.Meters.convertFrom(318 + 40, Units.Millimeters),
+        new Rotation3d(0, Units.Radians.convertFrom(35, Units.Degrees), 0));
   }
 
   public static class constVision {
