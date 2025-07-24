@@ -392,6 +392,8 @@ public final class Constants {
       }
       return () -> getBlueCagePositions(onOpposingSide).get();
     }
+
+    public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
   public static class constDrivetrain {
@@ -553,29 +555,6 @@ public final class Constants {
           TRANS_CONTROLLER,
           ROTATION_CONTROLLER);
     }
-  }
-
-  public static class constField {
-    public static Optional<Alliance> ALLIANCE = Optional.empty();
-
-    /**
-     * Boolean that controls when the path will be mirrored for the red
-     * alliance. This will flip the path being followed to the red side of the
-     * field.
-     * The origin will remain on the Blue side.
-     * 
-     * @return If we are currently on Red alliance. Will return false if no alliance
-     *         is found
-     */
-    public static boolean isRedAlliance() {
-      var alliance = ALLIANCE;
-      if (alliance.isPresent()) {
-        return alliance.get() == DriverStation.Alliance.Red;
-      }
-      return false;
-    };
-
-    public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
   public static class constElevator {

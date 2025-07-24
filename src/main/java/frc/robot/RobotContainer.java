@@ -25,8 +25,11 @@ public class RobotContainer {
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
 
   private final Drivetrain subDrivetrain = new Drivetrain();
+  private final Elevator subElevator = new Elevator();
+  private final Intake subIntake = new Intake();
+  private final Climber subClimber = new Climber();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain);
+  private final RobotPoses robotPose = new RobotPoses(subClimber, subDrivetrain, subElevator, subIntake);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
