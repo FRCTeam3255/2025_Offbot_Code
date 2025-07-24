@@ -4,6 +4,7 @@
 
 package frc.robot.commands.States.prep_coral;
 
+import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -23,6 +24,7 @@ public class PrepCoralZeroWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

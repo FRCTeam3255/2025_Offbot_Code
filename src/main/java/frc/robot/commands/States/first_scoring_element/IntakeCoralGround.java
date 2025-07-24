@@ -4,6 +4,7 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
+import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.StateMachine;
 
@@ -20,6 +21,7 @@ public class IntakeCoralGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

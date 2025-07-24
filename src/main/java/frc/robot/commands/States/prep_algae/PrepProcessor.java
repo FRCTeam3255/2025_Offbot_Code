@@ -4,6 +4,7 @@
 
 package frc.robot.commands.States.prep_algae;
 
+import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.StateMachine;
 
@@ -21,6 +22,7 @@ public class PrepProcessor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_PROCESSOR);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
