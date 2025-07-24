@@ -469,10 +469,10 @@ public final class Constants {
   }
 
   public static class constClimber {
-    public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration CAGE_COLLECTOR_CONFIG = new TalonFXConfiguration();
     static {
-      INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      INTAKE_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      CAGE_COLLECTOR_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CAGE_COLLECTOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     }
   }
 

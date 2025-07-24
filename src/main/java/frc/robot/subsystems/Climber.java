@@ -11,22 +11,22 @@ import frc.robot.Constants.constClimber;
 import frc.robot.RobotMap.mapClimber;
 
 public class Climber extends SubsystemBase {
-  TalonFX climberMotor;
+  TalonFX cageCollectorMotor;
 
   /** Creates a new Climber. */
   public Climber() {
-    climberMotor = new TalonFX(mapClimber.CLIMBER_MOTOR_CAN);
+    cageCollectorMotor = new TalonFX(mapClimber.CLIMBER_MOTOR_CAN);
     // Set default motor configurations if needed
     // e.g., climberLeftMotor.configFactoryDefault();
-    climberMotor.getConfigurator().apply(constClimber.INTAKE_PIVOT_CONFIG);
+    cageCollectorMotor.getConfigurator().apply(constClimber.CAGE_COLLECTOR_CONFIG);
   }
 
   public void setClimberMotorSpeed(double speed) {
-    climberMotor.set(speed);
+    cageCollectorMotor.set(speed);
   }
 
   public void stopClimberMotor() {
-    climberMotor.set(0);
+    cageCollectorMotor.set(0);
   }
 
   @Override
