@@ -9,12 +9,14 @@ import static edu.wpi.first.units.Units.Kilograms;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -445,7 +447,25 @@ public final class Constants {
       INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
       INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
     }
+
+    public static final Distance REQUIRED_CORAL_DISTANCE = Units.Meters.of(0.1);
+    public static TalonFXConfiguration CORAL_OUTTAKE_CONFIG = new TalonFXConfiguration();
+    public static CANrangeConfiguration CORAL_SENSOR_CONFIG = new CANrangeConfiguration();
+    static {
+      CORAL_OUTTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+      CORAL_OUTTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CORAL_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
+      CORAL_SENSOR_CONFIG.ProximityParams.ProximityThreshold = REQUIRED_CORAL_DISTANCE.in(Units.Meters);
+
+      CORAL_OUTTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CORAL_OUTTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      CORAL_OUTTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      CORAL_OUTTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+    }
+
     public static final Angle DEADZONE_DISTANCE = Units.Degrees.of(4);
+    public static final Angle PREP_NET_PIVOT_POSITION = Units.Degrees.of(4);
+    public static final Angle PREP_PROCESSOR_PIVOT_POSITION = Units.Degrees.of(4);
   }
 
   public static class constVision {

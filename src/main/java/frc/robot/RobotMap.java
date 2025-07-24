@@ -37,9 +37,9 @@ public class RobotMap {
     // coral intake motors and pivot
     public static final int INTAKE_PIVOT_CAN = 11;
     public static final int CORAL_LEFT_CAN = 12;
-    public static final int CORAL_RIGHT_CAN = 13;
     // Algae intake motor
-    public static final int INTAKE_ALGAE_CAN = 14;
+    public static final int INTAKE_ALGAE_CAN = 13;
+    public static final int CORAL_SENSOR_CAN = 11;
   }
 
   // Elevator ID 21-30

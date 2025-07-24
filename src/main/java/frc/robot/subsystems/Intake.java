@@ -4,13 +4,17 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degrees;
+
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
-import static edu.wpi.first.units.Units.Degrees;
-
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -19,11 +23,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.constIntake;
 import frc.robot.RobotMap.mapIntake;
 
+@Logged
 public class Intake extends SubsystemBase {
   TalonFX intakePivotMotor;
-  TalonFX coralLeftMotor;
-  TalonFX coralRightMotor;
   TalonFX algaeIntakeMotor;
+  TalonFX coralIntakeMotor;
+
+  CANrange coralSensor;
 
   private Angle lastDesiredAngle = Degrees.zero();
 
@@ -34,25 +40,33 @@ public class Intake extends SubsystemBase {
   public boolean attemptingZeroing = false;
   public boolean hasZeroed = false;
   public boolean hasAlgaeOverride = false;
-  public boolean YEET = false;
+  public boolean hasCoralOverride = false;
 
   /** Creates a new Intake. */
   public Intake() {
     intakePivotMotor = new TalonFX(mapIntake.INTAKE_PIVOT_CAN); // Intake pivot motor
-    coralLeftMotor = new TalonFX(mapIntake.CORAL_LEFT_CAN); // Coral left intake motor
-    coralRightMotor = new TalonFX(mapIntake.CORAL_RIGHT_CAN); // Coral right intake motor
     algaeIntakeMotor = new TalonFX(mapIntake.INTAKE_ALGAE_CAN); // Algae intake motor
+    coralIntakeMotor = new TalonFX(mapIntake.CORAL_LEFT_CAN); // Coral intake motor
+    coralSensor = new CANrange(mapIntake.CORAL_SENSOR_CAN);
 
     // Set default motor configurations if needed
     // e.g., intakePivotMotor.configFactoryDefault();
 
+    intakePivotMotor.getConfigurator().apply(constIntake.INTAKE_PIVOT_CONFIG);
+    algaeIntakeMotor.getConfigurator().apply(constIntake.ALGAE_INTAKE_CONFIG);
+    coralIntakeMotor.getConfigurator().apply(constIntake.CORAL_OUTTAKE_CONFIG);
+    coralSensor.getConfigurator().apply(constIntake.CORAL_SENSOR_CONFIG);
   }
 
-  public void setAlgaeIntakeMotor(double speed) {
+  public void setAlgaeIntakeMotorSpeed(double speed) {
     algaeIntakeMotor.set(speed);
   }
 
-  public void setAlgaePivotAngle(Angle setpoint) {
+  public void setCoralIntakeMotorSpeed(double speed) {
+    coralIntakeMotor.set(speed);
+  }
+
+  public void setPivotAngle(Angle setpoint) {
     if (hasAlgae()) {
       intakePivotMotor.setControl(motionRequest.withPosition(setpoint.in(Units.Rotation)).withSlot(1));
     } else {
@@ -61,19 +75,19 @@ public class Intake extends SubsystemBase {
     lastDesiredAngle = setpoint;
   }
 
-  public AngularVelocity getRotorVelocity() {
+  public AngularVelocity getPivotRotorVelocity() {
     return intakePivotMotor.getRotorVelocity().getValue();
   }
 
-  public boolean isRotorVelocityZero() {
-    return getRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
+  public boolean isPivotRotorVelocityZero() {
+    return getPivotRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public void setVoltage(Voltage voltage) {
+  public void setPivotVoltage(Voltage voltage) {
     intakePivotMotor.setControl(voltageRequest.withOutput(voltage));
   }
 
-  public void setSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
+  public void setPivotSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
     constIntake.INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
     constIntake.INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
 
@@ -88,7 +102,7 @@ public class Intake extends SubsystemBase {
     return lastDesiredAngle;
   }
 
-  public void resetSensorPosition(Angle zeroedPos) {
+  public void resetPivotSensorPosition(Angle zeroedPos) {
     intakePivotMotor.setPosition(zeroedPos);
   }
 
@@ -114,6 +128,26 @@ public class Intake extends SubsystemBase {
     }
   }
 
+  public boolean hasCoral() {
+    if (hasCoralOverride) {
+      return hasCoralOverride;
+    }
+
+    if (sensorSeesCoral()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean sensorSeesCoral() {
+    return coralSensor.getIsDetected().getValue();
+  }
+
+  public BooleanSupplier sensorSeesCoralSupplier() {
+    return () -> coralSensor.getIsDetected().getValue();
+  }
+
   public void setHasAlgaeOverride(boolean passedHasGamePiece) {
     hasAlgaeOverride = passedHasGamePiece;
   }
@@ -122,13 +156,28 @@ public class Intake extends SubsystemBase {
     this.hasAlgaeOverride = !hasAlgaeOverride;
   }
 
+  public void setHasCoralOverride(boolean passedHasGamePiece) {
+    hasCoralOverride = passedHasGamePiece;
+  }
+
+  public void coralToggle() {
+    this.hasCoralOverride = !hasCoralOverride;
+  }
+
   public double getAlgaeIntakeVoltage() {
     return algaeIntakeMotor.getMotorVoltage().getValueAsDouble();
   }
 
+  public double getCoralIntakeVoltage() {
+    return coralIntakeMotor.getMotorVoltage().getValueAsDouble();
+  }
+
   public void setAlgaeIntakeVoltage(double voltage) {
     algaeIntakeMotor.setVoltage(voltage);
+  }
 
+  public void setCoralIntakeVoltage(double voltage) {
+    coralIntakeMotor.setVoltage(voltage);
   }
 
   public boolean isAtSetPoint() {
