@@ -2,19 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.States;
+package frc.robot.commands.States.climbing;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class None extends Command {
-  /** Creates a new None. */
-
+public class RetractingClimber extends Command {
   StateMachine globalStateMachine;
 
-  public None(StateMachine globalStateMachine) {
+  public RetractingClimber(StateMachine globalStateMachine, Climber subClimber) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
@@ -23,7 +22,7 @@ public class None extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.NONE);
+    globalStateMachine.setRobotState(RobotState.RETRACTING_CLIMBER);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

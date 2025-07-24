@@ -237,6 +237,15 @@ public final class Constants {
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
+  public static class constElevator {
+
+    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(0);
+
+  }
+
   public static class constVision {
     /**
      * <p>
