@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.constDrivetrain.constIntake;
 import frc.robot.RobotMap.mapIntake;
 
 public class Intake extends SubsystemBase {
@@ -14,6 +17,8 @@ public class Intake extends SubsystemBase {
   TalonFX coralLeftMotor;
   TalonFX coralRightMotor;
   TalonFX algaeIntakeMotor;
+  public boolean hasCoral = false;
+  public boolean hasAlgaeOverride = false;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -24,6 +29,48 @@ public class Intake extends SubsystemBase {
 
     // Set default motor configurations if needed
     // e.g., intakePivotMotor.configFactoryDefault();
+  }
+
+  public boolean hasCoral() {
+    return hasCoral;
+  }
+
+  public void setHasCoral(boolean hasCoral) {
+    this.hasCoral = hasCoral;
+  }
+
+  public void coralToggle() {
+    this.hasCoral = !hasCoral;
+  }
+
+  public boolean hasAlgae() {
+    Current intakeCurrent = algaeIntakeMotor.getStatorCurrent().getValue();
+
+    AngularVelocity intakeVelocity = algaeIntakeMotor.getVelocity().getValue();
+    double intakeAcceleration = algaeIntakeMotor.getAcceleration().getValueAsDouble();
+
+    Current intakeHasGamePieceCurrent = constIntake.ALGAE_INTAKE_HAS_GP_CURRENT;
+    AngularVelocity intakeHasGamePieceVelocity = constIntake.ALGAE_INTAKE_HAS_GP_VELOCITY;
+
+    if (hasAlgaeOverride) {
+      return hasAlgaeOverride;
+    }
+
+    if ((intakeCurrent.gte(intakeHasGamePieceCurrent))
+        && (intakeVelocity.lte(intakeHasGamePieceVelocity))
+        && (intakeAcceleration < 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public void setHasAlgaeOverride(boolean passedHasGamePiece) {
+    hasAlgaeOverride = passedHasGamePiece;
+  }
+
+  public void algaeToggle() {
+    this.hasAlgaeOverride = !hasAlgaeOverride;
   }
 
   @Override

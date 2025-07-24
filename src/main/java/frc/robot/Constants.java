@@ -156,6 +156,12 @@ public final class Constants {
       CANCODER_CONFIG.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     }
 
+    public static class constIntake {
+      // TODO: Replace with actual measurements
+      public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
+      public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+    }
+
     public static class AUTO {
       // This PID is implemented on the Drivetrain subsystem
       // TODO: AUTO PID

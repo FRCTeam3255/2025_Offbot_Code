@@ -65,6 +65,19 @@ public class StateMachine extends SubsystemBase {
     currentDriverState = driverState;
   }
 
+  public Command tryCoralOverride() {
+    RobotState[] goToHasBothStates = { RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_PROCESSOR, RobotState.PREP_ALGAE_NET,
+        RobotState.INTAKE_CORAL_WITH_ALGAE_GROUND };
+
+    subIntake.setHasCoral(true);
+    for (RobotState state : goToHasBothStates) {
+      if (currentRobotState == state) {
+        return new HasCoralAndAlgae(subStateMachine);
+      }
+    }
+    return new HasCoral(subStateMachine);
+  }
+
   public Command tryState(RobotState desiredState) {
     switch (desiredState) {
       case NONE:
