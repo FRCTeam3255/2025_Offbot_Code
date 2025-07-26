@@ -66,7 +66,14 @@ public class StateMachine extends SubsystemBase {
     switch (desiredState) {
       case NONE:
         switch (currentRobotState) {
-          case NONE:
+          case PREP_CLIMB:
+          case SCORING_CORAL:
+          case SCORING_ALGAE:
+          case INTAKE_CORAL_GROUND:
+          case INTAKE_ALGAE_GROUND:
+          case CLEAN_HIGH:
+          case CLEAN_LOW:
+          case EJECTING:
             return new None(subStateMachine);
         }
 
@@ -84,16 +91,7 @@ public class StateMachine extends SubsystemBase {
 
         }
         break;
-      case RETRACTING_CLIMBER:
-        switch (currentRobotState) {
-          case PREP_CLIMB:
-          case CLIMBING:
-          case NONE:
-            return new RetractingClimber(subStateMachine, subClimber);
 
-        }
-
-        break;
       case CLIMBING:
         switch (currentRobotState) {
           case PREP_CLIMB:
@@ -325,7 +323,6 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case INTAKE_CORAL_GROUND:
           case INTAKE_CORAL_STATION:
-          case EJECTING:
           case SCORING_ALGAE_WITH_CORAL:
 
             return new HasCoral(subStateMachine);
@@ -338,7 +335,6 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_LOW:
           case INTAKE_ALGAE_GROUND:
           case SCORING_CORAL_WITH_ALGAE:
-          case EJECTING:
             return new HasAlgae(subStateMachine);
         }
         break;
@@ -348,6 +344,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case INTAKE_ALGAE_WITH_CORAL_GROUND:
           case INTAKE_CORAL_WITH_ALGAE_GROUND:
+          case INTAKE_CORAL_WITH_ALGAE_STATION:
           case CLEAN_HIGH_WITH_CORAL:
           case CLEAN_LOW_WITH_CORAL:
             return new HasCoralAndAlgae(subStateMachine);
@@ -380,7 +377,7 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_HIGH:
         switch (currentRobotState) {
           case CLEAN_LOW:
-          case HAS_ALGAE:
+          case INTAKE_ALGAE_GROUND:
           case NONE:
             return new CleanHigh(subStateMachine);
         }
@@ -389,8 +386,8 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_LOW:
         switch (currentRobotState) {
           case NONE:
+          case INTAKE_ALGAE_GROUND:
           case CLEAN_HIGH:
-          case HAS_ALGAE:
             return new CleanLow(subStateMachine);
         }
         break;
@@ -399,7 +396,6 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case NONE:
           case INTAKE_CORAL_GROUND:
-          case HAS_CORAL:
             return new IntakeCoralStation(subStateMachine);
         }
         break;
@@ -407,7 +403,8 @@ public class StateMachine extends SubsystemBase {
       case INTAKE_ALGAE_GROUND:
         switch (currentRobotState) {
           case NONE:
-          case HAS_ALGAE:
+          case CLEAN_HIGH:
+          case CLEAN_LOW:
             return new IntakeAlgaeGround(subStateMachine);
         }
         break;
@@ -448,7 +445,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case CLEAN_LOW_WITH_CORAL:
           case HAS_CORAL:
-          case HAS_CORAL_AND_ALGAE:
+          case INTAKE_ALGAE_WITH_CORAL_GROUND:
             return new CleanHighWithCoral(subStateMachine);
         }
         break;
@@ -457,7 +454,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_CORAL:
           case CLEAN_HIGH_WITH_CORAL:
-          case HAS_CORAL_AND_ALGAE:
+          case INTAKE_ALGAE_WITH_CORAL_GROUND:
             return new CleanLowWithCoral(subStateMachine);
         }
         break;
@@ -466,7 +463,6 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case NONE:
           case INTAKE_CORAL_STATION:
-          case HAS_CORAL:
             return new IntakeCoralGround(subStateMachine);
         }
         break;
@@ -477,6 +473,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_NET:
           case PREP_ALGAE_PROCESSOR:
           case PREP_ALGAE_ZERO:
+          case INTAKE_CORAL_WITH_ALGAE_STATION:
             return new IntakeCoralWithAlgaeGround(subStateMachine);
         }
         break;
@@ -484,6 +481,8 @@ public class StateMachine extends SubsystemBase {
       case INTAKE_ALGAE_WITH_CORAL_GROUND:
         switch (currentRobotState) {
           case HAS_CORAL:
+          case CLEAN_HIGH_WITH_CORAL:
+          case CLEAN_LOW_WITH_CORAL:
           case PREP_CORAL_WITH_ALGAE_L1:
           case PREP_CORAL_WITH_ALGAE_L2:
           case PREP_CORAL_WITH_ALGAE_L3:
@@ -492,7 +491,15 @@ public class StateMachine extends SubsystemBase {
             return new IntakeAlgaeWithCoralGround(subStateMachine);
         }
         break;
+      case INTAKE_CORAL_WITH_ALGAE_STATION:
+        switch (currentRobotState) {
+          case HAS_ALGAE:
+          case PREP_ALGAE_NET:
+          case PREP_ALGAE_PROCESSOR:
+          case PREP_ALGAE_ZERO:
+          case INTAKE_CORAL_WITH_ALGAE_GROUND:
 
+        }
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "
         + desiredState.toString() + " while at " + currentRobotState.toString());
@@ -561,6 +568,7 @@ public class StateMachine extends SubsystemBase {
     INTAKE_CORAL_GROUND,
     INTAKE_CORAL_WITH_ALGAE_GROUND,
     INTAKE_ALGAE_WITH_CORAL_GROUND,
+    INTAKE_CORAL_WITH_ALGAE_STATION,
 
   }
 
