@@ -29,13 +29,13 @@ public class PrepCoralWithAlgae extends Command {
   @Override
   public void initialize() {
     if (globalDistance.equals(constElevator.CORAL_L1_HEIGHT))
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_WITH_ALGAE_L1);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
     else if (globalDistance.equals(constElevator.CORAL_L2_HEIGHT))
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_WITH_ALGAE_L2);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
     else if (globalDistance.equals(constElevator.CORAL_L3_HEIGHT))
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_WITH_ALGAE_L3);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
     else if (globalDistance.equals(constElevator.CORAL_L4_HEIGHT))
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_WITH_ALGAE_L4);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

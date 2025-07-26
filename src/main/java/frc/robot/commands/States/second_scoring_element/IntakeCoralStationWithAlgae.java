@@ -4,16 +4,15 @@
 
 package frc.robot.commands.States.second_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeCoralWithAlgaeGround extends Command {
-  /** Creates a new IntakeCoralWithAlgaeGround. */
+public class IntakeCoralStationWithAlgae extends Command {
   StateMachine globalStateMachine;
 
-  public IntakeCoralWithAlgaeGround(StateMachine globalStateMachine) {
+  public IntakeCoralStationWithAlgae(StateMachine globalStateMachine) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
@@ -22,7 +21,7 @@ public class IntakeCoralWithAlgaeGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE);
+    globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
