@@ -4,23 +4,34 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.constClimber;
 import frc.robot.RobotMap.mapClimber;
 
 public class Climber extends SubsystemBase {
-  TalonFX climberLeftMotor;
+  TalonFX cageCollectMotor;
 
   /** Creates a new Climber. */
   public Climber() {
-    climberLeftMotor = new TalonFX(mapClimber.CLIMBER_LEFT_CAN); // Climber left motor, using CAN ID 31 as per RobotMap
-    // Set default motor configurations if needed
-    // e.g., climberLeftMotor.configFactoryDefault();
+    cageCollectMotor = new TalonFX(mapClimber.CAGE_COLLECTER_CAN);
+
+    cageCollectMotor.getConfigurator().apply(constClimber.CLIMBER_CONFIG);
+
+  }
+
+  public void setClimberMotorPercentOutput(double speed) {
+    cageCollectMotor.set(speed);
+  }
+
+  public void setClimberNuetralOutput() {
+    cageCollectMotor.setControl(new NeutralOut());
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }

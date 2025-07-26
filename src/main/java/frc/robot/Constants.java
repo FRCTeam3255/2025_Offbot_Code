@@ -246,6 +246,23 @@ public final class Constants {
 
   }
 
+  public static class constClimber {
+
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
+
+    public static TalonFXConfiguration CLIMBER_CONFIG = new TalonFXConfiguration();
+    static {
+      CLIMBER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimit = 85;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 60;
+
+      CLIMBER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
+
+  }
+
   public static class constVision {
     public static final String[] LIMELIGHT_NAMES = new String[] { "limelight-right", "limelight-left",
         "limelight-back" };

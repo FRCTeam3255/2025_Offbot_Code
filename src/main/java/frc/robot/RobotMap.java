@@ -52,6 +52,6 @@ public class RobotMap {
 
   // Climber ID 31-40
   public static class mapClimber {
-    public static final int CLIMBER_LEFT_CAN = 31;
+    public static final int CAGE_COLLECTER_CAN = 31;
   }
 }
