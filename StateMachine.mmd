@@ -59,50 +59,50 @@ stateDiagram-v2
   CLIMBING
  
   %% [*] - REPRESENTS NONE (starting and end)
-  [*] --> INTAKE_CORAL_GROUP: BTN TRUE 🎮🟢 = Left Trigger/Right Bumper
-  [*] --> INTAKE_ALGAE_GROUP: BTN TRUE 🎮🟢 = Left Bumper/West/East
-  [*] --> PREP_CLIMB: BTN TRUE 🎮🟢 = Driver BTN Start
+  [*] --> INTAKE_CORAL_GROUP: 🎮🟢 = Left Trigger/Right Bumper
+  [*] --> INTAKE_ALGAE_GROUP: 🎮🟢 = Left Bumper/West/East
+  [*] --> PREP_CLIMB: 🎮🟢 = Driver BTN Start
 
   %% INTAKING
-  INTAKE_ALGAE_GROUP --> [*]: BTN FALSE 🎮🔴 = Left Bumper/West/East
-  INTAKE_CORAL_GROUP --> [*]: BTN FALSE 🎮🔴 = Left Trigger/Right Bumper 
+  INTAKE_ALGAE_GROUP --> [*]: 🎮🔴 = Left Bumper/West/East
+  INTAKE_CORAL_GROUP --> [*]: 🎮🔴 = Left Trigger/Right Bumper 
   INTAKE_CORAL_GROUP --> HAS_CORAL: SENSOR TRUE ✅ = Has Coral
   INTAKE_ALGAE_GROUP --> HAS_ALGAE: SENSOR TRUE ✅ = Has Algae
   INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR TRUE ✅ = Has Coral & Has Algae
-  INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_ALGAE: BTN FALSE 🎮🔴 = Left Trigger/Right Bumper
+  INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_ALGAE: 🎮🔴 = Left Trigger/Right Bumper
   INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR TRUE ✅ = Has Coral & Has Algae
-  INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL: BTN FALSE 🎮🔴 = Left Bumper/West/East
+  INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL: 🎮🔴 = Left Bumper/West/East
 
   %% HAS SCORING ELEMENT
-  HAS_CORAL --> PREP_CORAL_GROUP: BTN TRUE 🎮🟢 = A/B/X/Y/Right Stick
-  HAS_CORAL --> INTAKE_ALGAE_WITH_CORAL_GROUP: BTN TRUE 🎮🟢 = Left Bumper/West/East
-  HAS_CORAL --> PREP_CLIMB: BTN TRUE 🎮🟢 = Driver BTN Start
-  HAS_CORAL --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
-  HAS_ALGAE --> INTAKE_CORAL_WITH_ALGAE_GROUP: BTN TRUE 🎮🟢 = Left Trigger/Right Bumper
-  HAS_ALGAE --> PREP_ALGAE_GROUP: BTN TRUE 🎮🟢 = North/South/Left Stick
-  HAS_ALGAE --> PREP_CLIMB: BTN TRUE 🎮🟢 = Driver BTN Start
-  HAS_ALGAE --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
-  HAS_CORAL_AND_ALGAE --> PREP_CORAL_WITH_ALGAE_GROUP: BTN TRUE 🎮🟢 = A/B/X/Y/Right Stick
-  HAS_CORAL_AND_ALGAE --> PREP_ALGAE_WITH_CORAL_GROUP: BTN TRUE 🎮🟢 = North/South/Right Stick
-  HAS_CORAL_AND_ALGAE --> PREP_CLIMB: BTN TRUE 🎮🟢 = Driver BTN Start
-  HAS_CORAL_AND_ALGAE --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
+  HAS_CORAL --> PREP_CORAL_GROUP: 🎮🟢 = A/B/X/Y/Right Stick
+  HAS_CORAL --> INTAKE_ALGAE_WITH_CORAL_GROUP: 🎮🟢 = Left Bumper/West/East
+  HAS_CORAL --> PREP_CLIMB: 🎮🟢 = Driver BTN Start
+  HAS_CORAL --> EJECTING: 🎮🟢 = Left Stick
+  HAS_ALGAE --> INTAKE_CORAL_WITH_ALGAE_GROUP: 🎮🟢 = Left Trigger/Right Bumper
+  HAS_ALGAE --> PREP_ALGAE_GROUP: 🎮🟢 = North/South/Left Stick
+  HAS_ALGAE --> PREP_CLIMB: 🎮🟢 = Driver BTN Start
+  HAS_ALGAE --> EJECTING: 🎮🟢 = Left Stick
+  HAS_CORAL_AND_ALGAE --> PREP_CORAL_WITH_ALGAE_GROUP: 🎮🟢 = A/B/X/Y/Right Stick
+  HAS_CORAL_AND_ALGAE --> PREP_ALGAE_WITH_CORAL_GROUP: 🎮🟢 = North/South/Right Stick
+  HAS_CORAL_AND_ALGAE --> PREP_CLIMB: 🎮🟢 = Driver BTN Start
+  HAS_CORAL_AND_ALGAE --> EJECTING: 🎮🟢 = Left Stick
 
   %% PREPPING
-  PREP_CORAL_GROUP --> SCORING_CORAL: BTN TRUE 🎮🟢 = Right Trigger
-  PREP_CORAL_WITH_ALGAE_GROUP --> SCORING_CORAL_WITH_ALGAE: BTN TRUE 🎮🟢 = Right Trigger
-  PREP_ALGAE_GROUP --> SCORING_ALGAE: BTN TRUE 🎮🟢 = Right Trigger
-  PREP_ALGAE_WITH_CORAL_GROUP --> SCORING_ALGAE_WITH_CORAL: BTN TRUE 🎮🟢 = Right Trigger
-  PREP_ALGAE_WITH_CORAL_GROUP --> PREP_CORAL_WITH_ALGAE_GROUP: BTN TRUE 🎮🟢 = A/B/X/Y/Right Stick
-  PREP_CORAL_WITH_ALGAE_GROUP --> PREP_ALGAE_WITH_CORAL_GROUP: BTN TRUE 🎮🟢 = North/South/Left Stick
-  PREP_ALGAE_GROUP --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
-  PREP_CORAL_GROUP --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
-  PREP_CORAL_WITH_ALGAE_GROUP --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
-  PREP_ALGAE_WITH_CORAL_GROUP --> EJECTING: BTN TRUE 🎮🟢 = Left Stick
+  PREP_CORAL_GROUP --> SCORING_CORAL: 🎮🟢 = Right Trigger
+  PREP_CORAL_WITH_ALGAE_GROUP --> SCORING_CORAL_WITH_ALGAE: 🎮🟢 = Right Trigger
+  PREP_ALGAE_GROUP --> SCORING_ALGAE: 🎮🟢 = Right Trigger
+  PREP_ALGAE_WITH_CORAL_GROUP --> SCORING_ALGAE_WITH_CORAL: 🎮🟢 = Right Trigger
+  PREP_ALGAE_WITH_CORAL_GROUP --> PREP_CORAL_WITH_ALGAE_GROUP: 🎮🟢 = A/B/X/Y/Right Stick
+  PREP_CORAL_WITH_ALGAE_GROUP --> PREP_ALGAE_WITH_CORAL_GROUP: 🎮🟢 = North/South/Left Stick
+  PREP_ALGAE_GROUP --> EJECTING: 🎮🟢 = Left Stick
+  PREP_CORAL_GROUP --> EJECTING: 🎮🟢 = Left Stick
+  PREP_CORAL_WITH_ALGAE_GROUP --> EJECTING: 🎮🟢 = Left Stick
+  PREP_ALGAE_WITH_CORAL_GROUP --> EJECTING: 🎮🟢 = Left Stick
   %% CLIMBING
-  PREP_CLIMB --> CLIMBING: BTN TRUE 🎮🟢 = Driver BTN = Y
+  PREP_CLIMB --> CLIMBING: 🎮🟢 = Driver BTN = Y
   PREP_CLIMB --> [*]: Automatically ⏩
   %% SCORING
-  SCORING_CORAL --> [*]: AutomaticallyTRUE 🎮🟢 
+  SCORING_CORAL --> [*]: Automatically ⏩
   SCORING_ALGAE --> [*]: Automatically ⏩
   SCORING_CORAL_WITH_ALGAE --> HAS_ALGAE: SENSOR TRUE ✅ = Has Algae
   SCORING_ALGAE_WITH_CORAL --> HAS_CORAL: SENSOR TRUE ✅ = Has Coral

@@ -9,7 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.constDrivetrain.constIntake;
+import frc.robot.Constants.*;
 import frc.robot.RobotMap.mapIntake;
 
 public class Intake extends SubsystemBase {
