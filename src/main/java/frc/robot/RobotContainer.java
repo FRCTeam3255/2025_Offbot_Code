@@ -36,7 +36,7 @@ public class RobotContainer {
   private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae()
       && subStateMachine.getRobotState() != RobotState.SCORING_CORAL_WITH_ALGAE
-      && subStateMachine.getRobotState() != RobotState.INTAKE_CORAL_WITH_ALGAE_GROUND);
+      && subStateMachine.getRobotState() != RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE);
   private final Trigger hasBothTrigger = new Trigger(() -> subIntake.hasCoral() && subIntake.hasAlgae());
 
   Command TRY_NONE = Commands.deferredProxy(
@@ -58,13 +58,13 @@ public class RobotContainer {
   Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
   Command TRY_PREP_CORAL_WITH_ALGAE_L1 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_WITH_ALGAE_L1));
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1_WITH_ALGAE));
   Command TRY_PREP_CORAL_WITH_ALGAE_L2 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_WITH_ALGAE_L2));
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
   Command TRY_PREP_CORAL_WITH_ALGAE_L3 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_WITH_ALGAE_L3));
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3_WITH_ALGAE));
   Command TRY_PREP_CORAL_WITH_ALGAE_L4 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_WITH_ALGAE_L4));
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE));
   Command TRY_PREP_CORAL_ZERO_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE));
   Command TRY_PREP_ALGAE_NET = Commands.deferredProxy(
@@ -77,8 +77,6 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.PREP_ALGAE_NET_WITH_CORAL));
   Command TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL));
-  Command TRY_PREP_ALGAE_ZERO_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_ZERO_WITH_CORAL));
   Command TRY_HAS_CORAL = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.HAS_CORAL));
   Command TRY_HAS_ALGAE = Commands.deferredProxy(
@@ -109,17 +107,14 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.CLEAN_LOW_WITH_CORAL));
   Command TRY_INTAKE_CORAL_GROUND = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND));
-  Command TRY_INTAKE_CORAL_WITH_ALGAE_GROUND = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_WITH_ALGAE_GROUND));
-  Command TRY_INTAKE_ALGAE_WITH_CORAL_GROUND = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_WITH_CORAL_GROUND));
-  Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(
-      () -> subStateMachine.tryCoralOverride());
-  Command HAS_ALGAE_OVERRIDE = Commands.runOnce(() -> subIntake.algaeToggle());
-  Command TRY_NONE_FROM_SCORING = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.NONE)
-          .unless(() -> (subStateMachine.getRobotState() == RobotState.SCORING_CORAL
-              || subStateMachine.getRobotState() == RobotState.SCORING_CORAL_WITH_ALGAE)));
+  Command TRY_INTAKE_CORAL_GROUND_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE));
+  Command TRY_INTAKE_ALGAE_GROUND_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL));
+  Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_CORAL)
+      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
+  Command HAS_ALGAE_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_ALGAE)
+      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
 
   public RobotContainer() {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
@@ -164,13 +159,13 @@ public class RobotContainer {
     // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
         .whileTrue(TRY_INTAKE_CORAL_GROUND)
-        .whileTrue(TRY_INTAKE_CORAL_WITH_ALGAE_GROUND)
+        .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_LeftBumper
         .whileTrue(TRY_INTAKE_ALGAE_GROUND)
-        .whileTrue(TRY_INTAKE_ALGAE_WITH_CORAL_GROUND)
+        .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
@@ -179,8 +174,9 @@ public class RobotContainer {
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
         .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
-        .onFalse(TRY_NONE_FROM_SCORING)
-        .onFalse(TRY_HAS_CORAL);
+        .onFalse(TRY_NONE)
+        .onFalse(TRY_HAS_CORAL)
+        .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_RightBumper
         .whileTrue(TRY_INTAKE_CORAL_STATION)
@@ -204,12 +200,12 @@ public class RobotContainer {
         .onTrue(TRY_PREP_CORAL_WITH_ALGAE_L4);
 
     conOperator.btn_LeftStick
-        .onTrue(TRY_PREP_CORAL_ZERO)
-        .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE);
-
-    conOperator.btn_RightStick
         .whileTrue(TRY_EJECTING)
         .onFalse(TRY_NONE);
+
+    conOperator.btn_RightStick
+        .onTrue(TRY_PREP_CORAL_ZERO)
+        .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE);
 
     conOperator.btn_North
         .onTrue(TRY_PREP_ALGAE_NET)

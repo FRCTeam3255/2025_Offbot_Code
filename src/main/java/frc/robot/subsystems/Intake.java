@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
   TalonFX coralRightMotor;
   TalonFX algaeIntakeMotor;
   public boolean hasCoral = false;
-  public boolean hasAlgaeOverride = false;
+  public boolean hasAlgae = false;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -35,14 +35,6 @@ public class Intake extends SubsystemBase {
     return hasCoral;
   }
 
-  public void setHasCoral(boolean hasCoral) {
-    this.hasCoral = hasCoral;
-  }
-
-  public void coralToggle() {
-    this.hasCoral = !hasCoral;
-  }
-
   public boolean hasAlgae() {
     Current intakeCurrent = algaeIntakeMotor.getStatorCurrent().getValue();
 
@@ -52,10 +44,6 @@ public class Intake extends SubsystemBase {
     Current intakeHasGamePieceCurrent = constIntake.ALGAE_INTAKE_HAS_GP_CURRENT;
     AngularVelocity intakeHasGamePieceVelocity = constIntake.ALGAE_INTAKE_HAS_GP_VELOCITY;
 
-    if (hasAlgaeOverride) {
-      return hasAlgaeOverride;
-    }
-
     if ((intakeCurrent.gte(intakeHasGamePieceCurrent))
         && (intakeVelocity.lte(intakeHasGamePieceVelocity))
         && (intakeAcceleration < 0)) {
@@ -63,14 +51,6 @@ public class Intake extends SubsystemBase {
     } else {
       return false;
     }
-  }
-
-  public void setHasAlgaeOverride(boolean passedHasGamePiece) {
-    hasAlgaeOverride = passedHasGamePiece;
-  }
-
-  public void algaeToggle() {
-    this.hasAlgaeOverride = !hasAlgaeOverride;
   }
 
   @Override
