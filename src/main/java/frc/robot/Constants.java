@@ -156,12 +156,6 @@ public final class Constants {
       CANCODER_CONFIG.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     }
 
-    public static class constIntake {
-      // TODO: Replace with actual measurements
-      public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
-      public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
-    }
-
     public static class AUTO {
       // This PID is implemented on the Drivetrain subsystem
       // TODO: AUTO PID
@@ -246,9 +240,26 @@ public final class Constants {
   public static class constElevator {
 
     public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
-    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(1);
-    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(2);
-    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(3);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(0);
+
+  }
+
+  public static class constClimber {
+
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
+
+    public static TalonFXConfiguration CLIMBER_CONFIG = new TalonFXConfiguration();
+    static {
+      CLIMBER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimit = 85;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 60;
+
+      CLIMBER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
 
   }
 
