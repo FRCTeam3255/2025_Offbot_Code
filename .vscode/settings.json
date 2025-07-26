@@ -63,5 +63,6 @@
     "edu.wpi.first.math.**.proto.*",
     "edu.wpi.first.math.**.struct.*",
   ],
-  "git.pullBeforeCheckout": true
+  "git.pullBeforeCheckout": true,
+  "java.debug.settings.onBuildFailureProceed": true
 }
