@@ -20,7 +20,7 @@ public class IntakeAlgaeWithCoralGround extends Command {
 
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_WITH_CORAL_GROUND);
+    globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
