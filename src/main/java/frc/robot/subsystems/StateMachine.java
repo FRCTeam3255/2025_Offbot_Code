@@ -416,6 +416,22 @@ public class StateMachine extends SubsystemBase {
           case HAS_ALGAE:
           case HAS_CORAL:
           case HAS_CORAL_AND_ALGAE:
+          case PREP_ALGAE_NET:
+          case PREP_ALGAE_NET_WITH_CORAL:
+          case PREP_ALGAE_PROCESSOR:
+          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
+          case PREP_ALGAE_ZERO:
+          case PREP_ALGAE_ZERO_WITH_CORAL:
+          case PREP_CORAL_L1:
+          case PREP_CORAL_L2:
+          case PREP_CORAL_L3:
+          case PREP_CORAL_L4:
+          case PREP_CORAL_WITH_ALGAE_L1:
+          case PREP_CORAL_WITH_ALGAE_L2:
+          case PREP_CORAL_WITH_ALGAE_L3:
+          case PREP_CORAL_WITH_ALGAE_L4:
+          case PREP_CORAL_ZERO:
+          case PREP_CORAL_ZERO_WITH_ALGAE:
             return new Ejecting(subStateMachine);
         }
         break;
