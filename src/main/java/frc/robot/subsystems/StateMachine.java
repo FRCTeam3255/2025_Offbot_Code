@@ -342,8 +342,8 @@ public class StateMachine extends SubsystemBase {
       // holding 2 game pieces
       case HAS_CORAL_AND_ALGAE:
         switch (currentRobotState) {
-          case INTAKE_ALGAE_WITH_CORAL_GROUND:
-          case INTAKE_CORAL_WITH_ALGAE_GROUND:
+          case INTAKE_ALGAE_GROUND_WITH_CORAL:
+          case INTAKE_CORAL_GROUND_WITH_ALGAE:
           case INTAKE_CORAL_WITH_ALGAE_STATION:
           case CLEAN_HIGH_WITH_CORAL:
           case CLEAN_LOW_WITH_CORAL:
@@ -445,7 +445,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case CLEAN_LOW_WITH_CORAL:
           case HAS_CORAL:
-          case INTAKE_ALGAE_WITH_CORAL_GROUND:
+          case INTAKE_ALGAE_GROUND_WITH_CORAL:
             return new CleanHighWithCoral(subStateMachine);
         }
         break;
@@ -454,7 +454,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_CORAL:
           case CLEAN_HIGH_WITH_CORAL:
-          case INTAKE_ALGAE_WITH_CORAL_GROUND:
+          case INTAKE_ALGAE_GROUND_WITH_CORAL:
             return new CleanLowWithCoral(subStateMachine);
         }
         break;
@@ -467,26 +467,19 @@ public class StateMachine extends SubsystemBase {
         }
         break;
 
-      case INTAKE_CORAL_WITH_ALGAE_GROUND:
+      case INTAKE_CORAL_GROUND_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_ALGAE:
-          case PREP_ALGAE_NET:
-          case PREP_ALGAE_PROCESSOR:
-          case PREP_ALGAE_ZERO:
           case INTAKE_CORAL_WITH_ALGAE_STATION:
             return new IntakeCoralWithAlgaeGround(subStateMachine);
         }
         break;
 
-      case INTAKE_ALGAE_WITH_CORAL_GROUND:
+      case INTAKE_ALGAE_GROUND_WITH_CORAL:
         switch (currentRobotState) {
           case HAS_CORAL:
           case CLEAN_HIGH_WITH_CORAL:
           case CLEAN_LOW_WITH_CORAL:
-          case PREP_CORAL_WITH_ALGAE_L1:
-          case PREP_CORAL_WITH_ALGAE_L2:
-          case PREP_CORAL_WITH_ALGAE_L3:
-          case PREP_CORAL_WITH_ALGAE_L4:
           case PREP_CORAL_ZERO:
             return new IntakeAlgaeWithCoralGround(subStateMachine);
         }
@@ -494,10 +487,7 @@ public class StateMachine extends SubsystemBase {
       case INTAKE_CORAL_WITH_ALGAE_STATION:
         switch (currentRobotState) {
           case HAS_ALGAE:
-          case PREP_ALGAE_NET:
-          case PREP_ALGAE_PROCESSOR:
-          case PREP_ALGAE_ZERO:
-          case INTAKE_CORAL_WITH_ALGAE_GROUND:
+          case INTAKE_CORAL_GROUND_WITH_ALGAE:
 
         }
     }
@@ -566,8 +556,8 @@ public class StateMachine extends SubsystemBase {
     CLEAN_HIGH_WITH_CORAL,
     CLEAN_LOW_WITH_CORAL,
     INTAKE_CORAL_GROUND,
-    INTAKE_CORAL_WITH_ALGAE_GROUND,
-    INTAKE_ALGAE_WITH_CORAL_GROUND,
+    INTAKE_CORAL_GROUND_WITH_ALGAE,
+    INTAKE_ALGAE_GROUND_WITH_CORAL,
     INTAKE_CORAL_WITH_ALGAE_STATION,
 
   }
