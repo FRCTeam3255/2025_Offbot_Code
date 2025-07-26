@@ -67,10 +67,10 @@ stateDiagram-v2
   INTAKE_ALGAE_GROUP --> [*]: 🎮🔴 = Left Bumper/West/East
   INTAKE_CORAL_GROUP --> [*]: 🎮🔴 = Left Trigger/Right Bumper 
   INTAKE_CORAL_GROUP --> HAS_CORAL: SENSOR ✅ = Has Coral
-  INTAKE_ALGAE_GROUP --> HAS_ALGAE: SENSOR TRUE ✅ = Has Algae
-  INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR TRUE ✅ = Has Coral & Has Algae
+  INTAKE_ALGAE_GROUP --> HAS_ALGAE: SENSOR ✅ = Has Algae
+  INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR ✅ = Has Coral & Has Algae
   INTAKE_CORAL_WITH_ALGAE_GROUP --> HAS_ALGAE: 🎮🔴 = Left Trigger/Right Bumper
-  INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR TRUE ✅ = Has Coral & Has Algae
+  INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL_AND_ALGAE: SENSOR ✅ = Has Coral & Has Algae
   INTAKE_ALGAE_WITH_CORAL_GROUP --> HAS_CORAL: 🎮🔴 = Left Bumper/West/East
 
   %% HAS SCORING ELEMENT
@@ -104,8 +104,8 @@ stateDiagram-v2
   %% SCORING
   SCORING_CORAL --> [*]: Automatically ⏩
   SCORING_ALGAE --> [*]: Automatically ⏩
-  SCORING_CORAL_WITH_ALGAE --> HAS_ALGAE: SENSOR TRUE ✅ = Has Algae
-  SCORING_ALGAE_WITH_CORAL --> HAS_CORAL: SENSOR TRUE ✅ = Has Coral
+  SCORING_CORAL_WITH_ALGAE --> HAS_ALGAE: SENSOR ✅ = Has Algae
+  SCORING_ALGAE_WITH_CORAL --> HAS_CORAL: SENSOR ✅ = Has Coral
   EJECTING --> [*]: Automatically ⏩
 
   
