@@ -16,12 +16,10 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new Climber. */
   public Climber() {
-    cageCollectMotor = new TalonFX(mapClimber.CAGE_COLLECTER_CAN); // Climber left motor, using CAN ID 31 as per
+    cageCollectMotor = new TalonFX(mapClimber.CAGE_COLLECTER_CAN);
 
     cageCollectMotor.getConfigurator().apply(constClimber.CLIMBER_CONFIG);
-    // RobotMap
-    // Set default motor configurations if needed
-    // e.g., climberLeftMotor.configFactoryDefault();
+
   }
 
   public void setClimberMotorPercentOutput(double speed) {
@@ -34,6 +32,6 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }
