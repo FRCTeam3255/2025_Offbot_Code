@@ -34,9 +34,7 @@ public class RobotContainer {
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
-  private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae()
-      && subStateMachine.getRobotState() != RobotState.SCORING_CORAL_WITH_ALGAE
-      && subStateMachine.getRobotState() != RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE);
+  private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subIntake.hasCoral() && subIntake.hasAlgae());
 
   Command TRY_NONE = Commands.deferredProxy(
@@ -111,6 +109,8 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE));
   Command TRY_INTAKE_ALGAE_GROUND_WITH_CORAL = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL));
+  Command TRY_INTAKE_CORAL_STATION_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE));
   Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_CORAL)
       .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
   Command HAS_ALGAE_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_ALGAE)
@@ -180,6 +180,7 @@ public class RobotContainer {
 
     conOperator.btn_RightBumper
         .whileTrue(TRY_INTAKE_CORAL_STATION)
+        .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
