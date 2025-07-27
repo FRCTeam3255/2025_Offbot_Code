@@ -218,6 +218,12 @@ public final class Constants {
     }
   }
 
+  public static class constIntake {
+    // TODO: Replace with actual measurements
+    public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
+    public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+  }
+
   public static class constField {
     public static Optional<Alliance> ALLIANCE = Optional.empty();
 
