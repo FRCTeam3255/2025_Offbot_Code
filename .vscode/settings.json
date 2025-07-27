@@ -64,5 +64,6 @@
     "edu.wpi.first.math.**.struct.*",
   ],
   "git.pullBeforeCheckout": true,
-  "java.debug.settings.onBuildFailureProceed": true
+  "extensions.ignoreRecommendations": false,
+  "java.saveActions.organizeImports": true
 }

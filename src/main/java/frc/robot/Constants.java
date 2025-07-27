@@ -214,6 +214,12 @@ public final class Constants {
     }
   }
 
+  public static class constIntake {
+    // TODO: Replace with actual measurements
+    public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
+    public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+  }
+
   public static class constField {
     public static Optional<Alliance> ALLIANCE = Optional.empty();
 
@@ -237,22 +243,96 @@ public final class Constants {
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
+  public static class constElevator {
+
+    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(2);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(3);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(4);
+
+  }
+
+  public static class constClimber {
+
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
+
+    public static TalonFXConfiguration CLIMBER_CONFIG = new TalonFXConfiguration();
+    static {
+      CLIMBER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimit = 85;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 60;
+
+      CLIMBER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
+
+  }
+
   public static class constVision {
+    public static final String[] LIMELIGHT_NAMES = new String[] { "limelight-right", "limelight-left",
+        "limelight-back" };
+
     /**
      * <p>
      * Pose estimator standard deviation for vision data
      * <p>
      * <b>Units:</b> Meters
      */
-    public static final double STD_DEVS_POS = 0.7;
 
+    public static final double STD_DEVS_POS = 0.7;
     /**
      * <p>
      * Pose estimator standard deviation for vision data
      * </p>
      * <b>Units:</b> Radians
      */
+
     public static final double STD_DEVS_HEADING = 9999999;
 
+    /**
+     * <p>
+     * Pose estimator standard deviation for vision data
+     * </p>
+     * <b>Units:</b> Meters
+     */
+    public static final double MEGA_TAG1_STD_DEVS_POSITION = .3;
+
+    public static final double MEGA_TAG1_STD_DEVS_HEADING = .1;
+    /**
+     * <p>
+     * Maximum rate of rotation before we begin rejecting pose updates
+     * </p>
+     */
+    public static final AngularVelocity MAX_ANGULAR_VELOCITY = Units.DegreesPerSecond.of(720);
+
+    /**
+     * The area that one tag (if its the only tag in the update) needs to exceed
+     * before being accepted
+     */
+    public static final double AREA_THRESHOLD_FRONT = 0.1;
+    public static final double AREA_THRESHOLD_BACK = 0.05;
+
+    // The below values are accounted for in the limelight interface, NOT in code
+    public static class LIMELIGHT_RIGHT {
+      public static final Distance LL_FORWARD = Units.Meters.of(0.269494);
+      public static final Distance LL_RIGHT = Units.Meters.of(0.307594);
+      public static final Distance LL_UP = Units.Meters.of(0.211328);
+
+      public static final Angle LL_ROLL = Units.Degrees.of(180);
+      public static final Angle LL_PITCH = Units.Degrees.of(23.17);
+      public static final Angle LL_YAW = Units.Degrees.of(51.25);
+    }
+
+    public static class LIMELIGHT_LEFT {
+      public static final Distance LL_FORWARD = Units.Meters.of(0.269494);
+      public static final Distance LL_RIGHT = Units.Meters.of(-0.307594);
+      public static final Distance LL_UP = Units.Meters.of(0.211328);
+
+      public static final Angle LL_ROLL = Units.Degrees.of(180);
+      public static final Angle LL_PITCH = Units.Degrees.of(23.17);
+      public static final Angle LL_YAW = Units.Degrees.of(-51.25);
+
+    }
   }
 }
