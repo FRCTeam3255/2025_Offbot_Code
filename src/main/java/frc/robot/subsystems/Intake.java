@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import static edu.wpi.first.units.Units.Degrees;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,15 +23,21 @@ public class Intake extends SubsystemBase {
   CANrange coralSensor;
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
+  private Angle lastDesiredAngle = Degrees.zero();
 
   /** Creates a new Intake. */
   public Intake() {
     intakePivotMotor = new TalonFX(mapIntake.INTAKE_PIVOT_CAN); // Intake pivot motor
     coralIntakeMotor = new TalonFX(mapIntake.CORAL_INTAKE_CAN); // Coral left intake motor
     algaeIntakeMotor = new TalonFX(mapIntake.INTAKE_ALGAE_CAN); // Algae intake motor
+    coralSensor = new CANrange(mapIntake.CORAL_INTAKE_SENSOR); // Coral intake sensor
 
     // Set default motor configurations if needed
     // e.g., intakePivotMotor.configFactoryDefault();
+    intakePivotMotor.getConfigurator().apply(constIntake.INTAKE_PIVOT_CONFIG);
+    coralIntakeMotor.getConfigurator().apply(constIntake.CORAL_INTAKE_CONFIG);
+    algaeIntakeMotor.getConfigurator().apply(constIntake.ALGAE_INTAKE_CONFIG);
+    coralSensor.getConfigurator().apply(constIntake.CORAL_INTAKE_SENSOR_CONFIG);
   }
 
   public boolean hasCoral() {
@@ -51,6 +60,32 @@ public class Intake extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public void getIntakePivtoMotorAngle() {
+    double angle = intakePivotMotor.getPosition().getValueAsDouble();
+
+  }
+
+  public Angle getLastDesiredPivotAngle() {
+    return lastDesiredAngle;
+  }
+
+  public void setIntakePivotMotor(double Angle) {
+    intakePivotMotor.setVoltage(Angle);
+  }
+
+  public void setCoralIntakeMotor(double speed) {
+    coralIntakeMotor.setVoltage(speed);
+  }
+
+  public void setAlgaeIntakeMotor(double speed) {
+    algaeIntakeMotor.setVoltage(speed);
+  }
+
+  public void setIntakeMotorNeutralMode(NeutralModeValue mode) {
+    intakePivotMotor.setNeutralMode(mode);
+    algaeIntakeMotor.setNeutralMode(mode);
   }
 
   @Override
