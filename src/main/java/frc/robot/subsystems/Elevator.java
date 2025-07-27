@@ -28,10 +28,6 @@ public class Elevator extends SubsystemBase {
 
   Distance currentLeftPosition = Units.Inches.of(0);
   Distance currentRightPosition = Units.Inches.of(0);
-  private boolean isAtL1Height = false;
-  private boolean isAtL2Height = false;
-  private boolean isAtL3Height = false;
-  private boolean isAtL4Height = false;
   private Distance lastDesiredPosition;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
