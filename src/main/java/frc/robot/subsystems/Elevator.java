@@ -32,10 +32,10 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
 
-    leftLiftMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_CAN); // Elevator left motor
-    rightLiftMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_CAN); // Elevator right motor
-    leftPivotMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_PIVOT_CAN); // Elevator left pivot motor
-    rightPivotMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_PIVOT_CAN); // Elevator right pivot motor
+    leftLiftMotorFollower = new TalonFX(mapElevator.LEFT_LIFT_CAN); // Elevator left motor
+    rightLiftMotorLeader = new TalonFX(mapElevator.RIGHT_LIFT_CAN); // Elevator right motor
+    leftPivotMotorFollower = new TalonFX(mapElevator.LEFT_PIVOT_CAN); // Elevator left pivot motor
+    rightPivotMotorLeader = new TalonFX(mapElevator.RIGHT_PIVOT_CAN); // Elevator right pivot motor
 
     lastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
@@ -50,17 +50,17 @@ public class Elevator extends SubsystemBase {
     return rightLiftMotorLeader.getRotorVelocity().getValue();
   }
 
-  public boolean isRotorVelocityZero() {
+  public boolean isMotorVelocityZero() {
     return getMotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public Distance getLastDesiredPosition() {
+  public Distance getLastDesiredElevatorPosition() {// elevator extension
     return lastDesiredPosition;
   }
 
-  public Distance getElevatorPosition() {
+  public Distance getLiftPosition() {
     if (Robot.isSimulation()) {
-      return getLastDesiredPosition();
+      return getLastDesiredElevatorPosition();
     }
     return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
@@ -72,16 +72,16 @@ public class Elevator extends SubsystemBase {
   }
 
   public boolean isLiftAtSpecificSetpoint(Distance setpoint) {
-    return isAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_DISTANCE);
+    return isLiftAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_DISTANCE);
   }
 
-  public boolean isAtSetPointWithTolerance(Distance position, Distance tolerance) {
+  public boolean isLiftAtSetPointWithTolerance(Distance position, Distance tolerance) {
     if (Robot.isSimulation()) {
       return true;
     }
-    return (getElevatorPosition()
+    return (getLiftPosition()
         .compareTo(position.minus(tolerance)) > 0) &&
-        getElevatorPosition().compareTo(position.plus(tolerance)) < 0;
+        getLiftPosition().compareTo(position.plus(tolerance)) < 0;
   }
 
   public Angle getPivotAngle() {
