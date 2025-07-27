@@ -47,10 +47,10 @@ public class RobotMap {
 
   // Elevator ID 21-30
   public static class mapElevator {
-    public static final int ELEVATOR_LEFT_CAN = 21;
-    public static final int ELEVATOR_RIGHT_CAN = 22;
-    public static final int ELEVATOR_RIGHT_PIVOT_CAN = 23;
-    public static final int ELEVATOR_LEFT_PIVOT_CAN = 24;
+    public static final int LEFT_LIFT_CAN = 21;
+    public static final int RIGHT_LIFT_CAN = 22;
+    public static final int RIGHT_PIVOT_CAN = 23;
+    public static final int LEFT_PIVOT_CAN = 24;
   }
 
   // Climber ID 31-40

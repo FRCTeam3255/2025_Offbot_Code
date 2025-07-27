@@ -10,9 +10,11 @@ import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -34,7 +36,8 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
-import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -246,10 +249,75 @@ public final class Constants {
   public static class constElevator {
 
     public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
-    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(2);
-    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(4);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(0);
+    public static final Distance ALGAE_NET_HEIGHT = Units.Inches.of(0);
+    public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
 
+    public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
+
+    public static final Angle MAX_POS = Units.Degrees.of(57);
+    public static final Angle MIN_POS = Units.Degrees.of(-37);
+
+    public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
+    public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);
+
+    /**
+     * The elapsed time required to consider the motor as zeroed
+     */
+    public static final Time ZEROED_TIME = Units.Seconds.of(1);
+
+    public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
+
+    public static TalonFXConfiguration ELEVATOR_LIFT_CONFIG = new TalonFXConfiguration();
+    public static TalonFXConfiguration ELEVATOR_PIVOT_CONFIG = new TalonFXConfiguration();
+
+    static {
+      // elevator motor config
+      ELEVATOR_LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
+      ELEVATOR_LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+
+      // elevator pivot motor config
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+          .in(Units.Degrees);
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+          .in(Units.Degrees);
+
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
+                                                                        // to get the ratio from fab
+
+      ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+    }
   }
 
   public static class constClimber {
