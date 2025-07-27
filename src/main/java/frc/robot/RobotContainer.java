@@ -55,13 +55,13 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3));
   Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
-  Command TRY_PREP_CORAL_WITH_ALGAE_L1 = Commands.deferredProxy(
+  Command TRY_PREP_CORAL_L1_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1_WITH_ALGAE));
-  Command TRY_PREP_CORAL_WITH_ALGAE_L2 = Commands.deferredProxy(
+  Command TRY_PREP_CORAL_L2_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
-  Command TRY_PREP_CORAL_WITH_ALGAE_L3 = Commands.deferredProxy(
+  Command TRY_PREP_CORAL_L3_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3_WITH_ALGAE));
-  Command TRY_PREP_CORAL_WITH_ALGAE_L4 = Commands.deferredProxy(
+  Command TRY_PREP_CORAL_L4_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE));
   Command TRY_PREP_CORAL_ZERO_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE));
@@ -186,19 +186,19 @@ public class RobotContainer {
 
     conOperator.btn_A
         .onTrue(TRY_PREP_CORAL_L1)
-        .onTrue(TRY_PREP_CORAL_WITH_ALGAE_L1);
+        .onTrue(TRY_PREP_CORAL_L1_WITH_ALGAE);
 
     conOperator.btn_B
         .onTrue(TRY_PREP_CORAL_L3)
-        .onTrue(TRY_PREP_CORAL_WITH_ALGAE_L3);
+        .onTrue(TRY_PREP_CORAL_L3_WITH_ALGAE);
 
     conOperator.btn_X
         .onTrue(TRY_PREP_CORAL_L2)
-        .onTrue(TRY_PREP_CORAL_WITH_ALGAE_L2);
+        .onTrue(TRY_PREP_CORAL_L2_WITH_ALGAE);
 
     conOperator.btn_Y
         .onTrue(TRY_PREP_CORAL_L4)
-        .onTrue(TRY_PREP_CORAL_WITH_ALGAE_L4);
+        .onTrue(TRY_PREP_CORAL_L4_WITH_ALGAE);
 
     conOperator.btn_LeftStick
         .whileTrue(TRY_EJECTING)
