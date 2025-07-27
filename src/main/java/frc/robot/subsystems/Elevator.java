@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap.mapElevator;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -37,6 +38,15 @@ public class Elevator extends SubsystemBase {
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
     SmartDashboard.putData("Mech2d", mech);
+  }
+
+  public void setAngle(Angle agnle) {
+    elevatorLeftPivotMotor.setPosition(agnle);
+
+  }
+
+  public Angle getAngle() {
+    return elevatorLeftPivotMotor.getPosition().getValue();
   }
 
   @Override

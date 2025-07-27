@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.frcteam3255.joystick.SN_XboxController;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,7 +28,8 @@ public class RobotContainer {
 
   private final Drivetrain subDrivetrain = new Drivetrain();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain);
+  private final Elevator subElevator = new Elevator();
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -46,6 +49,8 @@ public class RobotContainer {
   }
 
   private void configDriverBindings() {
+    conDriver.btn_A.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(1000))));
+    conDriver.btn_Y.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(-5000))));
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
     conDriver.btn_Back
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.frcteam3255.joystick.SN_XboxController;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
@@ -25,31 +26,36 @@ public class RobotPoses extends SubsystemBase {
 
   @NotLogged
   Drivetrain subDrivetrain;
+  Elevator subElevator;
 
   Pose3d comp0Drivetrain = Pose3d.kZero;
   Pose3d comp1Bumpers = Pose3d.kZero.plus(Constants.ROBOT_TO_BUMPERS);
 
-  public RobotPoses(Drivetrain subDrivetrain) {
+  public RobotPoses(Drivetrain subDrivetrain, Elevator subElevator) {
     this.subDrivetrain = subDrivetrain;
+    this.subElevator = subElevator;
+
     // the main mechanism object
 
     // the mechanism root node
-    MechanismRoot2d root = mech.getRoot("climber", 2, 0);
+    MechanismRoot2d root = mech.getRoot("climber", 1.5, .6);
     elevator = root.append(new MechanismLigament2d("elevator", .5, 90));
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
-    // SmartDashboard.putData("Mech2d", mech);
     wrist = elevator.append(
-        new MechanismLigament2d("wrist", 0.5, 90, 6, new Color8Bit(Color.kPurple)));
+        new MechanismLigament2d("wrist", 0.5, 95, 10, new Color8Bit(Color.kPurple)));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     elevator.setLength(2);
+    elevator.setAngle(subElevator.getAngle().magnitude());
 
+    SmartDashboard.putData("Mech2d", mech);
     // Robot Positions
+
     comp0Drivetrain = new Pose3d(subDrivetrain.getPose());
   }
 }
