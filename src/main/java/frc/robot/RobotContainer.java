@@ -55,7 +55,7 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3));
   Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
-  Command TRY_PREP_CORAL_L1_WITH_ALGAE = Commands.deferredProxy(
+  Command TRY_PREP_CORAL_WITH_ALGAE_L1 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1_WITH_ALGAE));
   Command TRY_PREP_CORAL_WITH_ALGAE_L2 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
