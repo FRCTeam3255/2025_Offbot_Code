@@ -270,27 +270,27 @@ public final class Constants {
 
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
 
-    public static TalonFXConfiguration ELEVATOR_MOTOR_CONFIG = new TalonFXConfiguration();
+    public static TalonFXConfiguration ELEVATOR_LIFT_CONFIG = new TalonFXConfiguration();
     public static TalonFXConfiguration ELEVATOR_PIVOT_CONFIG = new TalonFXConfiguration();
 
     static {
       // elevator motor config
-      ELEVATOR_MOTOR_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ELEVATOR_MOTOR_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-      ELEVATOR_MOTOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_MOTOR_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
-      ELEVATOR_MOTOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_MOTOR_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
-      ELEVATOR_MOTOR_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      ELEVATOR_MOTOR_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
-      ELEVATOR_MOTOR_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
-      ELEVATOR_MOTOR_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
-      ELEVATOR_MOTOR_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
-      ELEVATOR_MOTOR_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
-      ELEVATOR_MOTOR_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      ELEVATOR_MOTOR_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      ELEVATOR_MOTOR_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
-      ELEVATOR_MOTOR_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+      ELEVATOR_LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
+      ELEVATOR_LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
+      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
 
       // elevator pivot motor config
       ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;

@@ -19,41 +19,39 @@ import frc.robot.Robot;
 import frc.robot.RobotMap.mapElevator;
 
 public class Elevator extends SubsystemBase {
-  TalonFX leftMotorFollower;
-  TalonFX rightMotorLeader;
-  TalonFX elevatorLeftPivotMotor;
-  TalonFX elevatorRightPivotMotor;
+  TalonFX leftLiftMotorFollower;
+  TalonFX rightLiftMotorLeader;
+  TalonFX leftPivotMotorFollower;
+  TalonFX rightPivotMotorLeader;
 
   private Angle lastDesiredAngle = Degrees.zero();
 
-  Distance currentLeftPosition = Units.Inches.of(0);
-  Distance currentRightPosition = Units.Inches.of(0);
   private Distance lastDesiredPosition;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   /** Creates a new Elevator. */
   public Elevator() {
 
-    leftMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_CAN); // Elevator left motor
-    rightMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_CAN); // Elevator right motor
-    elevatorLeftPivotMotor = new TalonFX(mapElevator.ELEVATOR_LEFT_PIVOT_CAN); // Elevator left pivot motor
-    elevatorRightPivotMotor = new TalonFX(mapElevator.ELEVATOR_RIGHT_PIVOT_CAN); // Elevator right pivot motor
+    leftLiftMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_CAN); // Elevator left motor
+    rightLiftMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_CAN); // Elevator right motor
+    leftPivotMotorFollower = new TalonFX(mapElevator.ELEVATOR_LEFT_PIVOT_CAN); // Elevator left pivot motor
+    rightPivotMotorLeader = new TalonFX(mapElevator.ELEVATOR_RIGHT_PIVOT_CAN); // Elevator right pivot motor
 
     lastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
-    leftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_MOTOR_CONFIG);
-    rightMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_MOTOR_CONFIG);
-    elevatorLeftPivotMotor.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
-    elevatorRightPivotMotor.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+    leftLiftMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_LIFT_CONFIG);
+    rightLiftMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_LIFT_CONFIG);
+    leftPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+    rightPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
   }
 
-  public AngularVelocity getRotorVelocity() {
-    return rightMotorLeader.getRotorVelocity().getValue();
+  public AngularVelocity getMotorVelocity() {
+    return rightLiftMotorLeader.getRotorVelocity().getValue();
   }
 
   public boolean isRotorVelocityZero() {
-    return getRotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
+    return getMotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
   public Distance getLastDesiredPosition() {
@@ -64,42 +62,17 @@ public class Elevator extends SubsystemBase {
     if (Robot.isSimulation()) {
       return getLastDesiredPosition();
     }
-    return Units.Inches.of(rightMotorLeader.getPosition().getValueAsDouble());
-  }
-
-  public double getRightPosition(Distance height) {
-    return rightMotorLeader.getPosition().getValueAsDouble();
-  }
-
-  public double getLeftPosition(Distance height) {
-    return leftMotorFollower.getPosition().getValueAsDouble();
+    return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
 
   public void setElevatorPosition(Distance height) {
-    rightMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
-    leftMotorFollower.setControl(new Follower(rightMotorLeader.getDeviceID(), true));
+    rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
+    leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     lastDesiredPosition = height;
   }
 
-  public boolean isAtSpecificSetpoint(Distance setpoint) {
+  public boolean isLiftAtSpecificSetpoint(Distance setpoint) {
     return isAtSetPointWithTolerance(setpoint, Constants.constElevator.DEADZONE_DISTANCE);
-  }
-
-  public boolean isAtAnyCoralScoringPosition() {
-    if (isAtSpecificSetpoint(constElevator.CORAL_L1_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L2_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L3_HEIGHT) ||
-        isAtSpecificSetpoint(constElevator.CORAL_L4_HEIGHT)) {
-      return true;
-    }
-    return false;
-  }
-
-  public boolean isAtAnyAlgaeScoringPosition() {
-    if (isAtSpecificSetpoint(constElevator.ALGAE_NET_HEIGHT)) {
-      return true;
-    }
-    return false;
   }
 
   public boolean isAtSetPointWithTolerance(Distance position, Distance tolerance) {
@@ -112,11 +85,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Angle getPivotAngle() {
-    return elevatorRightPivotMotor.getPosition().getValue();
-  }
-
-  public Angle getLeftPivotAngle() {
-    return elevatorLeftPivotMotor.getPosition().getValue();
+    return rightPivotMotorLeader.getPosition().getValue();
   }
 
   public Angle getLastDesiredPivotAngle() {
@@ -124,8 +93,8 @@ public class Elevator extends SubsystemBase {
   }
 
   public void setPivotAngle(Angle angle) {
-    elevatorRightPivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
-    elevatorLeftPivotMotor.setControl(new Follower(elevatorRightPivotMotor.getDeviceID(), true));
+    rightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    leftPivotMotorFollower.setControl(new Follower(rightPivotMotorLeader.getDeviceID(), true));
     lastDesiredAngle = angle;
   }
 
