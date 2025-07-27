@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.frcteam3255.joystick.SN_XboxController;
 
 @Logged
 public class RobotPoses extends SubsystemBase {

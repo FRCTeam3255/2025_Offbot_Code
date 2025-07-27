@@ -31,7 +31,7 @@ public class RobotContainer {
   private final Climber subClimber = new Climber();
   private final Elevator subElevator = new Elevator();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subIntake, subClimber, subElevator);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain);
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae());
