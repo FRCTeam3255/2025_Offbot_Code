@@ -54,18 +54,18 @@ public class Elevator extends SubsystemBase {
     return getMotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public Distance getLastDesiredElevatorPosition() {// elevator extension
+  public Distance getLastDesiredLiftPosition() {// elevator extension
     return lastDesiredPosition;
   }
 
   public Distance getLiftPosition() {
     if (Robot.isSimulation()) {
-      return getLastDesiredElevatorPosition();
+      return getLastDesiredLiftPosition();
     }
     return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
 
-  public void setElevatorPosition(Distance height) {
+  public void setLiftPosition(Distance height) {
     rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
     leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     lastDesiredPosition = height;
