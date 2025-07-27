@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -14,17 +15,16 @@ import frc.robot.RobotMap.mapIntake;
 
 public class Intake extends SubsystemBase {
   TalonFX intakePivotMotor;
-  TalonFX coralLeftMotor;
-  TalonFX coralRightMotor;
+  TalonFX coralIntakeMotor;
   TalonFX algaeIntakeMotor;
+  CANrange coralSensor;
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
 
   /** Creates a new Intake. */
   public Intake() {
     intakePivotMotor = new TalonFX(mapIntake.INTAKE_PIVOT_CAN); // Intake pivot motor
-    coralLeftMotor = new TalonFX(mapIntake.CORAL_LEFT_CAN); // Coral left intake motor
-    coralRightMotor = new TalonFX(mapIntake.CORAL_RIGHT_CAN); // Coral right intake motor
+    coralIntakeMotor = new TalonFX(mapIntake.CORAL_INTAKE_CAN); // Coral left intake motor
     algaeIntakeMotor = new TalonFX(mapIntake.INTAKE_ALGAE_CAN); // Algae intake motor
 
     // Set default motor configurations if needed
