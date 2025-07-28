@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.constRobotPoses;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
   /** Creates a new RobotPoses. */
+  MechanismLigament2d elevatorPivot; // Pivot point for the elevator
   MechanismLigament2d elevator;
   MechanismLigament2d intakeWrist;
   Mechanism2d mech = new Mechanism2d(3, 3);
@@ -39,20 +41,28 @@ public class RobotPoses extends SubsystemBase {
     // the main mechanism object
 
     // the mechanism root node
-    MechanismRoot2d root = mech.getRoot("climber", 1.5, .6);
-    elevator = root.append(new MechanismLigament2d("elevator", .5, 90));
+    MechanismRoot2d root = mech.getRoot("drivetrain", constRobotPoses.ROOT_X, constRobotPoses.ROOT_Y);
+
+    elevatorPivot = root.append(new MechanismLigament2d("elevator-pivot", constRobotPoses.ELEVATOR_PIVOT_LENGTH,
+        constRobotPoses.ELEVATOR_PIVOT_DEFAULT_ANGLE, constRobotPoses.ELEVATOR_PIVOT_WIDTH,
+        new Color8Bit(Color.kGreen)));
+    elevator = elevatorPivot.append(
+        new MechanismLigament2d("elevator", constRobotPoses.ELEVATOR_LENGTH, constRobotPoses.ELEVATOR_DEFAULT_ANGLE,
+            constRobotPoses.ELEVATOR_WIDTH, new Color8Bit(Color.kBlue)));
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
+
     intakeWrist = elevator.append(
-        new MechanismLigament2d("wrist", 0.5, 95, 10, new Color8Bit(Color.kPurple)));
+        new MechanismLigament2d("intake-wrist", constRobotPoses.INTAKE_WRIST_LENGTH,
+            constRobotPoses.INTAKE_WRIST_DEFAULT_ANGLE, constRobotPoses.INTAKE_WRIST_WIDTH, new Color8Bit(Color.kRed)));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    elevator.setLength(2);
-    elevator.setAngle(subElevator.getAngle().magnitude());
+    elevator.setLength(subElevator.getLiftPosition().magnitude());
+    elevatorPivot.setAngle(subElevator.getPivotAngle().magnitude());
 
     SmartDashboard.putData("Mech2d", mech);
     // Robot Positions

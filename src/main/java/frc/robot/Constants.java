@@ -405,13 +405,19 @@ public final class Constants {
   }
 
   public static class constRobotPoses {
-    public static final Distance ELEVATOR_LENGTH = Units.Meters.of(0.5);
-    public static final Distance WRIST_LENGTH = Units.Meters.of(0.5);
+    public static final Double ROOT_X = 1.5; // TODO: Replace with actual measurement
+    public static final Double ROOT_Y = 0.6; // TODO: Replace with actual measurement
 
-    public static final Distance INTAKE_LENGTH = Units.Meters.of(0.5);
+    public static final Double ELEVATOR_PIVOT_LENGTH = 0.1; // TODO: Replace with actual measurement
+    public static final Double ELEVATOR_PIVOT_DEFAULT_ANGLE = 0.0; // TODO: Replace with actual measurement
+    public static final Double ELEVATOR_PIVOT_WIDTH = 0.1; // TODO: Replace with actual measurement
 
-    public static final Distance INTAKE_PIVOT_LENGTH = Units.Meters.of(0.2);
+    public static final Double ELEVATOR_LENGTH = 0.5; // TODO: Replace with actual measurement
+    public static final Double ELEVATOR_DEFAULT_ANGLE = 90.0; // TODO: Replace with actual measurement
+    public static final Double ELEVATOR_WIDTH = 0.1; // TODO: Replace with actual measurement
 
-    public static final Distance CLIMBER_LENGTH = Units.Meters.of(0.5);
+    public static final Double INTAKE_WRIST_LENGTH = 0.5; // TODO: Replace with actual measurement
+    public static final Double INTAKE_WRIST_DEFAULT_ANGLE = 95.0; // TODO: Replace with actual measurement
+    public static final Double INTAKE_WRIST_WIDTH = 10.0; // TODO: Replace with actual measurement
   }
 }

@@ -62,15 +62,6 @@ public class Elevator extends SubsystemBase {
     rightPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
   }
 
-  public void setAngle(Angle agnle) {
-    leftPivotMotorFollower.setPosition(agnle);
-
-  }
-
-  public Angle getAngle() {
-    return leftPivotMotorFollower.getPosition().getValue();
-  }
-
   public AngularVelocity getMotorVelocity() {
     return rightLiftMotorLeader.getRotorVelocity().getValue();
   }

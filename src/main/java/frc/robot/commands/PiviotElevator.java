@@ -29,8 +29,7 @@ public class PiviotElevator extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subElevator.setAngle(blah);
-
+    subElevator.setPivotAngle(blah);
   }
 
   // Called once the command ends or is interrupted.

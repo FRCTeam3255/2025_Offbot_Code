@@ -148,9 +148,10 @@ public class RobotContainer {
     conDriver.btn_Y
         .whileTrue(TRY_CLIMBING);
 
-    conDriver.btn_B.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(1000))));
-    conDriver.btn_X.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(-5000))));
-
+    // conDriver.btn_B.onTrue(Commands.runOnce(() ->
+    // subElevator.setAngle(Degrees.of(1000))));
+    // conDriver.btn_X.onTrue(Commands.runOnce(() ->
+    // subElevator.setAngle(Degrees.of(-5000))));
   }
 
   public Command getAutonomousCommand() {
