@@ -16,13 +16,13 @@ import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.StateMachine.RobotState;
+import static edu.wpi.first.units.Units.Degrees;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 
 @Logged
 public class RobotContainer {
-
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
@@ -31,7 +31,7 @@ public class RobotContainer {
   private final Climber subClimber = new Climber();
   private final Elevator subElevator = new Elevator();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subIntake, subClimber, subElevator);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator);
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator, subIntake);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae());
@@ -148,6 +148,10 @@ public class RobotContainer {
 
     conDriver.btn_Y
         .whileTrue(TRY_CLIMBING);
+
+    conDriver.btn_B.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(1000))));
+    conDriver.btn_X.onTrue(Commands.runOnce(() -> subElevator.setAngle(Degrees.of(-5000))));
+
   }
 
   public Command getAutonomousCommand() {

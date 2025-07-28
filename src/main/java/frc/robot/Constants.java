@@ -335,4 +335,15 @@ public final class Constants {
 
     }
   }
+
+  public static class constRobotPoses {
+    public static final Distance ELEVATOR_LENGTH = Units.Meters.of(0.5);
+    public static final Distance WRIST_LENGTH = Units.Meters.of(0.5);
+
+    public static final Distance INTAKE_LENGTH = Units.Meters.of(0.5);
+
+    public static final Distance INTAKE_PIVOT_LENGTH = Units.Meters.of(0.2);
+
+    public static final Distance CLIMBER_LENGTH = Units.Meters.of(0.5);
+  }
 }

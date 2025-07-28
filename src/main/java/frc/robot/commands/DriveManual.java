@@ -54,6 +54,9 @@ public class DriveManual extends Command {
 
     subStateMachine.setDriverState(StateMachine.DriverState.MANUAL);
 
+    subDrivetrain.drive(
+        new Translation2d(xVelocity, yVelocity), rVelocity, isOpenLoop);
+
   }
 
   @Override

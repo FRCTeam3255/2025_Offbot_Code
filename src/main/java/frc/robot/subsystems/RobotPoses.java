@@ -20,19 +20,21 @@ import frc.robot.Constants;
 public class RobotPoses extends SubsystemBase {
   /** Creates a new RobotPoses. */
   MechanismLigament2d elevator;
-  private MechanismLigament2d wrist;
+  MechanismLigament2d intakeWrist;
   Mechanism2d mech = new Mechanism2d(3, 3);
 
   @NotLogged
   Drivetrain subDrivetrain;
   Elevator subElevator;
+  Intake subIntake;
 
   Pose3d comp0Drivetrain = Pose3d.kZero;
   Pose3d comp1Bumpers = Pose3d.kZero.plus(Constants.ROBOT_TO_BUMPERS);
 
-  public RobotPoses(Drivetrain subDrivetrain, Elevator subElevator) {
+  public RobotPoses(Drivetrain subDrivetrain, Elevator subElevator, Intake subIntake) {
     this.subDrivetrain = subDrivetrain;
     this.subElevator = subElevator;
+    this.subIntake = subIntake;
 
     // the main mechanism object
 
@@ -42,7 +44,7 @@ public class RobotPoses extends SubsystemBase {
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
-    wrist = elevator.append(
+    intakeWrist = elevator.append(
         new MechanismLigament2d("wrist", 0.5, 95, 10, new Color8Bit(Color.kPurple)));
   }
 
