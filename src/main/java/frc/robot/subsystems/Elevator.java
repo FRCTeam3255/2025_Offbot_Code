@@ -28,7 +28,7 @@ public class Elevator extends SubsystemBase {
   TalonFX rightLiftMotorLeader;
   TalonFX leftPivotMotorFollower;
   TalonFX rightPivotMotorLeader;
-    MechanismLigament2d elevator;
+  MechanismLigament2d elevator;
 
   private Angle lastDesiredAngle = Degrees.zero();
 
@@ -52,15 +52,7 @@ public class Elevator extends SubsystemBase {
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
     SmartDashboard.putData("Mech2d", mech);
-  }
 
-  public void setAngle(Angle agnle) {
-    elevatorLeftPivotMotor.setPosition(agnle);
-
-  }
-
-  public Angle getAngle() {
-    return elevatorLeftPivotMotor.getPosition().getValue();
     lastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
@@ -68,6 +60,15 @@ public class Elevator extends SubsystemBase {
     rightLiftMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_LIFT_CONFIG);
     leftPivotMotorFollower.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
     rightPivotMotorLeader.getConfigurator().apply(constElevator.ELEVATOR_PIVOT_CONFIG);
+  }
+
+  public void setAngle(Angle agnle) {
+    leftPivotMotorFollower.setPosition(agnle);
+
+  }
+
+  public Angle getAngle() {
+    return leftPivotMotorFollower.getPosition().getValue();
   }
 
   public AngularVelocity getMotorVelocity() {
