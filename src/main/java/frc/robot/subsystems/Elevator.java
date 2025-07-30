@@ -43,16 +43,6 @@ public class Elevator extends SubsystemBase {
     leftPivotMotorFollower = new TalonFX(mapElevator.LEFT_PIVOT_CAN); // Elevator left pivot motor
     rightPivotMotorLeader = new TalonFX(mapElevator.RIGHT_PIVOT_CAN); // Elevator right pivot motor
 
-    // the main mechanism object
-    Mechanism2d mech = new Mechanism2d(3, 3);
-    // the mechanism root node
-    MechanismRoot2d root = mech.getRoot("climber", 2, 0);
-    elevator = root.append(new MechanismLigament2d("elevator", .5, 90));
-    // Set default motor configurations if needed
-    // e.g., elevatorLeftMotor.configFactoryDefault();
-    // post the mechanism to the dashboard
-    SmartDashboard.putData("Mech2d", mech);
-
     lastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
@@ -116,7 +106,6 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    elevator.setLength(2);
     // This method will be called once per scheduler run
   }
 }

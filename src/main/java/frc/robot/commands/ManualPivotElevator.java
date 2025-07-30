@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PiviotElevator extends Command {
+public class ManualPivotElevator extends Command {
   Elevator subElevator;
   Angle blah;
 
   /** Creates a new PiviotElevator. */
-  public PiviotElevator(Angle angle, Elevator subElevator) {
+  public ManualPivotElevator(Angle angle, Elevator subElevator) {
     this.subElevator = subElevator;
     this.blah = angle;
 
@@ -24,12 +24,12 @@ public class PiviotElevator extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    subElevator.setPivotAngle(blah);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    subElevator.setPivotAngle(blah);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +40,6 @@ public class PiviotElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
