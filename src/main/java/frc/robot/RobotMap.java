@@ -42,7 +42,7 @@ public class RobotMap {
     public static final int INTAKE_ALGAE_CAN = 13;
 
     // Coral intake sensors
-    public static final int CORAL_INTAKE_SENSOR = 14; // Digital input for coral intake sensor
+    public static final int CORAL_INTAKE_SENSOR = 14;
   }
 
   // Elevator ID 21-30

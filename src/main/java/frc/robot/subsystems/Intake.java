@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntakePivotMotor(double Angle) {
-    intakePivotMotor.setVoltage(Angle);
+    intakePivotMotor.setPosition(Angle);
   }
 
   public void setCoralIntakeMotor(double speed) {
