@@ -315,6 +315,7 @@ public class StateMachine extends SubsystemBase {
           case INTAKE_ALGAE_GROUND:
           case SCORING_CORAL_WITH_ALGAE:
           case INTAKE_CORAL_GROUND_WITH_ALGAE:
+          case INTAKE_CORAL_STATION_WITH_ALGAE:
             return new HasAlgae(subStateMachine);
         }
         break;
