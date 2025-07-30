@@ -484,8 +484,9 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_ALGAE:
           case INTAKE_CORAL_GROUND_WITH_ALGAE:
-
+            return new IntakeCoralStationWithAlgae(subStateMachine);
         }
+        break;
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "
         + desiredState.toString() + " while at " + currentRobotState.toString());
