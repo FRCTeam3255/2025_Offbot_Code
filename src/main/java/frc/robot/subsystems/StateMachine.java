@@ -359,7 +359,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_LOW:
           case INTAKE_ALGAE_GROUND:
           case NONE:
-            return new CleanHigh(subStateMachine);
+            return new CleanHigh(subStateMachine, subElevator, subIntake);
         }
         break;
 
