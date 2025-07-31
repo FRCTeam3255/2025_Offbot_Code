@@ -4,11 +4,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose3d;
-
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -25,7 +24,7 @@ public class RobotPoses extends SubsystemBase {
   MechanismLigament2d elevatorPivot; // Pivot point for the elevator
   MechanismLigament2d elevator;
   MechanismLigament2d intakeWrist;
-  Mechanism2d mech = new Mechanism2d(3, 3);
+  Mechanism2d mech = new Mechanism2d(0, 0);
 
   @NotLogged
   Drivetrain subDrivetrain;
@@ -43,26 +42,31 @@ public class RobotPoses extends SubsystemBase {
     // the main mechanism object
 
     // the mechanism root node
-    MechanismRoot2d root = mech.getRoot("drivetrain", constRobotPoses.ROOT_X.in(Units.Meters),
+    MechanismRoot2d root = mech.getRoot(
+        "drivetrain",
+        constRobotPoses.ROOT_X.in(Units.Meters),
         constRobotPoses.ROOT_Y.in(Units.Meters));
 
-    elevatorPivot = root
-        .append(new MechanismLigament2d("elevator-pivot", constRobotPoses.ELEVATOR_PIVOT_LENGTH.in(Units.Meters),
+    elevatorPivot = root.append(
+        new MechanismLigament2d("elevator-pivot",
+            constRobotPoses.ELEVATOR_PIVOT_LENGTH.in(Units.Meters),
             constRobotPoses.ELEVATOR_PIVOT_DEFAULT_ANGLE.in(Units.Degrees),
-            constRobotPoses.ELEVATOR_PIVOT_WIDTH.in(Units.Meters),
+            constRobotPoses.ELEVATOR_PIVOT_WIDTH.in(Units.Centimeters),
             new Color8Bit(Color.kGreen)));
+
     elevator = elevatorPivot.append(
-        new MechanismLigament2d("elevator", constRobotPoses.ELEVATOR_LENGTH.in(Units.Meters),
+        new MechanismLigament2d("elevator",
+            constRobotPoses.ELEVATOR_LENGTH.in(Units.Meters),
             constRobotPoses.ELEVATOR_DEFAULT_ANGLE.in(Units.Degrees),
-            constRobotPoses.ELEVATOR_WIDTH.in(Units.Meters), new Color8Bit(Color.kBlue)));
-    // Set default motor configurations if needed
-    // e.g., elevatorLeftMotor.configFactoryDefault();
-    // post the mechanism to the dashboard
+            constRobotPoses.ELEVATOR_WIDTH.in(Units.Centimeters),
+            new Color8Bit(Color.kBlue)));
 
     intakeWrist = elevator.append(
-        new MechanismLigament2d("intake-wrist", constRobotPoses.INTAKE_WRIST_LENGTH.in(Units.Meters),
+        new MechanismLigament2d("intake-wrist",
+            constRobotPoses.INTAKE_WRIST_LENGTH.in(Units.Meters),
             constRobotPoses.INTAKE_WRIST_DEFAULT_ANGLE.in(Units.Degrees),
-            constRobotPoses.INTAKE_WRIST_WIDTH.in(Units.Meters), new Color8Bit(Color.kRed)));
+            constRobotPoses.INTAKE_WRIST_WIDTH.in(Units.Centimeters),
+            new Color8Bit(Color.kRed)));
   }
 
   @Override

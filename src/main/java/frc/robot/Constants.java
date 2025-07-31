@@ -32,6 +32,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -40,7 +41,6 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
@@ -458,21 +458,21 @@ public final class Constants {
   }
 
   public static class constRobotPoses {
-    public static final Distance ROOT_X = Units.Inches.of(0); // TODO: Replace with actual measurement
-    public static final Distance ROOT_Y = Units.Inches.of(0); // TODO: Replace with actual measurement
+    public static final Distance ROOT_X = Units.Inches.of(4.5); // TODO: Replace with actual measurement
+    public static final Distance ROOT_Y = Units.Inches.of(4.3 / 2); // TODO: Replace with actual measurement
 
-    public static final Distance ELEVATOR_PIVOT_LENGTH = Units.Inches.of(3.95);// TODO: Replace with actual measurement
-    public static final Angle ELEVATOR_PIVOT_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual
-                                                                                   // measurement
-    public static final Distance ELEVATOR_PIVOT_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_PIVOT_LENGTH = Units.Inches.of(10);// TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_PIVOT_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual
+                                                                                  // measurement
+    public static final Distance ELEVATOR_PIVOT_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
 
-    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
-    public static final Angle ELEVATOR_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual measurement
-    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(10); // TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
 
-    public static final Distance INTAKE_WRIST_LENGTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
-    public static final Angle INTAKE_WRIST_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual
-                                                                                 // measurement
-    public static final Distance INTAKE_WRIST_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
+    public static final Distance INTAKE_WRIST_LENGTH = Units.Inches.of(10); // TODO: Replace with actual measurement
+    public static final Angle INTAKE_WRIST_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual
+                                                                                // measurement
+    public static final Distance INTAKE_WRIST_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
   }
 }
