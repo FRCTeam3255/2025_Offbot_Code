@@ -9,12 +9,14 @@ import static edu.wpi.first.units.Units.Kilograms;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -221,6 +223,57 @@ public final class Constants {
     // TODO: Replace with actual measurements
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+    public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
+
+    static {
+      // intake pivot motor
+      INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      INTAKE_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+          .in(Units.Degrees);
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+          .in(Units.Degrees);
+
+      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
+                                                                      // to get the ratio from fab
+      INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      // algae intake motor config
+      ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+      // coral intake motor config
+      CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+      // coral intake sensor config
+      CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
+      CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
+    }
+
   }
 
   public static class constField {
