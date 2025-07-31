@@ -466,9 +466,9 @@ public final class Constants {
                                                                                   // measurement
     public static final Distance ELEVATOR_PIVOT_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
 
-    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(10); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(1000000000); // TODO: Replace with actual measurement
     public static final Angle ELEVATOR_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual measurement
-    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(6000000.3); // TODO: Replace with actual measurement
 
     public static final Distance INTAKE_WRIST_LENGTH = Units.Inches.of(10); // TODO: Replace with actual measurement
     public static final Angle INTAKE_WRIST_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual
