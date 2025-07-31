@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose3d;
+
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -41,21 +43,26 @@ public class RobotPoses extends SubsystemBase {
     // the main mechanism object
 
     // the mechanism root node
-    MechanismRoot2d root = mech.getRoot("drivetrain", constRobotPoses.ROOT_X, constRobotPoses.ROOT_Y);
+    MechanismRoot2d root = mech.getRoot("drivetrain", constRobotPoses.ROOT_X.in(Units.Meters),
+        constRobotPoses.ROOT_Y.in(Units.Meters));
 
-    elevatorPivot = root.append(new MechanismLigament2d("elevator-pivot", constRobotPoses.ELEVATOR_PIVOT_LENGTH,
-        constRobotPoses.ELEVATOR_PIVOT_DEFAULT_ANGLE, constRobotPoses.ELEVATOR_PIVOT_WIDTH,
-        new Color8Bit(Color.kGreen)));
+    elevatorPivot = root
+        .append(new MechanismLigament2d("elevator-pivot", constRobotPoses.ELEVATOR_PIVOT_LENGTH.in(Units.Meters),
+            constRobotPoses.ELEVATOR_PIVOT_DEFAULT_ANGLE.in(Units.Degrees),
+            constRobotPoses.ELEVATOR_PIVOT_WIDTH.in(Units.Meters),
+            new Color8Bit(Color.kGreen)));
     elevator = elevatorPivot.append(
-        new MechanismLigament2d("elevator", constRobotPoses.ELEVATOR_LENGTH, constRobotPoses.ELEVATOR_DEFAULT_ANGLE,
-            constRobotPoses.ELEVATOR_WIDTH, new Color8Bit(Color.kBlue)));
+        new MechanismLigament2d("elevator", constRobotPoses.ELEVATOR_LENGTH.in(Units.Meters),
+            constRobotPoses.ELEVATOR_DEFAULT_ANGLE.in(Units.Degrees),
+            constRobotPoses.ELEVATOR_WIDTH.in(Units.Meters), new Color8Bit(Color.kBlue)));
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
     // post the mechanism to the dashboard
 
     intakeWrist = elevator.append(
-        new MechanismLigament2d("intake-wrist", constRobotPoses.INTAKE_WRIST_LENGTH,
-            constRobotPoses.INTAKE_WRIST_DEFAULT_ANGLE, constRobotPoses.INTAKE_WRIST_WIDTH, new Color8Bit(Color.kRed)));
+        new MechanismLigament2d("intake-wrist", constRobotPoses.INTAKE_WRIST_LENGTH.in(Units.Meters),
+            constRobotPoses.INTAKE_WRIST_DEFAULT_ANGLE.in(Units.Degrees),
+            constRobotPoses.INTAKE_WRIST_WIDTH.in(Units.Meters), new Color8Bit(Color.kRed)));
   }
 
   @Override

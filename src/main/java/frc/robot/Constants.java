@@ -458,19 +458,21 @@ public final class Constants {
   }
 
   public static class constRobotPoses {
-    public static final Double ROOT_X = 1.5; // TODO: Replace with actual measurement
-    public static final Double ROOT_Y = 0.6; // TODO: Replace with actual measurement
+    public static final Distance ROOT_X = Units.Inches.of(0); // TODO: Replace with actual measurement
+    public static final Distance ROOT_Y = Units.Inches.of(0); // TODO: Replace with actual measurement
 
-    public static final Double ELEVATOR_PIVOT_LENGTH = 0.1; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_PIVOT_DEFAULT_ANGLE = 0.0; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_PIVOT_WIDTH = 0.1; // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_PIVOT_LENGTH = Units.Inches.of(3.95);// TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_PIVOT_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual
+                                                                                   // measurement
+    public static final Distance ELEVATOR_PIVOT_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
 
-    public static final Double ELEVATOR_LENGTH = 0.5; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_DEFAULT_ANGLE = 90.0; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_WIDTH = 0.1; // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
 
-    public static final Double INTAKE_WRIST_LENGTH = 0.5; // TODO: Replace with actual measurement
-    public static final Double INTAKE_WRIST_DEFAULT_ANGLE = 95.0; // TODO: Replace with actual measurement
-    public static final Double INTAKE_WRIST_WIDTH = 10.0; // TODO: Replace with actual measurement
+    public static final Distance INTAKE_WRIST_LENGTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
+    public static final Angle INTAKE_WRIST_DEFAULT_ANGLE = Units.Degrees.of(90); // TODO: Replace with actual
+                                                                                 // measurement
+    public static final Distance INTAKE_WRIST_WIDTH = Units.Inches.of(3.95); // TODO: Replace with actual measurement
   }
 }
