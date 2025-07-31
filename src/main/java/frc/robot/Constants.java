@@ -248,10 +248,10 @@ public final class Constants {
 
   public static class constElevator {
 
-    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(0);
-    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(0);
-    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(0);
-    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(0);
+    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(1);
+    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(2);
+    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(3);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(4);
     public static final Distance ALGAE_NET_HEIGHT = Units.Inches.of(0);
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
 
