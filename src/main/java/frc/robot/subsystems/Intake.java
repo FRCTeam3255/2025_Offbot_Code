@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -24,6 +25,7 @@ public class Intake extends SubsystemBase {
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
   private Angle lastDesiredAngle = Degrees.zero();
+  MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   /** Creates a new Intake. */
   public Intake() {
@@ -71,8 +73,8 @@ public class Intake extends SubsystemBase {
     return lastDesiredAngle;
   }
 
-  public void setIntakePivotMotor(double Angle) {
-    intakePivotMotor.setPosition(Angle);
+  public void setPivotAngle(Angle angle) {
+    intakePivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
   }
 
   public void setCoralIntakeMotor(double speed) {
