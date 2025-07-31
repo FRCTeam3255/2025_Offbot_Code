@@ -210,7 +210,8 @@ public class RobotContainer {
 
     conOperator.btn_RightStick
         .onTrue(TRY_PREP_CORAL_ZERO)
-        .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE);
+        .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE)
+        .onTrue(TRY_PREP_ALGAE_ZERO);
 
     conOperator.btn_North
         .onTrue(TRY_PREP_ALGAE_NET)
