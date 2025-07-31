@@ -459,7 +459,7 @@ public final class Constants {
 
   public static class constRobotPoses {
     public static final Distance ROOT_X = Units.Inches.of(4.5); // TODO: Replace with actual measurement
-    public static final Distance ROOT_Y = Units.Inches.of(4.3 / 2); // TODO: Replace with actual measurement
+    public static final Distance ROOT_Y = Units.Inches.of(10); // TODO: Replace with actual measurement
 
     public static final Distance ELEVATOR_PIVOT_LENGTH = Units.Inches.of(10);// TODO: Replace with actual measurement
     public static final Angle ELEVATOR_PIVOT_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual

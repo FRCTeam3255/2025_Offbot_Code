@@ -72,8 +72,8 @@ public class RobotPoses extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    elevator.setLength(subElevator.getLiftPosition().magnitude());
-    elevatorPivot.setAngle(subElevator.getPivotAngle().magnitude());
+    elevator.setLength(subElevator.getLiftPosition().in(Units.Meters));
+    elevatorPivot.setAngle(subElevator.getPivotAngle().in(Units.Degrees));
 
     SmartDashboard.putData("Mech2d", mech);
     // Robot Positions
