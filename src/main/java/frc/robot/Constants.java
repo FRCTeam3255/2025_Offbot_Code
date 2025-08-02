@@ -9,12 +9,14 @@ import static edu.wpi.first.units.Units.Kilograms;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -30,6 +32,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -38,7 +41,6 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
@@ -221,6 +223,57 @@ public final class Constants {
     // TODO: Replace with actual measurements
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+    public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
+
+    static {
+      // intake pivot motor
+      INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      INTAKE_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+          .in(Units.Degrees);
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+          .in(Units.Degrees);
+
+      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
+                                                                      // to get the ratio from fab
+      INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      // algae intake motor config
+      ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+      // coral intake motor config
+      CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+      // coral intake sensor config
+      CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
+      CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
+    }
+
   }
 
   public static class constField {
@@ -405,19 +458,21 @@ public final class Constants {
   }
 
   public static class constRobotPoses {
-    public static final Double ROOT_X = 1.5; // TODO: Replace with actual measurement
-    public static final Double ROOT_Y = 0.6; // TODO: Replace with actual measurement
+    public static final Distance ROOT_X = Units.Inches.of(4.5); // TODO: Replace with actual measurement
+    public static final Distance ROOT_Y = Units.Inches.of(10); // TODO: Replace with actual measurement
 
-    public static final Double ELEVATOR_PIVOT_LENGTH = 0.1; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_PIVOT_DEFAULT_ANGLE = 0.0; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_PIVOT_WIDTH = 0.1; // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_PIVOT_LENGTH = Units.Inches.of(10);// TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_PIVOT_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual
+                                                                                  // measurement
+    public static final Distance ELEVATOR_PIVOT_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
 
-    public static final Double ELEVATOR_LENGTH = 0.5; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_DEFAULT_ANGLE = 90.0; // TODO: Replace with actual measurement
-    public static final Double ELEVATOR_WIDTH = 0.1; // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_LENGTH = Units.Inches.of(1000000000); // TODO: Replace with actual measurement
+    public static final Angle ELEVATOR_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual measurement
+    public static final Distance ELEVATOR_WIDTH = Units.Inches.of(6000000.3); // TODO: Replace with actual measurement
 
-    public static final Double INTAKE_WRIST_LENGTH = 0.5; // TODO: Replace with actual measurement
-    public static final Double INTAKE_WRIST_DEFAULT_ANGLE = 95.0; // TODO: Replace with actual measurement
-    public static final Double INTAKE_WRIST_WIDTH = 10.0; // TODO: Replace with actual measurement
+    public static final Distance INTAKE_WRIST_LENGTH = Units.Inches.of(10); // TODO: Replace with actual measurement
+    public static final Angle INTAKE_WRIST_DEFAULT_ANGLE = Units.Degrees.of(0); // TODO: Replace with actual
+                                                                                // measurement
+    public static final Distance INTAKE_WRIST_WIDTH = Units.Inches.of(4.3); // TODO: Replace with actual measurement
   }
 }

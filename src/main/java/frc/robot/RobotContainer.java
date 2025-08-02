@@ -8,6 +8,7 @@ import com.frcteam3255.joystick.SN_XboxController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -17,6 +18,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.StateMachine.RobotState;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
 
 import edu.wpi.first.epilogue.Logged;
 
@@ -130,7 +132,8 @@ public class RobotContainer {
   }
 
   private void configDriverBindings() {
-    conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
+    // conDriver.btn_B.onTrue(Commands.runOnce(() ->
+    // subDrivetrain.resetModulesToAbsolute()));
     conDriver.btn_Back
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
 
@@ -142,16 +145,18 @@ public class RobotContainer {
     conDriver.btn_Start
         .onTrue(TRY_PREP_CLIMB);
 
+    // conDriver.btn_A
+    // .whileTrue(TRY_RETRACTING_CLIMBER);
+
+    // conDriver.btn_Y
+    // .whileTrue(TRY_CLIMBING);
+
+    conDriver.btn_B.onTrue(Commands.runOnce(() -> subElevator.setPivotAngle(Degrees.of(180))));
+    conDriver.btn_X.onTrue(Commands.runOnce(() -> subElevator.setPivotAngle(Degrees.of(0))));
+
     conDriver.btn_A
-        .whileTrue(TRY_RETRACTING_CLIMBER);
-
-    conDriver.btn_Y
-        .whileTrue(TRY_CLIMBING);
-
-    // conDriver.btn_B.onTrue(Commands.runOnce(() ->
-    // subElevator.setAngle(Degrees.of(1000))));
-    // conDriver.btn_X.onTrue(Commands.runOnce(() ->
-    // subElevator.setAngle(Degrees.of(-5000))));
+        .onTrue(Commands.runOnce(() -> subElevator.setLiftPosition(Inches.of(0))));
+    conDriver.btn_Y.onTrue(Commands.runOnce(() -> subElevator.setLiftPosition(Inches.of(24))));
   }
 
   public Command getAutonomousCommand() {
