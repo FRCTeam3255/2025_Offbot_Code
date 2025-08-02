@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "mermaidchart.vscode-mermaid-chart"
+    "mermaidchart.vscode-mermaid-chart",
+    "ohziinteractivestudio.ohzi-vscode-glb-viewer"
   ]
 }
