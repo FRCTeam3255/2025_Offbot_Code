@@ -6,14 +6,21 @@ package frc.robot.commands.States.first_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constIntake;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCoralGround extends Command {
+  Elevator globalElevator;
+  Intake globalIntake;
   StateMachine globalStateMachine;
 
-  public IntakeCoralGround(StateMachine globalStateMachine) {
+  public IntakeCoralGround(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -21,6 +28,10 @@ public class IntakeCoralGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalElevator.setElevatorPivotAngle(null);
+    globalElevator.setLiftPosition(null);
+    globalIntake.setWristPivotAngle(null);
+    globalIntake.setCoralIntakeMotorSpeed(constIntake.INTAKE_CORAL_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);
   }
 

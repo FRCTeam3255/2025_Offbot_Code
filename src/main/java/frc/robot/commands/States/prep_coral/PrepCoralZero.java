@@ -12,11 +12,14 @@ import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralZero extends Command {
-  /** Creates a new PrepCoralZero. */
+  Elevator globalElevator;
+  Intake globalIntake;
   StateMachine globalStateMachine;
 
   public PrepCoralZero(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -24,6 +27,9 @@ public class PrepCoralZero extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalElevator.setElevatorPivotAngle(null);
+    globalElevator.setLiftPosition(null);
+    globalIntake.setWristPivotAngle(null);
     globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
   }
 

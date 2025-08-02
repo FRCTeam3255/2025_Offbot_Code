@@ -64,7 +64,7 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void getIntakePivtoMotorAngle() {
+  public void getWristPivtoMotorAngle() {
     double angle = intakePivotMotor.getPosition().getValueAsDouble();
 
   }
@@ -88,6 +88,12 @@ public class Intake extends SubsystemBase {
   public void setIntakeMotorNeutralMode(NeutralModeValue mode) {
     intakePivotMotor.setNeutralMode(mode);
     algaeIntakeMotor.setNeutralMode(mode);
+  }
+
+  public void ejectGamePiece(double speed) {
+    coralIntakeMotor.setVoltage(speed);
+    algaeIntakeMotor.setVoltage(speed);
+
   }
 
   @Override

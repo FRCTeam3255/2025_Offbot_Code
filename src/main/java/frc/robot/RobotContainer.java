@@ -42,8 +42,6 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.CLIMBING));
   Command TRY_PREP_CLIMB = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CLIMB));
-  Command TRY_RETRACTING_CLIMBER = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.RETRACTING_CLIMBER));
   Command TRY_PREP_CORAL_ZERO = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO));
   Command TRY_PREP_CORAL_L1 = Commands.deferredProxy(
@@ -141,10 +139,6 @@ public class RobotContainer {
 
     conDriver.btn_Start
         .onTrue(TRY_PREP_CLIMB);
-
-    conDriver.btn_A
-        .whileTrue(TRY_RETRACTING_CLIMBER);
-
     conDriver.btn_Y
         .whileTrue(TRY_CLIMBING);
   }
