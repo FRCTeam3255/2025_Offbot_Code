@@ -223,6 +223,35 @@ public final class Constants {
     // TODO: Replace with actual measurements
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+
+    // algae speed consts
+    public static final double INTAKE_ALGAE_SPEED = 0; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_NET_SPEED = 0; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 0; // TODO: Replace with actual speed
+
+    // coral speed consts
+    public static final double INTAKE_CORAL_SPEED = 0; // TODO: Replace with actual speed
+    public static final double SCORE_CORAL_SPEED = 0; // TODO: Replace with actual speed
+
+    // wrist pivot consts (algae)
+    public static final Angle INTAKE_CLEAN_HIGH_ANGLE = Units.Degrees.of(0);
+    public static final Angle INTAKE_CLEAN_LOW_ANGLE = Units.Degrees.of(0);
+    public static final Angle INTAKE_GROUND_ALGAE_ANGLE = Units.Degrees.of(0);
+    public static final Angle PREP_ALGAE_PROCESSOR_ANGLE = Units.Degrees.of(0);
+    public static final Angle PREP_ALGAE_NET_ANGLE = Units.Degrees.of(0);
+
+    // wrist pivot consts (coral)
+    public static final Angle INTAKE_GROUND_CORAL_ANGLE = Units.Degrees.of(0);
+    public static final Angle INTAKE_CORAL_STATION_ANGLE = Units.Degrees.of(0);
+    public static final Angle PREP_CORAL_L1_ANGLE = Units.Degrees.of(0); // for L1 scoring
+    public static final Angle PREP_CORAL_ANGLE = Units.Degrees.of(0); // for L2-L3 scoring
+    public static final Angle PREP_CORAL_L4_ANGLE = Units.Degrees.of(0); // for L4 scoring
+
+    // BOTH
+    public static final Angle INTAKE_PIVOT_GP_ZERO_ANGLE = Units.Degrees.of(0);
+    public static final double EJECT_GP_SPEED = -0; // TODO: Replace with actual speed
+
+    // configs
     public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
     public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
     public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
@@ -300,14 +329,37 @@ public final class Constants {
   }
 
   public static class constElevator {
+    // elevator height consts
+    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(1);
+    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
+    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
+    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(4);
+    public static final Distance ELEVATOR_ALGAE_NET_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_ALGAE_PROCESSOR_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_DEADZONE_DISTANCE = Units.Inches.of(0);
+    public static final Distance ELEVATOR_CLEAN_HIGH_HIEGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_CLEAN_LOW_HIEGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_GROUND_ALGAE_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_GROUND_CORAL_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_GP_ZERO_HEIGHT = Units.Inches.of(0);
 
-    public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(1);
-    public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(2);
-    public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(4);
-    public static final Distance ALGAE_NET_HEIGHT = Units.Inches.of(0);
-    public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
+    // elevator pivot consts
+    public static final Angle ELEVATOR_L1_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_L2_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_L3_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_L4_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_GROUND_ALGAE_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_GROUND_CORAL_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_PROCESSOR_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_NET_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_GP_ZERO_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_CORAL_STATION_ANGLE = Units.Degrees.of(0);
 
+    public static final Angle ELEVATOR_CLEAN_HIGH_ANGLE = Units.Degrees.of(0);
+    public static final Angle ELEVATOR_CLEAN_LOW_ANGLE = Units.Degrees.of(0);
+
+    // we can get rid of this comment later, im just using it to sperate the things
+    // im working on
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
     public static final Angle MAX_POS = Units.Degrees.of(57);

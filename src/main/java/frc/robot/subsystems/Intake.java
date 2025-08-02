@@ -69,19 +69,19 @@ public class Intake extends SubsystemBase {
 
   }
 
-  public Angle getLastDesiredPivotAngle() {
+  public Angle getLastDesiredWristPivotAngle() {
     return lastDesiredAngle;
   }
 
-  public void setPivotAngle(Angle angle) {
+  public void setWristPivotAngle(Angle angle) {
     intakePivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
   }
 
-  public void setCoralIntakeMotor(double speed) {
+  public void setCoralIntakeMotorSpeed(double speed) {
     coralIntakeMotor.setVoltage(speed);
   }
 
-  public void setAlgaeIntakeMotor(double speed) {
+  public void setAlgaeIntakeMotorSpeed(double speed) {
     algaeIntakeMotor.setVoltage(speed);
   }
 
