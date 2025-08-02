@@ -32,7 +32,7 @@ public class IntakeCoralStationWithAlgae extends Command {
     globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION_WITH_ALGAE.pivotAngle);
     globalElevator.setLiftPosition(constMechanismPositions.INTAKE_CORAL_STATION_WITH_ALGAE.liftHeight);
     globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION_WITH_ALGAE.wristAngle);
-    globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
+    globalIntake.setCoralIntakeMotorSpeed(constIntake.INTAKE_CORAL_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE);
   }
 

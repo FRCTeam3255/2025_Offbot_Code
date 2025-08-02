@@ -64,7 +64,7 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void getWristPivtoMotorAngle() {
+  public void getWristPivotMotorAngle() {
     double angle = intakePivotMotor.getPosition().getValueAsDouble();
 
   }
