@@ -6,6 +6,8 @@ package frc.robot.commands.States.first_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constIntake;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
@@ -27,6 +29,10 @@ public class IntakeCoralStation extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.INTAKE_CORAL_STATION.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION.wristAngle);
+    globalIntake.setCoralIntakeMotorSpeed(constIntake.INTAKE_CORAL_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION);
   }
 

@@ -7,6 +7,7 @@ package frc.robot.commands.States.first_scoring_element;
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constIntake;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
@@ -29,9 +30,9 @@ public class IntakeAlgaeGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(null);
-    globalElevator.setLiftPosition(null);
-    globalIntake.setWristPivotAngle(null);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_ALGAE_GROUND.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.INTAKE_ALGAE_GROUND.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_ALGAE_GROUND.wristAngle);
     globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND);
   }

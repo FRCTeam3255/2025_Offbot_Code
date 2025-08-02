@@ -7,6 +7,7 @@ package frc.robot.commands.States.second_scoring_element;
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constIntake;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
@@ -29,9 +30,9 @@ public class CleanHighWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setLiftPosition(null);
-    globalElevator.setElevatorPivotAngle(null);
-    globalIntake.setWristPivotAngle(null);
+    globalElevator.setLiftPosition(constMechanismPositions.CLEAN_HIGH_WITH_CORAL.liftHeight);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.CLEAN_HIGH_WITH_CORAL.pivotAngle);
+    globalIntake.setWristPivotAngle(constMechanismPositions.CLEAN_HIGH_WITH_CORAL.wristAngle);
     globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_HIGH_WITH_CORAL);
   }

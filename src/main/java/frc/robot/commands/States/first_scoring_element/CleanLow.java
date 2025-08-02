@@ -6,6 +6,7 @@ package frc.robot.commands.States.first_scoring_element;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constIntake;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
@@ -28,9 +29,9 @@ public class CleanLow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(null);
-    globalElevator.setLiftPosition(null);
-    globalIntake.setWristPivotAngle(null);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.CLEAN_LOW.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.CLEAN_LOW.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.CLEAN_LOW.wristAngle);
     globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW);
   }

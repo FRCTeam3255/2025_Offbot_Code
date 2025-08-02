@@ -6,6 +6,7 @@ package frc.robot.commands.States;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -25,9 +26,9 @@ public class None extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(null);
-    globalElevator.setLiftPosition(null);
-    globalIntake.setWristPivotAngle(null);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.NONE.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.NONE.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.NONE.wristAngle);
     globalIntake.setIntakeMotorNeutralMode(null);
     globalStateMachine.setRobotState(RobotState.NONE);
   }

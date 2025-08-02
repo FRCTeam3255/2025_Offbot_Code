@@ -11,15 +11,20 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants.constElevator;
+import frc.robot.Constants.constMechanismPositions;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralWithAlgae extends Command {
   /** Creates a new PrepCoralWithAlgae. */
+  Elevator globalElevator;
+  Intake globalIntake;
   StateMachine globalStateMachine;
   Distance globalDistance;
 
   public PrepCoralWithAlgae(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake, Distance height) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     this.globalDistance = height;
     addRequirements(globalStateMachine);
@@ -28,14 +33,27 @@ public class PrepCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L1_HEIGHT))
+    if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L1_HEIGHT)) {
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L1.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L1.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L1.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
-    else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L2_HEIGHT))
+    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L2_HEIGHT)) {
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L2.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L2.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L2.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
-    else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L3_HEIGHT))
+    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L3_HEIGHT)) {
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L3.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L3.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L3.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
-    else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L4_HEIGHT))
+    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L4_HEIGHT)) {
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L4.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L4.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L4.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

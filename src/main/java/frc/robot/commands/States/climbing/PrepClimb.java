@@ -7,6 +7,7 @@ package frc.robot.commands.States.climbing;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constClimber;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -30,9 +31,9 @@ public class PrepClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setLiftPosition(null);
-    globalElevator.setElevatorPivotAngle(null);
-    globalIntake.setWristPivotAngle(null);
+    globalElevator.setLiftPosition(constMechanismPositions.PREP_CLIMB.liftHeight);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CLIMB.pivotAngle);
+    globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CLIMB.wristAngle);
     globalClimber.setClimberMotorPercentOutput(constClimber.CLIMBER_MOTOR_PERCENT_OUTPUT);
     globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
   }
