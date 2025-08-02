@@ -5,6 +5,7 @@
 package frc.robot.commands.States.climbing;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constElevator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
@@ -25,7 +26,7 @@ public class Climbing extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setLiftPosition(null);
+    globalElevator.setLiftPosition(constElevator.ELEVATOR_CLIMBING_HEIGHT);
     globalStateMachine.setRobotState(RobotState.CLIMBING);
   }
 

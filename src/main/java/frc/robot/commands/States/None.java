@@ -29,7 +29,7 @@ public class None extends Command {
     globalElevator.setElevatorPivotAngle(constMechanismPositions.NONE.pivotAngle);
     globalElevator.setLiftPosition(constMechanismPositions.NONE.liftHeight);
     globalIntake.setWristPivotAngle(constMechanismPositions.NONE.wristAngle);
-    globalIntake.setIntakeMotorNeutralMode(null);
+    globalIntake.setIntakeMotorNeutralOutput();
     globalStateMachine.setRobotState(RobotState.NONE);
   }
 

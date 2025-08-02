@@ -85,9 +85,9 @@ public class Intake extends SubsystemBase {
     algaeIntakeMotor.setVoltage(speed);
   }
 
-  public void setIntakeMotorNeutralMode(NeutralModeValue mode) {
-    intakePivotMotor.setNeutralMode(mode);
-    algaeIntakeMotor.setNeutralMode(mode);
+  public void setIntakeMotorNeutralOutput() {
+    intakePivotMotor.setVoltage(0);
+    algaeIntakeMotor.setVoltage(0);
   }
 
   public void ejectGamePiece(double speed) {

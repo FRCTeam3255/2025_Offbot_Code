@@ -24,6 +24,9 @@ public class PrepClimb extends Command {
 
   public PrepClimb(StateMachine globalStateMachine, Climber subClimber, Intake subIntake, Elevator subElevator) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
+    globalClimber = subClimber;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }

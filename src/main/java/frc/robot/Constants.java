@@ -446,6 +446,7 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(4);
+    public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
 
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
