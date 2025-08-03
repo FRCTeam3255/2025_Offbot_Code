@@ -13,7 +13,6 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.constField;
 
 @Logged
@@ -57,44 +56,20 @@ public class RobotPoses extends SubsystemBase {
     // Robot Positions
     modelDrivetrain = new Pose3d(subDrivetrain.getPose());
 
-    model0Pivot = new Pose3d(
+    model0Pivot = Pose3d.kZero.rotateAround(
         new Translation3d(
             Units.Inches.zero(),
-            Units.Inches.zero(),
-            Units.Inches.zero()),
+            Units.Inches.of(-9.8),
+            Units.Inches.of(8)),
         new Rotation3d(
             pivotAngle,
             Units.Degrees.zero(),
             Units.Degrees.zero()));
 
-    model1ElevatorStage2 = new Pose3d(
-        new Translation3d(
-            Units.Inches.zero(),
-            Units.Inches.zero(),
-            Units.Inches.zero()),
-        new Rotation3d(
-            pivotAngle,
-            Units.Degrees.zero(),
-            Units.Degrees.zero()));
+    model1ElevatorStage2 = model0Pivot;
 
-    model2ElevatorCarriage = new Pose3d(
-        new Translation3d(
-            Units.Inches.zero(),
-            Units.Inches.zero(),
-            Units.Inches.zero()),
-        new Rotation3d(
-            pivotAngle,
-            Units.Degrees.zero(),
-            Units.Degrees.zero()));
+    model2ElevatorCarriage = model1ElevatorStage2;
 
-    model3Intake = new Pose3d(
-        new Translation3d(
-            Units.Inches.zero(),
-            Units.Inches.zero(),
-            Units.Inches.zero()),
-        new Rotation3d(
-            pivotAngle.plus(wristAngle),
-            Units.Degrees.zero(),
-            Units.Degrees.zero()));
+    model3Intake = model2ElevatorCarriage;
   }
 }
