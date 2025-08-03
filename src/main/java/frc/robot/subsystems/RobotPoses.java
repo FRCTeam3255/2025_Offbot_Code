@@ -84,7 +84,11 @@ public class RobotPoses extends SubsystemBase {
             Rotation3d.kZero));
 
     model3Intake = model2ElevatorCarriage.rotateAround(
-      model2ElevatorCarriage,
+        model2ElevatorCarriage.getTranslation().plus(
+            new Translation3d(
+                Units.Inches.of(0),
+                Units.Inches.of(0),
+                Units.Inches.of(0))),
         new Rotation3d(
             wristAngle,
             Units.Degrees.zero(),
