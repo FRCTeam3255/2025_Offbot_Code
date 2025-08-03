@@ -8,6 +8,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -66,10 +67,27 @@ public class RobotPoses extends SubsystemBase {
             Units.Degrees.zero(),
             Units.Degrees.zero()));
 
-    model1ElevatorStage2 = model0Pivot;
+    model1ElevatorStage2 = model0Pivot.transformBy(
+        new Transform3d(
+            new Translation3d(
+                Units.Inches.of(0),
+                elevatorPos.plus(Units.Inches.of(0)),
+                Units.Inches.of(0)),
+            Rotation3d.kZero));
 
-    model2ElevatorCarriage = model1ElevatorStage2;
+    model2ElevatorCarriage = model1ElevatorStage2.transformBy(
+        new Transform3d(
+            new Translation3d(
+                Units.Inches.of(0),
+                elevatorPos.plus(Units.Inches.of(0)),
+                Units.Inches.of(0)),
+            Rotation3d.kZero));
 
-    model3Intake = model2ElevatorCarriage;
+    model3Intake = model2ElevatorCarriage.rotateAround(
+      model2ElevatorCarriage,
+        new Rotation3d(
+            wristAngle,
+            Units.Degrees.zero(),
+            Units.Degrees.zero()));
   }
 }
