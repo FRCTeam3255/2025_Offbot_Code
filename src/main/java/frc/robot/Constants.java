@@ -26,6 +26,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -228,6 +229,9 @@ public final class Constants {
     public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
     public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
 
+    public static final Angle TEST_ANGLE = Units.Degrees.of(50);
+    public static final Angle ZERO = Units.Degrees.of(0);
+
     static {
       // intake pivot motor
       INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -296,6 +300,12 @@ public final class Constants {
       return false;
     };
 
+    public static class POSES {
+      public static final Pose2d RESET_POSE = new Pose2d(3.169, 4.015, new Rotation2d());
+      public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
+
+    }
+
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
 
@@ -304,14 +314,14 @@ public final class Constants {
     public static final Distance CORAL_L1_HEIGHT = Units.Inches.of(1);
     public static final Distance CORAL_L2_HEIGHT = Units.Inches.of(2);
     public static final Distance CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(4);
+    public static final Distance CORAL_L4_HEIGHT = Units.Inches.of(20);
     public static final Distance ALGAE_NET_HEIGHT = Units.Inches.of(0);
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
 
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
     public static final Angle MAX_POS = Units.Degrees.of(57);
-    public static final Angle MIN_POS = Units.Degrees.of(-37);
+    public static final Angle MIN_POS = Units.Degrees.of(0);
 
     public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
     public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);

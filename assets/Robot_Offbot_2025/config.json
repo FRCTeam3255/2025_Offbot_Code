@@ -26,7 +26,7 @@
       "zeroedRotations": [
         {
           "axis": "x",
-          "degrees": 0
+          "degrees": 180
         },
         {
           "axis": "y",
@@ -47,7 +47,7 @@
       "zeroedRotations": [
         {
           "axis": "x",
-          "degrees": 0
+          "degrees": 180
         },
         {
           "axis": "y",
@@ -68,7 +68,7 @@
       "zeroedRotations": [
         {
           "axis": "x",
-          "degrees": 0
+          "degrees": 180
         },
         {
           "axis": "y",
@@ -89,7 +89,7 @@
       "zeroedRotations": [
         {
           "axis": "x",
-          "degrees": 0
+          "degrees": 180
         },
         {
           "axis": "y",
