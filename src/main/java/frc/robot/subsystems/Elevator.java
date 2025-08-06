@@ -84,7 +84,7 @@ public class Elevator extends SubsystemBase {
         getLiftPosition().compareTo(position.plus(tolerance)) < 0;
   }
 
-  public Angle getPivotAngle() {
+  public Angle getElevatorPivotAngle() {
     return rightPivotMotorLeader.getPosition().getValue();
   }
 
@@ -92,7 +92,7 @@ public class Elevator extends SubsystemBase {
     return lastDesiredAngle;
   }
 
-  public void setPivotAngle(Angle angle) {
+  public void setElevatorPivotAngle(Angle angle) {
     rightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
     leftPivotMotorFollower.setControl(new Follower(rightPivotMotorLeader.getDeviceID(), true));
     lastDesiredAngle = angle;

@@ -6,16 +6,19 @@ package frc.robot.commands.States;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class None extends Command {
-  /** Creates a new None. */
-
+  Elevator globalElevator;
+  Intake globalIntake;
   StateMachine globalStateMachine;
 
-  public None(StateMachine globalStateMachine) {
+  public None(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -23,6 +26,10 @@ public class None extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.NONE.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.NONE.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.NONE.wristAngle);
+    globalIntake.setIntakeMotorNeutralOutput();
     globalStateMachine.setRobotState(RobotState.NONE);
   }
 

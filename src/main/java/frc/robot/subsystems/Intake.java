@@ -64,31 +64,37 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void getIntakePivtoMotorAngle() {
+  public void getWristPivotMotorAngle() {
     double angle = intakePivotMotor.getPosition().getValueAsDouble();
 
   }
 
-  public Angle getLastDesiredPivotAngle() {
+  public Angle getLastDesiredWristPivotAngle() {
     return lastDesiredAngle;
   }
 
-  public void setPivotAngle(Angle angle) {
+  public void setWristPivotAngle(Angle angle) {
     intakePivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
     lastDesiredAngle = angle;
   }
 
-  public void setCoralIntakeMotor(double speed) {
+  public void setCoralIntakeMotorSpeed(double speed) {
     coralIntakeMotor.setVoltage(speed);
   }
 
-  public void setAlgaeIntakeMotor(double speed) {
+  public void setAlgaeIntakeMotorSpeed(double speed) {
     algaeIntakeMotor.setVoltage(speed);
   }
 
-  public void setIntakeMotorNeutralMode(NeutralModeValue mode) {
-    intakePivotMotor.setNeutralMode(mode);
-    algaeIntakeMotor.setNeutralMode(mode);
+  public void setIntakeMotorNeutralOutput() {
+    intakePivotMotor.setVoltage(0);
+    algaeIntakeMotor.setVoltage(0);
+  }
+
+  public void ejectGamePiece(double speed) {
+    coralIntakeMotor.setVoltage(speed);
+    algaeIntakeMotor.setVoltage(speed);
+
   }
 
   @Override

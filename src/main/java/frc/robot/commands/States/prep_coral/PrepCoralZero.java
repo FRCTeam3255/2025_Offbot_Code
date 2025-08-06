@@ -6,17 +6,21 @@ package frc.robot.commands.States.prep_coral;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralZero extends Command {
-  /** Creates a new PrepCoralZero. */
+  Elevator globalElevator;
+  Intake globalIntake;
   StateMachine globalStateMachine;
 
   public PrepCoralZero(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalElevator = subElevator;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -24,6 +28,9 @@ public class PrepCoralZero extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_ZERO.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_ZERO.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_ZERO.wristAngle);
     globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
   }
 
