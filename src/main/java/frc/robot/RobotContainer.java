@@ -8,10 +8,13 @@ import com.frcteam3255.joystick.SN_XboxController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
+import frc.robot.Constants.constElevator;
+import frc.robot.Constants.constIntake;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -30,7 +33,7 @@ public class RobotContainer {
   private final Climber subClimber = new Climber();
   private final Elevator subElevator = new Elevator();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subIntake, subClimber, subElevator);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain);
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator, subIntake);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae());
@@ -149,33 +152,39 @@ public class RobotContainer {
   }
 
   private void configOperatorBindings() {
-    // Add operator bindings here if needed
+    // Add operator bindings here if needed\
     conOperator.btn_LeftTrigger
-        .whileTrue(TRY_INTAKE_CORAL_GROUND)
-        .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(Commands.runOnce(() -> subElevator.setElevatorPivotAngle(constElevator.MAX_POS)))
+        .whileTrue(Commands.runOnce(() -> subElevator.setLiftPosition(constElevator.ELEVATOR_CORAL_L1_HEIGHT)));
+    // .whileTrue(TRY_INTAKE_CORAL_GROUND)
+    // .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
+    // .onFalse(TRY_NONE)
+    // .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_LeftBumper
-        .whileTrue(TRY_INTAKE_ALGAE_GROUND)
-        .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL);
+        .whileTrue(Commands.runOnce(() -> subIntake.setWristPivotAngle(constIntake.TEST_ANGLE)));
+    // .whileTrue(TRY_INTAKE_ALGAE_GROUND)
+    // .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
+    // .onFalse(TRY_NONE)
+    // .onFalse(TRY_HAS_CORAL);
 
     conOperator.btn_RightTrigger
-        .whileTrue(TRY_SCORING_CORAL)
-        .whileTrue(TRY_SCORING_ALGAE)
-        .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
-        .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(Commands.runOnce(() -> subElevator.setElevatorPivotAngle(constElevator.MIN_POS)))
+        .whileTrue(Commands.runOnce(() -> subElevator.setLiftPosition(constElevator.ELEVATOR_CORAL_L4_HEIGHT)));
+    // .whileTrue(TRY_SCORING_CORAL)
+    // .whileTrue(TRY_SCORING_ALGAE)
+    // .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
+    // .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
+    // .onFalse(TRY_NONE)
+    // .onFalse(TRY_HAS_CORAL)
+    // .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_RightBumper
-        .whileTrue(TRY_INTAKE_CORAL_STATION)
-        .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(Commands.runOnce(() -> subIntake.setWristPivotAngle(constIntake.ZERO)));
+    // .whileTrue(TRY_INTAKE_CORAL_STATION)
+    // .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
+    // .onFalse(TRY_NONE)
+    // .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_A
         .onTrue(TRY_PREP_CORAL_L1)

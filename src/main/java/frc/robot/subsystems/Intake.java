@@ -75,6 +75,7 @@ public class Intake extends SubsystemBase {
 
   public void setWristPivotAngle(Angle angle) {
     intakePivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    lastDesiredAngle = angle;
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
