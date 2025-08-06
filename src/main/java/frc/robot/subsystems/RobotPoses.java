@@ -87,8 +87,8 @@ public class RobotPoses extends SubsystemBase {
         model2ElevatorCarriage.getTranslation().plus(
             new Translation3d(
                 Units.Inches.of(0),
-                Units.Inches.of(0),
-                Units.Inches.of(0))),
+                Units.Inches.of(12.75),
+                Units.Inches.of(13))),
         new Rotation3d(
             wristAngle,
             Units.Degrees.zero(),

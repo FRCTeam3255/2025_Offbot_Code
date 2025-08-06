@@ -84,7 +84,7 @@ public final class Constants {
     static {
 
       CLEAN_LOW.wristAngle = Degrees.of(-25); // TODO: Replace with actual angle
-      CLEAN_LOW.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      CLEAN_LOW.liftHeight = Inches.of(20); // TODO: Replace with actual height
       CLEAN_LOW.pivotAngle = Degrees.of(20); // TODO: Replace with actual angle
 
       CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
