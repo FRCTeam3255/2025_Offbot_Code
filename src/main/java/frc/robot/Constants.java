@@ -385,7 +385,7 @@ public final class Constants {
       INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
+      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 58.16 / 1;// just like intake pivot, we still need
                                                                       // to get the ratio from fab
       INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
@@ -486,7 +486,7 @@ public final class Constants {
       ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
       ELEVATOR_LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 0.876;
+      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10 / 1;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
@@ -507,8 +507,8 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
-                                                                        // to get the ratio from fab
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11 / 1;// just like intake pivot, we still need
+                                                                         // to get the ratio from fab
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
