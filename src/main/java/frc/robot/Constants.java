@@ -83,13 +83,13 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
     static {
 
-      CLEAN_LOW.wristAngle = Degrees.of(-25); // TODO: Replace with actual angle
-      CLEAN_LOW.liftHeight = Inches.of(20); // TODO: Replace with actual height
-      CLEAN_LOW.pivotAngle = Degrees.of(20); // TODO: Replace with actual angle
+      CLEAN_LOW.wristAngle = Degrees.of(45); // TODO: Replace with actual angle
+      CLEAN_LOW.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      CLEAN_LOW.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
 
       CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLEAN_HIGH.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      CLEAN_HIGH.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_HIGH.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height

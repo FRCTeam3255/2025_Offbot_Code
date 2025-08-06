@@ -83,12 +83,14 @@ public class RobotPoses extends SubsystemBase {
                 Units.Inches.of(0)),
             Rotation3d.kZero));
 
+    // Rotate intake around the end of the elevator carriage (adjust Z offset as
+    // needed)
     model3Intake = model2ElevatorCarriage.rotateAround(
         model2ElevatorCarriage.getTranslation().plus(
             new Translation3d(
                 Units.Inches.of(0),
-                Units.Inches.of(0),
-                Units.Inches.of(0))),
+                Units.Inches.of(16.5),
+                Units.Inches.of(8))),
         new Rotation3d(
             wristAngle,
             Units.Degrees.zero(),
