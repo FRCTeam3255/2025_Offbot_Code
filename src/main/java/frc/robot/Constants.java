@@ -83,9 +83,9 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
     static {
 
-      CLEAN_LOW.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_LOW.wristAngle = Degrees.of(-25); // TODO: Replace with actual angle
       CLEAN_LOW.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      CLEAN_LOW.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_LOW.pivotAngle = Degrees.of(20); // TODO: Replace with actual angle
 
       CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLEAN_HIGH.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -507,7 +507,7 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 1000 / 27;// just like intake pivot, we still need
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 10.00 / 1;// just like intake pivot, we still need
                                                                         // to get the ratio from fab
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
