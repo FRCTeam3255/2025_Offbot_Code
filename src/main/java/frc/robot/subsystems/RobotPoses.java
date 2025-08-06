@@ -52,7 +52,7 @@ public class RobotPoses extends SubsystemBase {
 
     elevatorPos = subElevator.getLastDesiredLiftPosition().div(2);
     pivotAngle = subElevator.getLastDesiredPivotAngle();
-    wristAngle = subIntake.getLastDesiredPivotAngle();
+    wristAngle = subIntake.getLastDesiredWristPivotAngle();
 
     // Robot Positions
     modelDrivetrain = new Pose3d(subDrivetrain.getPose());
