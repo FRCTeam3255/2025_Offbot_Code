@@ -385,8 +385,7 @@ public final class Constants {
       INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 58.16 / 1;// just like intake pivot, we still need
-                                                                      // to get the ratio from fab
+      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
 
@@ -507,8 +506,7 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11 / 1;// just like intake pivot, we still need
-                                                                         // to get the ratio from fab
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
