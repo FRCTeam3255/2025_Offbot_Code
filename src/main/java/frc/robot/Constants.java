@@ -485,7 +485,7 @@ public final class Constants {
       ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
       ELEVATOR_LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10 / 1;
+      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
       ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
