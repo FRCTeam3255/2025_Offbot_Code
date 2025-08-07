@@ -34,24 +34,24 @@ public class PrepCoralWithAlgae extends Command {
   @Override
   public void initialize() {
     if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L1_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L1.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L1.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L1.wristAngle);
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L1_FORWARDS.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L1_FORWARDS.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
     } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L2_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L2.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L2.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L2.wristAngle);
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L2_FORWARDS.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L2_FORWARDS.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
     } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L3_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L3.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L3.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L3.wristAngle);
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L3_FORWARDS.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L3_FORWARDS.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
     } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L4_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L4.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L4.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L4.wristAngle);
+      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight);
+      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L4_FORWARDS.pivotAngle);
+      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L4_FORWARDS.wristAngle);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
     }
   }
