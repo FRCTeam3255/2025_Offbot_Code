@@ -29,9 +29,9 @@ public class IntakeCoralStation extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION.pivotAngle);
-    globalElevator.setLiftPosition(constMechanismPositions.INTAKE_CORAL_STATION.liftHeight);
-    globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION.wristAngle);
+    globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION_FORWARDS.pivotAngle);
+    globalElevator.setLiftPosition(constMechanismPositions.INTAKE_CORAL_STATION_FORWARDS.liftHeight);
+    globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_CORAL_STATION_FORWARDS.wristAngle);
     globalIntake.setCoralIntakeMotorSpeed(constIntake.INTAKE_CORAL_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION);
   }

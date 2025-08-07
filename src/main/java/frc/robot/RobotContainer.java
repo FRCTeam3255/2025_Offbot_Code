@@ -154,23 +154,21 @@ public class RobotContainer {
   private void configOperatorBindings() {
     // Add operator bindings here if needed\
     conOperator.btn_LeftTrigger
-        .whileTrue(Commands.runOnce(() -> subElevator.setElevatorPivotAngle(constElevator.MAX_POS)))
-        .whileTrue(Commands.runOnce(() -> subElevator.setLiftPosition(constElevator.ELEVATOR_CORAL_L1_HEIGHT)))
+
         .whileTrue(TRY_INTAKE_CORAL_GROUND)
         .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_LeftBumper
-        .whileTrue(Commands.runOnce(() -> subIntake.setWristPivotAngle(constIntake.TEST_ANGLE)))
+
         .whileTrue(TRY_INTAKE_ALGAE_GROUND)
         .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
     conOperator.btn_RightTrigger
-        .whileTrue(Commands.runOnce(() -> subElevator.setElevatorPivotAngle(constElevator.MIN_POS)))
-        .whileTrue(Commands.runOnce(() -> subElevator.setLiftPosition(constElevator.ELEVATOR_CORAL_L4_HEIGHT)))
+
         .whileTrue(TRY_SCORING_CORAL)
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
@@ -180,11 +178,11 @@ public class RobotContainer {
         .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_RightBumper
-        .whileTrue(Commands.runOnce(() -> subIntake.setWristPivotAngle(constIntake.ZERO)));
-    // .whileTrue(TRY_INTAKE_CORAL_STATION)
-    // .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
-    // .onFalse(TRY_NONE)
-    // .onFalse(TRY_HAS_ALGAE);
+
+        .whileTrue(TRY_INTAKE_CORAL_STATION)
+        .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
+        .onFalse(TRY_NONE)
+        .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_A
         .onTrue(TRY_PREP_CORAL_L1)
