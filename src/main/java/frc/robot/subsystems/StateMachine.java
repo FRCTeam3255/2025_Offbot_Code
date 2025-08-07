@@ -117,8 +117,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L1:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case CLEAN_LOW_WITH_CORAL:
-          case CLEAN_HIGH_WITH_CORAL:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
@@ -131,8 +129,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L2:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case CLEAN_LOW_WITH_CORAL:
-          case CLEAN_HIGH_WITH_CORAL:
           case PREP_CORAL_L1:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
