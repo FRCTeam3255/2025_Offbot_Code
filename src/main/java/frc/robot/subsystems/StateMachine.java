@@ -444,6 +444,10 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_HIGH_WITH_CORAL:
         switch (currentRobotState) {
           case CLEAN_LOW_WITH_CORAL:
+          case PREP_CORAL_L1:
+          case PREP_CORAL_L2:
+          case PREP_CORAL_L3:
+          case PREP_CORAL_L4:
           case HAS_CORAL:
           case INTAKE_ALGAE_GROUND_WITH_CORAL:
             return new CleanHighWithCoral(subStateMachine, subElevator, subIntake);
@@ -453,6 +457,10 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_LOW_WITH_CORAL:
         switch (currentRobotState) {
           case HAS_CORAL:
+          case PREP_CORAL_L1:
+          case PREP_CORAL_L2:
+          case PREP_CORAL_L3:
+          case PREP_CORAL_L4:
           case CLEAN_HIGH_WITH_CORAL:
           case INTAKE_ALGAE_GROUND_WITH_CORAL:
             return new CleanLowWithCoral(subStateMachine, subElevator, subIntake);
