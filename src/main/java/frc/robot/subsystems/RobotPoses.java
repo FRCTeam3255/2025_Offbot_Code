@@ -35,7 +35,17 @@ public class RobotPoses extends SubsystemBase {
   Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
   Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
 
-  // Pose3d comp1Bumpers = Pose3d.kZero.plus(Constants.ROBOT_TO_BUMPERS);
+  // Pivot Point Locations
+  Transform3d wristPivotPoint = new Transform3d(
+      Units.Inches.of(0),
+      Units.Inches.of(16),
+      Units.Inches.of(8),
+      Rotation3d.kZero);
+  Transform3d elevatorPivotPoint = new Transform3d(
+      Units.Inches.zero(),
+      Units.Inches.of(-9.8),
+      Units.Inches.of(8),
+      Rotation3d.kZero);
 
   public RobotPoses(Drivetrain subDrivetrain, Elevator subElevator, Intake subIntake) {
     this.subDrivetrain = subDrivetrain;
@@ -52,42 +62,28 @@ public class RobotPoses extends SubsystemBase {
     elevatorPos = subElevator.getLastDesiredLiftPosition().div(2);
     pivotAngle = subElevator.getLastDesiredPivotAngle();
     wristAngle = subIntake.getLastDesiredWristPivotAngle();
+    Transform3d elevatorPose = new Transform3d(
+        Units.Inches.zero(),
+        elevatorPos,
+        Units.Inches.zero(),
+        Rotation3d.kZero);
 
     // Robot Positions
     modelDrivetrain = new Pose3d(subDrivetrain.getPose());
 
     model0Pivot = Pose3d.kZero.rotateAround(
-        new Translation3d(
-            Units.Inches.zero(),
-            Units.Inches.of(-9.8),
-            Units.Inches.of(8)),
+        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(),
         new Rotation3d(
             pivotAngle,
             Units.Degrees.zero(),
             Units.Degrees.zero()));
 
-    model1ElevatorStage2 = model0Pivot.transformBy(
-        new Transform3d(
-            new Translation3d(
-                Units.Inches.of(0),
-                elevatorPos.plus(Units.Inches.of(0)),
-                Units.Inches.of(0)),
-            Rotation3d.kZero));
+    model1ElevatorStage2 = model0Pivot.transformBy(elevatorPose);
 
-    model2ElevatorCarriage = model1ElevatorStage2.transformBy(
-        new Transform3d(
-            new Translation3d(
-                Units.Inches.of(0),
-                elevatorPos.plus(Units.Inches.of(0)),
-                Units.Inches.of(0)),
-            Rotation3d.kZero));
+    model2ElevatorCarriage = model1ElevatorStage2.transformBy(elevatorPose);
 
     model3Intake = model2ElevatorCarriage.rotateAround(
-        model2ElevatorCarriage.plus(new Transform3d(
-            Units.Inches.of(0),
-            Units.Inches.of(16),
-            Units.Inches.of(8),
-            Rotation3d.kZero)).getTranslation(),
+        model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(),
         new Rotation3d(
             wristAngle,
             Units.Degrees.zero(),
