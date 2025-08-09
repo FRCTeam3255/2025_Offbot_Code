@@ -41,7 +41,7 @@ public class RobotPoses extends SubsystemBase {
 
   // Pivot Point Locations
   Transform3d wristPivotPoint = new Transform3d(
-      Units.Inches.of(0),
+      Units.Inches.zero(),
       Units.Inches.of(16),
       Units.Inches.of(8),
       Rotation3d.kZero);
