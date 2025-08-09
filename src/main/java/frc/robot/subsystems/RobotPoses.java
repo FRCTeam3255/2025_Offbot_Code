@@ -35,6 +35,10 @@ public class RobotPoses extends SubsystemBase {
   Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
   Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
 
+  Transform3d elevatorTransform3d;
+  Rotation3d pivotRotation3d;
+  Rotation3d wristRotation3d;
+
   // Pivot Point Locations
   Transform3d wristPivotPoint = new Transform3d(
       Units.Inches.of(0),
@@ -56,37 +60,31 @@ public class RobotPoses extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    Distance elevatorPos;
-    Angle pivotAngle;
-    Angle wristAngle;
-    elevatorPos = subElevator.getLastDesiredLiftPosition().div(2);
-    pivotAngle = subElevator.getLastDesiredPivotAngle();
-    wristAngle = subIntake.getLastDesiredWristPivotAngle();
-    Transform3d elevatorPose = new Transform3d(
+    elevatorTransform3d = new Transform3d(
         Units.Inches.zero(),
-        elevatorPos,
+        subElevator.getLastDesiredLiftPosition().div(2),
         Units.Inches.zero(),
         Rotation3d.kZero);
+    pivotRotation3d = new Rotation3d(
+        subElevator.getLastDesiredPivotAngle(),
+        Units.Degrees.zero(),
+        Units.Degrees.zero());
+    wristRotation3d = new Rotation3d(
+        subElevator.getLastDesiredPivotAngle(),
+        Units.Degrees.zero(),
+        Units.Degrees.zero());
 
     // Robot Positions
     modelDrivetrain = new Pose3d(subDrivetrain.getPose());
 
     model0Pivot = Pose3d.kZero.rotateAround(
-        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(),
-        new Rotation3d(
-            pivotAngle,
-            Units.Degrees.zero(),
-            Units.Degrees.zero()));
+        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d);
 
-    model1ElevatorStage2 = model0Pivot.transformBy(elevatorPose);
+    model1ElevatorStage2 = model0Pivot.transformBy(elevatorTransform3d);
 
-    model2ElevatorCarriage = model1ElevatorStage2.transformBy(elevatorPose);
+    model2ElevatorCarriage = model1ElevatorStage2.transformBy(elevatorTransform3d);
 
     model3Intake = model2ElevatorCarriage.rotateAround(
-        model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(),
-        new Rotation3d(
-            wristAngle,
-            Units.Degrees.zero(),
-            Units.Degrees.zero()));
+        model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
   }
 }
