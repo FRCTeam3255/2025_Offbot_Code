@@ -220,9 +220,9 @@ public final class Constants {
 
     // TODO: Swoffsets
     public static final double FRONT_LEFT_ABS_ENCODER_OFFSET = -0.187012;
-    public static final double FRONT_RIGHT_ABS_ENCODER_OFFSET = 0.343994;
+    public static final double FRONT_RIGHT_ABS_ENCODER_OFFSET = 0.453369;
     public static final double BACK_LEFT_ABS_ENCODER_OFFSET = 0.183350;
-    public static final double BACK_RIGHT_ABS_ENCODER_OFFSET = -0.007080;
+    public static final double BACK_RIGHT_ABS_ENCODER_OFFSET = -0.000977;
 
     public static final SN_SwerveConstants SWERVE_CONSTANTS = new SN_SwerveConstants(
         SN_SwerveConstants.MK4I.FALCON.L3.steerGearRatio,
