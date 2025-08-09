@@ -121,7 +121,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L1_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L1_HEIGHT,
+                subDrivetrain);
 
         }
         break;
@@ -133,7 +134,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L2_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L2_HEIGHT,
+                subDrivetrain);
 
         }
         break;
@@ -145,7 +147,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L3_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L3_HEIGHT,
+                subDrivetrain);
 
         }
         break;
@@ -157,7 +160,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L4_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L4_HEIGHT,
+                subDrivetrain);
 
         }
         break;

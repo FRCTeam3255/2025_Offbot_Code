@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
 
@@ -76,6 +78,27 @@ public class Drivetrain extends SN_SuperSwerve {
     SN_SwerveModule.steerConfiguration = constDrivetrain.STEER_CONFIG;
     SN_SwerveModule.cancoderConfiguration = constDrivetrain.CANCODER_CONFIG;
     super.configure();
+  }
+
+  /**
+   * Calculate which pose from an array has the closest rotation to the robot's
+   * current pose. If multiple poses have the same rotation, the last one in the
+   * list will be returned.
+   * 
+   * @param poses The list of poses to check
+   * @return The last pose in the list with the closest rotation
+   */
+  public Pose2d getClosestPoseByRotation(List<Pose2d> poses) {
+    Pose2d closestPose = poses.get(0);
+    double smallestDifference = Math.abs(getRotation().minus(closestPose.getRotation()).getRadians());
+    for (Pose2d pose : poses) {
+      double difference = Math.abs(getRotation().minus(pose.getRotation()).getRadians());
+      if (difference < smallestDifference) {
+        smallestDifference = difference;
+        closestPose = pose;
+      }
+    }
+    return closestPose;
   }
 
   public Angle getRotationMeasure() {

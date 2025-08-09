@@ -8,7 +8,9 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
@@ -47,6 +49,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constField.POSES;
 
 public final class Constants {
 
@@ -444,6 +447,8 @@ public final class Constants {
 
   public static class constField {
     public static Optional<Alliance> ALLIANCE = Optional.empty();
+    public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
+    public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
 
     /**
      * Boolean that controls when the path will be mirrored for the red
@@ -466,6 +471,53 @@ public final class Constants {
       public static final Pose2d RESET_POSE = new Pose2d(3.169, 4.015, new Rotation2d());
       public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
 
+      // Branch Poses
+      private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
+      private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
+      private static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
+      private static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
+      private static final Pose2d REEF_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
+      private static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
+      private static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
+      private static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
+      private static final Pose2d REEF_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
+      private static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
+      private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
+      private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+
+      private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+          REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
+      private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
+
+    }
+
+    public static Pose2d getRedAlliancePose(Pose2d bluePose) {
+      return new Pose2d(FIELD_LENGTH.in(Units.Meters) - (bluePose.getX()),
+          FIELD_WIDTH.in(Units.Meters) - bluePose.getY(),
+          bluePose.getRotation().plus(Rotation2d.k180deg));
+    }
+
+    private static Pose2d[] getRedPosesFromList(List<Pose2d> bluePoseList) {
+      Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
+      for (int i = 0; i < bluePoseList.size(); i++) {
+        returnedPoses[i] = getRedAlliancePose(bluePoseList.get(i));
+      }
+      return returnedPoses;
+    }
+
+    private static List<Pose2d> getRedReefPoses() {
+      Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_REEF_POSES);
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+          returnedPoses[5], returnedPoses[6], returnedPoses[7], returnedPoses[8], returnedPoses[9], returnedPoses[10],
+          returnedPoses[11]);
+    }
+
+    public static Supplier<List<Pose2d>> getReefPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_REEF_POSES;
+
+      }
+      return () -> POSES.BLUE_REEF_POSES;
     }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
