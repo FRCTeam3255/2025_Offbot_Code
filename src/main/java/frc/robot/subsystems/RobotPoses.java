@@ -49,7 +49,6 @@ public class RobotPoses extends SubsystemBase {
     Distance elevatorPos;
     Angle pivotAngle;
     Angle wristAngle;
-
     elevatorPos = subElevator.getLastDesiredLiftPosition().div(2);
     pivotAngle = subElevator.getLastDesiredPivotAngle();
     wristAngle = subIntake.getLastDesiredWristPivotAngle();
@@ -87,8 +86,8 @@ public class RobotPoses extends SubsystemBase {
         model2ElevatorCarriage.getTranslation().plus(
             new Translation3d(
                 Units.Inches.of(0),
-                Units.Inches.of(0),
-                Units.Inches.of(0))),
+                Units.Inches.of(20),
+                Units.Inches.of(7))),
         new Rotation3d(
             wristAngle,
             Units.Degrees.zero(),
