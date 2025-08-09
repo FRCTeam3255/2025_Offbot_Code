@@ -152,7 +152,7 @@ public class RobotContainer {
   }
 
   private void configOperatorBindings() {
-    // Add operator bindings here if needed\
+    // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
 
         .whileTrue(TRY_INTAKE_CORAL_GROUND)
