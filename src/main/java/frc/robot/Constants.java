@@ -392,8 +392,9 @@ public final class Constants {
     public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
     public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
 
-    public static final Angle TEST_ANGLE = Units.Degrees.of(50);
+    public static final Angle TEST_ANGLE = Units.Degrees.of(45);
     public static final Angle ZERO = Units.Degrees.of(0);
+    public static final Angle TEST_ANGLE_2 = Units.Degrees.of(180);
 
     static {
       // intake pivot motor
@@ -479,6 +480,7 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(20);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
+    public static final Distance ELEVATOR_ZERO_HEIGHT = Units.Inches.of(0);
 
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
