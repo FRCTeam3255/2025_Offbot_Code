@@ -84,6 +84,8 @@ public class RobotPoses extends SubsystemBase {
 
     model2ElevatorCarriage = model1ElevatorStage2.transformBy(elevatorTransform3d);
 
+    // Rotate intake around the end of the elevator carriage (adjust Z offset as
+    // needed)
     model3Intake = model2ElevatorCarriage.rotateAround(
         model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
   }
