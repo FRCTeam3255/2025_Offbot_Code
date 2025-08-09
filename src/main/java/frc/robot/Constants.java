@@ -116,15 +116,15 @@ public final class Constants {
       PREP_CORAL_L1_FORWARDS.pivotAngle = Degrees.of(27.01);
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(5); // TODO: Replace with actual height
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(33.56);
 
       PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(55.42);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(67);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(69.01);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(56.38);
@@ -136,7 +136,7 @@ public final class Constants {
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
-      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_ALGAE_ZERO.wristAngle = Degrees.of(89.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
@@ -185,7 +185,7 @@ public final class Constants {
 
       NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      NONE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
 
       PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(0); // TODO: Replace with actual height
