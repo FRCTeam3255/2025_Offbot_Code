@@ -48,8 +48,6 @@ import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Constants.constField.POSES;
 
 public final class Constants {
 
@@ -599,14 +597,6 @@ public final class Constants {
       Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
       for (int i = 0; i < bluePoseList.size(); i++) {
         returnedPoses[i] = getRedAlliancePose(bluePoseList.get(i));
-      }
-      return returnedPoses;
-    }
-
-    private static Pose2d[] getRedPosesFromArray(Pose2d[] bluePoseArray) {
-      Pose2d[] returnedPoses = new Pose2d[bluePoseArray.length];
-      for (int i = 0; i < bluePoseArray.length; i++) {
-        returnedPoses[i] = getRedAlliancePose(bluePoseArray[i]);
       }
       return returnedPoses;
     }
