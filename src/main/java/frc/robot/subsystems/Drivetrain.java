@@ -12,6 +12,8 @@ import com.frcteam3255.components.swerve.SN_SwerveModule;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
@@ -99,6 +101,18 @@ public class Drivetrain extends SN_SuperSwerve {
       }
     }
     return closestPose;
+  }
+
+  public Pose2d getRobotPose() {
+    return getPose();
+  }
+
+  public Pose2d getFrontPose() {
+    return getPose().plus(new Transform2d(0, 14.5, new Rotation2d(0)));
+  }
+
+  public Pose2d getBackPose() {
+    return getPose().plus(new Transform2d(0, -14.5, new Rotation2d(0)));
   }
 
   public Angle getRotationMeasure() {

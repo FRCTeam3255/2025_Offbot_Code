@@ -268,6 +268,7 @@ public final class Constants {
      */
     public static final double MEASUREMENT_STD_DEVS_POS = 0.05;
 
+    public static final Distance MINNIMUM_REEF_TOGGLE_DIFFERENCE = Units.Meters.of(2);
     /**
      * <p>
      * Pose estimator standard deviation for encoder & gyro data
