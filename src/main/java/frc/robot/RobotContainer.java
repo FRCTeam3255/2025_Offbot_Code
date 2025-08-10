@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
-import frc.robot.Constants.constElevator;
-import frc.robot.Constants.constIntake;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -29,16 +27,14 @@ public class RobotContainer {
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
   private final Drivetrain subDrivetrain = new Drivetrain();
-  private final Intake subIntake = new Intake();
-  private final Climber subClimber = new Climber();
-  private final Elevator subElevator = new Elevator();
-  private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subIntake, subClimber, subElevator);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subElevator, subIntake);
+  private final Rotors subRotors = new Rotors();
+  private final Motion subMotion = new Motion();
+  private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
-  private final Trigger hasCoralTrigger = new Trigger(() -> subIntake.hasCoral() && !subIntake.hasAlgae());
-  private final Trigger hasAlgaeTrigger = new Trigger(() -> !subIntake.hasCoral() && subIntake.hasAlgae());
-  private final Trigger hasBothTrigger = new Trigger(() -> subIntake.hasCoral() && subIntake.hasAlgae());
-
+  private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
+  private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
+  private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
   Command TRY_CLIMBING = Commands.deferredProxy(

@@ -1,4 +1,3 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -6,27 +5,25 @@
 package frc.robot.commands.States.climbing;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constClimber;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.Constants.constRotors;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepClimb extends Command {
   /** Creates a new PrepClimb. */
-  Elevator globalElevator;
-  Intake globalIntake;
-  Climber globalClimber;
+  Motion globalMotion;
+  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public PrepClimb(StateMachine globalStateMachine, Climber subClimber, Intake subIntake, Elevator subElevator) {
+  public PrepClimb(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalElevator = subElevator;
-    globalIntake = subIntake;
-    globalClimber = subClimber;
+    globalMotion = subMotion;
+    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -34,10 +31,9 @@ public class PrepClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setLiftPosition(constMechanismPositions.PREP_CLIMB.liftHeight);
-    globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CLIMB.pivotAngle);
-    globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CLIMB.wristAngle);
-    globalClimber.setClimberMotorPercentOutput(constClimber.CLIMBER_MOTOR_PERCENT_OUTPUT);
+    globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
+    globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is still
+                                                                                               // needed
     globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
   }
 

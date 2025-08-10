@@ -9,8 +9,9 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.commands.States.*;
-import frc.robot.Constants.constElevator;
 import frc.robot.commands.States.climbing.*;
 import frc.robot.commands.States.first_scoring_element.*;
 import frc.robot.commands.States.hold_scoring_elements.*;
@@ -26,23 +27,19 @@ public class StateMachine extends SubsystemBase {
   @NotLogged
   Drivetrain subDrivetrain;
   @NotLogged
-  Elevator subElevator;
+  Motion subMotion;
   @NotLogged
-  Intake subIntake;
-  @NotLogged
-  Climber subClimber;
+  Rotors subRotors;
   @NotLogged
   StateMachine subStateMachine = this;
 
   /** Creates a new StateMachine. */
-  public StateMachine(Drivetrain subDrivetrain, Intake subIntake, Climber subClimber,
-      Elevator subElevator) {
+  public StateMachine(Drivetrain subDrivetrain, Rotors subIntake,
+      Motion subElevator) {
     currentRobotState = RobotState.NONE;
     currentDriverState = DriverState.MANUAL;
-    this.subIntake = subIntake;
-    this.subClimber = subClimber;
-    this.subElevator = subElevator;
-
+    this.subRotors = subIntake;
+    this.subMotion = subElevator;
     this.subDrivetrain = subDrivetrain;
   }
 
@@ -75,7 +72,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_HIGH:
           case CLEAN_LOW:
           case EJECTING:
-            return new None(subStateMachine, subElevator, subIntake);
+            return new None(subStateMachine, subMotion, subRotors);
         }
 
         break;
@@ -88,7 +85,7 @@ public class StateMachine extends SubsystemBase {
           case HAS_CORAL:
           case HAS_ALGAE:
           case HAS_CORAL_AND_ALGAE:
-            return new PrepClimb(subStateMachine, subClimber, subIntake, subElevator);
+            return new PrepClimb(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -96,7 +93,7 @@ public class StateMachine extends SubsystemBase {
       case CLIMBING:
         switch (currentRobotState) {
           case PREP_CLIMB:
-            return new Climbing(subStateMachine, subElevator);
+            return new Climbing(subStateMachine, subMotion);
 
         }
         break;
@@ -109,7 +106,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
-            return new PrepCoralZero(subStateMachine, subElevator, subIntake);
+            return new PrepCoralZero(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -121,7 +118,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L1_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
 
         }
         break;
@@ -133,7 +131,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L2_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT);
 
         }
         break;
@@ -145,7 +144,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L3_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT);
 
         }
         break;
@@ -157,7 +157,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subElevator, subIntake, constElevator.ELEVATOR_CORAL_L4_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT);
 
         }
         break;
@@ -173,8 +174,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subElevator, subIntake,
-                constElevator.ELEVATOR_CORAL_L1_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
 
         }
         break;
@@ -188,8 +189,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subElevator, subIntake,
-                constElevator.ELEVATOR_CORAL_L2_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT);
 
         }
         break;
@@ -203,8 +204,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subElevator, subIntake,
-                constElevator.ELEVATOR_CORAL_L3_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT);
 
         }
         break;
@@ -218,8 +219,8 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subElevator, subIntake,
-                constElevator.ELEVATOR_CORAL_L4_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors,
+                constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT);
 
         }
         break;
@@ -233,7 +234,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralZeroWithAlgae(subStateMachine, subElevator, subIntake);
+            return new PrepCoralZeroWithAlgae(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -245,7 +246,7 @@ public class StateMachine extends SubsystemBase {
           case HAS_ALGAE:
           case PREP_ALGAE_PROCESSOR:
           case PREP_ALGAE_ZERO:
-            return new PrepNet(subStateMachine, subElevator, subIntake);
+            return new PrepNet(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -255,7 +256,7 @@ public class StateMachine extends SubsystemBase {
           case HAS_ALGAE:
           case PREP_ALGAE_ZERO:
           case PREP_ALGAE_NET:
-            return new PrepProcessor(subStateMachine, subElevator, subIntake);
+            return new PrepProcessor(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -265,7 +266,7 @@ public class StateMachine extends SubsystemBase {
           case HAS_ALGAE:
           case PREP_ALGAE_NET:
           case PREP_ALGAE_PROCESSOR:
-            return new PrepAlgaeZero(subStateMachine, subElevator, subIntake);
+            return new PrepAlgaeZero(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -281,7 +282,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
-            return new PrepNetWithCoral(subStateMachine, subElevator, subIntake);
+            return new PrepNetWithCoral(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -295,7 +296,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
-            return new PrepProcessorWithCoral(subStateMachine, subElevator, subIntake);
+            return new PrepProcessorWithCoral(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -346,7 +347,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
 
-            return new ScoringCoral(subStateMachine, subIntake);
+            return new ScoringCoral(subStateMachine, subRotors);
         }
         break;
 
@@ -355,7 +356,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_NET:
           case PREP_ALGAE_PROCESSOR:
           case PREP_ALGAE_ZERO:
-            return new ScoringAlgae(subStateMachine, subIntake);
+            return new ScoringAlgae(subStateMachine, subRotors);
         }
         break;
 
@@ -364,7 +365,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_LOW:
           case INTAKE_ALGAE_GROUND:
           case NONE:
-            return new CleanHigh(subStateMachine, subElevator, subIntake);
+            return new CleanHigh(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -373,7 +374,7 @@ public class StateMachine extends SubsystemBase {
           case NONE:
           case INTAKE_ALGAE_GROUND:
           case CLEAN_HIGH:
-            return new CleanLow(subStateMachine, subElevator, subIntake);
+            return new CleanLow(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -381,7 +382,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case NONE:
           case INTAKE_CORAL_GROUND:
-            return new IntakeCoralStation(subStateMachine, subElevator, subIntake);
+            return new IntakeCoralStation(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -390,7 +391,7 @@ public class StateMachine extends SubsystemBase {
           case NONE:
           case CLEAN_HIGH:
           case CLEAN_LOW:
-            return new IntakeAlgaeGround(subStateMachine, subElevator, subIntake);
+            return new IntakeAlgaeGround(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -416,7 +417,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO:
-            return new Ejecting(subStateMachine, subIntake);
+            return new Ejecting(subStateMachine, subRotors);
         }
         break;
 
@@ -425,7 +426,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_NET_WITH_CORAL:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_CORAL_ZERO_WITH_ALGAE:
-            return new ScoringAlgaeWithCoral(subStateMachine, subIntake);
+            return new ScoringAlgaeWithCoral(subStateMachine, subRotors);
         }
         break;
 
@@ -437,7 +438,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
 
-            return new ScoringCoralWithAlgae(subStateMachine, subIntake);
+            return new ScoringCoralWithAlgae(subStateMachine, subRotors);
         }
         break;
 
@@ -450,7 +451,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4:
           case HAS_CORAL:
           case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            return new CleanHighWithCoral(subStateMachine, subElevator, subIntake);
+            return new CleanHighWithCoral(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -463,7 +464,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4:
           case CLEAN_HIGH_WITH_CORAL:
           case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            return new CleanLowWithCoral(subStateMachine, subElevator, subIntake);
+            return new CleanLowWithCoral(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -471,7 +472,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case NONE:
           case INTAKE_CORAL_STATION:
-            return new IntakeCoralGround(subStateMachine, subElevator, subIntake);
+            return new IntakeCoralGround(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -479,7 +480,7 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_ALGAE:
           case INTAKE_CORAL_STATION_WITH_ALGAE:
-            return new IntakeCoralGroundWithAlgae(subStateMachine, subElevator, subIntake);
+            return new IntakeCoralGroundWithAlgae(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -489,14 +490,14 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_HIGH_WITH_CORAL:
           case CLEAN_LOW_WITH_CORAL:
           case PREP_CORAL_ZERO:
-            return new IntakeAlgaeGroundWithCoral(subStateMachine, subElevator, subIntake);
+            return new IntakeAlgaeGroundWithCoral(subStateMachine, subMotion, subRotors);
         }
         break;
       case INTAKE_CORAL_STATION_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_ALGAE:
           case INTAKE_CORAL_GROUND_WITH_ALGAE:
-            return new IntakeCoralStationWithAlgae(subStateMachine, subElevator, subIntake);
+            return new IntakeCoralStationWithAlgae(subStateMachine, subMotion, subRotors);
         }
         break;
     }
