@@ -5,7 +5,12 @@
 package frc.robot.commands.States.prep_algae;
 
 import frc.robot.subsystems.StateMachine.RobotState;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
@@ -17,11 +22,18 @@ public class PrepNet extends Command {
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
+  Pose2d desiredNetPose;
+  Drivetrain globalDrivetrain;
+  Pose2d closestPoseByRotation;
 
-  public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  Distance backNetDistance;
+  Distance frontNetDistance;
+
+  public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
+    globalDrivetrain = subDrivetrain;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -29,13 +41,25 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET);
-    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
+    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get());
+    backNetDistance = Units.Meters
+        .of(globalDrivetrain.getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    frontNetDistance = Units.Meters
+        .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    if (frontNetDistance.lt(backNetDistance)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET_FORWARDS);
+      globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
+    } else if (backNetDistance.lt(frontNetDistance)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET_BACKWARDS);
+      globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get());
   }
 
   // Called once the command ends or is interrupted.

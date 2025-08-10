@@ -6,11 +6,8 @@ package frc.robot.commands.States.prep_coral;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.Measure;
+
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,7 +29,9 @@ public class PrepCoralLv extends Command {
   Distance globalHeight;
   Angle drivetrainRotation;
   Pose2d closestPoseByRotation;
-  Distance reefDistance;
+
+  Distance backReefDistance;
+  Distance frontReefDistance;
 
   public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height,
       Drivetrain subDrivetrain) {
@@ -51,22 +50,39 @@ public class PrepCoralLv extends Command {
   public void initialize() {
     closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get());
     drivetrainRotation = globalDrivetrain.getRotationMeasure();
-    reefDistance = Units.Meters
-        .of(globalDrivetrain.getRobotPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+
+    backReefDistance = Units.Meters
+        .of(globalDrivetrain.getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    frontReefDistance = Units.Meters
+        .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
     // if (reefDistance.lte(constDrivetrain.MINNIMUM_REEF_TOGGLE_DIFFERENCE) &&
     // drivetrainRotation.) {
-    if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
-    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+    if (frontReefDistance.lt(backReefDistance)) {
+      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
+      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+      }
+    } else if (backReefDistance.lt(frontReefDistance)) {
+      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_BACKWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_BACKWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_BACKWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_BACKWARDS.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
+        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+      }
+
     }
     // }
   }

@@ -368,7 +368,8 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_CORAL_L4_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_STATION = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_ZERO_WITH_ALGAE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_NET = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_ALGAE_NET_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_ALGAE_NET_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_ZERO = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_NET_WITH_CORAL = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND_WITH_ALGAE = new MechanismPositionGroup();
@@ -445,9 +446,13 @@ public final class Constants {
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_ALGAE_NET.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_NET.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
+
+      PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_ALGAE_NET_BACKWARDS.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
 
       PREP_ALGAE_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_ALGAE_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -569,6 +574,15 @@ public final class Constants {
       private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
       private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
 
+      // Net Poses
+      private static final Pose2d BLUE_NET_FRONT = new Pose2d(7.5, FIELD_WIDTH.in(Units.Meters) / 2,
+          Rotation2d.fromDegrees(0));
+      private static final Pose2d BlUE_NET_BACK = new Pose2d(7.5, FIELD_WIDTH.in(Units.Meters) / 2,
+          Rotation2d.fromDegrees(0));
+
+      private static final List<Pose2d> BLUE_NET_POSES = List.of(BLUE_NET_FRONT, BlUE_NET_BACK);
+      private static final List<Pose2d> RED_NET_POSES = getRedReefPoses();
+
       private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
           REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
       private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
@@ -589,6 +603,14 @@ public final class Constants {
       return returnedPoses;
     }
 
+    private static Pose2d[] getRedPosesFromArray(Pose2d[] bluePoseArray) {
+      Pose2d[] returnedPoses = new Pose2d[bluePoseArray.length];
+      for (int i = 0; i < bluePoseArray.length; i++) {
+        returnedPoses[i] = getRedAlliancePose(bluePoseArray[i]);
+      }
+      return returnedPoses;
+    }
+
     private static List<Pose2d> getRedReefPoses() {
       Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_REEF_POSES);
       return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
@@ -602,6 +624,13 @@ public final class Constants {
 
       }
       return () -> POSES.BLUE_REEF_POSES;
+    }
+
+    public static Supplier<List<Pose2d>> getNetPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_NET_POSES;
+      }
+      return () -> POSES.BLUE_NET_POSES;
     }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
