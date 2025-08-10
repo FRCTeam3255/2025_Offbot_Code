@@ -17,9 +17,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 import edu.wpi.first.units.measure.Angle;
 
@@ -27,8 +26,6 @@ import edu.wpi.first.units.measure.Angle;
 public class PrepCoralLv extends Command {
   /** Creates a new PrepCoralLv. */
   Drivetrain globalDrivetrain;
-  Elevator globalElevator;
-  Intake globalIntake;
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
@@ -37,9 +34,7 @@ public class PrepCoralLv extends Command {
   Pose2d closestPoseByRotation;
   Distance reefDistance;
 
-  public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height) {
-
-  public PrepCoralLv(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake, Distance height,
+  public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height,
       Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
@@ -63,13 +58,13 @@ public class PrepCoralLv extends Command {
     if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
-    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
+    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
+    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
+    } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
     }
