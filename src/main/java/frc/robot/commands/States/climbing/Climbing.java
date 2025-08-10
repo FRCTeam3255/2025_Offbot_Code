@@ -5,20 +5,20 @@
 package frc.robot.commands.States.climbing;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constElevator;
-import frc.robot.subsystems.Elevator;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Climbing extends Command {
-  Elevator globalElevator;
+  Motion globalMotion;
   StateMachine globalStateMachine;
 
-  public Climbing(StateMachine globalStateMachine, Elevator subElevator) {
+  public Climbing(StateMachine globalStateMachine, Motion subMotion) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.globalElevator = subElevator;
+    this.globalMotion = subMotion;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -26,7 +26,7 @@ public class Climbing extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setLiftPosition(constElevator.ELEVATOR_CLIMBING_HEIGHT);
+    globalMotion.setAllPosition(constMechanismPositions.CLIMBING);
     globalStateMachine.setRobotState(RobotState.CLIMBING);
   }
 

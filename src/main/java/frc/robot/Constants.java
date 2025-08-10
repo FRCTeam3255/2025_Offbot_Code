@@ -50,163 +50,6 @@ import frc.robot.Constants.MechanismPositionGroup;
 
 public final class Constants {
 
-  public static class MechanismPositionGroup {
-    public Angle wristAngle;
-    public Distance liftHeight;
-    public Angle pivotAngle;
-  }
-
-  public static class constMechanismPositions {
-    public static final MechanismPositionGroup CLEAN_HIGH = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_LOW = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_GROUND = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_STATION_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_STATION_BACKWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_ALGAE_GROUND = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L1_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L2_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L3_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L4_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L2_BACKWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L3_BACKWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L4_BACKWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_ALGAE_STATION = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_ZERO_WITH_ALGAE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_NET = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_ZERO = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_NET_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_GROUND_WITH_ALGAE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_STATION_WITH_ALGAE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_ALGAE_GROUND_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_HIGH_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_LOW_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CLIMB = new MechanismPositionGroup();
-    public static final MechanismPositionGroup NONE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
-    static {
-
-      CLEAN_LOW.wristAngle = Degrees.of(45); // TODO: Replace with actual angle
-      CLEAN_LOW.liftHeight = Inches.of(5); // TODO: Replace with actual height
-      CLEAN_LOW.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
-
-      CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_HIGH.liftHeight = Inches.of(10); // TODO: Replace with actual height
-      CLEAN_HIGH.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
-
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      INTAKE_CORAL_STATION_FORWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_STATION_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_STATION_FORWARDS.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
-
-      INTAKE_CORAL_STATION_BACKWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_STATION_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_STATION_BACKWARDS.pivotAngle = Degrees.of(135); // TODO: Replace with actual angle
-
-      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      PREP_CORAL_L1_FORWARDS.wristAngle = Degrees.of(14.07);
-      PREP_CORAL_L1_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L1_FORWARDS.pivotAngle = Degrees.of(27.01);
-
-      PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(5); // TODO: Replace with actual height
-      PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(33.56);
-
-      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(55.42);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
-      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
-
-      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(67);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(69.01);
-
-      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(56.38);
-      PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
-
-      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
-
-      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
-      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_ZERO.wristAngle = Degrees.of(89.65);
-
-      PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      PREP_ALGAE_NET.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_ALGAE_NET.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_NET.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
-
-      PREP_ALGAE_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_ALGAE_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_ALGAE_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      PREP_CORAL_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_CORAL_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      PREP_ALGAE_NET_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_ALGAE_NET_WITH_CORAL.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_NET_WITH_CORAL.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
-
-      INTAKE_CORAL_GROUND_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_GROUND_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
-      INTAKE_CORAL_STATION_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_STATION_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_STATION_WITH_ALGAE.pivotAngle = Degrees.of(45); // TODO: Replace with actual angle
-
-      INTAKE_ALGAE_GROUND_WITH_CORAL.wristAngle = Degrees.of(-15); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_ALGAE_GROUND_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
-
-      CLEAN_HIGH_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_HIGH_WITH_CORAL.liftHeight = Inches.of(10); // TODO: Replace with actual height
-      CLEAN_HIGH_WITH_CORAL.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
-
-      CLEAN_LOW_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_LOW_WITH_CORAL.liftHeight = Inches.of(5); // TODO: Replace with actual height
-      CLEAN_LOW_WITH_CORAL.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
-
-      PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CLIMB.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
-
-      NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
-
-      PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_PROCESSOR.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_PROCESSOR.pivotAngle = Degrees.of(10); // TODO: Replace with actual angle
-
-      PREP_PROCESSOR_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_PROCESSOR_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_PROCESSOR_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
-      // backwards positions
-
-    }
-  }
-
-  /**
-   * Volts
-   */
-  public static final double MAX_VOLTAGE = 12;
-
-  public static final Transform3d ROBOT_TO_BUMPERS = new Transform3d(0, 0, Units.Meters.convertFrom(5, Units.Inches),
-      Rotation3d.kZero); // TODO: Replace with actual measurement
-
   public static class constControllers {
     public static final double DRIVER_LEFT_STICK_DEADBAND = 0.05;
     public static final boolean SILENCE_JOYSTICK_WARNINGS = true;
@@ -373,75 +216,314 @@ public final class Constants {
     }
   }
 
-  public static class constIntake {
-    // TODO: Replace with actual measurements
+  public static class constMotion {
+    public static TalonFXConfiguration LIFT_CONFIG = new TalonFXConfiguration();
+    public static TalonFXConfiguration ELEVATOR_PIVOT_CONFIG = new TalonFXConfiguration();
+    public static TalonFXConfiguration WRIST_CONFIG = new TalonFXConfiguration();
+
+    static {
+      // elevator motor config
+      LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
+      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
+      LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+      LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
+      LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
+      LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
+      LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
+      LIFT_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
+      LIFT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      LIFT_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
+
+      // elevator pivot motor config
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+          .in(Units.Degrees);
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+          .in(Units.Degrees);
+
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
+
+      ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      // intake pivot motor
+      WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      WRIST_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+          .in(Units.Degrees);
+      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+          .in(Units.Degrees);
+
+      WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
+      WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+      WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+
+      WRIST_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
+      WRIST_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+
+      WRIST_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      WRIST_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      WRIST_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
+      WRIST_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+    }
+
+    public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
+    public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
+
+    public static final Angle MAX_POS = Units.Degrees.of(90);
+    public static final Angle MIN_POS = Units.Degrees.of(0);
+
+    public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
+    public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);
+
+    /**
+     * The elapsed time required to consider the motor as zeroed
+     */
+    public static final Time ZEROED_TIME = Units.Seconds.of(1);
+
+    public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
+  }
+
+  public static class constRotors {
+    public static TalonFXConfiguration CLIMBER_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
+    public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
+
+    static {
+      CLIMBER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimit = 85;
+      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 60;
+      CLIMBER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+      // algae intake motor config
+      ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      // coral intake motor config
+      CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
+      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
+
+      // coral intake sensor config
+      CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
+      CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
+    }
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+  }
+
+  public static class MechanismPositionGroup {
+    public Angle wristAngle;
+    public Distance liftHeight;
+    public Angle pivotAngle;
+  }
+
+  public static class constMechanismPositions {
+    public static final MechanismPositionGroup CLEAN_HIGH = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_LOW = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_GROUND = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_STATION_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_STATION_BACKWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_ALGAE_GROUND = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L1_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L2_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L3_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L4_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L2_BACKWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L3_BACKWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L4_BACKWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_ALGAE_STATION = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_ZERO_WITH_ALGAE = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_ALGAE_NET = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_ZERO = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_ALGAE_NET_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_GROUND_WITH_ALGAE = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_STATION_WITH_ALGAE = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_ALGAE_GROUND_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_HIGH_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_LOW_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CLIMB = new MechanismPositionGroup();
+    public static final MechanismPositionGroup NONE = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
+    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(1);
+    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
+    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
+    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(20);
+    public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
+    static {
+
+      CLEAN_LOW.wristAngle = Degrees.of(45); // TODO: Replace with actual angle
+      CLEAN_LOW.liftHeight = Inches.of(5); // TODO: Replace with actual height
+      CLEAN_LOW.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
+
+      CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_HIGH.liftHeight = Inches.of(10); // TODO: Replace with actual height
+      CLEAN_HIGH.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_STATION_FORWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_STATION_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_STATION_FORWARDS.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_STATION_BACKWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_STATION_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_STATION_BACKWARDS.pivotAngle = Degrees.of(135); // TODO: Replace with actual angle
+
+      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      PREP_CORAL_L1_FORWARDS.wristAngle = Degrees.of(14.07);
+      PREP_CORAL_L1_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L1_FORWARDS.pivotAngle = Degrees.of(27.01);
+
+      PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(35);
+      PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(5); // TODO: Replace with actual height
+      PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(33.56);
+
+      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(55.42);
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
+
+      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(67);
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(69.01);
+
+      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(56.38);
+      PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
+
+      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(35);
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
+
+      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
+      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_ALGAE_ZERO.wristAngle = Degrees.of(89.65);
+
+      PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      PREP_ALGAE_NET.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_ALGAE_NET.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
+
+      PREP_ALGAE_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_ALGAE_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      PREP_CORAL_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_CORAL_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      PREP_ALGAE_NET_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_WITH_CORAL.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_ALGAE_NET_WITH_CORAL.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_GROUND_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_STATION_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_STATION_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_STATION_WITH_ALGAE.pivotAngle = Degrees.of(45); // TODO: Replace with actual angle
+
+      INTAKE_ALGAE_GROUND_WITH_CORAL.wristAngle = Degrees.of(-15); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_ALGAE_GROUND_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
+
+      CLEAN_HIGH_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_HIGH_WITH_CORAL.liftHeight = Inches.of(10); // TODO: Replace with actual height
+      CLEAN_HIGH_WITH_CORAL.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
+
+      CLEAN_LOW_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_LOW_WITH_CORAL.liftHeight = Inches.of(5); // TODO: Replace with actual height
+      CLEAN_LOW_WITH_CORAL.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
+
+      PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CLIMB.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
+
+      NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
+
+      PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_PROCESSOR.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_PROCESSOR.pivotAngle = Degrees.of(10); // TODO: Replace with actual angle
+
+      PREP_PROCESSOR_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_PROCESSOR_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_PROCESSOR_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
+
+      CLIMBING.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBING.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      CLIMBING.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      // backwards positions
+
+    }
+  }
+
+  public static class constRotorsSpeeds {
+    // change all elevator/intake and their related methods to be Motion/Rotors and
+    // setAllPosition() in Motion.java with groups in Constants.java ; change all
+    // set speeds to methods in Rotors.java with constants in constRotorSpeeds
     public static final double EJECTING_GAME_PIECE_SPEED = 0; // TODO: Replace with actual speed
     // algae speed consts
     public static final double INTAKE_ALGAE_SPEED = 0; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_NET_SPEED = 0; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_PROCESSOR_SPEED = 0; // TODO: Replace with actual speed
-
-    // coral speed consts
-    public static final double INTAKE_CORAL_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_CORAL_SPEED = 0; // TODO: Replace with actual speed
-
-    public static final TalonFXConfiguration INTAKE_PIVOT_CONFIG = new TalonFXConfiguration();
-    public static final TalonFXConfiguration ALGAE_INTAKE_CONFIG = new TalonFXConfiguration();
-    public static final TalonFXConfiguration CORAL_INTAKE_CONFIG = new TalonFXConfiguration();
-    public static final CANrangeConfiguration CORAL_INTAKE_SENSOR_CONFIG = new CANrangeConfiguration();
-
-    public static final Angle TEST_ANGLE = Units.Degrees.of(45);
-    public static final Angle ZERO = Units.Degrees.of(0);
-    public static final Angle TEST_ANGLE_2 = Units.Degrees.of(180);
-
-    static {
-      // intake pivot motor
-      INTAKE_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      INTAKE_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
-          .in(Units.Degrees);
-      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      INTAKE_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
-          .in(Units.Degrees);
-
-      INTAKE_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
-      INTAKE_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
-      INTAKE_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-
-      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
-      INTAKE_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
-
-      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
-      INTAKE_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
-
-      // algae intake motor config
-      ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
-      ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
-      // coral intake motor config
-      CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
-      CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
-      // coral intake sensor config
-      CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
-      CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
-    }
-
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
+    public static final double CLEAN_ALGAE_SPEED = 0;
+    public static final double INTAKE_CORAL_GROUND_SPEED = 0; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 0; // TODO: Replace with actual speed
+    public static final double SCORE_CORAL_SPEED = 0;
   }
+
+  /**
+   * Volts
+   */
+  public static final double MAX_VOLTAGE = 12;
+
+  public static final Transform3d ROBOT_TO_BUMPERS = new Transform3d(0, 0, Units.Meters.convertFrom(5, Units.Inches),
+      Rotation3d.kZero); // TODO: Replace with actual measurement
 
   public static class constField {
     public static Optional<Alliance> ALLIANCE = Optional.empty();
@@ -470,97 +552,6 @@ public final class Constants {
     }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
-  }
-
-  public static class constElevator {
-    // elevator height consts
-    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(1);
-    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
-    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(20);
-    public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
-    public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
-    public static final Distance ELEVATOR_ZERO_HEIGHT = Units.Inches.of(0);
-
-    public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
-
-    public static final Angle MAX_POS = Units.Degrees.of(90);
-    public static final Angle MIN_POS = Units.Degrees.of(0);
-
-    public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
-    public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);
-
-    /**
-     * The elapsed time required to consider the motor as zeroed
-     */
-    public static final Time ZEROED_TIME = Units.Seconds.of(1);
-
-    public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
-
-    public static TalonFXConfiguration ELEVATOR_LIFT_CONFIG = new TalonFXConfiguration();
-    public static TalonFXConfiguration ELEVATOR_PIVOT_CONFIG = new TalonFXConfiguration();
-
-    static {
-      // elevator motor config
-      ELEVATOR_LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ELEVATOR_LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
-      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
-      ELEVATOR_LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      ELEVATOR_LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
-      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
-      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
-      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
-      ELEVATOR_LIFT_CONFIG.MotionMagic.MotionMagicExpo_kA = 0.005;
-      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
-      ELEVATOR_LIFT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 1;
-
-      // elevator pivot motor config
-      ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
-          .in(Units.Degrees);
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
-          .in(Units.Degrees);
-
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
-
-      ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
-      ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-
-      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
-      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
-
-      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
-      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimit = 45;
-      ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
-
-    }
-  }
-
-  public static class constClimber {
-
-    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
-
-    public static TalonFXConfiguration CLIMBER_CONFIG = new TalonFXConfiguration();
-    static {
-      CLIMBER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
-      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
-      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLimit = 85;
-      CLIMBER_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 60;
-
-      CLIMBER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    }
-
   }
 
   public static class constVision {

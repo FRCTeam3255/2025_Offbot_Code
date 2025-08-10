@@ -11,14 +11,14 @@ import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class None extends Command {
-  Elevator globalElevator;
-  Intake globalIntake;
+  Motion globalMotion;
+  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public None(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
+  public None(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalElevator = subElevator;
-    globalIntake = subIntake;
+    globalMotion = subMotion;
+    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -26,10 +26,8 @@ public class None extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(constMechanismPositions.NONE.pivotAngle);
-    globalElevator.setLiftPosition(constMechanismPositions.NONE.liftHeight);
-    globalIntake.setWristPivotAngle(constMechanismPositions.NONE.wristAngle);
-    globalIntake.setIntakeMotorNeutralOutput();
+    globalMotion.setAllPosition(constMechanismPositions.NONE);
+    globalRotors.setIntakeMotorNeutralOutput();
     globalStateMachine.setRobotState(RobotState.NONE);
   }
 
