@@ -5,27 +5,36 @@
 package frc.robot;
 
 import com.frcteam3255.joystick.SN_XboxController;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.events.EventTrigger;
 
-import java.util.List;
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
-import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
-import frc.robot.commands.*;
+import frc.robot.commands.Zeroing.ManualZeroLift;
+import frc.robot.commands.Zeroing.ManualZeroPivot;
+import frc.robot.commands.Zeroing.ManualZeroWrist;
 import frc.robot.commands.driver_states.DriveManual;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.DriverStateMachine;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.RobotPoses;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
-import frc.robot.commands.Zeroing.*;
-import edu.wpi.first.epilogue.Logged;
 
 @Logged
 public class RobotContainer {
+  @NotLogged
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
@@ -260,28 +269,24 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.runOnce(() -> subDrivetrain.resetPoseToPose(Constants.constField.WORKSHOP_STARTING_POSE))
-        .andThen(new ExampleAuto(subDrivetrain));
+    return new PathPlannerAuto("TaylerAuto");
   }
 
   private void configOperatorBindings() {
     // Add operator bindings here if needed
-    conOperator.btn_LeftTrigger
-
+    conOperator.btn_LeftTrigger.or(new EventTrigger("INTAKE_CORAL_GROUND_TRIGGER"))
         .whileTrue(TRY_INTAKE_CORAL_GROUND)
         .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_LeftBumper
-
+    conOperator.btn_LeftBumper.or(new EventTrigger("INTAKE_ALGAE_GROUND_TRIGGER"))
         .whileTrue(TRY_INTAKE_ALGAE_GROUND)
         .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_RightTrigger
-
+    conOperator.btn_RightTrigger.or(new EventTrigger("SCORING_TRIGGER"))
         .whileTrue(TRY_SCORING_CORAL)
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
@@ -290,63 +295,64 @@ public class RobotContainer {
         .onFalse(TRY_HAS_CORAL)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_RightBumper
-
+    conOperator.btn_RightBumper.or(new EventTrigger("INTAKE_CORAL_STATION_TRIGGER"))
         .whileTrue(TRY_INTAKE_CORAL_STATION)
         .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_A
+    conOperator.btn_A.or(new EventTrigger("PREP_CORAL_L1_TRIGGER"))
         .whileTrue(TRY_INTAKE_CORAL_L1)
         .onFalse(TRY_NONE);
 
-    conOperator.btn_B
+    conOperator.btn_B.or(new EventTrigger("PREP_CORAL_L3_TRIGGER"))
         .onTrue(TRY_PREP_CORAL_L3)
         .onTrue(TRY_PREP_CORAL_L3_WITH_ALGAE);
 
-    conOperator.btn_X
+    conOperator.btn_X.or(new EventTrigger("PREP_CORAL_L2_TRIGGER"))
         .onTrue(TRY_PREP_CORAL_L2)
         .onTrue(TRY_PREP_CORAL_L2_WITH_ALGAE);
 
-    conOperator.btn_Y
+    conOperator.btn_Y.or(new EventTrigger("PREP_CORAL_L4_TRIGGER"))
         .onTrue(TRY_PREP_CORAL_L4)
         .onTrue(TRY_PREP_CORAL_L4_WITH_ALGAE);
 
-    conOperator.btn_LeftStick
+    conOperator.btn_LeftStick.or(new EventTrigger("EJECTING_TRIGGER"))
         .whileTrue(TRY_EJECTING)
         .onFalse(TRY_NONE);
 
-    conOperator.btn_RightStick
+    conOperator.btn_RightStick.or(new EventTrigger("PREP_CORAL_ZERO_TRIGGER"))
         .onTrue(TRY_PREP_CORAL_ZERO)
         .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE)
         .onTrue(TRY_PREP_ALGAE_ZERO);
 
-    conOperator.btn_North
+    conOperator.btn_North.or(new EventTrigger("PREP_ALGAE_NET_TRIGGER"))
         .onTrue(TRY_PREP_ALGAE_NET)
         .onTrue(TRY_PREP_ALGAE_NET_WITH_CORAL);
 
-    conOperator.btn_South
+    conOperator.btn_South.or(new EventTrigger("PREP_ALGAE_PROCESSOR_TRIGGER"))
         .onTrue(TRY_PREP_ALGAE_PROCESSOR)
         .onTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
 
-    conOperator.btn_East
+    conOperator.btn_East.or(new EventTrigger("CLEAN_HIGH_TRIGGER"))
         .whileTrue(TRY_CLEAN_HIGH)
         .whileTrue(TRY_CLEAN_HIGH_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_West
+    conOperator.btn_West.or(new EventTrigger("CLEAN_LOW_TRIGGER"))
         .whileTrue(TRY_CLEAN_LOW)
         .whileTrue(TRY_CLEAN_LOW_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_Start
+    conOperator.btn_Start.or(new EventTrigger("HAS_CORAL_OVERRIDE_TRIGGER"))
+
         .onTrue(HAS_CORAL_OVERRIDE)
         .onTrue(HAS_CORAL_L1_OVERRIDE);
 
-    conOperator.btn_Back.onTrue(HAS_ALGAE_OVERRIDE);
+    conOperator.btn_Back.or(new EventTrigger("HAS_ALGAE_OVERRIDE_TRIGGER"))
+        .onTrue(HAS_ALGAE_OVERRIDE);
 
     hasCoralTrigger
         .whileTrue(TRY_HAS_CORAL);
