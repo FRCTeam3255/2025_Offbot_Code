@@ -46,18 +46,66 @@ public class PrepCoralLv extends Command {
   }
 
   // Called when the command is initially scheduled.
+  // @Override
+  // public void initialize() {
+  // closestPoseByRotation =
+  // globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get());
+  // drivetrainRotation = globalDrivetrain.getRotationMeasure();
+
+  // backReefDistance = Units.Meters
+  // .of(globalDrivetrain.getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+  // frontReefDistance = Units.Meters
+  // .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+  // // if (reefDistance.lte(constDrivetrain.MINNIMUM_REEF_TOGGLE_DIFFERENCE) &&
+  // // drivetrainRotation.) {
+  // if (frontReefDistance.lt(backReefDistance)) {
+  // if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+  // }
+  // } else if (backReefDistance.lt(frontReefDistance)) {
+  // if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+  // }
+
+  // }
+  // // }
+  // }
+
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get());
-    drivetrainRotation = globalDrivetrain.getRotationMeasure();
-
-    backReefDistance = Units.Meters
-        .of(globalDrivetrain.getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    frontReefDistance = Units.Meters
-        .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    // if (reefDistance.lte(constDrivetrain.MINNIMUM_REEF_TOGGLE_DIFFERENCE) &&
-    // drivetrainRotation.) {
-    if (frontReefDistance.lt(backReefDistance)) {
+    globalDrivetrain.reefActionBackwards(closestPoseByRotation);
+    if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == false) {
       if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
         globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
         globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
@@ -71,7 +119,8 @@ public class PrepCoralLv extends Command {
         globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
         globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
       }
-    } else if (backReefDistance.lt(frontReefDistance)) {
+    }
+    if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == true) {
       if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_BACKWARDS.liftHeight)) {
         globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
         globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
@@ -82,16 +131,13 @@ public class PrepCoralLv extends Command {
         globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
         globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
       }
-
     }
-    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get());
-    drivetrainRotation = globalDrivetrain.getRotationMeasure();
+    globalDrivetrain.reefActionBackwards(closestPoseByRotation);
 
   }
 

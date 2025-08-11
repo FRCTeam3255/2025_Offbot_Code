@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -29,7 +30,6 @@ import frc.robot.RobotMap.mapDrivetrain;
 public class Drivetrain extends SN_SuperSwerve {
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
-
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {
       new SN_SwerveModule(0, mapDrivetrain.FRONT_LEFT_DRIVE_CAN, mapDrivetrain.FRONT_LEFT_STEER_CAN,
           mapDrivetrain.FRONT_LEFT_ABSOLUTE_ENCODER_CAN, constDrivetrain.FRONT_LEFT_ABS_ENCODER_OFFSET,
@@ -108,15 +108,30 @@ public class Drivetrain extends SN_SuperSwerve {
   }
 
   public Pose2d getFrontPose() {
-    return getPose().plus(new Transform2d(0, 14.5, new Rotation2d(0)));
+    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(14.5), new Rotation2d(0)));
   }
 
   public Pose2d getBackPose() {
-    return getPose().plus(new Transform2d(0, -14.5, new Rotation2d(0)));
+    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(-14.5), new Rotation2d(0)));
   }
 
   public Angle getRotationMeasure() {
     return Units.Degrees.of(getRotation().getDegrees());
+  }
+
+  public boolean reefActionBackwards(Pose2d closestPoseByRotation) {
+    Distance backReefDistance;
+    Distance frontReefDistance;
+    closestPoseByRotation = getClosestPoseByRotation(constField.getReefPositions(true).get());
+    backReefDistance = Units.Meters
+        .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    frontReefDistance = Units.Meters
+        .of(getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    if (backReefDistance.lt(frontReefDistance)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
