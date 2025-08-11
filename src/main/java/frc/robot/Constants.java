@@ -579,7 +579,7 @@ public final class Constants {
           Rotation2d.fromDegrees(0));
 
       private static final List<Pose2d> BLUE_NET_POSES = List.of(BLUE_NET_FRONT, BlUE_NET_BACK);
-      private static final List<Pose2d> RED_NET_POSES = getRedReefPoses();
+      private static final List<Pose2d> RED_NET_POSES = getRedNetPoses();
 
       private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
           REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
@@ -606,6 +606,12 @@ public final class Constants {
       return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
           returnedPoses[5], returnedPoses[6], returnedPoses[7], returnedPoses[8], returnedPoses[9], returnedPoses[10],
           returnedPoses[11]);
+    }
+
+    private static List<Pose2d> getRedNetPoses() {
+      Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_NET_POSES);
+      return List.of(returnedPoses[0], returnedPoses[1]);
+
     }
 
     public static Supplier<List<Pose2d>> getReefPositions(boolean onRed) {
