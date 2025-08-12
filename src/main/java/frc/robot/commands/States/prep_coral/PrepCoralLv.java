@@ -15,6 +15,7 @@ import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 import edu.wpi.first.units.measure.Angle;
@@ -29,7 +30,9 @@ public class PrepCoralLv extends Command {
   Distance globalHeight;
   Angle drivetrainRotation;
   Pose2d closestPoseByRotation;
-
+  MechanismPositionGroup prepL2;
+  MechanismPositionGroup prepL3;
+  MechanismPositionGroup prepL4;
   Distance backReefDistance;
   Distance frontReefDistance;
 
@@ -102,35 +105,76 @@ public class PrepCoralLv extends Command {
   // // }
   // }
 
+  // @Override
+  // public void initialize() {
+  // globalDrivetrain.reefActionBackwards(closestPoseByRotation);
+  // if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == false) {
+  // if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+  // }
+  // }
+  // if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == true) {
+  // if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+  // } else if
+  // (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_BACKWARDS.liftHeight))
+  // {
+  // globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
+  // globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+  // }
+  // }
+  // }
+
   @Override
   public void initialize() {
     globalDrivetrain.reefActionBackwards(closestPoseByRotation);
-    if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == false) {
-      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
-      }
-    }
     if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == true) {
-      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_BACKWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_BACKWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_BACKWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
-      }
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
+    } else if (globalDrivetrain.reefActionBackwards(closestPoseByRotation) == false) {
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
+    }
+    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT)) {
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
+      globalMotion.setAllPosition(prepL2);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT)) {
+      globalMotion.setAllPosition(prepL3);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT)) {
+      globalMotion.setAllPosition(prepL4);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
     }
   }
 

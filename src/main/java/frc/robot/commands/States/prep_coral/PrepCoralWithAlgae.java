@@ -52,8 +52,8 @@ public class PrepCoralWithAlgae extends Command {
     frontReefDistance = Units.Meters
         .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
     if (frontReefDistance.lt(backReefDistance)) {
-      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
+      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1.liftHeight)) {
+        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
         globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
       } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
         globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);

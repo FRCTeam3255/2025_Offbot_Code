@@ -357,7 +357,7 @@ public final class Constants {
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_GROUND = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L1_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup PREP_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L2_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L3_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L4_FORWARDS = new MechanismPositionGroup();
@@ -412,9 +412,9 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_CORAL_L1_FORWARDS.wristAngle = Degrees.of(14.07);
-      PREP_CORAL_L1_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L1_FORWARDS.pivotAngle = Degrees.of(27.01);
+      PREP_CORAL_L1.wristAngle = Degrees.of(14.07);
+      PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L1.pivotAngle = Degrees.of(27.01);
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(35);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(5); // TODO: Replace with actual height
