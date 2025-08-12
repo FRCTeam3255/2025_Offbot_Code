@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.List;
-
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
 
@@ -82,27 +80,6 @@ public class Drivetrain extends SN_SuperSwerve {
     super.configure();
   }
 
-  /**
-   * Calculate which pose from an array has the closest rotation to the robot's
-   * current pose. If multiple poses have the same rotation, the last one in the
-   * list will be returned.
-   * 
-   * @param poses The list of poses to check
-   * @return The last pose in the list with the closest rotation
-   */
-  public Pose2d getClosestPoseByRotation(List<Pose2d> poses) {
-    Pose2d closestPose = poses.get(0);
-    double smallestDifference = Math.abs(getRotation().minus(closestPose.getRotation()).getRadians());
-    for (Pose2d pose : poses) {
-      double difference = Math.abs(getRotation().minus(pose.getRotation()).getRadians());
-      if (difference < smallestDifference) {
-        smallestDifference = difference;
-        closestPose = pose;
-      }
-    }
-    return closestPose;
-  }
-
   public Pose2d getRobotPose() {
     return getPose();
   }
@@ -119,15 +96,15 @@ public class Drivetrain extends SN_SuperSwerve {
     return Units.Degrees.of(getRotation().getDegrees());
   }
 
-  public boolean reefActionBackwards(Pose2d closestPoseByRotation) {
-    Distance backReefDistance;
-    Distance frontReefDistance;
-    closestPoseByRotation = getClosestPoseByRotation(constField.getReefPositions(true).get());
-    backReefDistance = Units.Meters
+  public boolean actionBackwards(Pose2d closestPoseByRotation) {
+    Distance backDistance;
+    Distance frontDistance;
+    closestPoseByRotation = getClosestPoseByRotation(null);
+    backDistance = Units.Meters
         .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    frontReefDistance = Units.Meters
+    frontDistance = Units.Meters
         .of(getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    if (backReefDistance.lt(frontReefDistance)) {
+    if (backDistance.lt(frontDistance)) {
       return true;
     } else {
       return false;

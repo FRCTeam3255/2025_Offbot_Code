@@ -108,8 +108,6 @@ public final class Constants {
      * <b>Units:</b> Meters
      */
     public static final double MEASUREMENT_STD_DEVS_POS = 0.05;
-
-    public static final double MINNIMUM_REEF_TOGGLE_DIFFERENCE = Units.Inches.of(71.74).in(Units.Meters);
     /**
      * <p>
      * Pose estimator standard deviation for encoder & gyro data
@@ -351,8 +349,10 @@ public final class Constants {
   }
 
   public static class constMechanismPositions {
-    public static final MechanismPositionGroup CLEAN_HIGH = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_LOW = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_HIGH_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_LOW_FORWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_HIGH_BACKWARDS = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLEAN_LOW_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_BACKWARDS = new MechanismPositionGroup();
@@ -373,8 +373,6 @@ public final class Constants {
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND_WITH_ALGAE = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_WITH_ALGAE = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_GROUND_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_HIGH_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLEAN_LOW_WITH_CORAL = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CLIMB = new MechanismPositionGroup();
     public static final MechanismPositionGroup NONE = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
@@ -388,13 +386,21 @@ public final class Constants {
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
-      CLEAN_LOW.wristAngle = Degrees.of(45); // TODO: Replace with actual angle
-      CLEAN_LOW.liftHeight = Inches.of(5); // TODO: Replace with actual height
-      CLEAN_LOW.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
+      CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(45);
+      CLEAN_LOW_FORWARDS.liftHeight = Inches.of(5);
+      CLEAN_LOW_FORWARDS.pivotAngle = Degrees.of(42);
 
-      CLEAN_HIGH.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_HIGH.liftHeight = Inches.of(10); // TODO: Replace with actual height
-      CLEAN_HIGH.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
+      CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(0);
+      CLEAN_HIGH_FORWARDS.liftHeight = Inches.of(10);
+      CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(60);
+
+      CLEAN_LOW_BACKWARDS.wristAngle = Degrees.of(45); // TODO: Replace with actual angle
+      CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(5); // TODO: Replace with actual height
+      CLEAN_LOW_BACKWARDS.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
+
+      CLEAN_HIGH_BACKWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(10); // TODO: Replace with actual height
+      CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -475,14 +481,6 @@ public final class Constants {
       INTAKE_ALGAE_GROUND_WITH_CORAL.wristAngle = Degrees.of(-15); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
-
-      CLEAN_HIGH_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_HIGH_WITH_CORAL.liftHeight = Inches.of(10); // TODO: Replace with actual height
-      CLEAN_HIGH_WITH_CORAL.pivotAngle = Degrees.of(60); // TODO: Replace with actual angle
-
-      CLEAN_LOW_WITH_CORAL.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLEAN_LOW_WITH_CORAL.liftHeight = Inches.of(5); // TODO: Replace with actual height
-      CLEAN_LOW_WITH_CORAL.pivotAngle = Degrees.of(42); // TODO: Replace with actual angle
 
       PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -578,12 +576,25 @@ public final class Constants {
       private static final Pose2d BlUE_NET_BACK = new Pose2d(7.5, FIELD_WIDTH.in(Units.Meters) / 2,
           Rotation2d.fromDegrees(0));
 
+      // algae poses
+      public static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
+      public static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
+      public static final Pose2d ALGAE_EF = REEF_E.interpolate(REEF_F, 0.5);
+      public static final Pose2d ALGAE_GH = REEF_G.interpolate(REEF_H, 0.5);
+      public static final Pose2d ALGAE_IJ = REEF_I.interpolate(REEF_J, 0.5);
+      public static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
+
+      // lists
       private static final List<Pose2d> BLUE_NET_POSES = List.of(BLUE_NET_FRONT, BlUE_NET_BACK);
       private static final List<Pose2d> RED_NET_POSES = getRedNetPoses();
 
       private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
           REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
       private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
+
+      private static final List<Pose2d> BLUE_ALGAE_POSES = List.of(ALGAE_AB, ALGAE_CD, ALGAE_EF, ALGAE_GH, ALGAE_IJ,
+          ALGAE_KL);
+      private static final List<Pose2d> RED_ALGAE_POSES = getRedAlgaePoses();
 
     }
 
@@ -608,10 +619,28 @@ public final class Constants {
           returnedPoses[11]);
     }
 
+    private static List<Pose2d> getRedAlgaePoses() {
+      Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_ALGAE_POSES.size()];
+
+      for (int i = 0; i < POSES.BLUE_ALGAE_POSES.size(); i++) {
+        returnedPoses[i] = getRedAlliancePose(POSES.BLUE_ALGAE_POSES.get(i));
+      }
+
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+          returnedPoses[5]);
+    }
+
     private static List<Pose2d> getRedNetPoses() {
       Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_NET_POSES);
       return List.of(returnedPoses[0], returnedPoses[1]);
 
+    }
+
+    public static Supplier<List<Pose2d>> getAlgaePositions(Boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_ALGAE_POSES;
+      }
+      return () -> POSES.BLUE_ALGAE_POSES;
     }
 
     public static Supplier<List<Pose2d>> getReefPositions(boolean onRed) {

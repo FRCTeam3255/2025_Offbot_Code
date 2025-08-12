@@ -6,14 +6,13 @@ package frc.robot.commands.States.prep_coral;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 
@@ -25,14 +24,13 @@ public class PrepCoralWithAlgae extends Command {
   Rotors globalRotors;
   StateMachine globalStateMachine;
   Distance globalHeight;
-  Angle drivetrainRotation;
   Pose2d closestPoseByRotation;
+  MechanismPositionGroup prepL2;
+  MechanismPositionGroup prepL3;
+  MechanismPositionGroup prepL4;
 
-  Distance backReefDistance;
-  Distance frontReefDistance;
-
-  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height,
-      Drivetrain subDrivetrain) {
+  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
+      Drivetrain subDrivetrain, Distance height) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
@@ -45,44 +43,37 @@ public class PrepCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get());
-    drivetrainRotation = globalDrivetrain.getRotationMeasure();
-    backReefDistance = Units.Meters
-        .of(globalDrivetrain.getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    frontReefDistance = Units.Meters
-        .of(globalDrivetrain.getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    if (frontReefDistance.lt(backReefDistance)) {
-      if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L1.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
-      } else if (globalHeight.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
-      }
+    globalDrivetrain
+        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
+    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
+    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
     }
-    if (backReefDistance.lt(frontReefDistance)) {
-      if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
-      } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L3_WITH_ALGAE) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
-      } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L4_WITH_ALGAE) {
-        globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_BACKWARDS);
-        globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
-      }
+    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT)) {
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
+      globalMotion.setAllPosition(prepL2);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT)) {
+      globalMotion.setAllPosition(prepL3);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT)) {
+      globalMotion.setAllPosition(prepL4);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalDrivetrain
+        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
   }
 
   // Called once the command ends or is interrupted.

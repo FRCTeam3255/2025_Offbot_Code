@@ -4,10 +4,13 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
@@ -18,19 +21,30 @@ public class CleanLow extends Command {
   StateMachine globalStateMachine;
   Motion globalMotion;
   Rotors globalRotors;
+  Pose2d closestPoseByRotation;
+  Drivetrain globalDrivetrain;
+  MechanismPositionGroup cleanLow;
 
-  public CleanLow(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public CleanLow(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
     this.globalMotion = subMotion;
     this.globalRotors = subRotors;
+    globalDrivetrain = subDrivetrain;
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLEAN_LOW);
+    globalDrivetrain
+        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
+    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+      cleanLow = constMechanismPositions.CLEAN_LOW_BACKWARDS;
+    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+      cleanLow = constMechanismPositions.CLEAN_LOW_FORWARDS;
+    }
+    globalMotion.setAllPosition(cleanLow);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW);
   }
@@ -38,6 +52,8 @@ public class CleanLow extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalDrivetrain
+        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
   }
 
   // Called once the command ends or is interrupted.
