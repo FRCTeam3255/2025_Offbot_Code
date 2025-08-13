@@ -37,11 +37,9 @@ public class CleanHigh extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
-    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
-    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
     globalMotion.setAllPosition(cleanHigh);
@@ -53,7 +51,8 @@ public class CleanHigh extends Command {
   @Override
   public void execute() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
+        .isActionBackwards(
+            globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get()));
   }
 
   // Called once the command ends or is interrupted.

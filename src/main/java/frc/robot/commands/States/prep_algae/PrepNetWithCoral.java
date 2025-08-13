@@ -38,10 +38,10 @@ public class PrepNetWithCoral extends Command {
   @Override
   public void initialize() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
-    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+        .isActionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);
@@ -52,7 +52,7 @@ public class PrepNetWithCoral extends Command {
   @Override
   public void execute() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get()));
+        .isActionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get()));
   }
 
   // Called once the command ends or is interrupted.

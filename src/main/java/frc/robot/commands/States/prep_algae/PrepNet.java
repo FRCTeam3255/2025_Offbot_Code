@@ -37,10 +37,10 @@ public class PrepNet extends Command {
   @Override
   public void initialize() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get()));
-    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+        .isActionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get()));
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);

@@ -39,11 +39,9 @@ public class CleanLowWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
-    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_BACKWARDS;
-    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
     globalMotion.setAllPosition(cleanLowWithCoral);
@@ -55,7 +53,8 @@ public class CleanLowWithCoral extends Command {
   @Override
   public void execute() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(true).get()));
+        .isActionBackwards(
+            globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get()));
   }
 
   // Called once the command ends or is interrupted.

@@ -6,6 +6,8 @@ package frc.robot.commands.States.prep_coral;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 
+import java.util.List;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,13 +46,13 @@ public class PrepCoralLv extends Command {
 
   @Override
   public void initialize() {
-    globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
-    if (globalDrivetrain.actionBackwards(closestPoseByRotation) == true) {
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation, getReefPositions(isScheduled())) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
-    } else if (globalDrivetrain.actionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation, getReefPositions) == false) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
@@ -74,7 +76,7 @@ public class PrepCoralLv extends Command {
   @Override
   public void execute() {
     globalDrivetrain
-        .actionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(true).get()));
+        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
 
   }
 

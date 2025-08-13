@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
 
@@ -96,10 +99,10 @@ public class Drivetrain extends SN_SuperSwerve {
     return Units.Degrees.of(getRotation().getDegrees());
   }
 
-  public boolean actionBackwards(Pose2d closestPoseByRotation) {
+  public boolean isActionBackwards(Pose2d closestPoseByRotation, List<Pose2d> pose) {
     Distance backDistance;
     Distance frontDistance;
-    closestPoseByRotation = getClosestPoseByRotation(null);
+    closestPoseByRotation = getClosestPoseByRotation(pose);
     backDistance = Units.Meters
         .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
     frontDistance = Units.Meters
