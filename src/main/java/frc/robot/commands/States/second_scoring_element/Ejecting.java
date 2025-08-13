@@ -6,26 +6,27 @@ package frc.robot.commands.States.second_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constIntake;
-import frc.robot.subsystems.Intake;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Ejecting extends Command {
-  Intake globalIntake;
+  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public Ejecting(StateMachine globalStateMachine, Intake subIntake) {
+  public Ejecting(StateMachine globalStateMachine, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalIntake = subIntake;
+    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
+    addRequirements(globalRotors);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalIntake.ejectGamePiece(constIntake.EJECTING_GAME_PIECE_SPEED);
+    globalRotors.ejectGamePiece(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.EJECTING);
   }
 
