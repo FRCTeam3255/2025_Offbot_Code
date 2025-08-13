@@ -379,10 +379,10 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
     public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
-    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(1);
-    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
-    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(20);
+    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(5);
+    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
+    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(50);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
@@ -444,13 +444,13 @@ public final class Constants {
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_ZERO.wristAngle = Degrees.of(89.65);
+      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(90); // TODO: Replace with actual angle
       PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
 
