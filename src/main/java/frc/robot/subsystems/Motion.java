@@ -8,18 +8,13 @@ import static edu.wpi.first.units.Units.Degrees;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap.*;
 
 public class Motion extends SubsystemBase {
@@ -32,16 +27,16 @@ public class Motion extends SubsystemBase {
 
   private Angle elevatorPivotLastDesiredAngle = Degrees.zero();
   private Angle intakeWristLastDesiredAngle = Degrees.zero();
-
-  private Distance elevatorLiftLastDesiredPosition;
+  private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
+  public boolean isLiftAtSetPointWithTolerance = false;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Motion() {
-    leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN); // Elevator left motor
-    rightLiftMotorLeader = new TalonFX(mapMotion.RIGHT_LIFT_CAN); // Elevator right motor
-    leftPivotMotorFollower = new TalonFX(mapMotion.LEFT_PIVOT_CAN); // Elevator left pivot motor
-    rightPivotMotorLeader = new TalonFX(mapMotion.RIGHT_PIVOT_CAN); // Elevator right pivot motor
-    intakePivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN); // Intake pivot motor
+    leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
+    rightLiftMotorLeader = new TalonFX(mapMotion.RIGHT_LIFT_CAN);
+    leftPivotMotorFollower = new TalonFX(mapMotion.LEFT_PIVOT_CAN);
+    rightPivotMotorLeader = new TalonFX(mapMotion.RIGHT_PIVOT_CAN);
+    intakePivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
 
     elevatorLiftLastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
@@ -53,33 +48,17 @@ public class Motion extends SubsystemBase {
     intakePivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
   }
 
-  public AngularVelocity getLiftMotorVelocity() {
-    return rightLiftMotorLeader.getRotorVelocity().getValue();
-  }
-
-  public boolean isLiftMotorVelocityZero() {
-    return getLiftMotorVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
-  }
-
-  public Distance getLastDesiredLiftPosition() {// elevator extension
-    return elevatorLiftLastDesiredPosition;
-  }
-
   public Distance getLiftPosition() {
     if (Robot.isSimulation()) {
-      return getLastDesiredLiftPosition();
+      return elevatorLiftLastDesiredPosition;
     }
     return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
 
-  public void setLiftPosition(Distance height) {
+  private void setLiftPosition(Distance height) {
     rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
     leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     elevatorLiftLastDesiredPosition = height;
-  }
-
-  public boolean isLiftAtSpecificSetpoint(Distance setpoint) {
-    return isLiftAtSetPointWithTolerance(setpoint, Constants.constMotion.DEADZONE_DISTANCE);
   }
 
   public boolean isLiftAtSetPointWithTolerance(Distance position, Distance tolerance) {
@@ -91,30 +70,22 @@ public class Motion extends SubsystemBase {
         getLiftPosition().compareTo(position.plus(tolerance)) < 0;
   }
 
-  public Angle getElevatorPivotAngle() {
+  private Angle getElevatorPivotAngle() {
     return rightPivotMotorLeader.getPosition().getValue();
   }
 
-  public Angle getLastDesiredPivotAngle() {
-    return elevatorPivotLastDesiredAngle;
-  }
-
-  public void setElevatorPivotAngle(Angle angle) {
+  private void setElevatorPivotAngle(Angle angle) {
     rightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
     leftPivotMotorFollower.setControl(new Follower(rightPivotMotorLeader.getDeviceID(), true));
     elevatorPivotLastDesiredAngle = angle;
   }
 
-  public void getWristPivotMotorAngle() {
+  private Angle getWristPivotMotorAngle() {
     double angle = intakePivotMotor.getPosition().getValueAsDouble();
-
+    return Degrees.of(angle);
   }
 
-  public Angle getLastDesiredWristPivotAngle() {
-    return intakeWristLastDesiredAngle;
-  }
-
-  public void setWristPivotAngle(Angle angle) {
+  private void setWristPivotAngle(Angle angle) {
     intakePivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
     intakeWristLastDesiredAngle = angle;
   }
@@ -123,6 +94,20 @@ public class Motion extends SubsystemBase {
     setLiftPosition(positionGroup.liftHeight);
     setElevatorPivotAngle(positionGroup.pivotAngle);
     setWristPivotAngle(positionGroup.wristAngle);
+  }
+
+  public Angle getPivotAngle() {
+    if (Robot.isSimulation()) {
+      return elevatorPivotLastDesiredAngle;
+    }
+    return getElevatorPivotAngle();
+  }
+
+  public Angle getWristAngle() {
+    if (Robot.isSimulation()) {
+      return intakeWristLastDesiredAngle;
+    }
+    return getWristPivotMotorAngle();
   }
 
   @Override

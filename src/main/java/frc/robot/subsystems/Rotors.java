@@ -25,13 +25,12 @@ public class Rotors extends SubsystemBase {
   CANrange coralSensor;
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
-  private Angle lastDesiredAngle = Degrees.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Rotors() {
-    coralIntakeMotor = new TalonFX(mapRotors.CORAL_INTAKE_CAN); // Coral left intake motor
-    algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN); // Algae intake motor
-    coralSensor = new CANrange(mapRotors.CORAL_INTAKE_SENSOR); // Coral intake sensor
+    coralIntakeMotor = new TalonFX(mapRotors.CORAL_INTAKE_CAN);
+    algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN);
+    coralSensor = new CANrange(mapRotors.CORAL_INTAKE_SENSOR);
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
 
     coralIntakeMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
@@ -63,30 +62,20 @@ public class Rotors extends SubsystemBase {
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
-    coralIntakeMotor.setVoltage(speed);
+    coralIntakeMotor.set(speed);
   }
 
   public void setAlgaeIntakeMotorSpeed(double speed) {
-    algaeIntakeMotor.setVoltage(speed);
-  }
-
-  public void setIntakeMotorNeutralOutput() {
-    coralIntakeMotor.setVoltage(0);
-    algaeIntakeMotor.setVoltage(0);
+    algaeIntakeMotor.set(speed);
   }
 
   public void ejectGamePiece(double speed) {
-    coralIntakeMotor.setVoltage(speed);
-    algaeIntakeMotor.setVoltage(speed);
-
+    coralIntakeMotor.set(speed);
+    algaeIntakeMotor.set(speed);
   }
 
   public void setClimberMotorPercentOutput(double speed) {
     cageCollectMotor.set(speed);
-  }
-
-  public void setClimberNeutralOutput() {
-    cageCollectMotor.setControl(new NeutralOut());
   }
 
   @Override

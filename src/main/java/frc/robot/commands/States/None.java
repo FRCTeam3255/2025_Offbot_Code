@@ -27,7 +27,8 @@ public class None extends Command {
   @Override
   public void initialize() {
     globalMotion.setAllPosition(constMechanismPositions.NONE);
-    globalRotors.setIntakeMotorNeutralOutput();
+    globalRotors.setAlgaeIntakeMotorSpeed(0);
+    globalRotors.setCoralIntakeMotorSpeed(0);
     globalStateMachine.setRobotState(RobotState.NONE);
   }
 
