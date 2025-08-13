@@ -23,9 +23,9 @@ public class RobotPoses extends SubsystemBase {
   @NotLogged
   private Drivetrain subDrivetrain;
   @NotLogged
-  private Motion subMotion;
+  private Intake subIntake;
   @NotLogged
-  private Rotors subRotors;
+  private Elevator subElevator;
 
   Pose3d modelDrivetrain = Pose3d.kZero;
   Pose3d model0Pivot = Pose3d.kZero;
@@ -51,10 +51,10 @@ public class RobotPoses extends SubsystemBase {
       Units.Inches.of(8),
       Rotation3d.kZero);
 
-  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
+  public RobotPoses(Drivetrain subDrivetrain, Elevator subElevator, Intake subIntake) {
     this.subDrivetrain = subDrivetrain;
-    this.subMotion = subMotion;
-    this.subRotors = subRotors;
+    this.subElevator = subElevator;
+    this.subIntake = subIntake;
   }
 
   @Override
@@ -62,15 +62,15 @@ public class RobotPoses extends SubsystemBase {
     // This method will be called once per scheduler run
     elevatorTransform3d = new Transform3d(
         Units.Inches.zero(),
-        subMotion.getLastDesiredLiftPosition().div(2),
+        subElevator.getLastDesiredLiftPosition().div(2),
         Units.Inches.zero(),
         Rotation3d.kZero);
     pivotRotation3d = new Rotation3d(
-        subMotion.getLastDesiredPivotAngle(),
+        subElevator.getLastDesiredPivotAngle(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
-        subMotion.getLastDesiredPivotAngle(),
+        subElevator.getLastDesiredPivotAngle(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
 

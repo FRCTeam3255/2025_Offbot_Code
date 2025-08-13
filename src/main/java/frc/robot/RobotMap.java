@@ -33,26 +33,28 @@ public class RobotMap {
     public static final int BACK_RIGHT_ABSOLUTE_ENCODER_CAN = 3;
   }
 
-  // Rotors ID 11-20
-  public static class mapRotors {
+  // Intake ID 11-20
+  public static class mapIntake {
     // coral intake motors and pivot
-    public static final int CORAL_INTAKE_CAN = 11;
+    public static final int INTAKE_PIVOT_CAN = 11;
+    public static final int CORAL_INTAKE_CAN = 12;
     // Algae intake motor
-    public static final int INTAKE_ALGAE_CAN = 12;
+    public static final int INTAKE_ALGAE_CAN = 13;
 
     // Coral intake sensors
-    public static final int CORAL_INTAKE_SENSOR = 13;
-
-    // Algae intake sensors
-    public static final int CAGE_COLLECTER_CAN = 14;
+    public static final int CORAL_INTAKE_SENSOR = 14;
   }
 
-  // Motion ID 21-30
-  public static class mapMotion {
+  // Elevator ID 21-30
+  public static class mapElevator {
     public static final int LEFT_LIFT_CAN = 21;
     public static final int RIGHT_LIFT_CAN = 22;
     public static final int RIGHT_PIVOT_CAN = 23;
     public static final int LEFT_PIVOT_CAN = 24;
-    public static final int INTAKE_PIVOT_CAN = 25;
+  }
+
+  // Climber ID 31-40
+  public static class mapClimber {
+    public static final int CAGE_COLLECTER_CAN = 31;
   }
 }

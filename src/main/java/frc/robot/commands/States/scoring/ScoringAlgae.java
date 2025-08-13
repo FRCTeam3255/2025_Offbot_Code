@@ -6,30 +6,29 @@ package frc.robot.commands.States.scoring;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constIntake;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.constRotorsSpeeds;
-import frc.robot.subsystems.Rotors;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ScoringAlgae extends Command {
   StateMachine globalStateMachine;
-  Rotors globalRotors;
+  Intake globalIntake;
 
-  public ScoringAlgae(StateMachine globalStateMachine, Rotors subRotors) {
+  public ScoringAlgae(StateMachine globalStateMachine, Intake subIntake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
+    globalIntake = subIntake;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
-    addRequirements(globalRotors);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_NET) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
+      globalIntake.setAlgaeIntakeMotorSpeed(constIntake.SCORE_ALGAE_NET_SPEED);
     } else if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_PROCESSOR_SPEED);
+      globalIntake.setAlgaeIntakeMotorSpeed(constIntake.SCORE_ALGAE_PROCESSOR_SPEED);
     }
     globalStateMachine.setRobotState(RobotState.SCORING_ALGAE);
   }
