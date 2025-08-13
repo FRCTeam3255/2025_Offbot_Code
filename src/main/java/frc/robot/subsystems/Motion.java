@@ -17,7 +17,7 @@ import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
 import frc.robot.RobotMap.*;
 
-public class Motion extends SubsystemBase {
+@Logged
   /** Creates a new Motion. */
   TalonFX leftLiftMotorFollower;
   TalonFX rightLiftMotorLeader;
