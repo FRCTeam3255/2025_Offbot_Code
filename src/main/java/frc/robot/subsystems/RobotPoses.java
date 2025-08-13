@@ -70,7 +70,7 @@ public class RobotPoses extends SubsystemBase {
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
-        subMotion.getLastDesiredPivotAngle(),
+        subMotion.getLastDesiredWristPivotAngle(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
 
