@@ -6,23 +6,23 @@ package frc.robot.commands.States.first_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constIntake;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeAlgaeGround extends Command {
   /** Creates a new IntakeAlgaeGround. */
-  Elevator globalElevator;
-  Intake globalIntake;
+  Motion globalMotion;
+  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public IntakeAlgaeGround(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
+  public IntakeAlgaeGround(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalElevator = subElevator;
-    globalIntake = subIntake;
+    globalMotion = subMotion;
+    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -30,10 +30,8 @@ public class IntakeAlgaeGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(constMechanismPositions.INTAKE_ALGAE_GROUND.pivotAngle);
-    globalElevator.setLiftPosition(constMechanismPositions.INTAKE_ALGAE_GROUND.liftHeight);
-    globalIntake.setWristPivotAngle(constMechanismPositions.INTAKE_ALGAE_GROUND.wristAngle);
-    globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND);
   }
 

@@ -7,24 +7,23 @@ package frc.robot.commands.States.prep_coral;
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.constElevator;
 import frc.robot.Constants.constMechanismPositions;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralLv extends Command {
   /** Creates a new PrepCoralLv. */
-  Elevator globalElevator;
-  Intake globalIntake;
+  Motion globalMotion;
+  Rotors globalRotors;
   StateMachine globalStateMachine;
   Distance globalDistance;
 
-  public PrepCoralLv(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake, Distance height) {
+  public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalElevator = subElevator;
-    globalIntake = subIntake;
+    globalMotion = subMotion;
+    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
     this.globalDistance = height;
     addRequirements(globalStateMachine);
@@ -33,25 +32,17 @@ public class PrepCoralLv extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L1_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L1_FORWARDS.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L1_FORWARDS.wristAngle);
+    if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
-    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L2_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L2_FORWARDS.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L2_FORWARDS.wristAngle);
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L3_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L3_FORWARDS.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L3_FORWARDS.wristAngle);
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-    } else if (globalDistance.equals(constElevator.ELEVATOR_CORAL_L4_HEIGHT)) {
-      globalElevator.setLiftPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight);
-      globalElevator.setElevatorPivotAngle(constMechanismPositions.PREP_CORAL_L4_FORWARDS.pivotAngle);
-      globalIntake.setWristPivotAngle(constMechanismPositions.PREP_CORAL_L4_FORWARDS.wristAngle);
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
     }
   }

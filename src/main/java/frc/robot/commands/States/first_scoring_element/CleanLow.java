@@ -5,34 +5,33 @@
 package frc.robot.commands.States.first_scoring_element;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constIntake;
+import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CleanLow extends Command {
   StateMachine globalStateMachine;
-  Elevator globalElevator;
-  Intake globalIntake;
+  Motion globalMotion;
+  Rotors globalRotors;
 
-  public CleanLow(StateMachine globalStateMachine, Elevator subElevator, Intake subIntake) {
+  public CleanLow(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
-    this.globalElevator = subElevator;
-    this.globalIntake = subIntake;
+    this.globalMotion = subMotion;
+    this.globalRotors = subRotors;
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalElevator.setElevatorPivotAngle(constMechanismPositions.CLEAN_LOW.pivotAngle);
-    globalElevator.setLiftPosition(constMechanismPositions.CLEAN_LOW.liftHeight);
-    globalIntake.setWristPivotAngle(constMechanismPositions.CLEAN_LOW.wristAngle);
-    globalIntake.setAlgaeIntakeMotorSpeed(constIntake.INTAKE_ALGAE_SPEED);
+    globalMotion.setAllPosition(constMechanismPositions.CLEAN_LOW);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW);
   }
 
