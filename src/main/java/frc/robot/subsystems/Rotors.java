@@ -10,6 +10,8 @@ import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import static edu.wpi.first.units.Units.Degrees;
+
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -19,12 +21,12 @@ import frc.robot.RobotMap.mapRotors;
 
 public class Rotors extends SubsystemBase {
   /** Creates a new Rotors. */
+  @Logged
+
   TalonFX coralIntakeMotor;
   TalonFX algaeIntakeMotor;
   TalonFX cageCollectMotor;
   CANrange coralSensor;
-  public boolean hasCoral = false;
-  public boolean hasAlgae = false;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Rotors() {
@@ -40,7 +42,7 @@ public class Rotors extends SubsystemBase {
   }
 
   public boolean hasCoral() {
-    return hasCoral;
+    return coralSensor.getIsDetected().getValue();
   }
 
   public boolean hasAlgae() {
@@ -69,7 +71,7 @@ public class Rotors extends SubsystemBase {
     algaeIntakeMotor.set(speed);
   }
 
-  public void ejectGamePiece(double speed) {
+  public void setAllRotors(double speed) {
     coralIntakeMotor.set(speed);
     algaeIntakeMotor.set(speed);
   }

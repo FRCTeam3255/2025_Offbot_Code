@@ -8,6 +8,8 @@ import static edu.wpi.first.units.Units.Degrees;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
@@ -17,7 +19,8 @@ import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
 import frc.robot.RobotMap.*;
 
-@Logged
+public class Motion extends SubsystemBase {
+  @Logged
   /** Creates a new Motion. */
   TalonFX leftLiftMotorFollower;
   TalonFX rightLiftMotorLeader;
@@ -28,7 +31,6 @@ import frc.robot.RobotMap.*;
   private Angle elevatorPivotLastDesiredAngle = Degrees.zero();
   private Angle intakeWristLastDesiredAngle = Degrees.zero();
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
-  public boolean isLiftAtSetPointWithTolerance = false;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Motion() {
@@ -61,19 +63,10 @@ import frc.robot.RobotMap.*;
     elevatorLiftLastDesiredPosition = height;
   }
 
-  private Angle getElevatorPivotAngle() {
-    return rightPivotMotorLeader.getPosition().getValue();
-  }
-
   private void setElevatorPivotAngle(Angle angle) {
     rightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
     leftPivotMotorFollower.setControl(new Follower(rightPivotMotorLeader.getDeviceID(), true));
     elevatorPivotLastDesiredAngle = angle;
-  }
-
-  private Angle getWristPivotMotorAngle() {
-    double angle = intakePivotMotor.getPosition().getValueAsDouble();
-    return Degrees.of(angle);
   }
 
   private void setWristPivotAngle(Angle angle) {
@@ -91,14 +84,14 @@ import frc.robot.RobotMap.*;
     if (Robot.isSimulation()) {
       return elevatorPivotLastDesiredAngle;
     }
-    return getElevatorPivotAngle();
+    return rightPivotMotorLeader.getPosition().getValue();
   }
 
   public Angle getWristAngle() {
     if (Robot.isSimulation()) {
       return intakeWristLastDesiredAngle;
     }
-    return getWristPivotMotorAngle();
+    return Degrees.of(intakePivotMotor.getPosition().getValueAsDouble());
   }
 
   public boolean arePositionsAtSetPoint(Distance liftTolerance, Angle pivotTolerance, Angle wristTolerance) {
