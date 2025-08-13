@@ -61,15 +61,6 @@ public class Motion extends SubsystemBase {
     elevatorLiftLastDesiredPosition = height;
   }
 
-  public boolean isLiftAtSetPointWithTolerance(Distance position, Distance tolerance) {
-    if (Robot.isSimulation()) {
-      return true;
-    }
-    return (getLiftPosition()
-        .compareTo(position.minus(tolerance)) > 0) &&
-        getLiftPosition().compareTo(position.plus(tolerance)) < 0;
-  }
-
   private Angle getElevatorPivotAngle() {
     return rightPivotMotorLeader.getPosition().getValue();
   }
@@ -108,6 +99,18 @@ public class Motion extends SubsystemBase {
       return intakeWristLastDesiredAngle;
     }
     return getWristPivotMotorAngle();
+  }
+
+  public boolean arePositionsAtSetPoint(Distance liftTolerance, Angle pivotTolerance, Angle wristTolerance) {
+    if (Robot.isSimulation()) {
+      return true;
+    }
+    return (getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.minus(liftTolerance)) > 0 &&
+        getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.plus(liftTolerance)) < 0 &&
+        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.minus(pivotTolerance)) > 0 &&
+        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.plus(pivotTolerance)) < 0 &&
+        getWristAngle().compareTo(intakeWristLastDesiredAngle.minus(wristTolerance)) > 0 &&
+        getWristAngle().compareTo(intakeWristLastDesiredAngle.plus(wristTolerance)) < 0);
   }
 
   @Override
