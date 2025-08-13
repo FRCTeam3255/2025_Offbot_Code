@@ -67,7 +67,7 @@ public class Rotors extends SubsystemBase {
     algaeIntakeMotor.set(speed);
   }
 
-  public void setAllRotors(double speed) {
+  public void setAllIntake(double speed) {
     coralIntakeMotor.set(speed);
     algaeIntakeMotor.set(speed);
   }

@@ -26,7 +26,7 @@ public class Ejecting extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setAllRotors(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
+    globalRotors.setAllIntake(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
     globalStateMachine.setRobotState(RobotState.EJECTING);
   }
 
