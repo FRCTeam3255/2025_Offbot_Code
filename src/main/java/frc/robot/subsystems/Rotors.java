@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.RobotMap.mapRotors;
 
+@Logged
 public class Rotors extends SubsystemBase {
   /** Creates a new Rotors. */
-  @Logged
 
   TalonFX coralIntakeMotor;
   TalonFX algaeIntakeMotor;
