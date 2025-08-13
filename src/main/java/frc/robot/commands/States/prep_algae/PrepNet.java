@@ -29,7 +29,7 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET);
+    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET_FORWARDS);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
   }
 

@@ -29,7 +29,7 @@ public class CleanHigh extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLEAN_HIGH);
+    globalMotion.setAllPosition(constMechanismPositions.CLEAN_HIGH_FORWARDS);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_HIGH);
   }

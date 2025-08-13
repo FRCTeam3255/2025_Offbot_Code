@@ -30,7 +30,7 @@ public class CleanLow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLEAN_LOW);
+    globalMotion.setAllPosition(constMechanismPositions.CLEAN_LOW_FORWARDS);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW);
   }

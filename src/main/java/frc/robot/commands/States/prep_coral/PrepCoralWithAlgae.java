@@ -33,7 +33,7 @@ public class PrepCoralWithAlgae extends Command {
   @Override
   public void initialize() {
     if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L1_WITH_ALGAE) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
     } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
