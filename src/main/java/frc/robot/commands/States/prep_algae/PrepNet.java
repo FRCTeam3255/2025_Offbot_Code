@@ -36,11 +36,12 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalDrivetrain
-        .isActionBackwards(globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get()));
-    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
+
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);

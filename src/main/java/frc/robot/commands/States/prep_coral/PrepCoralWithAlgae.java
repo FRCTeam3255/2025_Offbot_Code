@@ -43,11 +43,15 @@ public class PrepCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == true) {
+    globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getReefPositions(constField.isRedAlliance()).get());
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getReefPositions(constField.isRedAlliance()).get()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation) == false) {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getReefPositions(constField.isRedAlliance()).get()) == false) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
@@ -70,9 +74,8 @@ public class PrepCoralWithAlgae extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalDrivetrain
-        .isActionBackwards(
-            globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get()));
+
+    globalDrivetrain.getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.
