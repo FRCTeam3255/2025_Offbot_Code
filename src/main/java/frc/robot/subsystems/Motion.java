@@ -8,8 +8,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -19,7 +17,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap.*;
 
 public class Motion extends SubsystemBase {
