@@ -414,9 +414,6 @@ public final class Constants {
       PREP_CORAL_L1.wristAngle = Degrees.of(14.07);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L1.pivotAngle = Degrees.of(27.01);
-      PREP_CORAL_L1.wristAngle = Degrees.of(14.07);
-      PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L1.pivotAngle = Degrees.of(27.01);
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(115);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(7); // TODO: Replace with actual height
@@ -440,7 +437,6 @@ public final class Constants {
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
