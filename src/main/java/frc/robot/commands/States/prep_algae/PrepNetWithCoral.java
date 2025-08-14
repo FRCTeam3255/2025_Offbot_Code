@@ -51,7 +51,7 @@ public class PrepNetWithCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get());
+    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get());
   }
 
   // Called once the command ends or is interrupted.

@@ -44,8 +44,6 @@ public class PrepCoralLv extends Command {
 
   @Override
   public void initialize() {
-    globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getReefPositions(constField.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
         constField.getReefPositions(constField.isRedAlliance()).get()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
@@ -75,7 +73,7 @@ public class PrepCoralLv extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalDrivetrain
+    closestPoseByRotation = globalDrivetrain
         .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
 
   }

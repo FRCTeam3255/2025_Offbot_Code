@@ -54,7 +54,8 @@ public class CleanLowWithCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.

@@ -55,7 +55,8 @@ public class CleanHighWithCoral extends Command {
   @Override
   public void execute() {
 
-    globalDrivetrain.getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.

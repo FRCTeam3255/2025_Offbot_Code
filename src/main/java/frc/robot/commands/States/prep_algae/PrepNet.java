@@ -5,7 +5,6 @@
 package frc.robot.commands.States.prep_algae;
 
 import frc.robot.subsystems.StateMachine.RobotState;
-import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
@@ -24,8 +23,6 @@ public class PrepNet extends Command {
   Drivetrain globalDrivetrain;
   Pose2d closestPoseByRotation;
   MechanismPositionGroup prepNet;
-  boolean isActionBackwards = globalDrivetrain.isActionBackwards(closestPoseByRotation,
-      constField.getNetPositions(constField.isRedAlliance()).get());
 
   public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,9 +36,11 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (isActionBackwards == true) {
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else {
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);
