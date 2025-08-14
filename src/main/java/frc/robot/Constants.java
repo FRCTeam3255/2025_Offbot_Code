@@ -251,7 +251,7 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 102.22;
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
@@ -433,7 +433,7 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
