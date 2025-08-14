@@ -46,7 +46,6 @@ import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.Constants.MechanismPositionGroup;
 
 public final class Constants {
 
@@ -251,7 +250,7 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 102.22;
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
@@ -378,10 +377,10 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
     public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
-    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(1);
-    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(2);
-    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(3);
-    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(20);
+    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
+    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(5);
+    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
+    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(50);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
@@ -430,7 +429,7 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
