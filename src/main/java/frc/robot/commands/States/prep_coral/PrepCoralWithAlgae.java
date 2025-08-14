@@ -32,16 +32,16 @@ public class PrepCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L1_WITH_ALGAE) {
+    if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L1_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE) {
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L2_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L3_WITH_ALGAE) {
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L3_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L4_WITH_ALGAE) {
+    } else if (globalDistance.equals(constMechanismPositions.PREP_CORAL_L4_FORWARDS.liftHeight)) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
     }
