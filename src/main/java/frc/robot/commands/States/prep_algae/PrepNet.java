@@ -5,9 +5,12 @@
 package frc.robot.commands.States.prep_algae;
 
 import frc.robot.subsystems.StateMachine.RobotState;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
@@ -17,11 +20,15 @@ public class PrepNet extends Command {
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
+  Drivetrain globalDrivetrain;
+  Pose2d closestPoseByRotation;
+  MechanismPositionGroup prepNet;
 
-  public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
+    globalDrivetrain = subDrivetrain;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -29,7 +36,16 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_NET_FORWARDS);
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getNetPositions(constField.isRedAlliance()).get());
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
+      prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getNetPositions(constField.isRedAlliance()).get()) == false) {
+      prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
+    }
+    globalMotion.setAllPosition(prepNet);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
   }
 

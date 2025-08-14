@@ -5,44 +5,68 @@
 package frc.robot.commands.States.prep_coral;
 
 import frc.robot.subsystems.StateMachine.RobotState;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralWithAlgae extends Command {
   /** Creates a new PrepCoralWithAlgae. */
+  Drivetrain globalDrivetrain;
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
-  Distance globalDistance;
+  Distance globalHeight;
+  Pose2d closestPoseByRotation;
+  MechanismPositionGroup prepL2;
+  MechanismPositionGroup prepL3;
+  MechanismPositionGroup prepL4;
 
-  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Distance height) {
+  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
+      Drivetrain subDrivetrain, Distance height) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
-    this.globalDistance = height;
+    this.globalHeight = height;
+    globalDrivetrain = subDrivetrain;
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L1_WITH_ALGAE) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getReefPositions(constField.isRedAlliance()).get()) == true) {
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getReefPositions(constField.isRedAlliance()).get()) == false) {
+      prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
+      prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
+      prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
+    }
+    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT)) {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L2_FORWARDS);
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
+      globalMotion.setAllPosition(prepL2);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L3_WITH_ALGAE) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L3_FORWARDS);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT)) {
+      globalMotion.setAllPosition(prepL3);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_CORAL_L4_WITH_ALGAE) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L4_FORWARDS);
+    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT)) {
+      globalMotion.setAllPosition(prepL4);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
     }
   }

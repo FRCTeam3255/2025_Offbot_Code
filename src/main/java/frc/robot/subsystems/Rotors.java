@@ -5,33 +5,30 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import static edu.wpi.first.units.Units.Degrees;
-import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.RobotMap.mapRotors;
 
+@Logged
 public class Rotors extends SubsystemBase {
   /** Creates a new Rotors. */
+
   TalonFX coralIntakeMotor;
   TalonFX algaeIntakeMotor;
   TalonFX cageCollectMotor;
   CANrange coralSensor;
-  public boolean hasCoral = false;
-  public boolean hasAlgae = false;
-  private Angle lastDesiredAngle = Degrees.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Rotors() {
-    coralIntakeMotor = new TalonFX(mapRotors.CORAL_INTAKE_CAN); // Coral left intake motor
-    algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN); // Algae intake motor
-    coralSensor = new CANrange(mapRotors.CORAL_INTAKE_SENSOR); // Coral intake sensor
+    coralIntakeMotor = new TalonFX(mapRotors.CORAL_INTAKE_CAN);
+    algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN);
+    coralSensor = new CANrange(mapRotors.CORAL_INTAKE_SENSOR);
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
 
     coralIntakeMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
@@ -41,7 +38,7 @@ public class Rotors extends SubsystemBase {
   }
 
   public boolean hasCoral() {
-    return hasCoral;
+    return coralSensor.getIsDetected().getValue();
   }
 
   public boolean hasAlgae() {
@@ -63,30 +60,20 @@ public class Rotors extends SubsystemBase {
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
-    coralIntakeMotor.setVoltage(speed);
+    coralIntakeMotor.set(speed);
   }
 
   public void setAlgaeIntakeMotorSpeed(double speed) {
-    algaeIntakeMotor.setVoltage(speed);
+    algaeIntakeMotor.set(speed);
   }
 
-  public void setIntakeMotorNeutralOutput() {
-    coralIntakeMotor.setVoltage(0);
-    algaeIntakeMotor.setVoltage(0);
-  }
-
-  public void ejectGamePiece(double speed) {
-    coralIntakeMotor.setVoltage(speed);
-    algaeIntakeMotor.setVoltage(speed);
-
+  public void setAllIntake(double speed) {
+    coralIntakeMotor.set(speed);
+    algaeIntakeMotor.set(speed);
   }
 
   public void setClimberMotorPercentOutput(double speed) {
     cageCollectMotor.set(speed);
-  }
-
-  public void setClimberNeutralOutput() {
-    cageCollectMotor.setControl(new NeutralOut());
   }
 
   @Override
