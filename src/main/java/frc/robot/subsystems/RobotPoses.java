@@ -29,6 +29,7 @@ public class RobotPoses extends SubsystemBase {
   Pose3d model1ElevatorStage2 = Pose3d.kZero;
   Pose3d model2ElevatorCarriage = Pose3d.kZero;
   Pose3d model3Intake = Pose3d.kZero;
+  Pose3d model4Climber = Pose3d.kZero;
   Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
   Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
 
@@ -89,5 +90,7 @@ public class RobotPoses extends SubsystemBase {
     // needed)
     model3Intake = model2ElevatorCarriage.rotateAround(
         model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
+
+    model4Climber = model0Pivot;
   }
 }
