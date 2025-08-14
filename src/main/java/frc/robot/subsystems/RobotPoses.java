@@ -68,8 +68,8 @@ public class RobotPoses extends SubsystemBase {
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
-        subMotion.getWristAngle(),
         Units.Degrees.zero(),
+        subMotion.getWristAngle(),
         Units.Degrees.zero());
 
     // Robot Positions
