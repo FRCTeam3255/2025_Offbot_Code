@@ -251,7 +251,7 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 111.11;
+      ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 102.22;
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
