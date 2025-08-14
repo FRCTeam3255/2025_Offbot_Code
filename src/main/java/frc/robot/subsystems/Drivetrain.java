@@ -4,15 +4,21 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -25,7 +31,6 @@ import frc.robot.RobotMap.mapDrivetrain;
 public class Drivetrain extends SN_SuperSwerve {
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
-
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {
       new SN_SwerveModule(0, mapDrivetrain.FRONT_LEFT_DRIVE_CAN, mapDrivetrain.FRONT_LEFT_STEER_CAN,
           mapDrivetrain.FRONT_LEFT_ABSOLUTE_ENCODER_CAN, constDrivetrain.FRONT_LEFT_ABS_ENCODER_OFFSET,
@@ -78,8 +83,35 @@ public class Drivetrain extends SN_SuperSwerve {
     super.configure();
   }
 
+  public Pose2d getRobotPose() {
+    return getPose();
+  }
+
+  public Pose2d getFrontPose() {
+    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(14.5), new Rotation2d(0)));
+  }
+
+  public Pose2d getBackPose() {
+    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(-14.5), new Rotation2d(0)));
+  }
+
   public Angle getRotationMeasure() {
     return Units.Degrees.of(getRotation().getDegrees());
+  }
+
+  public boolean isActionBackwards(Pose2d closestPoseByRotation, List<Pose2d> pose) {
+    Distance backDistance;
+    Distance frontDistance;
+    closestPoseByRotation = getClosestPoseByRotation(pose);
+    backDistance = Units.Meters
+        .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    frontDistance = Units.Meters
+        .of(getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
+    if (backDistance.lt(frontDistance)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
