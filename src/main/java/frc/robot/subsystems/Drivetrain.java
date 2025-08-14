@@ -29,7 +29,6 @@ import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
-  boolean isActionBackwards = false;
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {

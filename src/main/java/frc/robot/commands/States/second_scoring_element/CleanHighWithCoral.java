@@ -39,6 +39,8 @@ public class CleanHighWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
         constField.getAlgaePositions(constField.isRedAlliance()).get()) == true) {
       cleanHighWithCoral = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
@@ -54,9 +56,6 @@ public class CleanHighWithCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.

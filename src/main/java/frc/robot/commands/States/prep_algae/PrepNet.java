@@ -36,6 +36,8 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getNetPositions(constField.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
         constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
@@ -50,8 +52,6 @@ public class PrepNet extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getNetPositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.

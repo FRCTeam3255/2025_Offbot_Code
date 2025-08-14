@@ -43,6 +43,8 @@ public class PrepCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
         constField.getReefPositions(constField.isRedAlliance()).get()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
@@ -72,9 +74,6 @@ public class PrepCoralWithAlgae extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
   }
 
   // Called once the command ends or is interrupted.
