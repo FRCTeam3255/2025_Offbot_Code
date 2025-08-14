@@ -73,14 +73,14 @@ public class RobotPoses extends SubsystemBase {
         Units.Degrees.zero());
 
     // Robot Positions
-    modelDrivetrain = new Pose3d(subDrivetrain.getPose())
+    modelDrivetrain = new Pose3d(subDrivetrain.getPose());
+
+    model0Pivot = Pose3d.kZero.rotateAround(
+        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d)
         .rotateBy(new Rotation3d(
             Units.Degrees.zero(),
             Units.Degrees.zero(),
             Units.Degrees.of(-90)));
-
-    model0Pivot = Pose3d.kZero.rotateAround(
-        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d);
 
     model1ElevatorStage2 = model0Pivot.transformBy(elevatorTransform3d);
 
