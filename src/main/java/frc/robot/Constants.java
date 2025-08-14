@@ -355,9 +355,7 @@ public final class Constants {
     public static final MechanismPositionGroup CLEAN_LOW_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION = new MechanismPositionGroup();
-    public static final MechanismPositionGroup INTAKE_CORAL_STATION = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_GROUND = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L2_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L3_FORWARDS = new MechanismPositionGroup();
@@ -366,8 +364,6 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_CORAL_L3_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L4_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_ZERO_WITH_ALGAE = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_NET_FORWARDS = new MechanismPositionGroup();
-    public static final MechanismPositionGroup PREP_ALGAE_NET_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_NET_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_NET_BACKWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_ZERO = new MechanismPositionGroup();
