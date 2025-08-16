@@ -383,20 +383,20 @@ public final class Constants {
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
-      CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(-81.81);
+      CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(-65.81);
       CLEAN_HIGH_FORWARDS.liftHeight = Inches.of(20.975);
-      CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(72.04);
+      CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(69.04);
 
-      CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(-77.15);
+      CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(-65.15);
       CLEAN_LOW_FORWARDS.liftHeight = Inches.of(10);
       CLEAN_LOW_FORWARDS.pivotAngle = Degrees.of(58.46);
 
       CLEAN_LOW_BACKWARDS.wristAngle = Degrees.of(98.05);
-      CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(0);
+      CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(5);
       CLEAN_LOW_BACKWARDS.pivotAngle = Degrees.of(83.88);
 
       CLEAN_HIGH_BACKWARDS.wristAngle = Degrees.of(99.26);
-      CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(14.6418);
+      CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(86.16);
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
@@ -411,45 +411,45 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_CORAL_L1.wristAngle = Degrees.of(14.07);
+      PREP_CORAL_L1.wristAngle = Degrees.of(-10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L1.pivotAngle = Degrees.of(27.01);
+      PREP_CORAL_L1.pivotAngle = Degrees.of(35);
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(115);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(7); // TODO: Replace with actual height
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(35.56);
 
-      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(115);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(100);
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(19); // TODO: Replace with actual height
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
 
-      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(30);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(46); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(69.01);
+      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(35);
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70.01);
 
-      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(56.38);
+      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
 
-      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(35);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(125);
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(15); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
-      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(54.55);
-      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
+      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(145);
+      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(-40); // TODO: Replace with actual angle
       PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
-      PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(75); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(147.85);
-      PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(46);
-      PREP_ALGAE_NET_BACKWARDS.pivotAngle = Degrees.of(75.47);
+      PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(40);
+      PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(50);
+      PREP_ALGAE_NET_BACKWARDS.pivotAngle = Degrees.of(90);
 
       PREP_ALGAE_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_ALGAE_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
