@@ -95,15 +95,12 @@ public class Motion extends SubsystemBase {
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
-    if (Robot.isSimulation()) {
-      return true;
-    }
-    return (getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.minus(positionGroup.liftTolerance)) > 0 &&
-        getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.plus(positionGroup.liftTolerance)) < 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.minus(positionGroup.pivotTolerance)) > 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.plus(positionGroup.pivotTolerance)) < 0 &&
-        getWristAngle().compareTo(intakeWristLastDesiredAngle.minus(positionGroup.wristTolerance)) > 0 &&
-        getWristAngle().compareTo(intakeWristLastDesiredAngle.plus(positionGroup.wristTolerance)) < 0);
+    return (getLiftPosition().compareTo(positionGroup.liftHeight.minus(positionGroup.liftTolerance)) > 0 &&
+        getLiftPosition().compareTo(positionGroup.liftHeight.plus(positionGroup.liftTolerance)) < 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.minus(positionGroup.pivotTolerance)) > 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.plus(positionGroup.pivotTolerance)) < 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.minus(positionGroup.wristTolerance)) > 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.plus(positionGroup.wristTolerance)) < 0);
   }
 
   @Override
