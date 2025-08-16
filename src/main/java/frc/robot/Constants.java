@@ -377,7 +377,8 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLIMBED = new MechanismPositionGroup();
+    public static final MechanismPositionGroup LATCHED = new MechanismPositionGroup();
     public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
     public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(5);
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
@@ -493,9 +494,13 @@ public final class Constants {
       PREP_PROCESSOR_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_PROCESSOR_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
 
-      CLIMBING.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLIMBING.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      CLIMBING.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      LATCHED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      LATCHED.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      LATCHED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       // backwards positions
 
     }

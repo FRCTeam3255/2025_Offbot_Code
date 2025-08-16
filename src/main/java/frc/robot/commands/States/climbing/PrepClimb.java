@@ -49,7 +49,8 @@ public class PrepClimb extends Command {
 
     if (globalRotors.isCageLatched() == true) {
       globalStateMachine.setRobotState(RobotState.CLIMBING);
-      globalMotion.setAllPosition(constMechanismPositions.CLIMBING);
+      globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
+      globalMotion.setAllPosition(constMechanismPositions.LATCHED);
     }
 
   }
