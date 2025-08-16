@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.335258871822034,
-        "y": 5.052642511917373
+        "x": 5.353898387844279,
+        "y": 5.361477505958686
       },
       "prevControl": {
-        "x": 6.554065886796449,
-        "y": 6.420128790194198
+        "x": 6.572705402818695,
+        "y": 6.7289637842355114
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "coral_i"
+      "linkedName": "FACE_IJ"
     }
   ],
   "rotationTargets": [],
@@ -70,7 +70,7 @@
     "rotation": -123.99904167635113
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Reef Face",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0
