@@ -79,9 +79,7 @@ public class Rotors extends SubsystemBase {
 
   public boolean isCageLatched() {
     Current collectorCurrent = cageCollectMotor.getStatorCurrent().getValue();
-
-    Current collectorHasCageCurrent = constRotors.COLLECTOR_HAS_CAGE_CURRENT;
-    if (collectorCurrent.gt(collectorHasCageCurrent)) {
+    if (collectorCurrent.gt(constRotors.COLLECTOR_HAS_CAGE_CURRENT)) {
       return true;
     }
     return false;

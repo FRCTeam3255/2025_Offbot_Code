@@ -26,7 +26,7 @@ public class Climbing extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLIMBING);
+    globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
     globalStateMachine.setRobotState(RobotState.CLIMBING);
   }
 
