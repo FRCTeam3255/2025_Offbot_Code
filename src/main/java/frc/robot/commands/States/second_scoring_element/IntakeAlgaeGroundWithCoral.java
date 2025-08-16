@@ -28,7 +28,7 @@ public class IntakeAlgaeGroundWithCoral extends Command {
 
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND_WITH_CORAL);
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL);
   }
