@@ -37,6 +37,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -128,6 +129,10 @@ public final class Constants {
 
     // Rotational speed (degrees per second) while manually driving
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
+
+    public static final Angle MAX_DRIVETAIN_PITCH = Units.Degrees.of(10);
+    public static final Angle MIN_DRIVETRAIN_PITCH = Units.Degrees.of(-10);
+    public static final Distance RETRACT_LIFT_PITCH = Units.Inches.of(0);
 
     // -- Motor Configurations --
     static {
