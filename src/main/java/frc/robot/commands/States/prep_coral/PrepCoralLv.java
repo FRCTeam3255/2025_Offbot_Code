@@ -28,7 +28,7 @@ public class PrepCoralLv extends Command {
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
-  int targetLevel; // Placeholder for target height, adjust as needed
+  int targetLevel;
 
   public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain,
       int level) {
