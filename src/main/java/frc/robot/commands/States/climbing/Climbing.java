@@ -46,6 +46,7 @@ public class Climbing extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return globalMotion.arePositionsAtSetPoint(globalMotion.getLiftPosition(), globalMotion.getPivotAngle(),
+        globalMotion.getWristAngle());
   }
 }
