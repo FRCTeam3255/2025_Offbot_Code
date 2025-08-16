@@ -288,6 +288,17 @@ public final class Constants {
       WRIST_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
     }
 
+    public static final Time ZEROING_TIMEOUT = Units.Seconds.of(3);
+
+    public static final AngularVelocity MANUAL_ZEROING_START_VELOCITY = Units.RotationsPerSecond.of(5);
+    public static final AngularVelocity MANUAL_ZEROING_DELTA_VELOCITY = Units.RotationsPerSecond.of(5);
+
+    public static TalonFXConfiguration COAST_MODE_CONFIGURATION = new TalonFXConfiguration();
+    static {
+      COAST_MODE_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      COAST_MODE_CONFIGURATION.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    }
+
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
@@ -297,6 +308,7 @@ public final class Constants {
     public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
     public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);
 
+    public static final Distance ZEROED_POS = Units.Meters.of(0);
     /**
      * The elapsed time required to consider the motor as zeroed
      */
