@@ -72,6 +72,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_HIGH:
           case CLEAN_LOW:
           case EJECTING:
+          case INTAKE_CORAL_L1:
             return new None(subStateMachine, subMotion, subRotors);
         }
 
@@ -102,7 +103,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_ZERO:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
@@ -113,13 +113,8 @@ public class StateMachine extends SubsystemBase {
 
       case PREP_CORAL_L1:
         switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-          case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
+          case INTAKE_CORAL_L1:
+            return new PrepCoralL1(subStateMachine, subMotion, subRotors);
 
         }
         break;
@@ -127,7 +122,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L2:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
@@ -140,7 +134,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L3:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
@@ -153,7 +146,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L4:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_ZERO:
@@ -165,25 +157,9 @@ public class StateMachine extends SubsystemBase {
 
       // prep Coral with Algae
 
-      case PREP_CORAL_L1_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
-
-        }
-        break;
-
       case PREP_CORAL_L2_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
@@ -198,7 +174,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L3_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
@@ -213,7 +188,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L4_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_ZERO_WITH_ALGAE:
@@ -228,7 +202,6 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_ZERO_WITH_ALGAE:
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
@@ -277,7 +250,6 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
@@ -291,7 +263,6 @@ public class StateMachine extends SubsystemBase {
         switch (currentRobotState) {
           case HAS_CORAL_AND_ALGAE:
           case PREP_ALGAE_NET_WITH_CORAL:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
@@ -395,6 +366,15 @@ public class StateMachine extends SubsystemBase {
         }
         break;
 
+      case INTAKE_CORAL_L1:
+        switch (currentRobotState) {
+          case NONE:
+          case INTAKE_CORAL_STATION:
+          case INTAKE_CORAL_GROUND:
+            return new IntakeCoralL1(subStateMachine, subMotion, subRotors);
+        }
+        break;
+
       // manipulating 2 game pieces
       case EJECTING:
         switch (currentRobotState) {
@@ -412,7 +392,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
@@ -432,7 +411,6 @@ public class StateMachine extends SubsystemBase {
 
       case SCORING_CORAL_WITH_ALGAE:
         switch (currentRobotState) {
-          case PREP_CORAL_L1_WITH_ALGAE:
           case PREP_CORAL_L2_WITH_ALGAE:
           case PREP_CORAL_L3_WITH_ALGAE:
           case PREP_CORAL_L4_WITH_ALGAE:
@@ -445,7 +423,6 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_HIGH_WITH_CORAL:
         switch (currentRobotState) {
           case CLEAN_LOW_WITH_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
@@ -458,7 +435,6 @@ public class StateMachine extends SubsystemBase {
       case CLEAN_LOW_WITH_CORAL:
         switch (currentRobotState) {
           case HAS_CORAL:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
@@ -533,7 +509,6 @@ public class StateMachine extends SubsystemBase {
     PREP_CORAL_L3,
     PREP_CORAL_L4,
     // prep Coral with Algae
-    PREP_CORAL_L1_WITH_ALGAE,
     PREP_CORAL_L2_WITH_ALGAE,
     PREP_CORAL_L3_WITH_ALGAE,
     PREP_CORAL_L4_WITH_ALGAE,
@@ -557,6 +532,7 @@ public class StateMachine extends SubsystemBase {
     CLEAN_LOW,
     INTAKE_CORAL_STATION,
     INTAKE_ALGAE_GROUND,
+    INTAKE_CORAL_L1,
     // manipulating 2 game pieces
     EJECTING, // we are planning on ejecting both game pieces at the same time
     SCORING_ALGAE_WITH_CORAL,

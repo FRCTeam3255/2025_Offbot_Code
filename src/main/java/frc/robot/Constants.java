@@ -371,6 +371,7 @@ public final class Constants {
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND_WITH_ALGAE = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION_WITH_ALGAE = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_GROUND_WITH_CORAL = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CLIMB = new MechanismPositionGroup();
     public static final MechanismPositionGroup NONE = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
@@ -476,6 +477,10 @@ public final class Constants {
       INTAKE_ALGAE_GROUND_WITH_CORAL.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND_WITH_CORAL.pivotAngle = Degrees.of(15); // TODO: Replace with actual angle
 
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(-15);
+      INTAKE_CORAL_L1.liftHeight = Inches.of(0);
+      INTAKE_CORAL_L1.pivotAngle = Degrees.of(15);
+
       PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CLIMB.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
@@ -514,6 +519,7 @@ public final class Constants {
     public static final double INTAKE_CORAL_GROUND_SPEED = 0; // TODO: Replace with actual speed
     public static final double INTAKE_CORAL_STATION_SPEED = 0; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 0;
+    public static final double INTAKE_CORAL_L1_SPEED = 0; // TODO: Replace with actual speed
   }
 
   /**
