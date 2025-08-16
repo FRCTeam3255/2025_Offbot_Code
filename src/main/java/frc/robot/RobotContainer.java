@@ -19,11 +19,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.DriveManual;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.RobotPoses;
+import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
