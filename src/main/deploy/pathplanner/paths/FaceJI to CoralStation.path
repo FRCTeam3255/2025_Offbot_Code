@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.335258871822034,
-        "y": 5.052642511917373
+        "x": 5.353898387844279,
+        "y": 5.361477505958686
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.995261191067267,
-        "y": 5.857880414295851
+        "x": 4.222051475024283,
+        "y": 5.886893123145606
       },
       "isLocked": false,
-      "linkedName": "coral_i"
+      "linkedName": "FACE_IJ"
     },
     {
       "anchor": {
-        "x": 1.376903469279661,
-        "y": 7.1717376191737285
+        "x": 1.5368644067796609,
+        "y": 6.807855534957627
       },
       "prevControl": {
-        "x": 1.0367853187482965,
-        "y": 7.309456670128402
+        "x": 1.2988182578295653,
+        "y": 6.884236363507918
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "INTAKE_CORAL_STATION_TRIGGER",
-      "waypointRelativePos": 0.1681626263786764,
+      "waypointRelativePos": 0.38605095358455876,
       "endWaypointRelativePos": 1.0,
       "command": null
     }
@@ -52,7 +52,7 @@
     "rotation": -49.6984640499089
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To CoralStation",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -123.99904167635113

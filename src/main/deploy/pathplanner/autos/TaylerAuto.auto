@@ -7,19 +7,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "top to i"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "Top to FaceIJ"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "i_to_cs"
+            "pathName": "FaceJI to CoralStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CoralStation to FaceJI"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FaceJI to CoralStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CoralStation to FaceLK"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FaceLK to CoralStation"
           }
         }
       ]
