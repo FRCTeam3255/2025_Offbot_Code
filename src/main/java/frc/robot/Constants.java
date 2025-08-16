@@ -582,9 +582,10 @@ public final class Constants {
 
       private static final List<Pose2d> BLUE_CORAL_STATION_POSES = List.of(LEFT_CORAL_STATION_FAR,
           LEFT_CORAL_STATION_NEAR, RIGHT_CORAL_STATION_FAR, RIGHT_CORAL_STATION_NEAR);
+      private static final List<Pose2d> RED_CORAL_STATION_POSES = getRedCoralStationPoses();
 
       private static final List<Pose2d> BLUE_CAGE_POSES = List.of(CAGE_1, CAGE_2, CAGE_3);
-
+      private static final List<Pose2d> RED_CAGE_POSES = getRedCagePoses();
     }
 
     public static Pose2d getRedAlliancePose(Pose2d bluePose) {
@@ -687,6 +688,37 @@ public final class Constants {
         return () -> POSES.RED_NET_POSES;
       }
       return () -> POSES.BLUE_NET_POSES;
+    }
+
+    // -- CORAL STATION --
+    private static List<Pose2d> getRedCoralStationPoses() {
+      Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_CORAL_STATION_POSES.size()];
+
+      for (int i = 0; i < POSES.BLUE_CORAL_STATION_POSES.size(); i++) {
+        returnedPoses[i] = getRedAlliancePose(POSES.BLUE_CORAL_STATION_POSES.get(i));
+      }
+
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3]);
+    }
+
+    public static Supplier<List<Pose2d>> getCoralStationPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_CORAL_STATION_POSES;
+      }
+      return () -> POSES.BLUE_CORAL_STATION_POSES;
+    }
+
+    // -- CAGES --
+    private static List<Pose2d> getRedCagePoses() {
+      Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_CAGE_POSES);
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2]);
+    }
+
+    public static Supplier<List<Pose2d>> getCagePositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_CAGE_POSES;
+      }
+      return () -> POSES.BLUE_CAGE_POSES;
     }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
