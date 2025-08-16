@@ -30,7 +30,7 @@ public class ManualZeroWrist extends Command {
   @Override
   public void initialize() {
     zeroingSuccess = false;
-    globalMotion.hasZeroed = false;
+    globalMotion.hasWristZeroed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -66,11 +66,9 @@ public class ManualZeroWrist extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalMotion.setWristSoftwareLimits(true, true);
-
     if (!interrupted && zeroingSuccess) {
-      globalMotion.hasZeroed = true;
-      globalMotion.resetWristSensorPosition(constMotion.ZEROED_MANUAL_POS);
+      globalMotion.hasWristZeroed = true;
+      globalMotion.resetWristSensorPosition(constMotion.WRIST_ZEROED_POSITION);
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");

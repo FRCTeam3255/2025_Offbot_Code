@@ -30,7 +30,7 @@ public class ManualZeroPivot extends Command {
   @Override
   public void initialize() {
     zeroingSuccess = false;
-    globalMotion.hasZeroed = false;
+    globalMotion.hasPivotZeroed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -66,11 +66,9 @@ public class ManualZeroPivot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalMotion.setPivotSoftwareLimits(true, true);
-
     if (!interrupted && zeroingSuccess) {
-      globalMotion.hasZeroed = true;
-      globalMotion.resetPivotSensorPosition(constMotion.ZEROED_MANUAL_POS);
+      globalMotion.hasPivotZeroed = true;
+      globalMotion.resetPivotSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
       System.out.println("Pivot Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Pivot was never zeroed :((( blame eli");

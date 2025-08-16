@@ -36,7 +36,9 @@ public class Motion extends SubsystemBase {
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
   public boolean attemptingZeroing = false;
-  public boolean hasZeroed = false;
+  public boolean hasLiftZeroed = false;
+  public boolean hasPivotZeroed = false;
+  public boolean hasWristZeroed = false;
 
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
@@ -133,22 +135,6 @@ public class Motion extends SubsystemBase {
     return getWristVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public void setLiftSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
-    constMotion.LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
-    constMotion.LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
-
-  }
-
-  public void setPivotSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
-    constMotion.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
-    constMotion.ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
-  }
-
-  public void setWristSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
-    constMotion.WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
-    constMotion.WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
-  }
-
   public void resetLiftSensorPosition(Distance setpoint) {
     rightLiftMotorLeader.setPosition(setpoint.in(Inches));
     leftLiftMotorFollower.setPosition(setpoint.in(Inches));
@@ -175,7 +161,7 @@ public class Motion extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // 
+    //
 
   }
 }
