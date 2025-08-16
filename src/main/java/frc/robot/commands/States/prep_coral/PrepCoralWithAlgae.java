@@ -56,10 +56,7 @@ public class PrepCoralWithAlgae extends Command {
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
     }
-    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT)) {
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1_WITH_ALGAE);
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
-    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
+    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
       globalMotion.setAllPosition(prepL2);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
     } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT)) {
