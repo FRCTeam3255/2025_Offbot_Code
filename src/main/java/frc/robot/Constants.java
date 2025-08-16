@@ -509,17 +509,17 @@ public final class Constants {
     // change all elevator/intake and their related methods to be Motion/Rotors and
     // setAllPosition() in Motion.java with groups in Constants.java ; change all
     // set speeds to methods in Rotors.java with constants in constRotorSpeeds
-    public static final double EJECTING_GAME_PIECE_SPEED = 0; // TODO: Replace with actual speed
+    public static final double EJECTING_GAME_PIECE_SPEED = 1; // TODO: Replace with actual speed
     // algae speed consts
-    public static final double INTAKE_ALGAE_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_NET_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 0; // TODO: Replace with actual speed
+    public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_NET_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 1; // TODO: Replace with actual speed
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
-    public static final double CLEAN_ALGAE_SPEED = 0;
-    public static final double INTAKE_CORAL_GROUND_SPEED = 0; // TODO: Replace with actual speed
-    public static final double INTAKE_CORAL_STATION_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_CORAL_SPEED = 0;
-    public static final double INTAKE_CORAL_L1_SPEED = 0; // TODO: Replace with actual speed
+    public static final double CLEAN_ALGAE_SPEED = 1;
+    public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_CORAL_SPEED = 1;
+    public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
   }
 
   /**

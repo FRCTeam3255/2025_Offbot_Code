@@ -29,7 +29,6 @@ public class IntakeCoralL1 extends Command {
     globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
     globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
     globalRotors.setCoralIntakeL1Speed(constRotorsSpeeds.INTAKE_CORAL_L1_SPEED);
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +39,7 @@ public class IntakeCoralL1 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    globalRotors.setAllIntake(0);
   }
 
   // Returns true when the command should end.
