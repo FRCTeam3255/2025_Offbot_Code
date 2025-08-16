@@ -27,7 +27,7 @@ public class PrepCoralWithAlgae extends Command {
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
-  int targetLevel = 0;
+  int targetLevel;
 
   public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
       Drivetrain subDrivetrain, Distance height, int level) {
@@ -35,7 +35,6 @@ public class PrepCoralWithAlgae extends Command {
     globalMotion = subMotion;
     globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
-    globalDrivetrain = subDrivetrain;
     addRequirements(globalStateMachine);
     targetLevel = level;
   }
