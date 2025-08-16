@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -74,6 +75,16 @@ public class Rotors extends SubsystemBase {
 
   public void setClimberMotorPercentOutput(double speed) {
     cageCollectMotor.set(speed);
+  }
+
+  public boolean isCageLatched() {
+    Current collectorCurrent = cageCollectMotor.getStatorCurrent().getValue();
+
+    Current collectorHasCageCurrent = constRotors.COLLECTOR_HAS_CAGE_CURRENT;
+    if (collectorCurrent.gt(collectorHasCageCurrent)) {
+      return true;
+    }
+    return false;
   }
 
   @Override

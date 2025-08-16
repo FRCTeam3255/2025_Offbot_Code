@@ -31,6 +31,7 @@ public class PrepClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
     globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is still
                                                                                                // needed
@@ -45,6 +46,12 @@ public class PrepClimb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+    if (globalRotors.isCageLatched() == true) {
+      globalStateMachine.setRobotState(RobotState.CLIMBING);
+      globalMotion.setAllPosition(constMechanismPositions.CLIMBING);
+    }
+
   }
 
   // Returns true when the command should end.
