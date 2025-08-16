@@ -248,7 +248,7 @@ public class RobotContainer {
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger
-        .whileTrue(TRY_CLIMBING);
+        .onTrue(TRY_CLIMBING);
   }
 
   public RobotState getRobotState() {
