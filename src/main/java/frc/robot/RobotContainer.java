@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
+import frc.robot.commands.driver_states.DriveManual;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.StateMachine.RobotState;
 
@@ -30,6 +31,7 @@ public class RobotContainer {
   private final Rotors subRotors = new Rotors();
   private final Motion subMotion = new Motion();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
+  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
@@ -117,7 +119,7 @@ public class RobotContainer {
 
     subDrivetrain
         .setDefaultCommand(
-            new DriveManual(subDrivetrain, subStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX,
+            new DriveManual(subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX,
                 conDriver.axis_RightX));
 
     configDriverBindings();

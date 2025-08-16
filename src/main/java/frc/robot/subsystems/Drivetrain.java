@@ -83,6 +83,13 @@ public class Drivetrain extends SN_SuperSwerve {
     super.configure();
   }
 
+  public Pose2d getDesiredPose(List<Pose2d> pose) {
+    // Get the closest processor
+    Pose2d currentPose = getPose();
+    Pose2d desiredPose = currentPose.nearest(pose);
+    return desiredPose;
+  }
+
   public Pose2d getRobotPose() {
     return getPose();
   }
