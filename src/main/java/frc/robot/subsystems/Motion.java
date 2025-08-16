@@ -133,18 +133,6 @@ public class Motion extends SubsystemBase {
     return getWristVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
-  public boolean arePositionsAtSetPoint(Distance liftTolerance, Angle pivotTolerance, Angle wristTolerance) {
-    if (Robot.isSimulation()) {
-      return true;
-    }
-    return (getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.minus(liftTolerance)) > 0 &&
-        getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.plus(liftTolerance)) < 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.minus(pivotTolerance)) > 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.plus(pivotTolerance)) < 0 &&
-        getWristAngle().compareTo(wristLastDesiredAngle.minus(wristTolerance)) > 0 &&
-        getWristAngle().compareTo(wristLastDesiredAngle.plus(wristTolerance)) < 0);
-  }
-
   public void setLiftSoftwareLimits(boolean reverseLimitEnable, boolean forwardLimitEnable) {
     constMotion.LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseLimitEnable;
     constMotion.LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardLimitEnable;
@@ -173,10 +161,21 @@ public class Motion extends SubsystemBase {
 
   public void resetWristSensorPosition(Angle setpoint) {
     wristPivotMotor.setPosition(setpoint.in(Degrees));
+
+  }
+
+  public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
+    return (getLiftPosition().compareTo(positionGroup.liftHeight.minus(positionGroup.liftTolerance)) > 0 &&
+        getLiftPosition().compareTo(positionGroup.liftHeight.plus(positionGroup.liftTolerance)) < 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.minus(positionGroup.pivotTolerance)) > 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.plus(positionGroup.pivotTolerance)) < 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.minus(positionGroup.wristTolerance)) > 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.plus(positionGroup.wristTolerance)) < 0);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // 
+
   }
 }
