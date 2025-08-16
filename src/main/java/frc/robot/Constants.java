@@ -377,11 +377,6 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR_WITH_CORAL = new MechanismPositionGroup();
     public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
-    public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
-    public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(5);
-    public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
-    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(50);
-    public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
       CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(45);
