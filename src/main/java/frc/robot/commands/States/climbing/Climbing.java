@@ -46,7 +46,6 @@ public class Climbing extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalMotion.arePositionsAtSetPoint(constMechanismPositions.CLIMBED.liftTolerance,
-        constMechanismPositions.CLIMBED.pivotTolerance, constMechanismPositions.CLIMBED.wristTolerance);
+    return globalMotion.arePositionsAtSetPoint(constMechanismPositions.CLIMBED);
   }
 }
