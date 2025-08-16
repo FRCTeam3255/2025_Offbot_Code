@@ -4,6 +4,7 @@
 
 package frc.robot.commands.States.climbing;
 
+import frc.robot.subsystems.Rotors;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Motion;
@@ -14,10 +15,11 @@ import frc.robot.subsystems.StateMachine.RobotState;
 public class Climbing extends Command {
   Motion globalMotion;
   StateMachine globalStateMachine;
+  Rotors globalRotors;
 
-  public Climbing(StateMachine globalStateMachine, Motion subMotion) {
+  public Climbing(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
-
+    globalRotors = subRotors;
     this.globalMotion = subMotion;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
@@ -26,13 +28,16 @@ public class Climbing extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
-    globalStateMachine.setRobotState(RobotState.CLIMBING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (globalRotors.isCageLatched() == true) {
+      globalStateMachine.setRobotState(RobotState.CLIMBING);
+      globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
+      globalMotion.setAllPosition(constMechanismPositions.LATCHED);
+    }
   }
 
   // Called once the command ends or is interrupted.
