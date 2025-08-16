@@ -19,26 +19,45 @@ import frc.robot.RobotMap.mapRotors;
 public class Rotors extends SubsystemBase {
   /** Creates a new Rotors. */
 
-  TalonFX coralIntakeMotor;
+  TalonFX coralIntakeLeftMotor;
+  TalonFX coralIntakeRightMotor;
   TalonFX algaeIntakeMotor;
   TalonFX cageCollectMotor;
-  CANrange coralSensor;
+  CANrange coralMidSensor;
+  CANrange coralLeftSensor;
+  CANrange coralRightSensor;
+
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Rotors() {
-    coralIntakeMotor = new TalonFX(mapRotors.CORAL_INTAKE_CAN);
+    coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
+    coralIntakeRightMotor = new TalonFX(mapRotors.CORAL_INTAKE_RIGHT_CAN);
     algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN);
-    coralSensor = new CANrange(mapRotors.CORAL_INTAKE_SENSOR);
+    coralMidSensor = new CANrange(mapRotors.CORAL_MID_SENSOR);
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
+    coralLeftSensor = new CANrange(mapRotors.CORAL_LEFT_SENSOR);
+    coralRightSensor = new CANrange(mapRotors.CORAL_RIGHT_SENSOR);
 
-    coralIntakeMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
+    coralIntakeLeftMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
+    coralIntakeRightMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
     algaeIntakeMotor.getConfigurator().apply(constRotors.ALGAE_INTAKE_CONFIG);
-    coralSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
+    coralMidSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
+    coralLeftSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
+    coralRightSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
     cageCollectMotor.getConfigurator().apply(constRotors.CLIMBER_CONFIG);
   }
 
   public boolean hasCoral() {
-    return coralSensor.getIsDetected().getValue();
+    return coralMidSensor.getIsDetected().getValue() &&
+        !coralLeftSensor.getIsDetected().getValue() &&
+        !coralRightSensor.getIsDetected().getValue();
+  }
+
+  public boolean hasL1Coral() {
+    return (coralMidSensor.getIsDetected().getValue() &&
+        coralLeftSensor.getIsDetected().getValue()) ||
+        (coralMidSensor.getIsDetected().getValue() &&
+            coralRightSensor.getIsDetected().getValue());
   }
 
   public boolean hasAlgae() {
@@ -60,7 +79,13 @@ public class Rotors extends SubsystemBase {
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
-    coralIntakeMotor.set(speed);
+    coralIntakeLeftMotor.set(speed);
+    coralIntakeRightMotor.set(-speed);
+  }
+
+  public void setCoralIntakeL1Speed(double speed) {
+    coralIntakeLeftMotor.set(speed);
+    coralIntakeRightMotor.set(speed);
   }
 
   public void setAlgaeIntakeMotorSpeed(double speed) {
@@ -68,7 +93,8 @@ public class Rotors extends SubsystemBase {
   }
 
   public void setAllIntake(double speed) {
-    coralIntakeMotor.set(speed);
+    coralIntakeLeftMotor.set(speed);
+    coralIntakeRightMotor.set(speed);
     algaeIntakeMotor.set(speed);
   }
 

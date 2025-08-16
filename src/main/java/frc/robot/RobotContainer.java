@@ -35,6 +35,8 @@ public class RobotContainer {
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
+  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral() && !subRotors.hasAlgae());
+
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
   Command TRY_CLIMBING = Commands.deferredProxy(
@@ -51,8 +53,6 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3));
   Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
-  Command TRY_PREP_CORAL_L1_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1_WITH_ALGAE));
   Command TRY_PREP_CORAL_L2_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
   Command TRY_PREP_CORAL_L3_WITH_ALGAE = Commands.deferredProxy(
@@ -107,10 +107,13 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL));
   Command TRY_INTAKE_CORAL_STATION_WITH_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE));
+  Command TRY_INTAKE_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_L1));
   Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_CORAL)
       .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
   Command HAS_ALGAE_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_ALGAE)
       .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
+  Command HAS_CORAL_L1_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
 
   public RobotContainer() {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
@@ -181,8 +184,8 @@ public class RobotContainer {
         .onFalse(TRY_HAS_ALGAE);
 
     conOperator.btn_A
-        .onTrue(TRY_PREP_CORAL_L1)
-        .onTrue(TRY_PREP_CORAL_L1_WITH_ALGAE);
+        .whileTrue(TRY_INTAKE_CORAL_L1)
+        .onFalse(TRY_NONE);
 
     conOperator.btn_B
         .onTrue(TRY_PREP_CORAL_L3)
@@ -225,7 +228,9 @@ public class RobotContainer {
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_Start.onTrue(HAS_CORAL_OVERRIDE);
+    conOperator.btn_Start
+        .onTrue(HAS_CORAL_OVERRIDE)
+        .onTrue(HAS_CORAL_L1_OVERRIDE);
 
     conOperator.btn_Back.onTrue(HAS_ALGAE_OVERRIDE);
 
@@ -237,6 +242,9 @@ public class RobotContainer {
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
+
+    hasCoralL1Trigger
+        .whileTrue(TRY_PREP_CORAL_L1);
   }
 
   public RobotState getRobotState() {
