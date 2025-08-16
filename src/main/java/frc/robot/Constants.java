@@ -540,10 +540,9 @@ public final class Constants {
       private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
 
       // Net Poses
-      private static final Pose2d BLUE_NET_FRONT = new Pose2d(Units.Meters.of(8.350), Units.Meters.of(6.174),
+      private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
           Rotation2d.fromDegrees(0));
-      private static final Pose2d BLUE_NET_BACK = new Pose2d(Units.Meters.of(9.350), Units.Meters.of(6.174),
-          Rotation2d.fromDegrees(0));
+
       // algae poses
       public static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
       public static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
@@ -553,7 +552,7 @@ public final class Constants {
       public static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
 
       // lists
-      private static final List<Pose2d> BLUE_NET_POSES = List.of(BLUE_NET_FRONT, BLUE_NET_BACK);
+      private static final List<Pose2d> BLUE_NET_POSES = List.of(CENTER_LINE);
       private static final List<Pose2d> RED_NET_POSES = getRedNetPoses();
 
       private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
@@ -600,7 +599,7 @@ public final class Constants {
 
     private static List<Pose2d> getRedNetPoses() {
       Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_NET_POSES);
-      return List.of(returnedPoses[0], returnedPoses[1]);
+      return List.of(returnedPoses[0]);
 
     }
 
