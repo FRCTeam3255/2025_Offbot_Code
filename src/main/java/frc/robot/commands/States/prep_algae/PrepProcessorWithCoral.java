@@ -28,7 +28,7 @@ public class PrepProcessorWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR_WITH_CORAL);
+    globalMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL);
   }
 

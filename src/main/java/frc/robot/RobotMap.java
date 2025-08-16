@@ -36,15 +36,18 @@ public class RobotMap {
   // Rotors ID 11-20
   public static class mapRotors {
     // coral intake motors and pivot
-    public static final int CORAL_INTAKE_CAN = 11;
+    public static final int CORAL_INTAKE_RIGHT_CAN = 10;
+    public static final int CORAL_INTAKE_LEFT_CAN = 11;
+
     // Algae intake motor
     public static final int INTAKE_ALGAE_CAN = 12;
 
     // Coral intake sensors
-    public static final int CORAL_INTAKE_SENSOR = 13;
+    public static final int CORAL_MID_SENSOR = 13;
+    public static final int CORAL_LEFT_SENSOR = 14;
+    public static final int CORAL_RIGHT_SENSOR = 15;
 
-    // Algae intake sensors
-    public static final int CAGE_COLLECTER_CAN = 14;
+    public static final int CAGE_COLLECTER_CAN = 16;
   }
 
   // Motion ID 21-30

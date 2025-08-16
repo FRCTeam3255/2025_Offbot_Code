@@ -2,34 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.States.climbing;
+package frc.robot.commands.States.first_scoring_element;
 
-import frc.robot.subsystems.Rotors;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Climbing extends Command {
-  Motion globalMotion;
+public class IntakeCoralL1 extends Command {
+  /** Creates a new IntakeCoralL1. */
   StateMachine globalStateMachine;
   Rotors globalRotors;
+  Motion globalMotion;
 
-  public Climbing(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public IntakeCoralL1(StateMachine subStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
+    globalMotion = subMotion;
     globalRotors = subRotors;
-    this.globalMotion = subMotion;
-    this.globalStateMachine = globalStateMachine;
+    globalStateMachine = subStateMachine;
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.CLIMBING);
-    globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
+    globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
+    globalRotors.setCoralIntakeL1Speed(constRotorsSpeeds.INTAKE_CORAL_L1_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,12 +39,12 @@ public class Climbing extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalMotion.setAllPosition(constMechanismPositions.LATCHED);
+    globalRotors.setAllIntake(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalMotion.arePositionsAtSetPoint(constMechanismPositions.CLIMBED);
+    return globalRotors.hasL1Coral();
   }
 }
