@@ -347,6 +347,9 @@ public final class Constants {
     public Angle wristAngle;
     public Distance liftHeight;
     public Angle pivotAngle;
+    public Distance liftTolerance;
+    public Angle pivotTolerance;
+    public Angle wristTolerance;
   }
 
   public static class constMechanismPositions {
@@ -472,6 +475,9 @@ public final class Constants {
       CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
       CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.liftTolerance = Inches.of(1);
+      CLIMBED.pivotTolerance = Degrees.of(1);
+      CLIMBED.wristTolerance = Degrees.of(1);
 
       LATCHED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       LATCHED.liftHeight = Inches.of(0); // TODO: Replace with actual height

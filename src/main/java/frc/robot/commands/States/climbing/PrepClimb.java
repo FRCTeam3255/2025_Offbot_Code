@@ -33,7 +33,7 @@ public class PrepClimb extends Command {
   public void initialize() {
     globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
     globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is still
-                                                                                               // // needed
+                                                                                               // needed
     globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
   }
 
