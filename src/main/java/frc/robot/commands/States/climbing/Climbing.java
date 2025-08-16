@@ -30,7 +30,6 @@ public class Climbing extends Command {
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.CLIMBING);
     globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
-    globalMotion.setAllPosition(constMechanismPositions.LATCHED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +40,7 @@ public class Climbing extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    globalMotion.setAllPosition(constMechanismPositions.LATCHED);
   }
 
   // Returns true when the command should end.
