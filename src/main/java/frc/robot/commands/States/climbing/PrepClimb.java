@@ -31,6 +31,7 @@ public class PrepClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
     globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is still
                                                                                                // needed

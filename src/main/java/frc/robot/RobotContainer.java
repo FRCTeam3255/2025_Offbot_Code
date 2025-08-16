@@ -35,6 +35,7 @@ public class RobotContainer {
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
+  private final Trigger isCageLatchedTrigger = new Trigger(() -> subRotors.isCageLatched());
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
   Command TRY_CLIMBING = Commands.deferredProxy(
@@ -237,6 +238,9 @@ public class RobotContainer {
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
+
+    isCageLatchedTrigger
+        .whileTrue(TRY_CLIMBING);
   }
 
   public RobotState getRobotState() {
