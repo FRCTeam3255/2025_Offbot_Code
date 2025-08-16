@@ -102,6 +102,14 @@ public class Rotors extends SubsystemBase {
     cageCollectMotor.set(speed);
   }
 
+  public boolean isCageLatched() {
+    Current collectorCurrent = cageCollectMotor.getStatorCurrent().getValue();
+    if (collectorCurrent.gt(constRotors.COLLECTOR_HAS_CAGE_CURRENT)) {
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

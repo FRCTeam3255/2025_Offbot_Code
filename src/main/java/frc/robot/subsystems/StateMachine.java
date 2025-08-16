@@ -94,7 +94,7 @@ public class StateMachine extends SubsystemBase {
       case CLIMBING:
         switch (currentRobotState) {
           case PREP_CLIMB:
-            return new Climbing(subStateMachine, subMotion);
+            return new Climbing(subStateMachine, subMotion, subRotors);
 
         }
         break;
