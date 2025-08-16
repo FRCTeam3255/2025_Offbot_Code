@@ -114,7 +114,8 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L1:
         switch (currentRobotState) {
           case INTAKE_CORAL_L1:
-            return new PrepCoralL1(subStateMachine, subMotion, subRotors);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
+                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
 
         }
         break;

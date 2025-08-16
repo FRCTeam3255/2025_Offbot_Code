@@ -4,9 +4,8 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import java.lang.Thread.State;
-
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -28,17 +27,14 @@ public class IntakeCoralL1 extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
-    globalMotion.setAllPosition(frc.robot.Constants.constMechanismPositions.INTAKE_CORAL_L1);
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
+    globalRotors.setCoralIntakeL1Speed(constRotorsSpeeds.INTAKE_CORAL_L1_SPEED);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (globalRotors.hasL1Coral()) {
-      globalRotors.setCoralIntakeL1Speed(0);
-    } else {
-      globalRotors.setCoralIntakeL1Speed(frc.robot.Constants.constRotorsSpeeds.INTAKE_CORAL_L1_SPEED);
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +45,6 @@ public class IntakeCoralL1 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return globalRotors.hasL1Coral();
   }
 }

@@ -35,6 +35,7 @@ public class RobotContainer {
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
+  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral() && !subRotors.hasAlgae());
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
   Command TRY_CLIMBING = Commands.deferredProxy(
@@ -183,13 +184,7 @@ public class RobotContainer {
 
     conOperator.btn_A
         .whileTrue(TRY_INTAKE_CORAL_L1)
-        .onFalse(Commands.runOnce(() -> {
-          if (subRotors.hasL1Coral()) {
-            TRY_PREP_CORAL_L1.schedule();
-          } else {
-            TRY_NONE.schedule();
-          }
-        }));
+        .onFalse(TRY_NONE);
 
     conOperator.btn_B
         .onTrue(TRY_PREP_CORAL_L3)
@@ -246,6 +241,9 @@ public class RobotContainer {
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
+
+    hasCoralL1Trigger
+        .whileTrue(TRY_PREP_CORAL_L1);
   }
 
   public RobotState getRobotState() {
