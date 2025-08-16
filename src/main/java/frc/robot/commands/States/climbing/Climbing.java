@@ -28,16 +28,14 @@ public class Climbing extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalStateMachine.setRobotState(RobotState.CLIMBING);
+    globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
+    globalMotion.setAllPosition(constMechanismPositions.LATCHED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (globalRotors.isCageLatched() == true) {
-      globalStateMachine.setRobotState(RobotState.CLIMBING);
-      globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
-      globalMotion.setAllPosition(constMechanismPositions.LATCHED);
-    }
   }
 
   // Called once the command ends or is interrupted.
