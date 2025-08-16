@@ -55,11 +55,12 @@ public class PrepCoralLv extends Command {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
-    } else if (targetLevel == 0) {
+
+    }
+    if (targetLevel == 0) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
-    }
-    if (targetLevel == 1) {
+    } else if (targetLevel == 1) {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
     } else if (targetLevel == 2) {
