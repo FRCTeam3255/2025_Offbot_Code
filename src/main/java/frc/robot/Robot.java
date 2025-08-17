@@ -32,13 +32,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer.manualZeroLift.schedule();
-    m_robotContainer.manualZeroPivot.schedule();
-    m_robotContainer.manualZeroWrist.schedule();
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
     Epilogue.bind(this);
     m_robotContainer = new RobotContainer();
-
+    m_robotContainer.manualZeroLift.schedule();
+    m_robotContainer.manualZeroPivot.schedule();
+    m_robotContainer.manualZeroWrist.schedule();
     // Set out log file to be in its own folder
     if (Robot.isSimulation()) {
       DataLogManager.start("logs");
