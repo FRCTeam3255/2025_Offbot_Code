@@ -288,15 +288,20 @@ public final class Constants {
       WRIST_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
     }
 
+    public static final Time ZEROING_TIMEOUT = Units.Seconds.of(3);
+
+    public static final AngularVelocity MANUAL_ZEROING_START_VELOCITY = Units.RotationsPerSecond.of(5);
+    public static final AngularVelocity MANUAL_ZEROING_DELTA_VELOCITY = Units.RotationsPerSecond.of(5);
+
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
     public static final Angle MAX_POS = Units.Degrees.of(90);
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
-    public static final Angle ZEROED_MANUAL_POS = Units.Degrees.of(57);
-    public static final Angle ZEROED_AUTO_POS = Units.Degrees.of(59);
-
+    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(57);// todo replace with actual value
+    public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
+    public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**
      * The elapsed time required to consider the motor as zeroed
      */
