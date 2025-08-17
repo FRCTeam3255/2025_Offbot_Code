@@ -53,9 +53,8 @@ public class ReefRotationSnapping extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
-
+    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
     Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getAlgaePositions(isRedAlliance).get());
     subDrivetrain.rotationalAlign(
         isRedAlliance,

@@ -37,8 +37,8 @@ public class NetAutoDriving extends Command {
 
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
+    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
     Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getNetPositions(constField.isRedAlliance()).get());
     subDrivetrain.autoAlign(constField.isRedAlliance(),
         closestPose,

@@ -36,8 +36,8 @@ public class AlgaeRotationSnapping extends Command {
 
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
+    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
     subDrivetrain.rotationalAlign(constField.isRedAlliance(),
         subDrivetrain.getDesiredPose(constField.getAlgaePositions(constField.isRedAlliance()).get()),
         xVelocity,
