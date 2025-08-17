@@ -67,7 +67,7 @@ public class ManualZeroLift extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (!interrupted) {
+    if (!interrupted && zeroingSuccess) {
       globalMotion.hasLiftZeroed = true;
       globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
       globalMotion.setLiftCoastMode(false);
