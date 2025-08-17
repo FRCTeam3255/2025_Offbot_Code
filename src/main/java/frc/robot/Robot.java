@@ -35,9 +35,6 @@ public class Robot extends TimedRobot {
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
     Epilogue.bind(this);
     m_robotContainer = new RobotContainer();
-    m_robotContainer.manualZeroLift.schedule();
-    m_robotContainer.manualZeroPivot.schedule();
-    m_robotContainer.manualZeroWrist.schedule();
     // Set out log file to be in its own folder
     if (Robot.isSimulation()) {
       DataLogManager.start("logs");
@@ -49,6 +46,9 @@ public class Robot extends TimedRobot {
     // Log the DS data and joysticks
     DriverStation.startDataLog(DataLogManager.getLog(), true);
     DriverStation.silenceJoystickConnectionWarning(Constants.constControllers.SILENCE_JOYSTICK_WARNINGS);
+    m_robotContainer.manualZeroLift.schedule();
+    m_robotContainer.manualZeroPivot.schedule();
+    m_robotContainer.manualZeroWrist.schedule();
   }
 
   @Override
