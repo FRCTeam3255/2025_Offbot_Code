@@ -36,7 +36,7 @@ public class ManualZeroLift extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setCoastMode(true);
+    globalMotion.setLiftCoastMode(true);
 
     // Check if we have raised the elevator above a certain speed
     if (globalMotion.getLiftVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
@@ -71,7 +71,7 @@ public class ManualZeroLift extends Command {
     if (!interrupted) {
       globalMotion.hasLiftZeroed = true;
       globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
-      globalMotion.setCoastMode(false);
+      globalMotion.setLiftCoastMode(false);
       System.out.println("Elevator Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Elevator was never zeroed :((( blame eli");

@@ -36,6 +36,7 @@ public class ManualZeroWrist extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setWristCoastMode(true);
     // Check if we have raised the Wrist above a certain speed
     if (globalMotion.getWristVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingZeroing) {
@@ -69,6 +70,7 @@ public class ManualZeroWrist extends Command {
     if (!interrupted && zeroingSuccess) {
       globalMotion.hasWristZeroed = true;
       globalMotion.resetWristSensorPosition(constMotion.WRIST_ZEROED_POSITION);
+      globalMotion.setWristCoastMode(false);
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");
