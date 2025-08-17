@@ -33,12 +33,13 @@ public class ProcessorRotationSnapping extends Command {
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING);
+    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

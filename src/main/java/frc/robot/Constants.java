@@ -504,11 +504,11 @@ public final class Constants {
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
 
-    public static final Distance REEF_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.3);
-    public static final Distance CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
-    public static final Distance ALGAE_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.3);
-    public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
-    public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
+    public static final Distance REEF_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
+    public static final Distance CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
+    public static final Distance ALGAE_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
+    public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
+    public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
 
     /**
      * Boolean that controls when the path will be mirrored for the red

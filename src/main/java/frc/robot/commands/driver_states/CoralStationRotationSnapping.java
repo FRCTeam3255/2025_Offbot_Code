@@ -39,6 +39,8 @@ public class CoralStationRotationSnapping extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

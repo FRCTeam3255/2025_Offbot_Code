@@ -45,8 +45,8 @@ public class NetAutoDriving extends Command {
         xVelocity,
         yVelocity,
         isOpenLoop,
-        true,
-        false);
+        false,
+        true);
   }
 
   @Override

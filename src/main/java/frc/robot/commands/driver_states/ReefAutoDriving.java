@@ -42,6 +42,7 @@ public class ReefAutoDriving extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,8 +54,10 @@ public class ReefAutoDriving extends Command {
 
     if (leftBranch == true) {
       closestPose = subDrivetrain.getDesiredPose(constField.getLeftReefPositions(isRedAlliance).get());
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
     } else {
       closestPose = subDrivetrain.getDesiredPose(constField.getRightReefPositions(isRedAlliance).get());
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
     }
 
     subDrivetrain.autoAlign(isRedAlliance,

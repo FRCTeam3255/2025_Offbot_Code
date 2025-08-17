@@ -209,11 +209,11 @@ public class RobotContainer {
         .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_RightTrigger.and(isInReefADZTrigger)
+    conDriver.btn_RightTrigger.and(isInReefADZTrigger).and(isInCleaningStates.negate())
         .whileTrue(REEF_AUTO_DRIVING_RIGHT)
         .onFalse(MANUAL);
 
-    conDriver.btn_RightTrigger.and(isInReefADZTrigger.negate())
+    conDriver.btn_RightTrigger.and(isInReefADZTrigger.negate()).and(isInCleaningStates.negate())
         .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
@@ -225,11 +225,11 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_Y.and(isInCoralStationADZTrigger)
+    conDriver.btn_B.and(isInCoralStationADZTrigger)
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
         .onFalse(MANUAL);
 
-    conDriver.btn_Y.and(isInCoralStationADZTrigger.negate())
+    conDriver.btn_B.and(isInCoralStationADZTrigger.negate())
         .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
@@ -254,6 +254,14 @@ public class RobotContainer {
         .onFalse(MANUAL);
 
     conDriver.btn_LeftTrigger.and(isInAlgaeADZTrigger.negate()).and(isInCleaningStates)
+        .whileTrue(ALGAE_ROTATION_SNAPPING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_RightTrigger.and(isInAlgaeADZTrigger).and(isInCleaningStates)
+        .whileTrue(ALGAE_AUTO_DRIVING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_RightTrigger.and(isInAlgaeADZTrigger.negate()).and(isInCleaningStates)
         .whileTrue(ALGAE_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 

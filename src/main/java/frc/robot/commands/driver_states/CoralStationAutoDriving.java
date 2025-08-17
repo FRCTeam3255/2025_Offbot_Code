@@ -54,10 +54,13 @@ public class CoralStationAutoDriving extends Command {
       closestPose = subDrivetrain
           .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(0),
               constField.getCoralStationPositions(isRedAlliance).get().get(2)));
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
     } else {
       closestPose = subDrivetrain
           .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(1),
               constField.getCoralStationPositions(isRedAlliance).get().get(3)));
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+
     }
     LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
     LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
