@@ -293,12 +293,6 @@ public final class Constants {
     public static final AngularVelocity MANUAL_ZEROING_START_VELOCITY = Units.RotationsPerSecond.of(5);
     public static final AngularVelocity MANUAL_ZEROING_DELTA_VELOCITY = Units.RotationsPerSecond.of(5);
 
-    public static TalonFXConfiguration COAST_MODE_CONFIGURATION = LIFT_CONFIG;
-    static {
-      COAST_MODE_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-      COAST_MODE_CONFIGURATION.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    }
-
     public static final Distance DEADZONE_DISTANCE = Units.Inches.of(0);
     public static final AngularVelocity ZEROED_VELOCITY = Units.RotationsPerSecond.of(0.2);
 
@@ -306,7 +300,6 @@ public final class Constants {
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
     public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(57);// todo replace with actual value
-    public static final Angle ZEROED_AUTO_POSITION = Units.Degrees.of(59);
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**

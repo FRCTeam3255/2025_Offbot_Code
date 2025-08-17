@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Inches;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.Units;
@@ -82,11 +83,11 @@ public class Motion extends SubsystemBase {
 
   public void setCoastMode(Boolean coastMode) {
     if (coastMode) {
-      rightLiftMotorLeader.getConfigurator().apply(constMotion.COAST_MODE_CONFIGURATION);
-      leftLiftMotorFollower.getConfigurator().apply(constMotion.COAST_MODE_CONFIGURATION);
+      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Coast);
+      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Coast);
     } else {
-      rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
-      leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
+      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Brake);
+      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Brake);
     }
   }
 
