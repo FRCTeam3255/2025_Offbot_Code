@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Level;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -106,7 +108,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
-            return new PrepCoralZero(subStateMachine, subMotion, subRotors);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain, 0);
 
         }
         break;
@@ -114,8 +116,7 @@ public class StateMachine extends SubsystemBase {
       case PREP_CORAL_L1:
         switch (currentRobotState) {
           case INTAKE_CORAL_L1:
-            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain, 1);
 
         }
         break;
@@ -126,8 +127,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain, 2);
 
         }
         break;
@@ -138,8 +138,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L4:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain, 3);
 
         }
         break;
@@ -150,8 +149,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_ZERO:
-            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT);
+            return new PrepCoralLv(subStateMachine, subMotion, subRotors, subDrivetrain, 4);
 
         }
         break;
@@ -166,8 +164,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain, 2);
 
         }
         break;
@@ -180,8 +177,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_ZERO_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain, 3);
 
         }
         break;
@@ -195,7 +191,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
             return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain,
-                constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT);
+                4);
 
         }
         break;
@@ -208,7 +204,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L4_WITH_ALGAE:
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_NET_WITH_CORAL:
-            return new PrepCoralZeroWithAlgae(subStateMachine, subMotion, subRotors);
+            return new PrepCoralWithAlgae(subStateMachine, subMotion, subRotors, subDrivetrain, 0);
 
         }
         break;
