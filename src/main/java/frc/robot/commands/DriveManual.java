@@ -16,7 +16,9 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constField;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.StateMachine.DriverState;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 public class DriveManual extends Command {
   Drivetrain subDrivetrain;
@@ -53,7 +55,8 @@ public class DriveManual extends Command {
     if (driveTrainPitch.gte(constDrivetrain.MAX_DRIVETAIN_PITCH)
         || driveTrainPitch.lte(constDrivetrain.MIN_DRIVETRAIN_PITCH)) {
 
-      globalMotion.setLiftPosition(constDrivetrain.RETRACT_LIFT_PITCH);
+      globalMotion.setAllPosition(constMechanismPositions.NONE);
+      subStateMachine.setRobotState(RobotState.NONE);
     }
     // Get Joystick inputs
     double xVelocity = xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
