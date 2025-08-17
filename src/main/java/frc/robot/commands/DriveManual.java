@@ -44,23 +44,12 @@ public class DriveManual extends Command {
 
   @Override
   public void initialize() {
-    driveTrainPitch = Units.Degrees.of(
-        subDrivetrain.pigeon.getPitch().getValueAsDouble());
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
-    if (driveTrainPitch.gte(constDrivetrain.MAX_DRIVETAIN_PITCH)
-        || driveTrainPitch.lte(constDrivetrain.MIN_DRIVETRAIN_PITCH)) {
 
-      globalMotion.setLiftPosition(constDrivetrain.RETRACT_LIFT_PITCH);
-
-    }
   }
 
   @Override
   public void execute() {
 
-    driveTrainPitch = Units.Degrees.of(
-        subDrivetrain.pigeon.getPitch().getValueAsDouble());
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
     if (driveTrainPitch.gte(constDrivetrain.MAX_DRIVETAIN_PITCH)
         || driveTrainPitch.lte(constDrivetrain.MIN_DRIVETRAIN_PITCH)) {
 
