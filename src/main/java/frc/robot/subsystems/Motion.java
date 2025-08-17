@@ -94,16 +94,13 @@ public class Motion extends SubsystemBase {
     return Degrees.of(intakePivotMotor.getPosition().getValueAsDouble());
   }
 
-  public boolean arePositionsAtSetPoint(Distance liftTolerance, Angle pivotTolerance, Angle wristTolerance) {
-    if (Robot.isSimulation()) {
-      return true;
-    }
-    return (getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.minus(liftTolerance)) > 0 &&
-        getLiftPosition().compareTo(elevatorLiftLastDesiredPosition.plus(liftTolerance)) < 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.minus(pivotTolerance)) > 0 &&
-        getPivotAngle().compareTo(elevatorPivotLastDesiredAngle.plus(pivotTolerance)) < 0 &&
-        getWristAngle().compareTo(intakeWristLastDesiredAngle.minus(wristTolerance)) > 0 &&
-        getWristAngle().compareTo(intakeWristLastDesiredAngle.plus(wristTolerance)) < 0);
+  public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
+    return (getLiftPosition().compareTo(positionGroup.liftHeight.minus(positionGroup.liftTolerance)) > 0 &&
+        getLiftPosition().compareTo(positionGroup.liftHeight.plus(positionGroup.liftTolerance)) < 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.minus(positionGroup.pivotTolerance)) > 0 &&
+        getPivotAngle().compareTo(positionGroup.pivotAngle.plus(positionGroup.pivotTolerance)) < 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.minus(positionGroup.wristTolerance)) > 0 &&
+        getWristAngle().compareTo(positionGroup.wristAngle.plus(positionGroup.wristTolerance)) < 0);
   }
 
   @Override

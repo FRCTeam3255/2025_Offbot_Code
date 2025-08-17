@@ -338,6 +338,7 @@ public final class Constants {
       CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
       CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
     }
+    public static final Current COLLECTOR_HAS_CAGE_CURRENT = Units.Amps.of(15);// Todo give actual value
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
   }
@@ -346,6 +347,9 @@ public final class Constants {
     public Angle wristAngle;
     public Distance liftHeight;
     public Angle pivotAngle;
+    public Distance liftTolerance;
+    public Angle pivotTolerance;
+    public Angle wristTolerance;
   }
 
   public static class constMechanismPositions {
@@ -356,6 +360,7 @@ public final class Constants {
     public static final MechanismPositionGroup INTAKE_CORAL_GROUND = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_CORAL_STATION = new MechanismPositionGroup();
     public static final MechanismPositionGroup INTAKE_ALGAE_GROUND = new MechanismPositionGroup();
+    public static final MechanismPositionGroup INTAKE_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L1 = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L2_FORWARDS = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_CORAL_L3_FORWARDS = new MechanismPositionGroup();
@@ -371,7 +376,8 @@ public final class Constants {
     public static final MechanismPositionGroup NONE = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_ALGAE_ZERO = new MechanismPositionGroup();
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
-    public static final MechanismPositionGroup CLIMBING = new MechanismPositionGroup();
+    public static final MechanismPositionGroup CLIMBED = new MechanismPositionGroup();
+    public static final MechanismPositionGroup LATCHED = new MechanismPositionGroup();
     public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
     public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(7);
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
@@ -406,6 +412,10 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
       PREP_CORAL_L1.wristAngle = Degrees.of(-10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -467,9 +477,16 @@ public final class Constants {
       PREP_PROCESSOR.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_PROCESSOR.pivotAngle = Degrees.of(10); // TODO: Replace with actual angle
 
-      CLIMBING.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      CLIMBING.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      CLIMBING.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.liftTolerance = Inches.of(1);
+      CLIMBED.pivotTolerance = Degrees.of(1);
+      CLIMBED.wristTolerance = Degrees.of(1);
+
+      LATCHED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      LATCHED.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      LATCHED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       // backwards positions
 
     }
@@ -479,16 +496,17 @@ public final class Constants {
     // change all elevator/intake and their related methods to be Motion/Rotors and
     // setAllPosition() in Motion.java with groups in Constants.java ; change all
     // set speeds to methods in Rotors.java with constants in constRotorSpeeds
-    public static final double EJECTING_GAME_PIECE_SPEED = 0; // TODO: Replace with actual speed
+    public static final double EJECTING_GAME_PIECE_SPEED = 1; // TODO: Replace with actual speed
     // algae speed consts
-    public static final double INTAKE_ALGAE_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_NET_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 0; // TODO: Replace with actual speed
+    public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_NET_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 1; // TODO: Replace with actual speed
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
-    public static final double CLEAN_ALGAE_SPEED = 0;
-    public static final double INTAKE_CORAL_GROUND_SPEED = 0; // TODO: Replace with actual speed
-    public static final double INTAKE_CORAL_STATION_SPEED = 0; // TODO: Replace with actual speed
-    public static final double SCORE_CORAL_SPEED = 0;
+    public static final double CLEAN_ALGAE_SPEED = 1;
+    public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_CORAL_SPEED = 1;
+    public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
   }
 
   /**

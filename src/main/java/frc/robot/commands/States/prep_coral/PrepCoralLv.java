@@ -24,22 +24,21 @@ public class PrepCoralLv extends Command {
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
-  Distance globalHeight;
   Pose2d closestPoseByRotation;
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
+  int targetLevel;
 
   public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain,
-      Distance height) {
+      int level) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
-    this.globalHeight = height;
     globalDrivetrain = subDrivetrain;
     addRequirements(globalStateMachine);
-
+    targetLevel = level;
   }
 
   @Override
@@ -56,20 +55,25 @@ public class PrepCoralLv extends Command {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
+
     }
-    if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L1_HEIGHT)) {
+    if (targetLevel == 0) {
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
+      globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
+    } else if (targetLevel == 1) {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
-    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L2_HEIGHT)) {
+    } else if (targetLevel == 2) {
       globalMotion.setAllPosition(prepL2);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
-    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L3_HEIGHT)) {
+    } else if (targetLevel == 3) {
       globalMotion.setAllPosition(prepL3);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
-    } else if (globalHeight.equals(constMechanismPositions.ELEVATOR_CORAL_L4_HEIGHT)) {
+    } else if (targetLevel == 4) {
       globalMotion.setAllPosition(prepL4);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
     }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
