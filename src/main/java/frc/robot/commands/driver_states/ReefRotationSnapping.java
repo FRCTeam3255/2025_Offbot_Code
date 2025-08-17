@@ -6,13 +6,14 @@ package frc.robot.commands.driver_states;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ReefRotationSnapping extends Command {
@@ -23,6 +24,10 @@ public class ReefRotationSnapping extends Command {
   DoubleSupplier xAxis, yAxis, rotationAxis;
   DriverStateMachine subDriverStateMachine;
   boolean isOpenLoop;
+
+  Pose2d getDesiredReefPose() {
+    return subDrivetrain.getDesiredPose(constField.getReefPositions(constField.isRedAlliance()).get());
+  }
 
   public ReefRotationSnapping(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
@@ -41,6 +46,7 @@ public class ReefRotationSnapping extends Command {
   @Override
   public void initialize() {
     redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    subDriverStateMachine.setDriverState(DriverState.REEF_ROTATION_SNAPPING);
 
   }
 
@@ -50,14 +56,19 @@ public class ReefRotationSnapping extends Command {
     LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
     LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
 
-    subDrivetrain.rotationalAlign(isRedAlliance,
-        subDrivetrain.getDesiredPose(constField.getReefPositions(isRedAlliance).get()), xVelocity, yVelocity,
+    Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getAlgaePositions(isRedAlliance).get());
+    subDrivetrain.rotationalAlign(
+        isRedAlliance,
+        closestPose,
+        xVelocity,
+        yVelocity,
         isOpenLoop);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subDrivetrain.neutralDriveOutputs();
   }
 
   // Returns true when the command should end.

@@ -84,7 +84,6 @@ public class Drivetrain extends SN_SuperSwerve {
   }
 
   public Pose2d getDesiredPose(List<Pose2d> pose) {
-    // Get the closest processor
     Pose2d currentPose = getPose();
     Pose2d desiredPose = currentPose.nearest(pose);
     return desiredPose;
@@ -115,6 +114,18 @@ public class Drivetrain extends SN_SuperSwerve {
     frontDistance = Units.Meters
         .of(getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
     if (backDistance.lt(frontDistance)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean isInAutoDriveZone(Distance autoDriveMaxDistance,
+      List<Pose2d> pose) {
+    Pose2d target = getDesiredPose(pose);
+    Distance distanceFromPose = Units.Meters
+        .of(getRobotPose().getTranslation().getDistance(target.getTranslation()));
+    if (distanceFromPose.lt(autoDriveMaxDistance)) {
       return true;
     } else {
       return false;

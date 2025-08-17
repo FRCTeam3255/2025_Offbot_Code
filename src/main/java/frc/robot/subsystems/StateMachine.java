@@ -50,6 +50,18 @@ public class StateMachine extends SubsystemBase {
     return currentRobotState;
   }
 
+  public boolean inCleaningState() {
+    RobotState[] goToHasBothStates = { RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW,
+        RobotState.CLEAN_HIGH_WITH_CORAL,
+        RobotState.CLEAN_LOW_WITH_CORAL };
+    for (RobotState state : goToHasBothStates) {
+      if (currentRobotState == state) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public Command tryState(RobotState desiredState) {
     switch (desiredState) {
       case NONE:

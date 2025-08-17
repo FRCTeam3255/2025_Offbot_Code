@@ -504,6 +504,12 @@ public final class Constants {
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
 
+    public static final Distance REEF_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.3);
+    public static final Distance CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
+    public static final Distance ALGAE_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.3);
+    public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
+    public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(0.5);
+
     /**
      * Boolean that controls when the path will be mirrored for the red
      * alliance. This will flip the path being followed to the red side of the
@@ -560,30 +566,41 @@ public final class Constants {
       // Processor
       private static final Pose2d BLUE_PROCESSOR = new Pose2d(5.6, 0.896, Rotation2d.fromDegrees(-90));
 
+      private static final Pose2d RED_PROCESSOR = getRedAlliancePose(BLUE_PROCESSOR);
+
       // Cages
       public static final Pose2d CAGE_1 = new Pose2d(7.783, 7.248, Rotation2d.fromDegrees(180));
       public static final Pose2d CAGE_2 = new Pose2d(7.783, 6.151, Rotation2d.fromDegrees(180));
       public static final Pose2d CAGE_3 = new Pose2d(7.783, 5.068, Rotation2d.fromDegrees(180));
 
-      // lists
+      // --- lists ---
       private static final List<Pose2d> BLUE_NET_POSES = List.of(CENTER_LINE);
       private static final List<Pose2d> RED_NET_POSES = getRedNetPoses();
 
+      // -- REEF --
       private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
           REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
       private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
       private static final List<Pose2d> BLUE_REEF_BACKWARDS_SCORING_POSES = getBlueReefBackwardsScoringPoses();
       private static final List<Pose2d> RED_REEF_BACKWARDS_SCORING_POSES = getRedReefBackwardsScoringPoses(
           BLUE_REEF_BACKWARDS_SCORING_POSES);
+      private static final List<Pose2d> BLUE_LEFT_REEF_POSES = List.of(REEF_A, REEF_C, REEF_F, REEF_H, REEF_J,
+          REEF_K);
+      private static final List<Pose2d> RED_LEFT_REEF_POSES = List.of(getRedPosesFromList(BLUE_LEFT_REEF_POSES));
+      private static final List<Pose2d> BLUE_RIGHT_REEF_POSES = List.of(REEF_B, REEF_D, REEF_E, REEF_G, REEF_I,
+          REEF_L);
+      private static final List<Pose2d> RED_RIGHT_REEF_POSES = List.of(getRedPosesFromList(BLUE_RIGHT_REEF_POSES));
 
+      // -- Algae --
       private static final List<Pose2d> BLUE_ALGAE_POSES = List.of(ALGAE_AB, ALGAE_CD, ALGAE_EF, ALGAE_GH, ALGAE_IJ,
           ALGAE_KL);
       private static final List<Pose2d> RED_ALGAE_POSES = getRedAlgaePoses();
 
+      // -- Coral Station --
       private static final List<Pose2d> BLUE_CORAL_STATION_POSES = List.of(LEFT_CORAL_STATION_FAR,
           LEFT_CORAL_STATION_NEAR, RIGHT_CORAL_STATION_FAR, RIGHT_CORAL_STATION_NEAR);
       private static final List<Pose2d> RED_CORAL_STATION_POSES = getRedCoralStationPoses();
-
+      // -- Cage --
       private static final List<Pose2d> BLUE_CAGE_POSES = List.of(CAGE_1, CAGE_2, CAGE_3);
       private static final List<Pose2d> RED_CAGE_POSES = getRedCagePoses();
     }
@@ -657,6 +674,20 @@ public final class Constants {
       return () -> POSES.BLUE_REEF_BACKWARDS_SCORING_POSES;
     }
 
+    public static Supplier<List<Pose2d>> getLeftReefPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_LEFT_REEF_POSES;
+      }
+      return () -> POSES.BLUE_LEFT_REEF_POSES;
+    }
+
+    public static Supplier<List<Pose2d>> getRightReefPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_RIGHT_REEF_POSES;
+      }
+      return () -> POSES.BLUE_RIGHT_REEF_POSES;
+    }
+
     // -- ALGAE --
     private static List<Pose2d> getRedAlgaePoses() {
       Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_ALGAE_POSES.size()];
@@ -719,6 +750,14 @@ public final class Constants {
         return () -> POSES.RED_CAGE_POSES;
       }
       return () -> POSES.BLUE_CAGE_POSES;
+    }
+
+    // -- PROCESSOR --
+    public static Pose2d getProcessorPose(boolean onRed) {
+      if (onRed) {
+        return POSES.RED_PROCESSOR;
+      }
+      return POSES.BLUE_PROCESSOR;
     }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));

@@ -6,6 +6,8 @@ package frc.robot.commands.driver_states;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
@@ -42,11 +44,20 @@ public class CoralStationRotationSnapping extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble());
+    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble());
+
+    subDrivetrain.rotationalAlign(isRedAlliance,
+        subDrivetrain.getDesiredPose(constField.getCoralStationPositions(isRedAlliance).get()),
+        xVelocity,
+        yVelocity,
+        isOpenLoop);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subDrivetrain.neutralDriveOutputs();
   }
 
   // Returns true when the command should end.
