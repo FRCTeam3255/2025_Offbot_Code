@@ -81,7 +81,7 @@ public class Motion extends SubsystemBase {
     setWristPivotAngle(positionGroup.wristAngle);
   }
 
-  public void setLiftCoastMode(Boolean coastMode) {
+  public void setLiftCoastMode(boolean coastMode) {
     if (coastMode) {
       rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Coast);
       leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Coast);
@@ -91,7 +91,7 @@ public class Motion extends SubsystemBase {
     }
   }
 
-  public void setPivotCoastMode(Boolean coastMode) {
+  public void setPivotCoastMode(boolean coastMode) {
     if (coastMode) {
       rightPivotMotorLeader.setNeutralMode(NeutralModeValue.Coast);
       leftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
@@ -101,7 +101,7 @@ public class Motion extends SubsystemBase {
     }
   }
 
-  public void setWristCoastMode(Boolean coastMode) {
+  public void setWristCoastMode(boolean coastMode) {
     if (coastMode) {
       wristPivotMotor.setNeutralMode(NeutralModeValue.Coast);
     } else {
