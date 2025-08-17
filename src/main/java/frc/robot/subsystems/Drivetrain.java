@@ -129,7 +129,7 @@ public class Drivetrain extends SN_SuperSwerve {
       return true;
     } else {
       return false;
-    }
+    return distanceFromPose.lt(autoDriveMaxDistance);
   }
 
   @Override
