@@ -32,6 +32,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    m_robotContainer.manualZeroLift.schedule();
+    m_robotContainer.manualZeroPivot.schedule();
+    m_robotContainer.manualZeroWrist.schedule();
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
     Epilogue.bind(this);
     m_robotContainer = new RobotContainer();
@@ -56,9 +59,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    m_robotContainer.manualZeroLift.schedule();
-    m_robotContainer.manualZeroPivot.schedule();
-    m_robotContainer.manualZeroWrist.schedule();
   }
 
   @Override
@@ -69,6 +69,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledExit() {
+    m_robotContainer.manualZeroLift.cancel();
+    m_robotContainer.manualZeroPivot.cancel();
+    m_robotContainer.manualZeroWrist.cancel();
   }
 
   @Override
