@@ -55,7 +55,7 @@ public class ReefRotationSnapping extends Command {
   public void execute() {
     LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
-    Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getAlgaePositions(isRedAlliance).get());
+    Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getReefPositions(isRedAlliance).get());
     subDrivetrain.rotationalAlign(
         isRedAlliance,
         closestPose,
