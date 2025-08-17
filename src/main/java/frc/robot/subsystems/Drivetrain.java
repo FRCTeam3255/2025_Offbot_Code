@@ -125,10 +125,6 @@ public class Drivetrain extends SN_SuperSwerve {
     Pose2d target = getDesiredPose(pose);
     Distance distanceFromPose = Units.Meters
         .of(getRobotPose().getTranslation().getDistance(target.getTranslation()));
-    if (distanceFromPose.lt(autoDriveMaxDistance)) {
-      return true;
-    } else {
-      return false;
     return distanceFromPose.lt(autoDriveMaxDistance);
   }
 
