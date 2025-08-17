@@ -17,7 +17,6 @@ public class ManualZeroLift extends Command {
   Motion globalMotion;
 
   Time zeroingTimestamp = Units.Seconds.of(0);
-  public static boolean hasSetCoastMode = false;
   boolean zeroingSuccess = false;
   AngularVelocity lastLiftVelocity = Units.RotationsPerSecond.of(0);
 
@@ -68,7 +67,7 @@ public class ManualZeroLift extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (!interrupted) {
+    if (!interrupted && zeroingSuccess) {
       globalMotion.hasLiftZeroed = true;
       globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
       globalMotion.setLiftCoastMode(false);

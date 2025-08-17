@@ -166,7 +166,6 @@ public class Motion extends SubsystemBase {
 
   public void resetWristSensorPosition(Angle setpoint) {
     wristPivotMotor.setPosition(setpoint.in(Degrees));
-
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
