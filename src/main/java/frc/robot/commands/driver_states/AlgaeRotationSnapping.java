@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constField;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
@@ -36,8 +36,10 @@ public class AlgaeRotationSnapping extends Command {
 
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
+    LinearVelocity xVelocity = Units.MetersPerSecond
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     subDrivetrain.rotationalAlign(constField.isRedAlliance(),
         subDrivetrain.getDesiredPose(constField.getAlgaePositions(constField.isRedAlliance()).get()),
         xVelocity,

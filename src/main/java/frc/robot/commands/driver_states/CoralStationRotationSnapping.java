@@ -46,8 +46,8 @@ public class CoralStationRotationSnapping extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble() * redAllianceMultiplier);
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble() * redAllianceMultiplier);
+    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     subDrivetrain.rotationalAlign(isRedAlliance,
         subDrivetrain.getDesiredPose(constField.getCoralStationPositions(isRedAlliance).get()),
         xVelocity,
