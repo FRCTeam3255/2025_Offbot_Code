@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
@@ -20,12 +21,11 @@ import frc.robot.commands.*;
 import frc.robot.commands.driver_states.DriveManual;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.StateMachine.RobotState;
-
+import frc.robot.commands.Zeroing.*;
 import edu.wpi.first.epilogue.Logged;
 
 @Logged
 public class RobotContainer {
-
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
@@ -35,6 +35,10 @@ public class RobotContainer {
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
+
+  public Command manualZeroLift = new ManualZeroLift(subMotion);
+  public Command manualZeroPivot = new ManualZeroPivot(subMotion);
+  public Command manualZeroWrist = new ManualZeroWrist(subMotion);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
