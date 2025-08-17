@@ -17,7 +17,6 @@ public class ManualZeroLift extends Command {
   Motion globalMotion;
 
   Time zeroingTimestamp = Units.Seconds.of(0);
-  public static boolean hasSetCoastMode = false;
   boolean zeroingSuccess = false;
   AngularVelocity lastLiftVelocity = Units.RotationsPerSecond.of(0);
 
