@@ -156,8 +156,8 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new ReefAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis, false);
         }
+        break;
 
       case CORAL_STATION_AUTO_DRIVING_FAR:
         switch (currentDriverState) {
