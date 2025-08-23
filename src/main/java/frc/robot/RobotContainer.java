@@ -240,11 +240,11 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_Back
+    conDriver.btn_North
         .whileTrue(PROCESSOR_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_Back
+    conDriver.btn_North
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
@@ -263,7 +263,8 @@ public class RobotContainer {
         .whileTrue(TRY_CLIMBING);
 
     isInCSAutoDriveState
-        .whileTrue(TRY_INTAKE_CORAL_STATION);
+        .whileTrue(TRY_INTAKE_CORAL_STATION)
+        .onFalse(TRY_NONE);
 
     isInProcessorAutoDriveState
         .whileTrue(TRY_PREP_ALGAE_PROCESSOR)
