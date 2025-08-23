@@ -43,27 +43,15 @@ public class RobotContainer {
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
-  private final Trigger isInReefADZTrigger = new Trigger(() -> subDrivetrain.isInAutoDriveZone(
-      constField.REEF_AUTO_DRIVE_MAX_DISTANCE,
-      constField.getReefPositions(constField.isRedAlliance()).get()));
-  private final Trigger isInCoralStationADZTrigger = new Trigger(() -> subDrivetrain.isInAutoDriveZone(
-      constField.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
-      constField.getCoralStationPositions(constField.isRedAlliance()).get()));
-  private final Trigger isInNetADZTrigger = new Trigger(() -> subDrivetrain.isInAutoDriveZone(
-      constField.NET_AUTO_DRIVE_MAX_DISTANCE,
-      constField.getNetPositions(constField.isRedAlliance()).get()));
-  private final Trigger isInAlgaeADZTrigger = new Trigger(() -> subDrivetrain.isInAutoDriveZone(
-      constField.ALGAE_AUTO_DRIVE_MAX_DISTANCE,
-      constField.getAlgaePositions(constField.isRedAlliance()).get()));
-  private final Trigger isInProcessorADZTrigger = new Trigger(
-      () -> subDrivetrain.isInAutoDriveZone(
-          constField.PROCESSOR_AUTO_DRIVE_MAX_DISTANCE,
-          List.of(constField.getProcessorPose(constField.isRedAlliance()))));
   private final Trigger isInCleaningStates = new Trigger(() -> subStateMachine.inCleaningState());
-
   private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral() && !subRotors.hasAlgae());
-
   private final Trigger isCageLatchedTrigger = new Trigger(() -> subRotors.isCageLatched());
+  private final Trigger isInCSAutoDriveState = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR
+          || subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+  private final Trigger isInProcessorAutoDriveState = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
+
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
   Command TRY_CLIMBING = Commands.deferredProxy(
@@ -204,79 +192,82 @@ public class RobotContainer {
     conDriver.btn_Back
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
 
-    // Defaults to Field-Relative, is Robot-Relative while held
-    // conDriver.btn_LeftBumper
-    // .whileTrue(Commands.runOnce(() -> subDrivetrain.setRobotRelative()))
-    // .onFalse(Commands.runOnce(() -> subDrivetrain.setFieldRelative()));
-
-    conDriver.btn_LeftTrigger.and(isInReefADZTrigger)
+    conDriver.btn_LeftTrigger
         .whileTrue(REEF_AUTO_DRIVING_LEFT)
         .onFalse(MANUAL);
 
-    conDriver.btn_LeftTrigger.and(isInReefADZTrigger.negate())
+    conDriver.btn_LeftTrigger
         .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_RightTrigger.and(isInReefADZTrigger).and(isInCleaningStates.negate())
+    conDriver.btn_RightTrigger.and(isInCleaningStates.negate())
         .whileTrue(REEF_AUTO_DRIVING_RIGHT)
         .onFalse(MANUAL);
 
-    conDriver.btn_RightTrigger.and(isInReefADZTrigger.negate()).and(isInCleaningStates.negate())
+    conDriver.btn_RightTrigger.and(isInCleaningStates.negate())
         .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_X.and(isInCoralStationADZTrigger)
+    conDriver.btn_LeftTrigger.and(isInCleaningStates)
+        .whileTrue(ALGAE_AUTO_DRIVING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_LeftTrigger.and(isInCleaningStates)
+        .whileTrue(ALGAE_ROTATION_SNAPPING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_RightTrigger.and(isInCleaningStates)
+        .whileTrue(ALGAE_AUTO_DRIVING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_RightTrigger.and(isInCleaningStates)
+        .whileTrue(ALGAE_ROTATION_SNAPPING)
+        .onFalse(MANUAL);
+
+    conDriver.btn_X
         .whileTrue(CORAL_STATION_AUTO_DRIVING_FAR)
         .onFalse(MANUAL);
 
-    conDriver.btn_X.and(isInCoralStationADZTrigger.negate())
+    conDriver.btn_X
         .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_B.and(isInCoralStationADZTrigger)
+    conDriver.btn_B
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
         .onFalse(MANUAL);
 
-    conDriver.btn_B.and(isInCoralStationADZTrigger.negate())
+    conDriver.btn_B
         .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_Back.and(isInProcessorADZTrigger)
+    conDriver.btn_Back
         .whileTrue(PROCESSOR_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_Back.and(isInProcessorADZTrigger.negate())
+    conDriver.btn_Back
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_LeftBumper.and(isInNetADZTrigger)
+    conDriver.btn_LeftBumper
         .whileTrue(NET_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_LeftBumper.and(isInNetADZTrigger.negate())
+    conDriver.btn_LeftBumper
         .whileTrue(NET_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
-
-    conDriver.btn_LeftTrigger.and(isInAlgaeADZTrigger).and(isInCleaningStates)
-        .whileTrue(ALGAE_AUTO_DRIVING)
-        .onFalse(MANUAL);
-
-    conDriver.btn_LeftTrigger.and(isInAlgaeADZTrigger.negate()).and(isInCleaningStates)
-        .whileTrue(ALGAE_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
-
-    conDriver.btn_RightTrigger.and(isInAlgaeADZTrigger).and(isInCleaningStates)
-        .whileTrue(ALGAE_AUTO_DRIVING)
-        .onFalse(MANUAL);
-
-    conDriver.btn_RightTrigger.and(isInAlgaeADZTrigger.negate()).and(isInCleaningStates)
-        .whileTrue(ALGAE_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
     conDriver.btn_Start
         .onTrue(TRY_PREP_CLIMB);
+
     conDriver.btn_Y
         .whileTrue(TRY_CLIMBING);
+
+    isInCSAutoDriveState
+        .whileTrue(TRY_INTAKE_CORAL_STATION);
+
+    isInProcessorAutoDriveState
+        .whileTrue(TRY_PREP_ALGAE_PROCESSOR)
+        .whileTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
   }
 
   public Command getAutonomousCommand() {

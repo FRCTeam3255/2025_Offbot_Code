@@ -18,6 +18,7 @@ public class ProcessorAutoDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
+  boolean isRedAlliance = constField.isRedAlliance();
 
   public ProcessorAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
@@ -38,18 +39,33 @@ public class ProcessorAutoDriving extends Command {
 
   @Override
   public void execute() {
+    boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
+        constField.PROCESSOR_AUTO_DRIVE_MAX_DISTANCE,
+        List.of(constField.getProcessorPose(constField.isRedAlliance())));
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
-        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
-    Pose2d closestPose = subDrivetrain.getDesiredPose(List.of(constField.getProcessorPose(constField.isRedAlliance())));
-    subDrivetrain.autoAlign(constField.isRedAlliance(),
-        closestPose,
-        xVelocity,
-        yVelocity,
-        isOpenLoop,
-        false,
-        false);
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+            * redAllianceMultiplier);
+    if (isInAutoDriveZone) {
+      Pose2d closestPose = subDrivetrain
+          .getDesiredPose(List.of(constField.getProcessorPose(constField.isRedAlliance())));
+      subDrivetrain.autoAlign(constField.isRedAlliance(),
+          closestPose,
+          xVelocity,
+          yVelocity,
+          isOpenLoop,
+          false,
+          false);
+      subDriverStateMachine.setDriverState(DriverState.PROCESSOR_AUTO_DRIVING);
+    } else {
+      subDrivetrain.rotationalAlign(isRedAlliance,
+          subDrivetrain.getDesiredPose(List.of(constField.getProcessorPose(isRedAlliance))),
+          xVelocity,
+          yVelocity,
+          isOpenLoop);
+      subDriverStateMachine.setDriverState(DriverState.PROCESSOR_ROTATION_SNAPPING);
+    }
   }
 
   @Override

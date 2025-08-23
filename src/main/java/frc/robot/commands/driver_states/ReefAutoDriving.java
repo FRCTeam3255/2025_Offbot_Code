@@ -48,25 +48,41 @@ public class ReefAutoDriving extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+    LinearVelocity xVelocity = Units.MetersPerSecond
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     Pose2d closestPose;
+    boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
+        constField.REEF_AUTO_DRIVE_MAX_DISTANCE,
+        constField.getReefPositions(constField.isRedAlliance()).get());
 
-    if (leftBranch == true) {
-      closestPose = subDrivetrain.getDesiredPose(constField.getLeftReefPositions(isRedAlliance).get());
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
+    if (isInAutoDriveZone) {
+      if (leftBranch == true) {
+        closestPose = subDrivetrain.getDesiredPose(constField.getLeftReefPositions(isRedAlliance).get());
+        subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
+      } else {
+        closestPose = subDrivetrain.getDesiredPose(constField.getRightReefPositions(isRedAlliance).get());
+        subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
+      }
+      subDrivetrain.autoAlign(isRedAlliance,
+          closestPose,
+          xVelocity,
+          yVelocity,
+          isOpenLoop,
+          false,
+          false);
     } else {
-      closestPose = subDrivetrain.getDesiredPose(constField.getRightReefPositions(isRedAlliance).get());
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
+      closestPose = subDrivetrain.getDesiredPose(constField.getReefPositions(isRedAlliance).get());
+      subDrivetrain.rotationalAlign(
+          isRedAlliance,
+          closestPose,
+          xVelocity,
+          yVelocity,
+          isOpenLoop);
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING);
     }
 
-    subDrivetrain.autoAlign(isRedAlliance,
-        closestPose,
-        xVelocity,
-        yVelocity,
-        isOpenLoop,
-        false,
-        false);
   }
 
   // Called once the command ends or is interrupted.

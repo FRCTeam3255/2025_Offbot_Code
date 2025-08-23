@@ -12,12 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.driver_states.*;
-import frc.robot.commands.driver_states.DriveManual;
-import frc.robot.commands.driver_states.ProcessorAutoDriving;
-import frc.robot.commands.driver_states.ProcessorRotationSnapping;
-import frc.robot.commands.driver_states.ReefAutoDriving;
-import frc.robot.commands.driver_states.ReefRotationSnapping;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 @Logged
 public class DriverStateMachine extends SubsystemBase {
@@ -100,7 +96,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new ReefRotationSnapping(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new ReefAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis, false);
         }
         break;
 
@@ -120,7 +116,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new CoralStationRotationSnapping(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new CoralStationAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis, false);
         }
         break;
 
@@ -221,7 +217,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new ProcessorRotationSnapping(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new ProcessorAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
         }
         break;
 
@@ -261,7 +257,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new NetRotationSnapping(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new NetAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
         }
         break;
       case NET_AUTO_DRIVING:
@@ -299,7 +295,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new AlgaeRotationSnapping(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new AlgaeAutoDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
         }
         break;
       case ALGAE_AUTO_DRIVING:

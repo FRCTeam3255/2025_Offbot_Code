@@ -49,28 +49,42 @@ public class CoralStationAutoDriving extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d closestPose;
-    if (farCoralStation) {
-      closestPose = subDrivetrain
-          .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(0),
-              constField.getCoralStationPositions(isRedAlliance).get().get(2)));
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
-    } else {
-      closestPose = subDrivetrain
-          .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(1),
-              constField.getCoralStationPositions(isRedAlliance).get().get(3)));
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+    boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
+        constField.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
+        constField.getCoralStationPositions(isRedAlliance).get());
+    LinearVelocity xVelocity = Units.MetersPerSecond
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+    LinearVelocity yVelocity = Units.MetersPerSecond
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
 
+    if (isInAutoDriveZone) {
+      Pose2d closestPose;
+      if (farCoralStation) {
+        closestPose = subDrivetrain
+            .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(0),
+                constField.getCoralStationPositions(isRedAlliance).get().get(2)));
+        subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
+      } else {
+        closestPose = subDrivetrain
+            .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(1),
+                constField.getCoralStationPositions(isRedAlliance).get().get(3)));
+        subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+      }
+      subDrivetrain.autoAlign(isRedAlliance,
+          closestPose,
+          xVelocity,
+          yVelocity,
+          isOpenLoop,
+          false,
+          false);
+    } else {
+      subDrivetrain.rotationalAlign(isRedAlliance,
+          subDrivetrain.getDesiredPose(constField.getCoralStationPositions(isRedAlliance).get()),
+          xVelocity,
+          yVelocity,
+          isOpenLoop);
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING);
     }
-    LinearVelocity xVelocity = Units.MetersPerSecond.of(xAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
-    LinearVelocity yVelocity = Units.MetersPerSecond.of(-yAxis.getAsDouble()* constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
-    subDrivetrain.autoAlign(isRedAlliance,
-        closestPose,
-        xVelocity,
-        yVelocity,
-        isOpenLoop,
-        false,
-        false);
   }
 
   // Called once the command ends or is interrupted.
