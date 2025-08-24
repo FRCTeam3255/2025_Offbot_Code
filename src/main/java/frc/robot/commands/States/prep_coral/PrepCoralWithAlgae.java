@@ -34,6 +34,7 @@ public class PrepCoralWithAlgae extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
+    globalDrivetrain = subDrivetrain;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
     targetLevel = level;
