@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.constField;
+import frc.robot.commands.Zeroing.ManualZeroLift;
 import edu.wpi.first.cameraserver.CameraServer;
 
 @Logged
@@ -34,7 +35,6 @@ public class Robot extends TimedRobot {
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
     Epilogue.bind(this);
     m_robotContainer = new RobotContainer();
-
     // Set out log file to be in its own folder
     if (Robot.isSimulation()) {
       DataLogManager.start("logs");
@@ -46,6 +46,9 @@ public class Robot extends TimedRobot {
     // Log the DS data and joysticks
     DriverStation.startDataLog(DataLogManager.getLog(), true);
     DriverStation.silenceJoystickConnectionWarning(Constants.constControllers.SILENCE_JOYSTICK_WARNINGS);
+    m_robotContainer.manualZeroLift.schedule();
+    m_robotContainer.manualZeroPivot.schedule();
+    m_robotContainer.manualZeroWrist.schedule();
   }
 
   @Override
@@ -65,6 +68,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledExit() {
+    m_robotContainer.manualZeroLift.cancel();
+    m_robotContainer.manualZeroPivot.cancel();
+    m_robotContainer.manualZeroWrist.cancel();
   }
 
   @Override
