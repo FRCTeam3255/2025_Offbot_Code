@@ -14,6 +14,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constField;
+import frc.robot.Constants.constMotion;
 import frc.robot.subsystems.StateMachine.DriverState;
 
 public class DriveManual extends Command {
@@ -22,14 +23,16 @@ public class DriveManual extends Command {
   boolean isOpenLoop;
   double redAllianceMultiplier = 1;
   StateMachine subStateMachine;
+  Motion globalMotion;
 
   public DriveManual(Drivetrain subDrivetrain, StateMachine subStateMachine, DoubleSupplier xAxis, DoubleSupplier yAxis,
-      DoubleSupplier rotationAxis) {
+      DoubleSupplier rotationAxis, Motion subMotion) {
     this.subDrivetrain = subDrivetrain;
     this.subStateMachine = subStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    this.globalMotion = subMotion;
 
     isOpenLoop = true;
 
@@ -46,9 +49,12 @@ public class DriveManual extends Command {
   public void execute() {
     // Get Joystick inputs
     double xVelocity = xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
     double yVelocity = -yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
+    ;
     double rVelocity = -rotationAxis.getAsDouble() * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
     subStateMachine.setDriverState(StateMachine.DriverState.MANUAL);
