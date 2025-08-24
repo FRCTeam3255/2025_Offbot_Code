@@ -4,13 +4,13 @@
 
 package frc.robot.commands.Zeroing;
 
-import frc.robot.Constants.constMotion;
-import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constMotion;
+import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroWrist extends Command {
@@ -36,9 +36,9 @@ public class ManualZeroWrist extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setWristCoastMode(true);
+    globalMotion.Wrist.setCoastMode(true);
     // Check if we have raised the Wrist above a certain speed
-    if (globalMotion.getWristVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
+    if (globalMotion.Wrist.getVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingZeroing) {
       // Enter zeroing mode!
       if (!globalMotion.attemptingZeroing) {
@@ -52,13 +52,13 @@ public class ManualZeroWrist extends Command {
         globalMotion.attemptingZeroing = false;
         System.out.println("Wrist Zeroing Failed :(");
       } else {
-        boolean deltaWristVelocity = globalMotion.getWristVelocity().minus(lastWristVelocity)
+        boolean deltaWristVelocity = globalMotion.Wrist.getVelocity().minus(lastWristVelocity)
             .lte(constMotion.MANUAL_ZEROING_DELTA_VELOCITY);
 
         if (deltaWristVelocity && lastWristVelocity.lte(Units.RotationsPerSecond.of(0))) {
           zeroingSuccess = true;
         } else {
-          lastWristVelocity = globalMotion.getWristVelocity();
+          lastWristVelocity = globalMotion.Wrist.getVelocity();
         }
       }
     }
@@ -69,8 +69,8 @@ public class ManualZeroWrist extends Command {
   public void end(boolean interrupted) {
     if (!interrupted && zeroingSuccess) {
       globalMotion.hasWristZeroed = true;
-      globalMotion.resetWristSensorPosition(constMotion.WRIST_ZEROED_POSITION);
-      globalMotion.setWristCoastMode(false);
+      globalMotion.Wrist.resetSensorPosition(constMotion.WRIST_ZEROED_POSITION);
+      globalMotion.Wrist.setCoastMode(false);
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");
@@ -80,6 +80,6 @@ public class ManualZeroWrist extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return zeroingSuccess && globalMotion.isWristVelocityZero();
+    return zeroingSuccess && globalMotion.Wrist.isVelocityZero();
   }
 }

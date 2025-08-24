@@ -60,16 +60,16 @@ public class RobotPoses extends SubsystemBase {
     // This method will be called once per scheduler run
     elevatorTransform3d = new Transform3d(
         Units.Inches.zero(),
-        subMotion.getLiftPosition().div(2),
+        subMotion.Lift.getPosition().div(2),
         Units.Inches.zero(),
         Rotation3d.kZero);
     pivotRotation3d = new Rotation3d(
-        subMotion.getPivotAngle(),
+        subMotion.Pivot.getPosition(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
         Units.Degrees.zero(),
-        subMotion.getWristAngle(),
+        subMotion.Wrist.getPosition(),
         Units.Degrees.zero());
 
     // Robot Positions

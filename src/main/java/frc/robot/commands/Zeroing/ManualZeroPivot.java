@@ -4,13 +4,13 @@
 
 package frc.robot.commands.Zeroing;
 
-import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMotion;
+import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroPivot extends Command {
@@ -36,9 +36,9 @@ public class ManualZeroPivot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setPivotCoastMode(true);
+    globalMotion.Pivot.setCoastMode(true);
     // Check if we have raised the pivot above a certain speed
-    if (globalMotion.getPivotVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
+    if (globalMotion.Pivot.getVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingZeroing) {
       // Enter zeroing mode!
       if (!globalMotion.attemptingZeroing) {
@@ -52,13 +52,13 @@ public class ManualZeroPivot extends Command {
         globalMotion.attemptingZeroing = false;
         System.out.println("Pivot Zeroing Failed :(");
       } else {
-        boolean deltaPivotVelocity = globalMotion.getPivotVelocity().minus(lastPivotVelocity)
+        boolean deltaPivotVelocity = globalMotion.Pivot.getVelocity().minus(lastPivotVelocity)
             .lte(constMotion.MANUAL_ZEROING_DELTA_VELOCITY);
 
         if (deltaPivotVelocity && lastPivotVelocity.lte(Units.RotationsPerSecond.of(0))) {
           zeroingSuccess = true;
         } else {
-          lastPivotVelocity = globalMotion.getPivotVelocity();
+          lastPivotVelocity = globalMotion.Pivot.getVelocity();
         }
       }
     }
@@ -69,8 +69,8 @@ public class ManualZeroPivot extends Command {
   public void end(boolean interrupted) {
     if (!interrupted && zeroingSuccess) {
       globalMotion.hasPivotZeroed = true;
-      globalMotion.resetPivotSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
-      globalMotion.setPivotCoastMode(false);
+      globalMotion.Pivot.resetSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
+      globalMotion.Pivot.setCoastMode(false);
       System.out.println("Pivot Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Pivot was never zeroed :((( blame eli");
@@ -80,6 +80,6 @@ public class ManualZeroPivot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return zeroingSuccess && globalMotion.isPivotVelocityZero();
+    return zeroingSuccess && globalMotion.Pivot.isVelocityZero();
   }
 }

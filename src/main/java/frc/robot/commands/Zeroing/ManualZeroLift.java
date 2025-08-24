@@ -4,13 +4,13 @@
 
 package frc.robot.commands.Zeroing;
 
-import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMotion;
+import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroLift extends Command {
@@ -35,10 +35,10 @@ public class ManualZeroLift extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setLiftCoastMode(true);
+    globalMotion.Lift.setCoastMode(true);
 
     // Check if we have raised the elevator above a certain speed
-    if (globalMotion.getLiftVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
+    if (globalMotion.Lift.getVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingZeroing) {
       // Enter zeroing mode!
       if (!globalMotion.attemptingZeroing) {
@@ -52,13 +52,13 @@ public class ManualZeroLift extends Command {
         globalMotion.attemptingZeroing = false;
         System.out.println("Elevator Zeroing Failed :(");
       } else {
-        boolean deltaLiftVelocity = globalMotion.getLiftVelocity().minus(lastLiftVelocity)
+        boolean deltaLiftVelocity = globalMotion.Lift.getVelocity().minus(lastLiftVelocity)
             .lte(constMotion.MANUAL_ZEROING_DELTA_VELOCITY);
 
         if (deltaLiftVelocity && lastLiftVelocity.lte(Units.RotationsPerSecond.of(0))) {
           zeroingSuccess = true;
         } else {
-          lastLiftVelocity = globalMotion.getLiftVelocity();
+          lastLiftVelocity = globalMotion.Lift.getVelocity();
         }
       }
     }
@@ -69,8 +69,8 @@ public class ManualZeroLift extends Command {
   public void end(boolean interrupted) {
     if (!interrupted && zeroingSuccess) {
       globalMotion.hasLiftZeroed = true;
-      globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
-      globalMotion.setLiftCoastMode(false);
+      globalMotion.Lift.resetSensorPosition(constMotion.LIFT_ZEROED_POSITION);
+      globalMotion.Lift.setCoastMode(false);
       System.out.println("Elevator Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Elevator was never zeroed :((( blame eli");
@@ -80,6 +80,6 @@ public class ManualZeroLift extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return zeroingSuccess && globalMotion.isLiftVelocityZero();
+    return zeroingSuccess && globalMotion.Lift.isVelocityZero();
   }
 }
