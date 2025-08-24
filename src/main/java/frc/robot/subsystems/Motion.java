@@ -26,11 +26,11 @@ import frc.robot.RobotMap.mapMotion;
 @Logged
 public class Motion extends SubsystemBase {
   /** Creates a new Motion. */
-  private final TalonFX leftLiftMotorFollower;
-  private final TalonFX rightLiftMotorLeader;
-  private final TalonFX leftPivotMotorFollower;
-  private final TalonFX rightPivotMotorLeader;
-  private final TalonFX wristPivotMotor;
+  TalonFX leftLiftMotorFollower;
+  TalonFX rightLiftMotorLeader;
+  TalonFX leftPivotMotorFollower;
+  TalonFX rightPivotMotorLeader;
+  TalonFX wristPivotMotor;
 
   public boolean attemptingZeroing = false;
   public boolean hasLiftZeroed = false;
