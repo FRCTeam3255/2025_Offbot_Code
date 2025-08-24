@@ -57,7 +57,7 @@ public class Motion extends SubsystemBase {
     return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
 
-  public void setLiftPosition(Distance height) {
+  private void setLiftPosition(Distance height) {
     rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
     leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     elevatorLiftLastDesiredPosition = height;
