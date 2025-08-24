@@ -10,11 +10,15 @@ import java.lang.Thread.State;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constField;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.StateMachine.DriverState;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 public class DriveManual extends Command {
   Drivetrain subDrivetrain;
@@ -22,14 +26,17 @@ public class DriveManual extends Command {
   boolean isOpenLoop;
   double redAllianceMultiplier = 1;
   StateMachine subStateMachine;
+  Motion globalMotion;
+  Angle driveTrainPitch;
 
   public DriveManual(Drivetrain subDrivetrain, StateMachine subStateMachine, DoubleSupplier xAxis, DoubleSupplier yAxis,
-      DoubleSupplier rotationAxis) {
+      DoubleSupplier rotationAxis, Motion globalMotion) {
     this.subDrivetrain = subDrivetrain;
     this.subStateMachine = subStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    this.globalMotion = globalMotion;
 
     isOpenLoop = true;
 
@@ -39,11 +46,18 @@ public class DriveManual extends Command {
 
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+
   }
 
   @Override
   public void execute() {
+
+    if (driveTrainPitch.gte(constDrivetrain.MAX_DRIVETAIN_PITCH)
+        || driveTrainPitch.lte(constDrivetrain.MIN_DRIVETRAIN_PITCH)) {
+
+      globalMotion.setAllPosition(constMechanismPositions.NONE);
+      subStateMachine.setRobotState(RobotState.NONE);
+    }
     // Get Joystick inputs
     double xVelocity = xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
         * redAllianceMultiplier;
