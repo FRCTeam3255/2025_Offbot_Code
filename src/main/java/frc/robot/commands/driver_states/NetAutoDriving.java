@@ -10,6 +10,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.Field;
 
 public class NetAutoDriving extends Command {
   Drivetrain subDrivetrain;
@@ -31,22 +32,22 @@ public class NetAutoDriving extends Command {
 
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     subDriverStateMachine.setDriverState(DriverState.NET_AUTO_DRIVING);
   }
 
   @Override
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        constField.NET_AUTO_DRIVE_MAX_DISTANCE,
-        constField.getNetPositions(constField.isRedAlliance()).get());
+        Field.NET_AUTO_DRIVE_MAX_DISTANCE,
+        Field.getNetPositions(Field.isRedAlliance()).get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     if (isInAutoDriveZone) {
-      Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getNetPositions(constField.isRedAlliance()).get());
-      subDrivetrain.autoAlign(constField.isRedAlliance(),
+      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getNetPositions(Field.isRedAlliance()).get());
+      subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
           yVelocity,
@@ -55,8 +56,8 @@ public class NetAutoDriving extends Command {
           true);
       subDriverStateMachine.setDriverState(DriverState.NET_AUTO_DRIVING);
     } else {
-      subDrivetrain.rotationalAlign(constField.isRedAlliance(),
-          subDrivetrain.getDesiredPose(constField.getNetPositions(constField.isRedAlliance()).get()),
+      subDrivetrain.rotationalAlign(Field.isRedAlliance(),
+          subDrivetrain.getDesiredPose(Field.getNetPositions(Field.isRedAlliance()).get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

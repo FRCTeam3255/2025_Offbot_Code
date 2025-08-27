@@ -13,7 +13,7 @@ import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Constants.constField;
+import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -44,14 +44,14 @@ public class PrepCoralWithAlgae extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getReefPositions(constField.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getReefPositions(Field.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getReefPositions(constField.isRedAlliance()).get()) == true) {
+        Field.getReefPositions(Field.isRedAlliance()).get()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getReefPositions(constField.isRedAlliance()).get()) == false) {
+        Field.getReefPositions(Field.isRedAlliance()).get()) == false) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;

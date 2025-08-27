@@ -10,6 +10,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.Field;
 
 public class AlgaeAutoDriving extends Command {
   Drivetrain subDrivetrain;
@@ -31,22 +32,22 @@ public class AlgaeAutoDriving extends Command {
 
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     subDriverStateMachine.setDriverState(DriverState.ALGAE_AUTO_DRIVING);
   }
 
   @Override
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        constField.ALGAE_AUTO_DRIVE_MAX_DISTANCE,
-        constField.getAlgaePositions(constField.isRedAlliance()).get());
+        Field.ALGAE_AUTO_DRIVE_MAX_DISTANCE,
+        Field.getAlgaePositions(Field.isRedAlliance()).get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     if (isInAutoDriveZone) {
-      Pose2d closestPose = subDrivetrain.getDesiredPose(constField.getAlgaePositions(constField.isRedAlliance()).get());
-      subDrivetrain.autoAlign(constField.isRedAlliance(),
+      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getAlgaePositions(Field.isRedAlliance()).get());
+      subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
           yVelocity,
@@ -55,8 +56,8 @@ public class AlgaeAutoDriving extends Command {
           false);
       subDriverStateMachine.setDriverState(DriverState.ALGAE_AUTO_DRIVING);
     } else {
-      subDrivetrain.rotationalAlign(constField.isRedAlliance(),
-          subDrivetrain.getDesiredPose(constField.getAlgaePositions(constField.isRedAlliance()).get()),
+      subDrivetrain.rotationalAlign(Field.isRedAlliance(),
+          subDrivetrain.getDesiredPose(Field.getAlgaePositions(Field.isRedAlliance()).get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

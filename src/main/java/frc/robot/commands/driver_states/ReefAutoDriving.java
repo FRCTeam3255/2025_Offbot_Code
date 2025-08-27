@@ -13,17 +13,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Field;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ReefAutoDriving extends Command {
   /** Creates a new ReefAutoDriving. */
   double redAllianceMultiplier = 1;
-  boolean isRedAlliance = constField.isRedAlliance();
+  boolean isRedAlliance = Field.isRedAlliance();
   Drivetrain subDrivetrain;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   DriverStateMachine subDriverStateMachine;
   boolean isOpenLoop;
   boolean leftBranch;
+  Pose2d closestPoseByRotation;
 
   public ReefAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean leftBranch) {
@@ -42,7 +44,7 @@ public class ReefAutoDriving extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,15 +56,17 @@ public class ReefAutoDriving extends Command {
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     Pose2d closestPose;
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        constField.REEF_AUTO_DRIVE_MAX_DISTANCE,
-        constField.getReefPositions(constField.isRedAlliance()).get());
+        Field.REEF_AUTO_DRIVE_MAX_DISTANCE,
+        Field.getReefPositions(Field.isRedAlliance()).get());
 
     if (isInAutoDriveZone) {
       if (leftBranch == true) {
-        closestPose = subDrivetrain.getDesiredPose(constField.getLeftReefPositions(isRedAlliance).get());
+        closestPose = subDrivetrain
+            .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions(isRedAlliance).get()).get());
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
       } else {
-        closestPose = subDrivetrain.getDesiredPose(constField.getRightReefPositions(isRedAlliance).get());
+        closestPose = subDrivetrain
+            .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions(isRedAlliance).get()).get());
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
       }
       subDrivetrain.autoAlign(isRedAlliance,
@@ -73,7 +77,8 @@ public class ReefAutoDriving extends Command {
           false,
           false);
     } else {
-      closestPose = subDrivetrain.getDesiredPose(constField.getReefPositions(isRedAlliance).get());
+      closestPose = subDrivetrain
+          .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions(isRedAlliance).get()).get());
       subDrivetrain.rotationalAlign(
           isRedAlliance,
           closestPose,

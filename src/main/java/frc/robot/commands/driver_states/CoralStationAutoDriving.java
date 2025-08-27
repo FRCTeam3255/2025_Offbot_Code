@@ -13,12 +13,13 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
+import frc.robot.Field;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralStationAutoDriving extends Command {
   /** Creates a new CoralStationAutoDriving. */
   double redAllianceMultiplier = 1;
-  boolean isRedAlliance = constField.isRedAlliance();
+  boolean isRedAlliance = Field.isRedAlliance();
   Drivetrain subDrivetrain;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   DriverStateMachine subDriverStateMachine;
@@ -36,7 +37,7 @@ public class CoralStationAutoDriving extends Command {
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     this.farCoralStation = farCoralStation;
   }
 
@@ -50,8 +51,8 @@ public class CoralStationAutoDriving extends Command {
   @Override
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        constField.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
-        constField.getCoralStationPositions(isRedAlliance).get());
+        Field.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
+        Field.getCoralStationPositions(isRedAlliance).get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
@@ -61,13 +62,13 @@ public class CoralStationAutoDriving extends Command {
       Pose2d closestPose;
       if (farCoralStation) {
         closestPose = subDrivetrain
-            .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(0),
-                constField.getCoralStationPositions(isRedAlliance).get().get(2)));
+            .getDesiredPose(List.of(Field.getCoralStationPositions(isRedAlliance).get().get(0),
+                Field.getCoralStationPositions(isRedAlliance).get().get(2)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
       } else {
         closestPose = subDrivetrain
-            .getDesiredPose(List.of(constField.getCoralStationPositions(isRedAlliance).get().get(1),
-                constField.getCoralStationPositions(isRedAlliance).get().get(3)));
+            .getDesiredPose(List.of(Field.getCoralStationPositions(isRedAlliance).get().get(1),
+                Field.getCoralStationPositions(isRedAlliance).get().get(3)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
       }
       subDrivetrain.autoAlign(isRedAlliance,
@@ -79,7 +80,7 @@ public class CoralStationAutoDriving extends Command {
           false);
     } else {
       subDrivetrain.rotationalAlign(isRedAlliance,
-          subDrivetrain.getDesiredPose(constField.getCoralStationPositions(isRedAlliance).get()),
+          subDrivetrain.getDesiredPose(Field.getCoralStationPositions(isRedAlliance).get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

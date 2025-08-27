@@ -9,6 +9,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.Field;
 
 public class CageRotationSnapping extends Command {
   Drivetrain subDrivetrain;
@@ -30,7 +31,7 @@ public class CageRotationSnapping extends Command {
 
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     subDriverStateMachine.setDriverState(DriverState.CAGE_ROTATION_SNAPPING);
   }
 
@@ -40,8 +41,8 @@ public class CageRotationSnapping extends Command {
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
-    subDrivetrain.rotationalAlign(constField.isRedAlliance(),
-        subDrivetrain.getDesiredPose(constField.getCagePositions(constField.isRedAlliance()).get()),
+    subDrivetrain.rotationalAlign(Field.isRedAlliance(),
+        subDrivetrain.getDesiredPose(Field.getCagePositions(Field.isRedAlliance()).get()),
         xVelocity,
         yVelocity,
         isOpenLoop);

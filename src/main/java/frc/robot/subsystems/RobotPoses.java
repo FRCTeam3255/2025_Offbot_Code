@@ -30,8 +30,8 @@ public class RobotPoses extends SubsystemBase {
   Pose3d model2ElevatorCarriage = Pose3d.kZero;
   Pose3d model3Intake = Pose3d.kZero;
   Pose3d model4Climber = Pose3d.kZero;
-  Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
-  Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
+  Pose3d coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+  Pose3d algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
 
   Transform3d elevatorTransform3d;
   Rotation3d pivotRotation3d;

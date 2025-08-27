@@ -11,6 +11,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.Field;
 
 public class ProcessorAutoDriving extends Command {
   double redAllianceMultiplier = 1;
@@ -18,7 +19,7 @@ public class ProcessorAutoDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
-  boolean isRedAlliance = constField.isRedAlliance();
+  boolean isRedAlliance = Field.isRedAlliance();
 
   public ProcessorAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
@@ -33,15 +34,15 @@ public class ProcessorAutoDriving extends Command {
 
   @Override
   public void initialize() {
-    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     subDriverStateMachine.setDriverState(DriverState.PROCESSOR_AUTO_DRIVING);
   }
 
   @Override
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        constField.PROCESSOR_AUTO_DRIVE_MAX_DISTANCE,
-        List.of(constField.getProcessorPose(constField.isRedAlliance())));
+        Field.PROCESSOR_AUTO_DRIVE_MAX_DISTANCE,
+        List.of(Field.getProcessorPose(Field.isRedAlliance())));
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
@@ -49,8 +50,8 @@ public class ProcessorAutoDriving extends Command {
             * redAllianceMultiplier);
     if (isInAutoDriveZone) {
       Pose2d closestPose = subDrivetrain
-          .getDesiredPose(List.of(constField.getProcessorPose(constField.isRedAlliance())));
-      subDrivetrain.autoAlign(constField.isRedAlliance(),
+          .getDesiredPose(List.of(Field.getProcessorPose(Field.isRedAlliance())));
+      subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
           yVelocity,
@@ -60,7 +61,7 @@ public class ProcessorAutoDriving extends Command {
       subDriverStateMachine.setDriverState(DriverState.PROCESSOR_AUTO_DRIVING);
     } else {
       subDrivetrain.rotationalAlign(isRedAlliance,
-          subDrivetrain.getDesiredPose(List.of(constField.getProcessorPose(isRedAlliance))),
+          subDrivetrain.getDesiredPose(List.of(Field.getProcessorPose(isRedAlliance))),
           xVelocity,
           yVelocity,
           isOpenLoop);

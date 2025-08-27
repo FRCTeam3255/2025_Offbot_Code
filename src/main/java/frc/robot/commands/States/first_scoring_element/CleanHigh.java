@@ -7,7 +7,7 @@ package frc.robot.commands.States.first_scoring_element;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Constants.constField;
+import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Drivetrain;
@@ -38,12 +38,12 @@ public class CleanHigh extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getAlgaePositions(Field.isRedAlliance()).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getAlgaePositions(constField.isRedAlliance()).get()) == true) {
+        Field.getAlgaePositions(Field.isRedAlliance()).get()) == true) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getAlgaePositions(constField.isRedAlliance()).get()) == false) {
+        Field.getAlgaePositions(Field.isRedAlliance()).get()) == false) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
     globalMotion.setAllPosition(cleanHigh);
