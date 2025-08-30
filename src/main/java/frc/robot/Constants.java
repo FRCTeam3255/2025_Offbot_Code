@@ -302,6 +302,7 @@ public final class Constants {
     public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(57);// todo replace with actual value
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
+    public static final Distance HEIGHT_DIVIDER = Units.Inches.of(4.3);
     /**
      * The elapsed time required to consider the motor as zeroed
      */
