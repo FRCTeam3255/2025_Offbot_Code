@@ -23,11 +23,11 @@ public class Field {
   public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
   public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
 
-  public static final Distance REEF_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
-  public static final Distance CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
-  public static final Distance ALGAE_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
-  public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
-  public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(5);
+  public static final Distance REEF_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(2);
+  public static final Distance CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
+  public static final Distance ALGAE_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(2);
+  public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
+  public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
 
   /**
    * Boolean that controls when the path will be mirrored for the red
@@ -67,7 +67,7 @@ public class Field {
     // Net Poses
     private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
         Rotation2d.fromDegrees(0));
-    private static final Pose2d NET_LINE = new Pose2d(Units.Meters.of(7.588), Units.Meters.of(0),
+    private static final Pose2d NET_LINE = new Pose2d(Units.Meters.of(7.588), Units.Meters.of(7.5),
         Rotation2d.fromDegrees(0));
 
     // algae poses

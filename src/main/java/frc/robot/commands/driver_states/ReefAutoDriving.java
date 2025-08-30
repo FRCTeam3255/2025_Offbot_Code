@@ -84,14 +84,7 @@ public class ReefAutoDriving extends Command {
           false,
           false);
     } else {
-      closestPose = getAllPos;
-      subDrivetrain.rotationalAlign(
-          isRedAlliance,
-          closestPose,
-          xVelocity,
-          yVelocity,
-          isOpenLoop);
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING);
+      System.out.println("What is your problem???");
     }
 
   }

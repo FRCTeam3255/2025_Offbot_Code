@@ -37,14 +37,13 @@ public class CoralStationAutoDriving extends Command {
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
-    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     this.farCoralStation = farCoralStation;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    subDrivetrain.neutralDriveOutputs();
+    redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -63,12 +62,14 @@ public class CoralStationAutoDriving extends Command {
       if (farCoralStation) {
         closestPose = subDrivetrain
             .getDesiredPose(List.of(Field.getCoralStationPositions().get().get(0),
-                Field.getCoralStationPositions().get().get(2)));
+                Field.getCoralStationPositions().get().get(2), Field.getCoralStationPositions().get().get(4),
+                Field.getCoralStationPositions().get().get(6)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
       } else {
         closestPose = subDrivetrain
             .getDesiredPose(List.of(Field.getCoralStationPositions().get().get(1),
-                Field.getCoralStationPositions().get().get(3)));
+                Field.getCoralStationPositions().get().get(3), Field.getCoralStationPositions().get().get(5),
+                Field.getCoralStationPositions().get().get(7)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
       }
       subDrivetrain.autoAlign(isRedAlliance,
@@ -79,12 +80,7 @@ public class CoralStationAutoDriving extends Command {
           false,
           false);
     } else {
-      subDrivetrain.rotationalAlign(isRedAlliance,
-          subDrivetrain.getDesiredPose(Field.getCoralStationPositions().get()),
-          xVelocity,
-          yVelocity,
-          isOpenLoop);
-      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING);
+      System.out.println("What is your problem????????????");
     }
   }
 

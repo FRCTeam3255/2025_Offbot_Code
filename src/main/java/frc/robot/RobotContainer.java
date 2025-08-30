@@ -220,16 +220,8 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_AUTO_DRIVING_FAR)
         .onFalse(MANUAL);
 
-    conDriver.btn_X
-        .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
-
     conDriver.btn_B
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
-        .onFalse(MANUAL);
-
-    conDriver.btn_B
-        .whileTrue(CORAL_STATION_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
     conDriver.btn_North

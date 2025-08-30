@@ -56,7 +56,7 @@ public class ProcessorAutoDriving extends Command {
           xVelocity,
           yVelocity,
           isOpenLoop,
-          false,
+          true,
           false);
       subDriverStateMachine.setDriverState(DriverState.PROCESSOR_AUTO_DRIVING);
     } else {
