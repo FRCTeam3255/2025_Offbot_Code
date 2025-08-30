@@ -24,7 +24,7 @@ public class ReefAutoDriving extends Command {
   DoubleSupplier xAxis, yAxis, rotationAxis;
   DriverStateMachine subDriverStateMachine;
   boolean isOpenLoop;
-  boolean leftBranch;
+  boolean globalLeftBranch;
   Pose2d closestPoseByRotation;
   Pose2d getLeftPos;
   Pose2d getRightPos;
@@ -41,13 +41,12 @@ public class ReefAutoDriving extends Command {
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
-    this.leftBranch = leftBranch;
+    globalLeftBranch = leftBranch;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftBranch = leftBranch;
     redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     getLeftPos = subDrivetrain
         .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions(isRedAlliance).get()).get());
@@ -70,7 +69,7 @@ public class ReefAutoDriving extends Command {
         Field.getReefPositions(Field.isRedAlliance()).get());
 
     if (isInAutoDriveZone) {
-      if (leftBranch == true) {
+      if (globalLeftBranch == true) {
         closestPose = getLeftPos;
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
       } else {

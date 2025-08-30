@@ -196,16 +196,8 @@ public class RobotContainer {
         .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
         .onFalse(MANUAL);
 
-    conDriver.btn_LeftTrigger.and(isInCleaningStates.negate())
-        .whileTrue(REEF_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
-
     conDriver.btn_RightTrigger.and(isInCleaningStates.negate())
         .whileTrue(REEF_AUTO_DRIVING_RIGHT)
-        .onFalse(MANUAL);
-
-    conDriver.btn_RightTrigger.and(isInCleaningStates.negate())
-        .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
     conDriver.btn_LeftTrigger.and(isInCleaningStates)
