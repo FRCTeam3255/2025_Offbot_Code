@@ -96,11 +96,11 @@ public class Drivetrain extends SN_SuperSwerve {
   }
 
   public Pose2d getFrontPose() {
-    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(14.5), new Rotation2d(0)));
+    return getPose().plus(new Transform2d(Units.Inches.of(14.5), Units.Inches.of(0), new Rotation2d(0)));
   }
 
   public Pose2d getBackPose() {
-    return getPose().plus(new Transform2d(Units.Inches.of(0), Units.Inches.of(-14.5), new Rotation2d(0)));
+    return getPose().plus(new Transform2d(Units.Inches.of(-14.5), Units.Inches.of(0), new Rotation2d(0)));
   }
 
   public Angle getRotationMeasure() {
