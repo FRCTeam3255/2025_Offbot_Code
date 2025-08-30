@@ -13,7 +13,7 @@ import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.constField;
+import frc.robot.Field;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepNetWithCoral extends Command {
@@ -37,12 +37,12 @@ public class PrepNetWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(constField.getNetPositions(true).get());
+    closestPoseByRotation = globalDrivetrain.getClosestPoseByRotation(Field.getNetPositions(true).get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
+        Field.getNetPositions(Field.isRedAlliance()).get()) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getNetPositions(constField.isRedAlliance()).get()) == false) {
+        Field.getNetPositions(Field.isRedAlliance()).get()) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);
