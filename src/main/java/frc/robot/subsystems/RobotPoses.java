@@ -9,10 +9,7 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.constField;
 
@@ -32,6 +29,7 @@ public class RobotPoses extends SubsystemBase {
   Pose3d model1ElevatorStage2 = Pose3d.kZero;
   Pose3d model2ElevatorCarriage = Pose3d.kZero;
   Pose3d model3Intake = Pose3d.kZero;
+  Pose3d model4Climber = Pose3d.kZero;
   Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
   Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
 
@@ -62,23 +60,27 @@ public class RobotPoses extends SubsystemBase {
     // This method will be called once per scheduler run
     elevatorTransform3d = new Transform3d(
         Units.Inches.zero(),
-        subMotion.getLastDesiredLiftPosition().div(2),
+        subMotion.getLiftPosition().div(2),
         Units.Inches.zero(),
         Rotation3d.kZero);
     pivotRotation3d = new Rotation3d(
-        subMotion.getLastDesiredPivotAngle(),
+        subMotion.getPivotAngle(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
-        subMotion.getLastDesiredPivotAngle(),
         Units.Degrees.zero(),
+        subMotion.getWristAngle(),
         Units.Degrees.zero());
 
     // Robot Positions
     modelDrivetrain = new Pose3d(subDrivetrain.getPose());
 
     model0Pivot = Pose3d.kZero.rotateAround(
-        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d);
+        Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d)
+        .rotateBy(new Rotation3d(
+            Units.Degrees.zero(),
+            Units.Degrees.zero(),
+            Units.Degrees.of(-90)));
 
     model1ElevatorStage2 = model0Pivot.transformBy(elevatorTransform3d);
 
@@ -88,5 +90,7 @@ public class RobotPoses extends SubsystemBase {
     // needed)
     model3Intake = model2ElevatorCarriage.rotateAround(
         model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
+
+    model4Climber = model0Pivot;
   }
 }

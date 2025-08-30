@@ -5,9 +5,13 @@
 package frc.robot.commands.States.second_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
@@ -18,19 +22,33 @@ public class CleanLowWithCoral extends Command {
   Motion globalMotion;
   Rotors globalRotors;
   StateMachine globalStateMachine;
+  Pose2d closestPoseByRotation;
+  Drivetrain globalDrivetrain;
+  MechanismPositionGroup cleanLowWithCoral;
 
-  public CleanLowWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public CleanLowWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
+      Drivetrain subDrivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
-    addRequirements(globalMotion, globalRotors);
+    this.globalMotion = subMotion;
+    this.globalRotors = subRotors;
+    globalDrivetrain = subDrivetrain;
+    addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.CLEAN_LOW_WITH_CORAL);
+    closestPoseByRotation = globalDrivetrain
+        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
+    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getAlgaePositions(constField.isRedAlliance()).get()) == true) {
+      cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_BACKWARDS;
+    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+        constField.getAlgaePositions(constField.isRedAlliance()).get()) == false) {
+      cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_FORWARDS;
+    }
+    globalMotion.setAllPosition(cleanLowWithCoral);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW_WITH_CORAL);
   }
