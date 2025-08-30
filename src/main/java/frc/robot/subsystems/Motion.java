@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
@@ -13,14 +14,17 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
-import frc.robot.Robot;
 import frc.robot.RobotMap.mapMotion;
 
 @Logged
@@ -41,6 +45,7 @@ public class Motion extends SubsystemBase {
   public final LinearMechanism Lift;
   public final AngularMechanism Pivot;
   public final AngularMechanism Wrist;
+  final DCMotorSim m_motorSimModel;
 
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
@@ -59,6 +64,11 @@ public class Motion extends SubsystemBase {
     Lift = new LinearMechanism(rightLiftMotorLeader, leftLiftMotorFollower);
     Pivot = new AngularMechanism(rightPivotMotorLeader, leftPivotMotorFollower);
     Wrist = new AngularMechanism(wristPivotMotor, null);
+
+    final double kGearRatio = 10.0;
+    var elevatorSystem = LinearSystemId.createElevatorSystem(DCMotor.getFalcon500(2), 18.14, 0.091, kGearRatio);
+    m_motorSimModel = new DCMotorSim(elevatorSystem, DCMotor.getKrakenX60Foc(2));
+
   }
 
   // Generic mechanisms (no subclassing required)
@@ -81,8 +91,7 @@ public class Motion extends SubsystemBase {
     }
 
     public Distance getPosition() {
-      if (Robot.isSimulation())
-        return lastDesired;
+
       return Units.Inches.of(leader.getPosition().getValueAsDouble());
     }
 
@@ -129,8 +138,7 @@ public class Motion extends SubsystemBase {
     }
 
     public Angle getPosition() {
-      if (Robot.isSimulation())
-        return lastDesired;
+
       return leader.getPosition().getValue();
     }
 
@@ -178,8 +186,30 @@ public class Motion extends SubsystemBase {
     return current.compareTo(target.minus(tol)) > 0 && current.compareTo(target.plus(tol)) < 0;
   }
 
+  public void simulationPeriodic(TalonFX m_talonFX, DCMotorSim m_motorSimModel, double kGearRatio) {
+    var talonFXSim = m_talonFX.getSimState();
+
+    // set the supply voltage of the TalonFX
+    talonFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+    // get the motor voltage of the TalonFX
+    var motorVoltage = talonFXSim.getMotorVoltageMeasure();
+
+    // use the motor voltage to calculate new position and velocity
+    // using WPILib's DCMotorSim class for physics simulation
+    m_motorSimModel.setInputVoltage(motorVoltage.in(Volts));
+    m_motorSimModel.update(0.020); // assume 20 ms loop time
+
+    // apply the new rotor position and velocity to the TalonFX;
+    // note that this is rotor position/velocity (before gear ratio), but
+    // DCMotorSim returns mechanism position/velocity (after gear ratio)
+    talonFXSim.setRawRotorPosition(m_motorSimModel.getAngularPosition().times(kGearRatio));
+    talonFXSim.setRotorVelocity(m_motorSimModel.getAngularVelocity().times(kGearRatio));
+  }
+
   @Override
   public void periodic() {
+    simulationPeriodic(Lift.follower, m_motorSimModel, 10);
     //
   }
 }
