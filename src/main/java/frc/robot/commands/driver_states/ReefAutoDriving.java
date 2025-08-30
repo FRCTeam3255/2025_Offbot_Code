@@ -26,6 +26,9 @@ public class ReefAutoDriving extends Command {
   boolean isOpenLoop;
   boolean leftBranch;
   Pose2d closestPoseByRotation;
+  Pose2d getLeftPos;
+  Pose2d getRightPos;
+  Pose2d getAllPos;
 
   public ReefAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean leftBranch) {
@@ -44,7 +47,14 @@ public class ReefAutoDriving extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    leftBranch = leftBranch;
     redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
+    getLeftPos = subDrivetrain
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions(isRedAlliance).get()).get());
+    getRightPos = subDrivetrain
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions(isRedAlliance).get()).get());
+    getAllPos = subDrivetrain
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions(isRedAlliance).get()).get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,12 +71,10 @@ public class ReefAutoDriving extends Command {
 
     if (isInAutoDriveZone) {
       if (leftBranch == true) {
-        closestPose = subDrivetrain
-            .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions(isRedAlliance).get()).get());
+        closestPose = getLeftPos;
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
       } else {
-        closestPose = subDrivetrain
-            .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions(isRedAlliance).get()).get());
+        closestPose = getRightPos;
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
       }
       subDrivetrain.autoAlign(isRedAlliance,
@@ -77,8 +85,7 @@ public class ReefAutoDriving extends Command {
           false,
           false);
     } else {
-      closestPose = subDrivetrain
-          .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions(isRedAlliance).get()).get());
+      closestPose = getAllPos;
       subDrivetrain.rotationalAlign(
           isRedAlliance,
           closestPose,

@@ -193,10 +193,10 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
 
     conDriver.btn_LeftTrigger
-        .whileTrue(REEF_AUTO_DRIVING_LEFT)
+        .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
         .onFalse(MANUAL);
 
-    conDriver.btn_LeftTrigger
+    conDriver.btn_LeftTrigger.and(isInCleaningStates.negate())
         .whileTrue(REEF_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 

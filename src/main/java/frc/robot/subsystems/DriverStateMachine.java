@@ -83,10 +83,7 @@ public class DriverStateMachine extends SubsystemBase {
       case REEF_ROTATION_SNAPPING:
         switch (currentDriverState) {
           case MANUAL:
-          case REEF_ROTATION_SNAPPING:
           case CORAL_STATION_ROTATION_SNAPPING:
-          case REEF_AUTO_DRIVING_LEFT:
-          case REEF_AUTO_DRIVING_RIGHT:
           case CORAL_STATION_AUTO_DRIVING_FAR:
           case CORAL_STATION_AUTO_DRIVING_CLOSE:
           case PROCESSOR_ROTATION_SNAPPING:
@@ -125,7 +122,6 @@ public class DriverStateMachine extends SubsystemBase {
           case MANUAL:
           case REEF_ROTATION_SNAPPING:
           case CORAL_STATION_ROTATION_SNAPPING:
-          case REEF_AUTO_DRIVING_LEFT:
           case REEF_AUTO_DRIVING_RIGHT:
           case CORAL_STATION_AUTO_DRIVING_FAR:
           case CORAL_STATION_AUTO_DRIVING_CLOSE:
@@ -146,7 +142,6 @@ public class DriverStateMachine extends SubsystemBase {
           case REEF_ROTATION_SNAPPING:
           case CORAL_STATION_ROTATION_SNAPPING:
           case REEF_AUTO_DRIVING_LEFT:
-          case REEF_AUTO_DRIVING_RIGHT:
           case CORAL_STATION_AUTO_DRIVING_FAR:
           case CORAL_STATION_AUTO_DRIVING_CLOSE:
           case PROCESSOR_ROTATION_SNAPPING:
