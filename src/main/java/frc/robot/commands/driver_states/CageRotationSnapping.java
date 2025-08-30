@@ -42,7 +42,7 @@ public class CageRotationSnapping extends Command {
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     subDrivetrain.rotationalAlign(Field.isRedAlliance(),
-        subDrivetrain.getDesiredPose(Field.getCagePositions(Field.isRedAlliance()).get()),
+        subDrivetrain.getDesiredPose(Field.getCagePositions().get()),
         xVelocity,
         yVelocity,
         isOpenLoop);

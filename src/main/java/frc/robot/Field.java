@@ -155,73 +155,77 @@ public class Field {
   }
 
   // -- REEF --
-  public static Supplier<List<Pose2d>> getReefPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_REEF_POSES;
-
-    }
-    return () -> POSES.BLUE_REEF_POSES;
+  public static Supplier<List<Pose2d>> getReefPositions() {
+    return () -> {
+      List<Pose2d> combinedReefPoses = new java.util.ArrayList<>(POSES.BLUE_REEF_POSES);
+      combinedReefPoses.addAll(POSES.RED_REEF_POSES);
+      return combinedReefPoses;
+    };
   }
 
-  public static Supplier<List<Pose2d>> getReefBackwardsScoringPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_REEF_BACKWARDS_SCORING_POSES;
-    }
-    return () -> POSES.BLUE_REEF_BACKWARDS_SCORING_POSES;
+  public static Supplier<List<Pose2d>> getReefBackwardsScoringPositions() {
+    return () -> {
+      List<Pose2d> combinedReefPoses = new java.util.ArrayList<>(POSES.BLUE_REEF_BACKWARDS_SCORING_POSES);
+      combinedReefPoses.addAll(POSES.RED_REEF_BACKWARDS_SCORING_POSES);
+      return combinedReefPoses;
+    };
   }
 
-  public static Supplier<List<Pose2d>> getLeftReefPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_LEFT_REEF_POSES;
-    }
-    return () -> POSES.BLUE_LEFT_REEF_POSES;
+  public static Supplier<List<Pose2d>> getLeftReefPositions() {
+    return () -> {
+      List<Pose2d> combinedReefPoses = new java.util.ArrayList<>(POSES.BLUE_LEFT_REEF_POSES);
+      combinedReefPoses.addAll(POSES.RED_LEFT_REEF_POSES);
+      return combinedReefPoses;
+    };
   }
 
-  public static Supplier<List<Pose2d>> getRightReefPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_RIGHT_REEF_POSES;
-    }
-    return () -> POSES.BLUE_RIGHT_REEF_POSES;
+  public static Supplier<List<Pose2d>> getRightReefPositions() {
+    return () -> {
+      List<Pose2d> combinedReefPoses = new java.util.ArrayList<>(POSES.BLUE_RIGHT_REEF_POSES);
+      combinedReefPoses.addAll(POSES.RED_RIGHT_REEF_POSES);
+      return combinedReefPoses;
+    };
   }
 
   // -- ALGAE --
-  public static Supplier<List<Pose2d>> getAlgaePositions(Boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_ALGAE_POSES;
-    }
-    return () -> POSES.BLUE_ALGAE_POSES;
+  public static Supplier<List<Pose2d>> getAlgaePositions() {
+    return () -> {
+      List<Pose2d> combinedAlgaePoses = new java.util.ArrayList<>(POSES.BLUE_ALGAE_POSES);
+      combinedAlgaePoses.addAll(POSES.RED_ALGAE_POSES);
+      return combinedAlgaePoses;
+    };
   }
 
   // -- NET --
-  public static Supplier<List<Pose2d>> getNetPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_NET_POSES;
-    }
-    return () -> POSES.BLUE_NET_POSES;
+  public static Supplier<List<Pose2d>> getNetPositions() {
+    return () -> {
+      List<Pose2d> combinedNetPoses = new java.util.ArrayList<>(POSES.BLUE_NET_POSES);
+      combinedNetPoses.addAll(POSES.RED_NET_POSES);
+      return combinedNetPoses;
+    };
   }
 
   // -- CORAL STATION --
-  public static Supplier<List<Pose2d>> getCoralStationPositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_CORAL_STATION_POSES;
-    }
-    return () -> POSES.BLUE_CORAL_STATION_POSES;
+  public static Supplier<List<Pose2d>> getCoralStationPositions() {
+    return () -> {
+      List<Pose2d> combinedCoralStationPoses = new java.util.ArrayList<>(POSES.BLUE_CORAL_STATION_POSES);
+      combinedCoralStationPoses.addAll(POSES.RED_CORAL_STATION_POSES);
+      return combinedCoralStationPoses;
+    };
   }
 
   // -- CAGES --
-  public static Supplier<List<Pose2d>> getCagePositions(boolean onRed) {
-    if (onRed) {
-      return () -> POSES.RED_CAGE_POSES;
-    }
-    return () -> POSES.BLUE_CAGE_POSES;
+  public static Supplier<List<Pose2d>> getCagePositions() {
+    return () -> {
+      List<Pose2d> combinedCagePoses = new java.util.ArrayList<>(POSES.BLUE_CAGE_POSES);
+      combinedCagePoses.addAll(POSES.RED_CAGE_POSES);
+      return combinedCagePoses;
+    };
   }
 
   // -- PROCESSOR --
-  public static Pose2d getProcessorPose(boolean onRed) {
-    if (onRed) {
-      return POSES.RED_PROCESSOR;
-    }
-    return POSES.BLUE_PROCESSOR;
+  public static Supplier<List<Pose2d>> getProcessorPose() {
+    return () -> List.of(POSES.BLUE_PROCESSOR, POSES.RED_PROCESSOR);
   }
 
   public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));

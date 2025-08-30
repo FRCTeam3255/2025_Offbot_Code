@@ -44,14 +44,14 @@ public class PrepCoralLv extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getReefPositions(Field.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getReefPositions().get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getReefPositions(Field.isRedAlliance()).get()) == true) {
+        Field.getReefPositions().get()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getReefPositions(Field.isRedAlliance()).get()) == false) {
+        Field.getReefPositions().get()) == false) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;

@@ -52,7 +52,7 @@ public class CoralStationAutoDriving extends Command {
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
-        Field.getCoralStationPositions(isRedAlliance).get());
+        Field.getCoralStationPositions().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
@@ -62,13 +62,13 @@ public class CoralStationAutoDriving extends Command {
       Pose2d closestPose;
       if (farCoralStation) {
         closestPose = subDrivetrain
-            .getDesiredPose(List.of(Field.getCoralStationPositions(isRedAlliance).get().get(0),
-                Field.getCoralStationPositions(isRedAlliance).get().get(2)));
+            .getDesiredPose(List.of(Field.getCoralStationPositions().get().get(0),
+                Field.getCoralStationPositions().get().get(2)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR);
       } else {
         closestPose = subDrivetrain
-            .getDesiredPose(List.of(Field.getCoralStationPositions(isRedAlliance).get().get(1),
-                Field.getCoralStationPositions(isRedAlliance).get().get(3)));
+            .getDesiredPose(List.of(Field.getCoralStationPositions().get().get(1),
+                Field.getCoralStationPositions().get().get(3)));
         subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
       }
       subDrivetrain.autoAlign(isRedAlliance,
@@ -80,7 +80,7 @@ public class CoralStationAutoDriving extends Command {
           false);
     } else {
       subDrivetrain.rotationalAlign(isRedAlliance,
-          subDrivetrain.getDesiredPose(Field.getCoralStationPositions(isRedAlliance).get()),
+          subDrivetrain.getDesiredPose(Field.getCoralStationPositions().get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

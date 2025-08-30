@@ -40,13 +40,13 @@ public class NetAutoDriving extends Command {
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.NET_AUTO_DRIVE_MAX_DISTANCE,
-        Field.getNetPositions(Field.isRedAlliance()).get());
+        Field.getNetPositions().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     if (isInAutoDriveZone) {
-      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getNetPositions(Field.isRedAlliance()).get());
+      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getNetPositions().get());
       subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
@@ -57,7 +57,7 @@ public class NetAutoDriving extends Command {
       subDriverStateMachine.setDriverState(DriverState.NET_AUTO_DRIVING);
     } else {
       subDrivetrain.rotationalAlign(Field.isRedAlliance(),
-          subDrivetrain.getDesiredPose(Field.getNetPositions(Field.isRedAlliance()).get()),
+          subDrivetrain.getDesiredPose(Field.getNetPositions().get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

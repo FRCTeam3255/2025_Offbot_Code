@@ -40,13 +40,13 @@ public class AlgaeAutoDriving extends Command {
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.ALGAE_AUTO_DRIVE_MAX_DISTANCE,
-        Field.getAlgaePositions(Field.isRedAlliance()).get());
+        Field.getAlgaePositions().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
         .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     if (isInAutoDriveZone) {
-      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getAlgaePositions(Field.isRedAlliance()).get());
+      Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getAlgaePositions().get());
       subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
@@ -57,7 +57,7 @@ public class AlgaeAutoDriving extends Command {
       subDriverStateMachine.setDriverState(DriverState.ALGAE_AUTO_DRIVING);
     } else {
       subDrivetrain.rotationalAlign(Field.isRedAlliance(),
-          subDrivetrain.getDesiredPose(Field.getAlgaePositions(Field.isRedAlliance()).get()),
+          subDrivetrain.getDesiredPose(Field.getAlgaePositions().get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

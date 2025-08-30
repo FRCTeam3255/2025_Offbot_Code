@@ -42,7 +42,7 @@ public class ProcessorAutoDriving extends Command {
   public void execute() {
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.PROCESSOR_AUTO_DRIVE_MAX_DISTANCE,
-        List.of(Field.getProcessorPose(Field.isRedAlliance())));
+        Field.getProcessorPose().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
         .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
     LinearVelocity yVelocity = Units.MetersPerSecond
@@ -50,7 +50,7 @@ public class ProcessorAutoDriving extends Command {
             * redAllianceMultiplier);
     if (isInAutoDriveZone) {
       Pose2d closestPose = subDrivetrain
-          .getDesiredPose(List.of(Field.getProcessorPose(Field.isRedAlliance())));
+          .getDesiredPose(Field.getProcessorPose().get());
       subDrivetrain.autoAlign(Field.isRedAlliance(),
           closestPose,
           xVelocity,
@@ -61,7 +61,7 @@ public class ProcessorAutoDriving extends Command {
       subDriverStateMachine.setDriverState(DriverState.PROCESSOR_AUTO_DRIVING);
     } else {
       subDrivetrain.rotationalAlign(isRedAlliance,
-          subDrivetrain.getDesiredPose(List.of(Field.getProcessorPose(isRedAlliance))),
+          subDrivetrain.getDesiredPose(Field.getProcessorPose().get()),
           xVelocity,
           yVelocity,
           isOpenLoop);

@@ -49,11 +49,11 @@ public class ReefAutoDriving extends Command {
   public void initialize() {
     redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     getLeftPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions(isRedAlliance).get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions().get()).get());
     getRightPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions(isRedAlliance).get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions().get()).get());
     getAllPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions(isRedAlliance).get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions().get()).get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -66,7 +66,7 @@ public class ReefAutoDriving extends Command {
     Pose2d closestPose;
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.REEF_AUTO_DRIVE_MAX_DISTANCE,
-        Field.getReefPositions(Field.isRedAlliance()).get());
+        Field.getReefPositions().get());
 
     if (isInAutoDriveZone) {
       if (globalLeftBranch == true) {

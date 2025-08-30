@@ -40,12 +40,12 @@ public class CleanLowWithCoral extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getAlgaePositions(Field.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getAlgaePositions().get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getAlgaePositions(Field.isRedAlliance()).get()) == true) {
+        Field.getAlgaePositions().get()) == true) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getAlgaePositions(Field.isRedAlliance()).get()) == false) {
+        Field.getAlgaePositions().get()) == false) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
     globalMotion.setAllPosition(cleanLowWithCoral);

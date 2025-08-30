@@ -38,12 +38,12 @@ public class CleanLow extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getAlgaePositions(Field.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getAlgaePositions().get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getAlgaePositions(Field.isRedAlliance()).get()) == true) {
+        Field.getAlgaePositions().get()) == true) {
       cleanLow = constMechanismPositions.CLEAN_LOW_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getAlgaePositions(Field.isRedAlliance()).get()) == false) {
+        Field.getAlgaePositions().get()) == false) {
       cleanLow = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
     globalMotion.setAllPosition(cleanLow);
