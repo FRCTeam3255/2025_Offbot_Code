@@ -131,33 +131,29 @@ public class NewField {
   // Wrapper for blue-side Pose2d arrays with helpers for red/all
   public static final class Pose2dAllianceSet {
     private final List<Pose2d> blue;
-    private List<Pose2d> redCache;
-    private List<Pose2d> allCache;
+    private final List<Pose2d> red;
+    private final List<Pose2d> all;
 
     Pose2dAllianceSet(Pose2d... bluePoses) {
       this.blue = List.of(bluePoses);
+      this.red = this.blue.stream().map(Pose2dAllianceSet::toRed).toList();
+
+      var combined = new java.util.ArrayList<Pose2d>(this.blue.size() * 2);
+      combined.addAll(this.blue);
+      combined.addAll(this.red);
+      this.all = List.copyOf(combined);
     }
 
     public List<Pose2d> getBlue() {
-      return List.copyOf(blue);
+      return blue;
     }
 
     public List<Pose2d> getRed() {
-      if (redCache == null) {
-        redCache = blue.stream().map(Pose2dAllianceSet::toRed).toList();
-      }
-      return List.copyOf(redCache);
+      return red;
     }
 
     public List<Pose2d> getAll() {
-      if (allCache == null) {
-        var red = (redCache != null) ? redCache : blue.stream().map(Pose2dAllianceSet::toRed).toList();
-        var combined = new java.util.ArrayList<Pose2d>(blue.size() * 2);
-        combined.addAll(blue);
-        combined.addAll(red);
-        allCache = List.copyOf(combined);
-      }
-      return List.copyOf(allCache);
+      return all;
     }
 
     private static Pose2d toRed(Pose2d bluePose) {
