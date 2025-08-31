@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -25,6 +26,7 @@ import frc.robot.Robot;
 import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constField;
 import frc.robot.Constants.constVision;
+import frc.robot.Field;
 import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
@@ -83,6 +85,12 @@ public class Drivetrain extends SN_SuperSwerve {
     super.configure();
   }
 
+  public Pose2d getDesiredPose(List<Pose2d> pose) {
+    Pose2d currentPose = getPose();
+    Pose2d desiredPose = currentPose.nearest(pose);
+    return desiredPose;
+  }
+
   public Pose2d getRobotPose() {
     return getPose();
   }
@@ -111,6 +119,31 @@ public class Drivetrain extends SN_SuperSwerve {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public boolean isInAutoDriveZone(Distance autoDriveMaxDistance,
+      List<Pose2d> pose) {
+    Pose2d target = getDesiredPose(pose);
+    Distance distanceFromPose = Units.Meters
+        .of(getRobotPose().getTranslation().getDistance(target.getTranslation()));
+    return distanceFromPose.lt(autoDriveMaxDistance);
+  }
+
+  public Supplier<List<Pose2d>> autoDrivePositions(List<Pose2d> desiredPos) {
+    Pose2d closestPoseByRotation = getClosestPoseByRotation(desiredPos);
+    if (isActionBackwards(closestPoseByRotation,
+        desiredPos) == true && Field.isRedAlliance() == false) {
+      return () -> Arrays.asList(Field.getBackwardsScoringPosesFromList(desiredPos));
+    } else if (isActionBackwards(closestPoseByRotation,
+        desiredPos) == true && Field.isRedAlliance() == true) {
+      return () -> Arrays
+          .asList(Field.getRedPosesFromList(Arrays.asList(Field.getBackwardsScoringPosesFromList(desiredPos))));
+    } else if (isActionBackwards(closestPoseByRotation,
+        desiredPos) == false && Field.isRedAlliance() == true) {
+      return () -> Arrays.asList(Field.getRedPosesFromList(desiredPos));
+    } else {
+      return () -> desiredPos;
     }
   }
 

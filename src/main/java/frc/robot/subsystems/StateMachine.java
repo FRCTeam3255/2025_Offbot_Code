@@ -24,8 +24,8 @@ import frc.robot.commands.States.second_scoring_element.*;
 
 @Logged
 public class StateMachine extends SubsystemBase {
-  public static DriverState currentDriverState;
   public static RobotState currentRobotState;
+
   @NotLogged
   Drivetrain subDrivetrain;
   @NotLogged
@@ -39,7 +39,6 @@ public class StateMachine extends SubsystemBase {
   public StateMachine(Drivetrain subDrivetrain, Rotors subIntake,
       Motion subElevator) {
     currentRobotState = RobotState.NONE;
-    currentDriverState = DriverState.MANUAL;
     this.subRotors = subIntake;
     this.subMotion = subElevator;
     this.subDrivetrain = subDrivetrain;
@@ -53,12 +52,16 @@ public class StateMachine extends SubsystemBase {
     return currentRobotState;
   }
 
-  public DriverState getDriverState() {
-    return currentDriverState;
-  }
-
-  public void setDriverState(DriverState driverState) {
-    currentDriverState = driverState;
+  public boolean inCleaningState() {
+    RobotState[] goToHasBothStates = { RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW,
+        RobotState.CLEAN_HIGH_WITH_CORAL,
+        RobotState.CLEAN_LOW_WITH_CORAL };
+    for (RobotState state : goToHasBothStates) {
+      if (currentRobotState == state) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public Command tryState(RobotState desiredState) {
@@ -476,22 +479,6 @@ public class StateMachine extends SubsystemBase {
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "
         + desiredState.toString() + " while at " + currentRobotState.toString());
-  }
-
-  public enum DriverState {
-    MANUAL,
-    REEF_ROTATION_SNAPPING,
-    CORAL_STATION_ROTATION_SNAPPING,
-    REEF_AUTO_DRIVING,
-    CORAL_STATION_AUTO_DRIVING,
-    PROCESSOR_ROTATION_SNAPPING,
-    PROCESSOR_AUTO_DRIVING,
-    NET_ROTATION_SNAPPING,
-    NET_AUTO_DRIVING,
-    ALGAE_ROTATION_SNAPPING,
-    ALGAE_AUTO_DRIVING,
-    CAGE_ROTATION_SNAPPING
-    // TODO: Add other driver states as needed
   }
 
   public enum RobotState {

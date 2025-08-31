@@ -7,7 +7,7 @@ package frc.robot.commands.States.first_scoring_element;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Constants.constField;
+import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Drivetrain;
@@ -38,12 +38,12 @@ public class CleanLow extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getAlgaePositions(constField.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getAlgaePositions().get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getAlgaePositions(constField.isRedAlliance()).get()) == true) {
+        Field.getAlgaePositions().get()) == true) {
       cleanLow = constMechanismPositions.CLEAN_LOW_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getAlgaePositions(constField.isRedAlliance()).get()) == false) {
+        Field.getAlgaePositions().get()) == false) {
       cleanLow = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
     globalMotion.setAllPosition(cleanLow);
