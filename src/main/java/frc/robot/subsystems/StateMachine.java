@@ -277,7 +277,7 @@ public class StateMachine extends SubsystemBase {
           case INTAKE_CORAL_STATION:
           case SCORING_ALGAE_WITH_CORAL:
           case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            return new HasCoral(subStateMachine);
+            return new HasCoral(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -289,7 +289,7 @@ public class StateMachine extends SubsystemBase {
           case SCORING_CORAL_WITH_ALGAE:
           case INTAKE_CORAL_GROUND_WITH_ALGAE:
           case INTAKE_CORAL_STATION_WITH_ALGAE:
-            return new HasAlgae(subStateMachine);
+            return new HasAlgae(subStateMachine, subMotion, subRotors);
         }
         break;
 
@@ -301,7 +301,7 @@ public class StateMachine extends SubsystemBase {
           case INTAKE_CORAL_STATION_WITH_ALGAE:
           case CLEAN_HIGH_WITH_CORAL:
           case CLEAN_LOW_WITH_CORAL:
-            return new HasCoralAndAlgae(subStateMachine);
+            return new HasCoralAndAlgae(subStateMachine, subMotion, subRotors);
         }
         break;
 
