@@ -11,8 +11,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.*;
 import frc.robot.Field;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -29,15 +28,17 @@ public class ReefAutoDriving extends Command {
   Pose2d getLeftPos;
   Pose2d getRightPos;
   Pose2d getAllPos;
+  Motion globalMotion;
 
   public ReefAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean leftBranch) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean leftBranch, Motion subMotion) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    globalMotion = subMotion;
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
@@ -60,9 +61,11 @@ public class ReefAutoDriving extends Command {
   @Override
   public void execute() {
     LinearVelocity xVelocity = Units.MetersPerSecond
-        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
     LinearVelocity yVelocity = Units.MetersPerSecond
-        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
     Pose2d closestPose;
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         Field.REEF_AUTO_DRIVE_MAX_DISTANCE,
