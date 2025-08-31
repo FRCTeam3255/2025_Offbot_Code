@@ -10,10 +10,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.*;
+import frc.robot.Constants.constDrivetrain;
+import frc.robot.Field;
+import frc.robot.NewField.FieldElementGroups;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.Field;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ReefAutoDriving extends Command {
@@ -49,11 +50,11 @@ public class ReefAutoDriving extends Command {
   public void initialize() {
     redAllianceMultiplier = Field.isRedAlliance() ? -1 : 1;
     getLeftPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getLeftReefPositions().get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(FieldElementGroups.LEFT_REEF_POSES.getAll()).get());
     getRightPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getRightReefPositions().get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(FieldElementGroups.RIGHT_REEF_POSES.getAll()).get());
     getAllPos = subDrivetrain
-        .getDesiredPose(subDrivetrain.autoDrivePositions(Field.getReefPositions().get()).get());
+        .getDesiredPose(subDrivetrain.autoDrivePositions(FieldElementGroups.REEF_POSES.getAll()).get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
