@@ -54,8 +54,10 @@ public class RobotMap {
   public static class mapMotion {
     public static final int LEFT_LIFT_CAN = 21;
     public static final int RIGHT_LIFT_CAN = 22;
-    public static final int RIGHT_PIVOT_CAN = 23;
-    public static final int LEFT_PIVOT_CAN = 24;
-    public static final int INTAKE_PIVOT_CAN = 25;
+    public static final int BACK_RIGHT_PIVOT_CAN = 23;
+    public static final int BACK_LEFT_PIVOT_CAN = 24;
+    public static final int FRONT_RIGHT_PIVOT_CAN = 25;
+    public static final int FRONT_LEFT_PIVOT_CAN = 26;
+    public static final int INTAKE_PIVOT_CAN = 27;
   }
 }
