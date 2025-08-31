@@ -18,15 +18,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constField;
 import frc.robot.Constants.constVision;
 import frc.robot.Field;
+import frc.robot.Robot;
 import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
@@ -107,10 +107,10 @@ public class Drivetrain extends SN_SuperSwerve {
     return Units.Degrees.of(getRotation().getDegrees());
   }
 
-  public boolean isActionBackwards(Pose2d closestPoseByRotation, List<Pose2d> pose) {
+  public boolean isActionBackwards(List<Pose2d> poses) {
     Distance backDistance;
     Distance frontDistance;
-    closestPoseByRotation = getClosestPoseByRotation(pose);
+    Pose2d closestPoseByRotation = getClosestPoseByRotation(poses);
     backDistance = Units.Meters
         .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
     frontDistance = Units.Meters
@@ -130,16 +130,23 @@ public class Drivetrain extends SN_SuperSwerve {
     return distanceFromPose.lt(autoDriveMaxDistance);
   }
 
+  public static Pose2d[] getBackwardsScoringPosesFromList(List<Pose2d> bluePoseList) {
+    Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
+    for (int i = 0; i < bluePoseList.size(); i++) {
+      returnedPoses[i] = bluePoseList.get(i).rotateBy(Rotation2d.k180deg);
+    }
+    return returnedPoses;
+  }
+
   public Supplier<List<Pose2d>> autoDrivePositions(List<Pose2d> desiredPos) {
-    Pose2d closestPoseByRotation = getClosestPoseByRotation(desiredPos);
-    if (isActionBackwards(closestPoseByRotation,
+    if (isActionBackwards(
         desiredPos) == true && Field.isRedAlliance() == false) {
-      return () -> Arrays.asList(Field.getBackwardsScoringPosesFromList(desiredPos));
-    } else if (isActionBackwards(closestPoseByRotation,
+      return () -> Arrays.asList(getBackwardsScoringPosesFromList(desiredPos));
+    } else if (isActionBackwards(
         desiredPos) == true && Field.isRedAlliance() == true) {
       return () -> Arrays
-          .asList(Field.getRedPosesFromList(Arrays.asList(Field.getBackwardsScoringPosesFromList(desiredPos))));
-    } else if (isActionBackwards(closestPoseByRotation,
+          .asList(Field.getRedPosesFromList(Arrays.asList(getBackwardsScoringPosesFromList(desiredPos))));
+    } else if (isActionBackwards(
         desiredPos) == false && Field.isRedAlliance() == true) {
       return () -> Arrays.asList(Field.getRedPosesFromList(desiredPos));
     } else {

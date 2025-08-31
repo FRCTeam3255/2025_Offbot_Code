@@ -4,17 +4,17 @@
 
 package frc.robot.commands.States.second_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.Field;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CleanLowWithCoral extends Command {
@@ -39,12 +39,10 @@ public class CleanLowWithCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getAlgaePositions().get());
-    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+    if (globalDrivetrain.isActionBackwards(
         Field.getAlgaePositions().get()) == true) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
+    } else if (globalDrivetrain.isActionBackwards(
         Field.getAlgaePositions().get()) == false) {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }

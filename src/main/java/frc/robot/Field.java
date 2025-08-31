@@ -141,19 +141,6 @@ public class Field {
     return returnedPoses;
   }
 
-  private static Pose2d getBackwardsScoringPoses(Pose2d bluePose) {
-    return new Pose2d(bluePose.getX(), bluePose.getY(),
-        bluePose.getRotation().plus(Rotation2d.k180deg));
-  }
-
-  public static Pose2d[] getBackwardsScoringPosesFromList(List<Pose2d> bluePoseList) {
-    Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
-    for (int i = 0; i < bluePoseList.size(); i++) {
-      returnedPoses[i] = getBackwardsScoringPoses(bluePoseList.get(i));
-    }
-    return returnedPoses;
-  }
-
   // -- REEF --
   public static Supplier<List<Pose2d>> getReefPositions() {
     return () -> {
