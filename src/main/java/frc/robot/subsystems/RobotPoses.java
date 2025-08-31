@@ -11,7 +11,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.constField;
+import frc.robot.Constants.*;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
@@ -92,5 +92,19 @@ public class RobotPoses extends SubsystemBase {
         model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
 
     model4Climber = model0Pivot;
+
+    if (subRotors.hasAlgae()) {
+      algaePose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
+          .transformBy(constRotors.ALGAE_INTAKE_TO_ALGAE);
+    } else {
+      algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+    }
+
+    if (subRotors.hasCoral()) {
+      coralPose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
+          .transformBy(constMotion.CARRIAGE_TO_CORAL);
+    } else {
+      coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+    }
   }
 }
