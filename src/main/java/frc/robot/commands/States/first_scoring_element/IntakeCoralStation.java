@@ -42,11 +42,12 @@ public class IntakeCoralStation extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    globalRotors.setAllIntake(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return globalRotors.hasCoral();
   }
 }

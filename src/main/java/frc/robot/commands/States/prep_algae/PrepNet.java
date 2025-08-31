@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Constants.constField;
+import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
@@ -37,12 +37,12 @@ public class PrepNet extends Command {
   @Override
   public void initialize() {
     closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(constField.getNetPositions(constField.isRedAlliance()).get());
+        .getClosestPoseByRotation(Field.getNetPositions().get());
     if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getNetPositions(constField.isRedAlliance()).get()) == true) {
+        Field.getNetPositions().get()) == true) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
     } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        constField.getNetPositions(constField.isRedAlliance()).get()) == false) {
+        Field.getNetPositions().get()) == false) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);
