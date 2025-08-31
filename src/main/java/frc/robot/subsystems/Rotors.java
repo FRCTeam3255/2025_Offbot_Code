@@ -23,17 +23,19 @@ public class Rotors extends SubsystemBase {
   TalonFX coralIntakeRightMotor;
   TalonFX algaeIntakeMotor;
   TalonFX cageCollectMotor;
-  CANrange coralMidSensor;
+  CANrange coralUpperMidSensor;
+  CANrange coralLowerMidSensor;
   CANrange coralLeftSensor;
   CANrange coralRightSensor;
-
+  boolean indexingCoral;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
 
   public Rotors() {
     coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
     coralIntakeRightMotor = new TalonFX(mapRotors.CORAL_INTAKE_RIGHT_CAN);
     algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN);
-    coralMidSensor = new CANrange(mapRotors.CORAL_MID_SENSOR);
+    coralUpperMidSensor = new CANrange(mapRotors.CORAL_UPPER_MID_SENSOR);
+    coralLowerMidSensor = new CANrange(mapRotors.CORAL_LOWER_MID_SENSOR);
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
     coralLeftSensor = new CANrange(mapRotors.CORAL_LEFT_SENSOR);
     coralRightSensor = new CANrange(mapRotors.CORAL_RIGHT_SENSOR);
@@ -41,23 +43,26 @@ public class Rotors extends SubsystemBase {
     coralIntakeLeftMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
     coralIntakeRightMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
     algaeIntakeMotor.getConfigurator().apply(constRotors.ALGAE_INTAKE_CONFIG);
-    coralMidSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
+    coralUpperMidSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
+    coralLowerMidSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
     coralLeftSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
     coralRightSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
     cageCollectMotor.getConfigurator().apply(constRotors.CLIMBER_CONFIG);
   }
 
   public boolean hasCoral() {
-    return coralMidSensor.getIsDetected().getValue() &&
+    return coralUpperMidSensor.getIsDetected().getValue() &&
+        coralLowerMidSensor.getIsDetected().getValue() &&
         !coralLeftSensor.getIsDetected().getValue() &&
         !coralRightSensor.getIsDetected().getValue();
   }
 
   public boolean hasL1Coral() {
-    return (coralMidSensor.getIsDetected().getValue() &&
-        coralLeftSensor.getIsDetected().getValue()) ||
-        (coralMidSensor.getIsDetected().getValue() &&
-            coralRightSensor.getIsDetected().getValue());
+    return (coralUpperMidSensor.getIsDetected().getValue() &&
+        coralLeftSensor.getIsDetected().getValue()) && !coralLowerMidSensor.getIsDetected().getValue() ||
+        (coralUpperMidSensor.getIsDetected().getValue() &&
+            coralRightSensor.getIsDetected().getValue() &&
+            !coralLowerMidSensor.getIsDetected().getValue());
   }
 
   public boolean hasAlgae() {

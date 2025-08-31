@@ -7,14 +7,21 @@ package frc.robot.commands.States.hold_scoring_elements;
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class HasCoralAndAlgae extends Command {
   StateMachine globalStateMachine;
+  Motion globalMotion;
+  Rotors globalRotors;
 
-  public HasCoralAndAlgae(StateMachine globalStateMachine) {
+  public HasCoralAndAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.globalStateMachine = globalStateMachine;
+    globalMotion = subMotion;
+    globalRotors = subRotors;
     addRequirements(globalStateMachine);
   }
 
@@ -22,6 +29,9 @@ public class HasCoralAndAlgae extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.HAS_CORAL_AND_ALGAE);
+    globalMotion.setAllPosition(constMechanismPositions.NONE);
+    globalRotors.setCoralIntakeMotorSpeed(0);
+    globalRotors.setAlgaeIntakeMotorSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
