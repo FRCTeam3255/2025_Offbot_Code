@@ -80,7 +80,16 @@ public class CoralStationAutoDriving extends Command {
           false,
           false);
     } else {
-      System.out.println("What is your problem????????????");
+      subDrivetrain.rotationalAlign(isRedAlliance,
+          subDrivetrain.getDesiredPose(Field.getCoralStationPositions().get()),
+          xVelocity,
+          yVelocity,
+          isOpenLoop);
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING);
+      System.out
+          .println("Auto-drive zone check failed: Robot is not within the required auto-drive zone. Current position: "
+              + subDrivetrain.getPose() + ". Expected zone: " + Field.getReefPositions().get()
+              + "What is your problem????????????");
     }
   }
 

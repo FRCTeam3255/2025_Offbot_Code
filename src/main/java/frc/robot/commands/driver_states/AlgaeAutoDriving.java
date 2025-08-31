@@ -61,7 +61,7 @@ public class AlgaeAutoDriving extends Command {
           xVelocity,
           yVelocity,
           isOpenLoop);
-      subDriverStateMachine.setDriverState(DriverState.ALGAE_AUTO_DRIVING);
+      subDriverStateMachine.setDriverState(DriverState.ALGAE_ROTATION_SNAPPING);
     }
   }
 

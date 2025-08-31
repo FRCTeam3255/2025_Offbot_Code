@@ -84,7 +84,18 @@ public class ReefAutoDriving extends Command {
           false,
           false);
     } else {
-      System.out.println("What is your problem???");
+      closestPose = getAllPos;
+      subDrivetrain.rotationalAlign(
+          isRedAlliance,
+          closestPose,
+          xVelocity,
+          yVelocity,
+          isOpenLoop);
+      subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING);
+      System.out
+          .println("Auto-drive zone check failed: Robot is not within the required auto-drive zone. Current position: "
+              + subDrivetrain.getPose() + ". Expected zone: " + Field.getReefPositions().get()
+              + "Haha you are so bad at driving");
     }
 
   }
