@@ -10,7 +10,6 @@ import static edu.wpi.first.units.Units.Kilograms;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
@@ -46,8 +45,8 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
@@ -513,6 +512,63 @@ public final class Constants {
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
   }
 
+  public static class PoseDriveGroup {
+    public Distance minDistanceBeforeAutoDrive;
+    public List<Pose2d> targetPoseGroup;
+    public DriverState driveState;
+    public DriverState snapState;
+  }
+
+  public static class constPoseDrive {
+    public static final PoseDriveGroup CORAL_REEF_LEFT = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_REEF_RIGHT = new PoseDriveGroup();
+    public static final PoseDriveGroup ALGAE_REEF = new PoseDriveGroup();
+    public static final PoseDriveGroup PROCESSOR = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_STATION_FAR = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_STATION_CLOSE = new PoseDriveGroup();
+    public static final PoseDriveGroup NET = new PoseDriveGroup();
+    public static final PoseDriveGroup CAGE = new PoseDriveGroup();
+    static {
+      CORAL_REEF_LEFT.minDistanceBeforeAutoDrive = Inches.of(20);
+      CORAL_REEF_LEFT.targetPoseGroup = Field.FieldElementGroups.LEFT_REEF_POSES.getAll();
+      CORAL_REEF_LEFT.driveState = DriverState.REEF_AUTO_DRIVING_LEFT;
+      CORAL_REEF_LEFT.snapState = DriverState.REEF_ROTATION_SNAPPING;
+
+      CORAL_REEF_RIGHT.minDistanceBeforeAutoDrive = Inches.of(20);
+      CORAL_REEF_RIGHT.targetPoseGroup = Field.FieldElementGroups.RIGHT_REEF_POSES.getAll();
+      CORAL_REEF_RIGHT.driveState = DriverState.REEF_AUTO_DRIVING_RIGHT;
+      CORAL_REEF_RIGHT.snapState = DriverState.REEF_ROTATION_SNAPPING;
+
+      ALGAE_REEF.minDistanceBeforeAutoDrive = Inches.of(20);
+      ALGAE_REEF.targetPoseGroup = Field.FieldElementGroups.ALGAE_POSES.getAll();
+      ALGAE_REEF.driveState = DriverState.ALGAE_AUTO_DRIVING;
+      ALGAE_REEF.snapState = DriverState.ALGAE_ROTATION_SNAPPING;
+
+      PROCESSOR.minDistanceBeforeAutoDrive = Inches.of(20);
+      PROCESSOR.targetPoseGroup = Field.FieldElementGroups.PROCESSOR_POSES.getAll();
+      PROCESSOR.driveState = DriverState.PROCESSOR_AUTO_DRIVING;
+      PROCESSOR.snapState = DriverState.PROCESSOR_ROTATION_SNAPPING;
+
+      CORAL_STATION_FAR.minDistanceBeforeAutoDrive = Inches.of(20);
+      CORAL_STATION_FAR.targetPoseGroup = Field.FieldElementGroups.FAR_CORAL_STATION_POSES.getAll();
+      CORAL_STATION_FAR.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_FAR;
+      CORAL_STATION_FAR.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
+
+      CORAL_STATION_CLOSE.minDistanceBeforeAutoDrive = Inches.of(20);
+      CORAL_STATION_CLOSE.targetPoseGroup = Field.FieldElementGroups.CORAL_STATION_POSES.getAll();
+      CORAL_STATION_CLOSE.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE;
+      CORAL_STATION_CLOSE.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
+
+      NET.minDistanceBeforeAutoDrive = Inches.of(20);
+      NET.targetPoseGroup = Field.FieldElementGroups.NET_POSES.getAll();
+      NET.driveState = DriverState.NET_AUTO_DRIVING;
+      NET.snapState = DriverState.NET_ROTATION_SNAPPING;
+
+      CAGE.targetPoseGroup = Field.FieldElementGroups.CAGE_POSES.getAll();
+      CAGE.snapState = DriverState.CAGE_ROTATION_SNAPPING;
+    }
+  }
+
   /**
    * Volts
    */
@@ -526,23 +582,6 @@ public final class Constants {
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
     public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
-
-    /**
-     * Boolean that controls when the path will be mirrored for the red
-     * alliance. This will flip the path being followed to the red side of the
-     * field.
-     * The origin will remain on the Blue side.
-     * 
-     * @return If we are currently on Red alliance. Will return false if no alliance
-     *         is found
-     */
-    public static boolean isRedAlliance() {
-      var alliance = ALLIANCE;
-      if (alliance.isPresent()) {
-        return alliance.get() == DriverStation.Alliance.Red;
-      }
-      return false;
-    };
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }

@@ -1,0 +1,68 @@
+package frc.robot.commands.driver_states;
+
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.PoseDriveGroup;
+import frc.robot.subsystems.DriverStateMachine;
+import frc.robot.subsystems.Drivetrain;
+
+public class PoseDriving extends Command {
+  Drivetrain subDrivetrain;
+  DriverStateMachine subDriverStateMachine;
+  DoubleSupplier xAxis, yAxis, rotationAxis;
+  PoseDriveGroup poseGroup;
+
+  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
+    this.subDrivetrain = subDrivetrain;
+    this.subDriverStateMachine = subDriverStateMachine;
+    this.xAxis = xAxis;
+    this.yAxis = yAxis;
+    this.rotationAxis = rotationAxis;
+    this.poseGroup = poseGroup;
+    addRequirements(this.subDrivetrain, this.subDriverStateMachine);
+  }
+
+  @Override
+  public void initialize() {
+  }
+
+  @Override
+  public void execute() {
+    Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+
+    boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
+        poseGroup.minDistanceBeforeAutoDrive,
+        closestPose);
+
+    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+
+    if (isInAutoDriveZone) {
+      subDrivetrain.autoAlign(
+          closestPose,
+          velocities,
+          true,
+          false,
+          false);
+      subDriverStateMachine.setDriverState(poseGroup.driveState);
+    } else {
+      subDrivetrain.rotationalAlign(
+          closestPose,
+          velocities,
+          true);
+      subDriverStateMachine.setDriverState(poseGroup.snapState);
+    }
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    subDrivetrain.neutralDriveOutputs();
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
