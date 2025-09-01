@@ -38,10 +38,9 @@ public class PrepNetWithCoral extends Command {
   @Override
   public void initialize() {
     if (globalDrivetrain.isActionBackwards(
-        Field.getNetPositions().get()) == true) {
+        Field.FieldElementGroups.NET_POSES.getAll())) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(
-        Field.getNetPositions().get()) == false) {
+    } else {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);

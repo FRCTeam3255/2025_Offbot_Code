@@ -37,11 +37,9 @@ public class CleanHigh extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(
-        Field.getAlgaePositions().get()) == true) {
+    if (globalDrivetrain.isActionBackwards(Field.FieldElementGroups.ALGAE_POSES.getAll())) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(
-        Field.getAlgaePositions().get()) == false) {
+    } else {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
     globalMotion.setAllPosition(cleanHigh);

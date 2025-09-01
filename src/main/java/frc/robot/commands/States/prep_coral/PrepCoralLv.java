@@ -42,12 +42,11 @@ public class PrepCoralLv extends Command {
   @Override
   public void initialize() {
     if (globalDrivetrain.isActionBackwards(
-        Field.getReefPositions().get()) == true) {
+        Field.FieldElementGroups.REEF_POSES.getAll()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(
-        Field.getReefPositions().get()) == false) {
+    } else {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;

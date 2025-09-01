@@ -4,10 +4,8 @@
 
 package frc.robot.subsystems;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
@@ -217,21 +215,21 @@ public class Drivetrain extends SN_SuperSwerve {
     return returnedPoses;
   }
 
-  public Supplier<List<Pose2d>> autoDrivePositions(List<Pose2d> desiredPos) {
-    if (isActionBackwards(
-        desiredPos) == true && Field.isRedAlliance() == false) {
-      return () -> Arrays.asList(getBackwardsScoringPosesFromList(desiredPos));
-    } else if (isActionBackwards(
-        desiredPos) == true && Field.isRedAlliance() == true) {
-      return () -> Arrays
-          .asList(Field.getRedPosesFromList(Arrays.asList(getBackwardsScoringPosesFromList(desiredPos))));
-    } else if (isActionBackwards(
-        desiredPos) == false && Field.isRedAlliance() == true) {
-      return () -> Arrays.asList(Field.getRedPosesFromList(desiredPos));
-    } else {
-      return () -> desiredPos;
-    }
-  }
+  // public Supplier<List<Pose2d>> autoDrivePositions(List<Pose2d> desiredPos) {
+  // if (isActionBackwards(
+  // desiredPos) == true && Field.isRedAlliance() == false) {
+  // return () -> Arrays.asList(getBackwardsScoringPosesFromList(desiredPos));
+  // } else if (isActionBackwards(
+  // desiredPos) == true && Field.isRedAlliance() == true) {
+  // return () -> Arrays
+  // .asList(Field.getRedPosesFromList(Arrays.asList(getBackwardsScoringPosesFromList(desiredPos))));
+  // } else if (isActionBackwards(
+  // desiredPos) == false && Field.isRedAlliance() == true) {
+  // return () -> Arrays.asList(Field.getRedPosesFromList(desiredPos));
+  // } else {
+  // return () -> desiredPos;
+  // }
+  // }
 
   @Override
   public void periodic() {
