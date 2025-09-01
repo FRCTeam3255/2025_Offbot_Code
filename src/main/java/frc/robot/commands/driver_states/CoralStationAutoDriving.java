@@ -25,15 +25,18 @@ public class CoralStationAutoDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   boolean isOpenLoop;
   boolean farCoralStation;
+  Motion globalMotion;
 
   public CoralStationAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean farCoralStation) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean farCoralStation,
+      Motion subMotion) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    globalMotion = subMotion;
     addRequirements(this.subDrivetrain);
     addRequirements(this.subDriverStateMachine);
     isOpenLoop = true;
@@ -53,9 +56,11 @@ public class CoralStationAutoDriving extends Command {
         Field.CORAL_STATION_AUTO_DRIVE_MAX_DISTANCE,
         Field.getCoralStationPositions().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
-        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
     LinearVelocity yVelocity = Units.MetersPerSecond
-        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
 
     if (isInAutoDriveZone) {
       Pose2d closestPose;

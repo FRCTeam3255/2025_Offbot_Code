@@ -7,25 +7,26 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.DriverStateMachine.DriverState;
 import frc.robot.Field;
 
 public class AlgaeAutoDriving extends Command {
   Drivetrain subDrivetrain;
+  Motion globalMotion;
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
   double redAllianceMultiplier = 1;
 
   public AlgaeAutoDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, Motion subMotion) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    globalMotion = subMotion;
     addRequirements(this.subDrivetrain, this.subDriverStateMachine);
     isOpenLoop = true;
   }
@@ -42,9 +43,13 @@ public class AlgaeAutoDriving extends Command {
         Field.ALGAE_AUTO_DRIVE_MAX_DISTANCE,
         Field.getAlgaePositions().get());
     LinearVelocity xVelocity = Units.MetersPerSecond
-        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
+    ;
     LinearVelocity yVelocity = Units.MetersPerSecond
-        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier);
+        .of(-yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond) * redAllianceMultiplier
+            - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters));
+    ;
     if (isInAutoDriveZone) {
       Pose2d closestPose = subDrivetrain.getDesiredPose(Field.getAlgaePositions().get());
       subDrivetrain.autoAlign(Field.isRedAlliance(),

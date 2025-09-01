@@ -33,7 +33,7 @@ public class RobotContainer {
   private final Rotors subRotors = new Rotors();
   private final Motion subMotion = new Motion();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
-  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
+  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain, subMotion);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
   public Command manualZeroLift = new ManualZeroLift(subMotion);
@@ -178,8 +178,9 @@ public class RobotContainer {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
     subDrivetrain
-        .setDefaultCommand(new DriveManual(
-            subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
+        .setDefaultCommand(
+            new DriveManual(subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX,
+                conDriver.axis_RightX, subMotion));
 
     configDriverBindings();
     configOperatorBindings();
