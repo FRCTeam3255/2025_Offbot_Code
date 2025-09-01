@@ -44,8 +44,8 @@ public class PoseDriving extends Command {
           closestPose,
           velocities,
           true,
-          false,
-          false);
+          poseGroup.lockX,
+          poseGroup.lockY);
       subDriverStateMachine.setDriverState(poseGroup.driveState);
     } else {
       subDrivetrain.rotationalAlign(
