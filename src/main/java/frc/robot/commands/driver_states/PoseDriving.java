@@ -34,7 +34,7 @@ public class PoseDriving extends Command {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
-        poseGroup.minDistanceBeforeAutoDrive,
+        poseGroup.minDistanceBeforeDrive,
         closestPose);
 
     var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
