@@ -93,6 +93,8 @@ public class RobotPoses extends SubsystemBase {
 
     model4Climber = model0Pivot;
 
+    // game pieces
+
     if (subRotors.hasAlgae()) {
       algaePose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
           .transformBy(constRotors.ALGAE_INTAKE_TO_ALGAE);
@@ -102,7 +104,7 @@ public class RobotPoses extends SubsystemBase {
 
     if (subRotors.hasCoral()) {
       coralPose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
-          .transformBy(constMotion.CARRIAGE_TO_CORAL);
+          .transformBy(constRotors.CORAL_INTAKE_TO_CORAL);
     } else {
       coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
     }
