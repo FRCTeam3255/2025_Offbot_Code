@@ -43,8 +43,10 @@ public class Field {
     // Net Poses
     private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
         Rotation2d.fromDegrees(0));
-    private static final Pose2d NET_LINE = new Pose2d(Units.Meters.of(7.588), Units.Meters.of(7.5),
+    private static final Pose2d NET_LINE = new Pose2d(Units.Meters.of(7.588), Units.Meters.of(6),
         Rotation2d.fromDegrees(0));
+    private static final Pose2d NET_LINE_BACKWARD = new Pose2d(Units.Meters.of(10), Units.Meters.of(6),
+        Rotation2d.fromDegrees(180));
 
     // algae poses
     private static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
@@ -73,7 +75,8 @@ public class Field {
     // --- groups wrapped for alliance handling ---
 
     public static final Pose2dAllianceSet NET_POSES = Pose2dAllianceSet.of(
-        FieldElements.NET_LINE);
+        FieldElements.NET_LINE,
+        FieldElements.NET_LINE_BACKWARD);
 
     // -- REEF --
     public static final Pose2dAllianceSet LEFT_REEF_POSES = Pose2dAllianceSet.of(
