@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Drivetrain.SwerveVelocity;
 
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
@@ -34,6 +35,8 @@ public class PoseDriving extends Command {
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
+    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
         closestPose);
@@ -42,9 +45,8 @@ public class PoseDriving extends Command {
 
     if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup) && backwardsAllowed) {
       closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
+      velocities = new SwerveVelocity(-velocities.x, -velocities.y, velocities.rotation);
     }
-
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
 
     if (isInAutoDriveZone) {
       subDrivetrain.autoAlign(
