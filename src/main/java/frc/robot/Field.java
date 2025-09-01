@@ -25,7 +25,7 @@ public class Field {
   public static final Distance PROCESSOR_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
   public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
 
-  private class FieldElements {
+  private static class FieldElements {
     // Branch Poses
     private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
     private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
@@ -71,7 +71,7 @@ public class Field {
     private static final Pose2d CAGE_3 = new Pose2d(7.783, 5.068, Rotation2d.fromDegrees(180));
   }
 
-  public class FieldElementGroups {
+  public static class FieldElementGroups {
     // --- groups wrapped for alliance handling ---
 
     public static final Pose2dAllianceSet NET_POSES = Pose2dAllianceSet.of(

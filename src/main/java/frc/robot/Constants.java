@@ -556,7 +556,7 @@ public final class Constants {
       ALGAE_REEF.lockY = false;
       ALGAE_REEF.backwardsAllowed = true;
 
-      PROCESSOR.minDistanceBeforeDrive = Inches.of(60);
+      PROCESSOR.minDistanceBeforeDrive = Inches.of(80);
       PROCESSOR.targetPoseGroup = Field.FieldElementGroups.PROCESSOR_POSES.getAll();
       PROCESSOR.driveState = DriverState.PROCESSOR_AUTO_DRIVING;
       PROCESSOR.snapState = DriverState.PROCESSOR_ROTATION_SNAPPING;
@@ -580,7 +580,7 @@ public final class Constants {
       CORAL_STATION_CLOSE.lockY = false;
       CORAL_STATION_CLOSE.backwardsAllowed = false;
 
-      NET.minDistanceBeforeDrive = Inches.of(60);
+      NET.minDistanceBeforeDrive = Inches.of(80);
       NET.targetPoseGroup = Field.FieldElementGroups.NET_POSES.getAll();
       NET.driveState = DriverState.NET_AUTO_DRIVING;
       NET.snapState = DriverState.NET_ROTATION_SNAPPING;
