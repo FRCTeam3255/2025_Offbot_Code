@@ -345,6 +345,27 @@ public final class Constants {
     public static final Current COLLECTOR_HAS_CAGE_CURRENT = Units.Amps.of(15);// Todo give actual value
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
+
+    public static final Transform3d ALGAE_INTAKE_TO_ALGAE = new Transform3d(
+        Inches.of(0),
+        Inches.of(33),
+        Inches.of(9),
+        Rotation3d.kZero);
+
+    public static final Transform3d CORAL_INTAKE_TO_CORAL = new Transform3d(
+        Inches.of(0),
+        Inches.of(21),
+        Inches.of(3),
+        new Rotation3d(
+            Degrees.of(90),
+            Degrees.of(0),
+            Degrees.of(90)));
+
+    public static final Transform3d CORAL_INTAKE_TO_CORAL_L1 = new Transform3d(
+        Inches.of(0),
+        Inches.of(25),
+        Inches.of(3),
+        new Rotation3d());
   }
 
   public static class MechanismPositionGroup {
