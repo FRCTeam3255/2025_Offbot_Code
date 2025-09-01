@@ -32,7 +32,7 @@ public class HasCoralAndAlgae extends Command {
     globalMotion.setAllPosition(constMechanismPositions.NONE);
     globalRotors.setCoralIntakeMotorSpeed(0);
     globalRotors.setAlgaeIntakeMotorSpeed(0);
-    globalRotors.setHasCoralOveride(true);
+    globalRotors.setHasCoralOverride(true);
     globalRotors.setHasAlgaeOverride(true);
   }
 

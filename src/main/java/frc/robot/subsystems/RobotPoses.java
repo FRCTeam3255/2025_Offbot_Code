@@ -24,8 +24,6 @@ public class RobotPoses extends SubsystemBase {
   private Motion subMotion;
   @NotLogged
   private Rotors subRotors;
-  @NotLogged
-  private StateMachine subStateMachine;
 
   Pose3d modelDrivetrain = Pose3d.kZero;
   Pose3d model0Pivot = Pose3d.kZero;
@@ -52,11 +50,10 @@ public class RobotPoses extends SubsystemBase {
       Units.Inches.of(8),
       Rotation3d.kZero);
 
-  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors, StateMachine subStateMachine) {
+  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
     this.subDrivetrain = subDrivetrain;
     this.subMotion = subMotion;
     this.subRotors = subRotors;
-    this.subStateMachine = subStateMachine;
   }
 
   @Override
@@ -99,16 +96,16 @@ public class RobotPoses extends SubsystemBase {
 
     // game pieces
 
-    if (subRotors.hasAlgae() == true) {
-      algaePose = model3Intake;
+    if (subRotors.hasAlgae()) {
+      algaePose = model3Intake.plus(constRotors.ALGAE_INTAKE_TO_ALGAE);
     } else {
       algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
     }
 
-    if (subRotors.hasCoral() == true) {
-      coralPose = model3Intake;
-    } else if (subRotors.hasL1Coral() == true) {
-      coralPose = model3Intake;
+    if (subRotors.hasCoral()) {
+      coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL);
+    } else if (subRotors.hasL1Coral()) {
+      coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL_L1);
     } else
       coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
 

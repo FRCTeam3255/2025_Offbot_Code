@@ -354,6 +354,11 @@ public final class Constants {
         Units.Meters.convertFrom(194, Units.Millimeters), 0,
         Units.Meters.convertFrom(318 + 40, Units.Millimeters),
         new Rotation3d(0, Units.Radians.convertFrom(35, Units.Degrees), 0));
+
+    public static final Transform3d CORAL_INTAKE_TO_CORAL_L1 = new Transform3d(
+        Units.Meters.convertFrom(194, Units.Millimeters), 0,
+        Units.Meters.convertFrom(318 + 40, Units.Millimeters),
+        new Rotation3d(0, Units.Radians.convertFrom(35, Units.Degrees), 0));
   }
 
   public static class MechanismPositionGroup {

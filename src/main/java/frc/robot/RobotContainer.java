@@ -34,7 +34,7 @@ public class RobotContainer {
   private final Motion subMotion = new Motion();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors, subStateMachine);
+  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
   public Command manualZeroLift = new ManualZeroLift(subMotion);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion);

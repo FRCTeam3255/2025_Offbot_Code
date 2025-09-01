@@ -31,7 +31,7 @@ public class HasCoral extends Command {
     globalStateMachine.setRobotState(RobotState.HAS_CORAL);
     globalMotion.setAllPosition(constMechanismPositions.NONE);
     globalRotors.setCoralIntakeMotorSpeed(0);
-    globalRotors.setHasCoralOveride(true);
+    globalRotors.setHasCoralOverride(true);
 
   }
 

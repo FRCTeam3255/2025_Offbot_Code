@@ -29,8 +29,8 @@ public class Rotors extends SubsystemBase {
   CANrange coralRightSensor;
   boolean indexingCoral;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
-  public boolean hasAlgaeOverride = false;
-  public boolean hasCoralOverride = false;
+  boolean hasAlgaeOverride = false;
+  boolean hasCoralOverride = false;
 
   public Rotors() {
     coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
@@ -92,11 +92,11 @@ public class Rotors extends SubsystemBase {
     }
   }
 
-  public void setHasAlgaeOverride(boolean passedHasGamePiece) {
-    hasAlgaeOverride = passedHasGamePiece;
+  public void setHasAlgaeOverride(boolean hasAlgaeToggle) {
+    hasAlgaeOverride = hasAlgaeToggle;
   }
 
-  public void setHasCoralOveride(boolean hasCoralToggle) {
+  public void setHasCoralOverride(boolean hasCoralToggle) {
     hasCoralOverride = hasCoralToggle;
   }
 
