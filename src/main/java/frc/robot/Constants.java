@@ -517,8 +517,9 @@ public final class Constants {
     public List<Pose2d> targetPoseGroup;
     public DriverState driveState;
     public DriverState snapState;
-    public Boolean lockX;
-    public Boolean lockY;
+    public boolean lockX;
+    public boolean lockY;
+    public boolean backwardsAllowed;
   }
 
   public static class constPoseDrive {
@@ -537,6 +538,7 @@ public final class Constants {
       CORAL_REEF_LEFT.snapState = DriverState.REEF_ROTATION_SNAPPING;
       CORAL_REEF_LEFT.lockX = false;
       CORAL_REEF_LEFT.lockY = false;
+      CORAL_REEF_LEFT.backwardsAllowed = true;
 
       CORAL_REEF_RIGHT.minDistanceBeforeDrive = Inches.of(60);
       CORAL_REEF_RIGHT.targetPoseGroup = Field.FieldElementGroups.RIGHT_REEF_POSES.getAll();
@@ -544,6 +546,7 @@ public final class Constants {
       CORAL_REEF_RIGHT.snapState = DriverState.REEF_ROTATION_SNAPPING;
       CORAL_REEF_RIGHT.lockX = false;
       CORAL_REEF_RIGHT.lockY = false;
+      CORAL_REEF_RIGHT.backwardsAllowed = true;
 
       ALGAE_REEF.minDistanceBeforeDrive = Inches.of(60);
       ALGAE_REEF.targetPoseGroup = Field.FieldElementGroups.ALGAE_POSES.getAll();
@@ -551,6 +554,7 @@ public final class Constants {
       ALGAE_REEF.snapState = DriverState.ALGAE_ROTATION_SNAPPING;
       ALGAE_REEF.lockX = false;
       ALGAE_REEF.lockY = false;
+      ALGAE_REEF.backwardsAllowed = true;
 
       PROCESSOR.minDistanceBeforeDrive = Inches.of(60);
       PROCESSOR.targetPoseGroup = Field.FieldElementGroups.PROCESSOR_POSES.getAll();
@@ -558,6 +562,7 @@ public final class Constants {
       PROCESSOR.snapState = DriverState.PROCESSOR_ROTATION_SNAPPING;
       PROCESSOR.lockX = true;
       PROCESSOR.lockY = false;
+      PROCESSOR.backwardsAllowed = false;
 
       CORAL_STATION_FAR.minDistanceBeforeDrive = Inches.of(60);
       CORAL_STATION_FAR.targetPoseGroup = Field.FieldElementGroups.FAR_CORAL_STATION_POSES.getAll();
@@ -565,13 +570,15 @@ public final class Constants {
       CORAL_STATION_FAR.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
       CORAL_STATION_FAR.lockX = false;
       CORAL_STATION_FAR.lockY = false;
+      CORAL_STATION_FAR.backwardsAllowed = false;
 
       CORAL_STATION_CLOSE.minDistanceBeforeDrive = Inches.of(60);
-      CORAL_STATION_CLOSE.targetPoseGroup = Field.FieldElementGroups.CORAL_STATION_POSES.getAll();
+      CORAL_STATION_CLOSE.targetPoseGroup = Field.FieldElementGroups.NEAR_CORAL_STATION_POSES.getAll();
       CORAL_STATION_CLOSE.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE;
       CORAL_STATION_CLOSE.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
       CORAL_STATION_CLOSE.lockX = false;
       CORAL_STATION_CLOSE.lockY = false;
+      CORAL_STATION_CLOSE.backwardsAllowed = false;
 
       NET.minDistanceBeforeDrive = Inches.of(60);
       NET.targetPoseGroup = Field.FieldElementGroups.NET_POSES.getAll();
@@ -579,9 +586,13 @@ public final class Constants {
       NET.snapState = DriverState.NET_ROTATION_SNAPPING;
       NET.lockX = false;
       NET.lockY = true;
+      NET.backwardsAllowed = true;
 
       CAGE.targetPoseGroup = Field.FieldElementGroups.CAGE_POSES.getAll();
       CAGE.snapState = DriverState.CAGE_ROTATION_SNAPPING;
+      CAGE.lockX = true;
+      CAGE.lockY = true;
+      CAGE.backwardsAllowed = false;
     }
   }
 

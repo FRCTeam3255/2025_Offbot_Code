@@ -184,18 +184,11 @@ public class Drivetrain extends SN_SuperSwerve {
   }
 
   public boolean isActionBackwards(List<Pose2d> poses) {
-    Distance backDistance;
-    Distance frontDistance;
-    Pose2d closestPoseByRotation = getClosestPoseByRotation(poses);
-    backDistance = Units.Meters
-        .of(getBackPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    frontDistance = Units.Meters
-        .of(getFrontPose().getTranslation().getDistance(closestPoseByRotation.getTranslation()));
-    if (backDistance.lt(frontDistance)) {
-      return true;
-    } else {
-      return false;
-    }
+    Pose2d closestPoseByRotation = getClosestPose(poses);
+    Rotation2d currentRotation = getRotation();
+    Rotation2d targetRotation = closestPoseByRotation.getRotation();
+    double angleDifference = Math.abs(currentRotation.minus(targetRotation).getDegrees());
+    return angleDifference > 90 && angleDifference < 270;
   }
 
   public boolean isInAutoDriveZone(Distance autoDriveMaxDistance, Pose2d target) {

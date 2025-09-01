@@ -34,13 +34,15 @@ public class PoseDriving extends Command {
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)) {
-      closestPose = closestPose.rotateBy(Rotation2d.k180deg);
-    }
-
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
         closestPose);
+
+    boolean backwardsAllowed = poseGroup.backwardsAllowed;
+
+    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup) && backwardsAllowed) {
+      closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
+    }
 
     var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
 
