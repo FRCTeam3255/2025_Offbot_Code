@@ -207,30 +207,6 @@ public class Drivetrain extends SN_SuperSwerve {
     return distanceFromPose.lt(autoDriveMaxDistance);
   }
 
-  public static Pose2d[] getBackwardsScoringPosesFromList(List<Pose2d> bluePoseList) {
-    Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
-    for (int i = 0; i < bluePoseList.size(); i++) {
-      returnedPoses[i] = bluePoseList.get(i).rotateBy(Rotation2d.k180deg);
-    }
-    return returnedPoses;
-  }
-
-  // public Supplier<List<Pose2d>> autoDrivePositions(List<Pose2d> desiredPos) {
-  // if (isActionBackwards(
-  // desiredPos) == true && Field.isRedAlliance() == false) {
-  // return () -> Arrays.asList(getBackwardsScoringPosesFromList(desiredPos));
-  // } else if (isActionBackwards(
-  // desiredPos) == true && Field.isRedAlliance() == true) {
-  // return () -> Arrays
-  // .asList(Field.getRedPosesFromList(Arrays.asList(getBackwardsScoringPosesFromList(desiredPos))));
-  // } else if (isActionBackwards(
-  // desiredPos) == false && Field.isRedAlliance() == true) {
-  // return () -> Arrays.asList(Field.getRedPosesFromList(desiredPos));
-  // } else {
-  // return () -> desiredPos;
-  // }
-  // }
-
   @Override
   public void periodic() {
     super.periodic();

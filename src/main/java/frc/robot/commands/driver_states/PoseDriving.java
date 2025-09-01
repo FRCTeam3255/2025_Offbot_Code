@@ -3,6 +3,7 @@ package frc.robot.commands.driver_states;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
@@ -32,6 +33,10 @@ public class PoseDriving extends Command {
   @Override
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+
+    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)) {
+      closestPose = closestPose.rotateBy(Rotation2d.k180deg);
+    }
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
