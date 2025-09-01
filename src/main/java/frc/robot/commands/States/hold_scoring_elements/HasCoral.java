@@ -31,6 +31,8 @@ public class HasCoral extends Command {
     globalStateMachine.setRobotState(RobotState.HAS_CORAL);
     globalMotion.setAllPosition(constMechanismPositions.NONE);
     globalRotors.setCoralIntakeMotorSpeed(0);
+    globalRotors.setHasCoralOveride(true);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

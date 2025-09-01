@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
@@ -23,6 +24,8 @@ public class RobotPoses extends SubsystemBase {
   private Motion subMotion;
   @NotLogged
   private Rotors subRotors;
+  @NotLogged
+  private StateMachine subStateMachine;
 
   Pose3d modelDrivetrain = Pose3d.kZero;
   Pose3d model0Pivot = Pose3d.kZero;
@@ -49,10 +52,11 @@ public class RobotPoses extends SubsystemBase {
       Units.Inches.of(8),
       Rotation3d.kZero);
 
-  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
+  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors, StateMachine subStateMachine) {
     this.subDrivetrain = subDrivetrain;
     this.subMotion = subMotion;
     this.subRotors = subRotors;
+    this.subStateMachine = subStateMachine;
   }
 
   @Override
@@ -95,18 +99,18 @@ public class RobotPoses extends SubsystemBase {
 
     // game pieces
 
-    if (subRotors.hasAlgae()) {
-      algaePose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
-          .transformBy(constRotors.ALGAE_INTAKE_TO_ALGAE);
+    if (subRotors.hasAlgae() == true) {
+      algaePose = model3Intake;
     } else {
       algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
     }
 
-    if (subRotors.hasCoral()) {
-      coralPose = modelDrivetrain.plus(new Transform3d(Pose3d.kZero, model3Intake))
-          .transformBy(constRotors.CORAL_INTAKE_TO_CORAL);
-    } else {
+    if (subRotors.hasCoral() == true) {
+      coralPose = model3Intake;
+    } else if (subRotors.hasL1Coral() == true) {
+      coralPose = model3Intake;
+    } else
       coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
-    }
+
   }
 }

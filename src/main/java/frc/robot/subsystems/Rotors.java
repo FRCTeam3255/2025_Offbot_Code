@@ -28,7 +28,9 @@ public class Rotors extends SubsystemBase {
   CANrange coralLeftSensor;
   CANrange coralRightSensor;
   boolean indexingCoral;
+  boolean hasCoralOveride;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
+  public boolean hasAlgaeOverride = false;
 
   public Rotors() {
     coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
@@ -39,6 +41,8 @@ public class Rotors extends SubsystemBase {
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
     coralLeftSensor = new CANrange(mapRotors.CORAL_LEFT_SENSOR);
     coralRightSensor = new CANrange(mapRotors.CORAL_RIGHT_SENSOR);
+
+    hasCoralOveride = false;
 
     coralIntakeLeftMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
     coralIntakeRightMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
@@ -51,6 +55,7 @@ public class Rotors extends SubsystemBase {
   }
 
   public boolean hasCoral() {
+
     return coralUpperMidSensor.getIsDetected().getValue() &&
         coralLowerMidSensor.getIsDetected().getValue() &&
         !coralLeftSensor.getIsDetected().getValue() &&
@@ -65,6 +70,10 @@ public class Rotors extends SubsystemBase {
             !coralLowerMidSensor.getIsDetected().getValue());
   }
 
+  public void setHasCoralOveride(boolean hasCoralToggle) {
+    this.hasCoralOveride = hasCoralToggle;
+  }
+
   public boolean hasAlgae() {
     Current intakeCurrent = algaeIntakeMotor.getStatorCurrent().getValue();
 
@@ -74,6 +83,10 @@ public class Rotors extends SubsystemBase {
     Current intakeHasGamePieceCurrent = constRotors.ALGAE_INTAKE_HAS_GP_CURRENT;
     AngularVelocity intakeHasGamePieceVelocity = constRotors.ALGAE_INTAKE_HAS_GP_VELOCITY;
 
+    if (hasAlgaeOverride) {
+      return hasAlgaeOverride;
+    }
+
     if ((intakeCurrent.gte(intakeHasGamePieceCurrent))
         && (intakeVelocity.lte(intakeHasGamePieceVelocity))
         && (intakeAcceleration < 0)) {
@@ -81,6 +94,14 @@ public class Rotors extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public void setHasAlgaeOverride(boolean passedHasGamePiece) {
+    hasAlgaeOverride = passedHasGamePiece;
+  }
+
+  public void algaeToggle() {
+    this.hasAlgaeOverride = !hasAlgaeOverride;
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
