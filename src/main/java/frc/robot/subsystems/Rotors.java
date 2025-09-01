@@ -28,9 +28,9 @@ public class Rotors extends SubsystemBase {
   CANrange coralLeftSensor;
   CANrange coralRightSensor;
   boolean indexingCoral;
-  boolean hasCoralOveride;
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
   public boolean hasAlgaeOverride = false;
+  public boolean hasCoralOverride = false;
 
   public Rotors() {
     coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
@@ -41,8 +41,6 @@ public class Rotors extends SubsystemBase {
     cageCollectMotor = new TalonFX(mapRotors.CAGE_COLLECTER_CAN);
     coralLeftSensor = new CANrange(mapRotors.CORAL_LEFT_SENSOR);
     coralRightSensor = new CANrange(mapRotors.CORAL_RIGHT_SENSOR);
-
-    hasCoralOveride = false;
 
     coralIntakeLeftMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
     coralIntakeRightMotor.getConfigurator().apply(constRotors.CORAL_INTAKE_CONFIG);
@@ -55,7 +53,9 @@ public class Rotors extends SubsystemBase {
   }
 
   public boolean hasCoral() {
-
+    if (hasCoralOverride) {
+      return hasCoralOverride;
+    }
     return coralUpperMidSensor.getIsDetected().getValue() &&
         coralLowerMidSensor.getIsDetected().getValue() &&
         !coralLeftSensor.getIsDetected().getValue() &&
@@ -68,10 +68,6 @@ public class Rotors extends SubsystemBase {
         (coralUpperMidSensor.getIsDetected().getValue() &&
             coralRightSensor.getIsDetected().getValue() &&
             !coralLowerMidSensor.getIsDetected().getValue());
-  }
-
-  public void setHasCoralOveride(boolean hasCoralToggle) {
-    this.hasCoralOveride = hasCoralToggle;
   }
 
   public boolean hasAlgae() {
@@ -100,8 +96,8 @@ public class Rotors extends SubsystemBase {
     hasAlgaeOverride = passedHasGamePiece;
   }
 
-  public void algaeToggle() {
-    this.hasAlgaeOverride = !hasAlgaeOverride;
+  public void setHasCoralOveride(boolean hasCoralToggle) {
+    hasCoralOverride = hasCoralToggle;
   }
 
   public void setCoralIntakeMotorSpeed(double speed) {
