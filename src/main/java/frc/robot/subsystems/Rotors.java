@@ -54,7 +54,7 @@ public class Rotors extends SubsystemBase {
 
   public boolean hasCoral() {
     if (hasCoralOverride) {
-      return hasCoralOverride;
+      return true;
     }
     return coralUpperMidSensor.getIsDetected().getValue() &&
         coralLowerMidSensor.getIsDetected().getValue() &&
@@ -80,7 +80,7 @@ public class Rotors extends SubsystemBase {
     AngularVelocity intakeHasGamePieceVelocity = constRotors.ALGAE_INTAKE_HAS_GP_VELOCITY;
 
     if (hasAlgaeOverride) {
-      return hasAlgaeOverride;
+      return true;
     }
 
     if ((intakeCurrent.gte(intakeHasGamePieceCurrent))
