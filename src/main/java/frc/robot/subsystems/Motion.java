@@ -170,7 +170,8 @@ public class Motion extends SubsystemBase {
   }
 
   public boolean isWristInDanger() {
-    if (getWristAngle().lt(Units.Degrees.of(0)) && elevatorPivotLastDesiredAngle.lte(Units.Degrees.of(25))) {
+    if (getWristAngle().lt(constMotion.WRIST_DANGER_ANGLE)
+        && elevatorPivotLastDesiredAngle.lt(constMotion.Pivot_DANGER_ANGLE)) {
       return true;
     } else {
       return false;
