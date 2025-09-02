@@ -7,11 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
-
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -25,7 +21,6 @@ import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -307,6 +302,11 @@ public final class Constants {
     public static final Time ZEROED_TIME = Units.Seconds.of(1);
 
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
+
+    public static final Angle WRIST_DANGER_ANGLE = Units.Degrees.of(0);
+
+    public static final Angle Pivot_DANGER_ANGLE = Units.Degrees.of(25);
+  
   }
 
   public static class constRotors {

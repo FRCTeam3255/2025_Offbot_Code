@@ -5,6 +5,7 @@
 package frc.robot.commands.States.first_scoring_element;
 
 import frc.robot.subsystems.StateMachine.RobotState;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
@@ -29,6 +30,7 @@ public class IntakeCoralGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
     globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);

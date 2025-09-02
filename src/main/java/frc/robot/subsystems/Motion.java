@@ -84,6 +84,9 @@ public class Motion extends SubsystemBase {
   }
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
+    if (isWristInDanger() == true) {
+      setWristPivotAngle(positionGroup.wristAngle);
+    }
     setLiftPosition(positionGroup.liftHeight);
     setElevatorPivotAngle(positionGroup.pivotAngle);
     setWristPivotAngle(positionGroup.wristAngle);
@@ -164,6 +167,15 @@ public class Motion extends SubsystemBase {
 
   public boolean isWristVelocityZero() {
     return getWristVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
+  }
+
+  public boolean isWristInDanger() {
+    if (getWristAngle().lt(constMotion.WRIST_DANGER_ANGLE)
+        && elevatorPivotLastDesiredAngle.lt(constMotion.Pivot_DANGER_ANGLE)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void resetLiftSensorPosition(Distance setpoint) {
