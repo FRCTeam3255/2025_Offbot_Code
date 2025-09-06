@@ -11,7 +11,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.constField;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
@@ -30,8 +31,8 @@ public class RobotPoses extends SubsystemBase {
   Pose3d model2ElevatorCarriage = Pose3d.kZero;
   Pose3d model3Intake = Pose3d.kZero;
   Pose3d model4Climber = Pose3d.kZero;
-  Pose3d coralPose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
-  Pose3d algaePose = constField.POSES.SCORING_ELEMENT_NOT_COLLECTED;
+  Pose3d coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+  Pose3d algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
 
   Transform3d elevatorTransform3d;
   Rotation3d pivotRotation3d;
@@ -92,5 +93,21 @@ public class RobotPoses extends SubsystemBase {
         model2ElevatorCarriage.plus(wristPivotPoint).getTranslation(), wristRotation3d);
 
     model4Climber = model0Pivot;
+
+    // game pieces
+
+    if (subRotors.hasAlgae()) {
+      algaePose = model3Intake.plus(constRotors.ALGAE_INTAKE_TO_ALGAE);
+    } else {
+      algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+    }
+
+    if (subRotors.hasCoral()) {
+      coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL);
+    } else if (subRotors.hasL1Coral()) {
+      coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL_L1);
+    } else
+      coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;
+
   }
 }
