@@ -30,8 +30,6 @@ public class IntakeCoralGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
     globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);
   }
@@ -39,6 +37,7 @@ public class IntakeCoralGround extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
   }
 
   // Called once the command ends or is interrupted.

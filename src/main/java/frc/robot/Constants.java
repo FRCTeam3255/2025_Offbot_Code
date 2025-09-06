@@ -7,6 +7,8 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
+
+import java.util.List;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -306,8 +308,8 @@ public final class Constants {
 
     public static final Angle WRIST_DANGER_ANGLE = Units.Degrees.of(0);
 
-    public static final Angle Pivot_DANGER_ANGLE = Units.Degrees.of(25);
-  
+    public static final Angle PIVOT_DANGER_ANGLE = Units.Degrees.of(25);
+
   }
 
   public static class constRotors {

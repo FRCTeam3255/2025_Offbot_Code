@@ -42,7 +42,6 @@ public class CleanHigh extends Command {
     } else {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
-    globalMotion.setAllPosition(cleanHigh);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_HIGH);
   }
@@ -50,7 +49,7 @@ public class CleanHigh extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    globalMotion.setAllPosition(cleanHigh);
   }
 
   // Called once the command ends or is interrupted.

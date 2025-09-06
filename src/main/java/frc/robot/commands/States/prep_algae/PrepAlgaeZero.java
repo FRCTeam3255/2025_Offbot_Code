@@ -28,13 +28,13 @@ public class PrepAlgaeZero extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_ZERO);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_ZERO);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_ZERO);
   }
 
   // Called once the command ends or is interrupted.

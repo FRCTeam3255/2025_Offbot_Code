@@ -52,6 +52,11 @@ public class PrepCoralLv extends Command {
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
 
     }
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
     if (targetLevel == 0) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
@@ -69,11 +74,6 @@ public class PrepCoralLv extends Command {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
     }
 
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
   }
 
   // Called once the command ends or is interrupted.
