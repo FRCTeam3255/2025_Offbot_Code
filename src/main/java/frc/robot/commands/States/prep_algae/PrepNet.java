@@ -4,16 +4,16 @@
 
 package frc.robot.commands.States.prep_algae;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Field;
 import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Field;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepNet extends Command {
@@ -36,13 +36,9 @@ public class PrepNet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getNetPositions().get());
-    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getNetPositions().get()) == true) {
+    if (globalDrivetrain.isActionBackwards(Field.FieldElementGroups.NET_POSES.getAll())) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getNetPositions().get()) == false) {
+    } else {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
     globalMotion.setAllPosition(prepNet);

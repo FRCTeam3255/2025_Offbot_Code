@@ -32,6 +32,8 @@ public class HasCoralAndAlgae extends Command {
     globalMotion.setAllPosition(constMechanismPositions.NONE);
     globalRotors.setCoralIntakeMotorSpeed(0);
     globalRotors.setAlgaeIntakeMotorSpeed(0);
+    globalRotors.setHasCoralOverride(true);
+    globalRotors.setHasAlgaeOverride(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
