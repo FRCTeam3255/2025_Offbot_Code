@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
 import java.util.Optional;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -41,8 +42,8 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
@@ -534,6 +535,90 @@ public final class Constants {
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
   }
 
+  public static class PoseDriveGroup {
+    public Distance minDistanceBeforeDrive;
+    public List<Pose2d> targetPoseGroup;
+    public DriverState driveState;
+    public DriverState snapState;
+    public boolean lockX;
+    public boolean lockY;
+    public boolean backwardsAllowed;
+  }
+
+  public static class constPoseDrive {
+    public static final PoseDriveGroup CORAL_REEF_LEFT = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_REEF_RIGHT = new PoseDriveGroup();
+    public static final PoseDriveGroup ALGAE_REEF = new PoseDriveGroup();
+    public static final PoseDriveGroup PROCESSOR = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_STATION_FAR = new PoseDriveGroup();
+    public static final PoseDriveGroup CORAL_STATION_CLOSE = new PoseDriveGroup();
+    public static final PoseDriveGroup NET = new PoseDriveGroup();
+    public static final PoseDriveGroup CAGE = new PoseDriveGroup();
+    static {
+      CORAL_REEF_LEFT.minDistanceBeforeDrive = Inches.of(60);
+      CORAL_REEF_LEFT.targetPoseGroup = Field.FieldElementGroups.LEFT_REEF_POSES.getAll();
+      CORAL_REEF_LEFT.driveState = DriverState.REEF_AUTO_DRIVING_LEFT;
+      CORAL_REEF_LEFT.snapState = DriverState.REEF_ROTATION_SNAPPING;
+      CORAL_REEF_LEFT.lockX = false;
+      CORAL_REEF_LEFT.lockY = false;
+      CORAL_REEF_LEFT.backwardsAllowed = true;
+
+      CORAL_REEF_RIGHT.minDistanceBeforeDrive = Inches.of(60);
+      CORAL_REEF_RIGHT.targetPoseGroup = Field.FieldElementGroups.RIGHT_REEF_POSES.getAll();
+      CORAL_REEF_RIGHT.driveState = DriverState.REEF_AUTO_DRIVING_RIGHT;
+      CORAL_REEF_RIGHT.snapState = DriverState.REEF_ROTATION_SNAPPING;
+      CORAL_REEF_RIGHT.lockX = false;
+      CORAL_REEF_RIGHT.lockY = false;
+      CORAL_REEF_RIGHT.backwardsAllowed = true;
+
+      ALGAE_REEF.minDistanceBeforeDrive = Inches.of(60);
+      ALGAE_REEF.targetPoseGroup = Field.FieldElementGroups.ALGAE_POSES.getAll();
+      ALGAE_REEF.driveState = DriverState.ALGAE_AUTO_DRIVING;
+      ALGAE_REEF.snapState = DriverState.ALGAE_ROTATION_SNAPPING;
+      ALGAE_REEF.lockX = false;
+      ALGAE_REEF.lockY = false;
+      ALGAE_REEF.backwardsAllowed = true;
+
+      PROCESSOR.minDistanceBeforeDrive = Inches.of(80);
+      PROCESSOR.targetPoseGroup = Field.FieldElementGroups.PROCESSOR_POSES.getAll();
+      PROCESSOR.driveState = DriverState.PROCESSOR_AUTO_DRIVING;
+      PROCESSOR.snapState = DriverState.PROCESSOR_ROTATION_SNAPPING;
+      PROCESSOR.lockX = true;
+      PROCESSOR.lockY = false;
+      PROCESSOR.backwardsAllowed = false;
+
+      CORAL_STATION_FAR.minDistanceBeforeDrive = Inches.of(60);
+      CORAL_STATION_FAR.targetPoseGroup = Field.FieldElementGroups.FAR_CORAL_STATION_POSES.getAll();
+      CORAL_STATION_FAR.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_FAR;
+      CORAL_STATION_FAR.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
+      CORAL_STATION_FAR.lockX = false;
+      CORAL_STATION_FAR.lockY = false;
+      CORAL_STATION_FAR.backwardsAllowed = false;
+
+      CORAL_STATION_CLOSE.minDistanceBeforeDrive = Inches.of(60);
+      CORAL_STATION_CLOSE.targetPoseGroup = Field.FieldElementGroups.NEAR_CORAL_STATION_POSES.getAll();
+      CORAL_STATION_CLOSE.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE;
+      CORAL_STATION_CLOSE.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
+      CORAL_STATION_CLOSE.lockX = false;
+      CORAL_STATION_CLOSE.lockY = false;
+      CORAL_STATION_CLOSE.backwardsAllowed = false;
+
+      NET.minDistanceBeforeDrive = Inches.of(80);
+      NET.targetPoseGroup = Field.FieldElementGroups.NET_POSES.getAll();
+      NET.driveState = DriverState.NET_AUTO_DRIVING;
+      NET.snapState = DriverState.NET_ROTATION_SNAPPING;
+      NET.lockX = false;
+      NET.lockY = true;
+      NET.backwardsAllowed = true;
+
+      CAGE.targetPoseGroup = Field.FieldElementGroups.CAGE_POSES.getAll();
+      CAGE.snapState = DriverState.CAGE_ROTATION_SNAPPING;
+      CAGE.lockX = true;
+      CAGE.lockY = true;
+      CAGE.backwardsAllowed = false;
+    }
+  }
+
   /**
    * Volts
    */
@@ -547,23 +632,6 @@ public final class Constants {
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
     public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
-
-    /**
-     * Boolean that controls when the path will be mirrored for the red
-     * alliance. This will flip the path being followed to the red side of the
-     * field.
-     * The origin will remain on the Blue side.
-     * 
-     * @return If we are currently on Red alliance. Will return false if no alliance
-     *         is found
-     */
-    public static boolean isRedAlliance() {
-      var alliance = ALLIANCE;
-      if (alliance.isPresent()) {
-        return alliance.get() == DriverStation.Alliance.Red;
-      }
-      return false;
-    };
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }

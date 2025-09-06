@@ -4,18 +4,16 @@
 
 package frc.robot.commands.States.prep_coral;
 
-import frc.robot.subsystems.StateMachine.RobotState;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.MechanismPositionGroup;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Field;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.MechanismPositionGroup;
-import frc.robot.Field;
-import frc.robot.Constants.constMechanismPositions;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralLv extends Command {
@@ -43,15 +41,12 @@ public class PrepCoralLv extends Command {
 
   @Override
   public void initialize() {
-    closestPoseByRotation = globalDrivetrain
-        .getClosestPoseByRotation(Field.getReefPositions().get());
-    if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getReefPositions().get()) == true) {
+    if (globalDrivetrain.isActionBackwards(
+        Field.FieldElementGroups.REEF_POSES.getAll()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_BACKWARDS;
-    } else if (globalDrivetrain.isActionBackwards(closestPoseByRotation,
-        Field.getReefPositions().get()) == false) {
+    } else {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_FORWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
