@@ -10,6 +10,7 @@ import static edu.wpi.first.units.Units.Kilograms;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
@@ -46,10 +47,11 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
+
   public static class constControllers {
     public static final double DRIVER_LEFT_STICK_DEADBAND = 0.05;
     public static final boolean SILENCE_JOYSTICK_WARNINGS = true;
@@ -349,27 +351,6 @@ public final class Constants {
     public static final Current COLLECTOR_HAS_CAGE_CURRENT = Units.Amps.of(15);// Todo give actual value
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
-
-    public static final Transform3d ALGAE_INTAKE_TO_ALGAE = new Transform3d(
-        Inches.of(0),
-        Inches.of(33),
-        Inches.of(9),
-        Rotation3d.kZero);
-
-    public static final Transform3d CORAL_INTAKE_TO_CORAL = new Transform3d(
-        Inches.of(0),
-        Inches.of(21),
-        Inches.of(3),
-        new Rotation3d(
-            Degrees.of(90),
-            Degrees.of(0),
-            Degrees.of(90)));
-
-    public static final Transform3d CORAL_INTAKE_TO_CORAL_L1 = new Transform3d(
-        Inches.of(0),
-        Inches.of(25),
-        Inches.of(3),
-        new Rotation3d());
   }
 
   public static class MechanismPositionGroup {
@@ -414,19 +395,19 @@ public final class Constants {
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
-      CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(65.81);
+      CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(-65.81);
       CLEAN_HIGH_FORWARDS.liftHeight = Inches.of(20.975);
       CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(69.04);
 
-      CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(65.15);
+      CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(-65.15);
       CLEAN_LOW_FORWARDS.liftHeight = Inches.of(10);
       CLEAN_LOW_FORWARDS.pivotAngle = Degrees.of(58.46);
 
-      CLEAN_LOW_BACKWARDS.wristAngle = Degrees.of(-98.05);
+      CLEAN_LOW_BACKWARDS.wristAngle = Degrees.of(98.05);
       CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(5);
       CLEAN_LOW_BACKWARDS.pivotAngle = Degrees.of(83.88);
 
-      CLEAN_HIGH_BACKWARDS.wristAngle = Degrees.of(-99.26);
+      CLEAN_HIGH_BACKWARDS.wristAngle = Degrees.of(99.26);
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(86.16);
 
@@ -434,7 +415,7 @@ public final class Constants {
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(10.9);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(-10.9);
       INTAKE_CORAL_STATION.liftHeight = Inches.of(7.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
@@ -446,31 +427,31 @@ public final class Constants {
       INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_CORAL_L1.wristAngle = Degrees.of(10);
+      PREP_CORAL_L1.wristAngle = Degrees.of(-10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L1.pivotAngle = Degrees.of(35);
 
-      PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(-115);
+      PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(115);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(7); // TODO: Replace with actual height
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(35.56);
 
-      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(-100);
+      PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(100);
       PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(19); // TODO: Replace with actual height
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
 
-      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
+      PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(35);
       PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
       PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70.01);
 
-      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
+      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
 
-      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(-125);
+      PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(125);
       PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(15); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
-      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
+      PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(145);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
 
@@ -478,11 +459,11 @@ public final class Constants {
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_ZERO_WITH_ALGAE.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(40); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(-40); // TODO: Replace with actual angle
       PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(50); // TODO: Replace with actual height
       PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
 
-      PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(-40);
+      PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(40);
       PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(50);
       PREP_ALGAE_NET_BACKWARDS.pivotAngle = Degrees.of(90);
 
@@ -538,90 +519,6 @@ public final class Constants {
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
   }
 
-  public static class PoseDriveGroup {
-    public Distance minDistanceBeforeDrive;
-    public List<Pose2d> targetPoseGroup;
-    public DriverState driveState;
-    public DriverState snapState;
-    public boolean lockX;
-    public boolean lockY;
-    public boolean backwardsAllowed;
-  }
-
-  public static class constPoseDrive {
-    public static final PoseDriveGroup CORAL_REEF_LEFT = new PoseDriveGroup();
-    public static final PoseDriveGroup CORAL_REEF_RIGHT = new PoseDriveGroup();
-    public static final PoseDriveGroup ALGAE_REEF = new PoseDriveGroup();
-    public static final PoseDriveGroup PROCESSOR = new PoseDriveGroup();
-    public static final PoseDriveGroup CORAL_STATION_FAR = new PoseDriveGroup();
-    public static final PoseDriveGroup CORAL_STATION_CLOSE = new PoseDriveGroup();
-    public static final PoseDriveGroup NET = new PoseDriveGroup();
-    public static final PoseDriveGroup CAGE = new PoseDriveGroup();
-    static {
-      CORAL_REEF_LEFT.minDistanceBeforeDrive = Inches.of(60);
-      CORAL_REEF_LEFT.targetPoseGroup = Field.FieldElementGroups.LEFT_REEF_POSES.getAll();
-      CORAL_REEF_LEFT.driveState = DriverState.REEF_AUTO_DRIVING_LEFT;
-      CORAL_REEF_LEFT.snapState = DriverState.REEF_ROTATION_SNAPPING;
-      CORAL_REEF_LEFT.lockX = false;
-      CORAL_REEF_LEFT.lockY = false;
-      CORAL_REEF_LEFT.backwardsAllowed = true;
-
-      CORAL_REEF_RIGHT.minDistanceBeforeDrive = Inches.of(60);
-      CORAL_REEF_RIGHT.targetPoseGroup = Field.FieldElementGroups.RIGHT_REEF_POSES.getAll();
-      CORAL_REEF_RIGHT.driveState = DriverState.REEF_AUTO_DRIVING_RIGHT;
-      CORAL_REEF_RIGHT.snapState = DriverState.REEF_ROTATION_SNAPPING;
-      CORAL_REEF_RIGHT.lockX = false;
-      CORAL_REEF_RIGHT.lockY = false;
-      CORAL_REEF_RIGHT.backwardsAllowed = true;
-
-      ALGAE_REEF.minDistanceBeforeDrive = Inches.of(60);
-      ALGAE_REEF.targetPoseGroup = Field.FieldElementGroups.ALGAE_POSES.getAll();
-      ALGAE_REEF.driveState = DriverState.ALGAE_AUTO_DRIVING;
-      ALGAE_REEF.snapState = DriverState.ALGAE_ROTATION_SNAPPING;
-      ALGAE_REEF.lockX = false;
-      ALGAE_REEF.lockY = false;
-      ALGAE_REEF.backwardsAllowed = true;
-
-      PROCESSOR.minDistanceBeforeDrive = Inches.of(80);
-      PROCESSOR.targetPoseGroup = Field.FieldElementGroups.PROCESSOR_POSES.getAll();
-      PROCESSOR.driveState = DriverState.PROCESSOR_AUTO_DRIVING;
-      PROCESSOR.snapState = DriverState.PROCESSOR_ROTATION_SNAPPING;
-      PROCESSOR.lockX = true;
-      PROCESSOR.lockY = false;
-      PROCESSOR.backwardsAllowed = false;
-
-      CORAL_STATION_FAR.minDistanceBeforeDrive = Inches.of(60);
-      CORAL_STATION_FAR.targetPoseGroup = Field.FieldElementGroups.FAR_CORAL_STATION_POSES.getAll();
-      CORAL_STATION_FAR.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_FAR;
-      CORAL_STATION_FAR.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
-      CORAL_STATION_FAR.lockX = false;
-      CORAL_STATION_FAR.lockY = false;
-      CORAL_STATION_FAR.backwardsAllowed = false;
-
-      CORAL_STATION_CLOSE.minDistanceBeforeDrive = Inches.of(60);
-      CORAL_STATION_CLOSE.targetPoseGroup = Field.FieldElementGroups.NEAR_CORAL_STATION_POSES.getAll();
-      CORAL_STATION_CLOSE.driveState = DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE;
-      CORAL_STATION_CLOSE.snapState = DriverState.CORAL_STATION_ROTATION_SNAPPING;
-      CORAL_STATION_CLOSE.lockX = false;
-      CORAL_STATION_CLOSE.lockY = false;
-      CORAL_STATION_CLOSE.backwardsAllowed = false;
-
-      NET.minDistanceBeforeDrive = Inches.of(80);
-      NET.targetPoseGroup = Field.FieldElementGroups.NET_POSES.getAll();
-      NET.driveState = DriverState.NET_AUTO_DRIVING;
-      NET.snapState = DriverState.NET_ROTATION_SNAPPING;
-      NET.lockX = false;
-      NET.lockY = true;
-      NET.backwardsAllowed = true;
-
-      CAGE.targetPoseGroup = Field.FieldElementGroups.CAGE_POSES.getAll();
-      CAGE.snapState = DriverState.CAGE_ROTATION_SNAPPING;
-      CAGE.lockX = true;
-      CAGE.lockY = true;
-      CAGE.backwardsAllowed = false;
-    }
-  }
-
   /**
    * Volts
    */
@@ -634,7 +531,127 @@ public final class Constants {
     public static Optional<Alliance> ALLIANCE = Optional.empty();
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
-    public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
+
+    /**
+     * Boolean that controls when the path will be mirrored for the red
+     * alliance. This will flip the path being followed to the red side of the
+     * field.
+     * The origin will remain on the Blue side.
+     * 
+     * @return If we are currently on Red alliance. Will return false if no alliance
+     *         is found
+     */
+    public static boolean isRedAlliance() {
+      var alliance = ALLIANCE;
+      if (alliance.isPresent()) {
+        return alliance.get() == DriverStation.Alliance.Red;
+      }
+      return false;
+    };
+
+    public static class POSES {
+      public static final Pose2d RESET_POSE = new Pose2d(3.169, 4.015, new Rotation2d());
+      public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
+
+      // Branch Poses
+      private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
+      private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
+      private static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
+      private static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
+      private static final Pose2d REEF_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
+      private static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
+      private static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
+      private static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
+      private static final Pose2d REEF_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
+      private static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
+      private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
+      private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+
+      // Net Poses
+      private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
+          Rotation2d.fromDegrees(0));
+
+      // algae poses
+      public static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
+      public static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
+      public static final Pose2d ALGAE_EF = REEF_E.interpolate(REEF_F, 0.5);
+      public static final Pose2d ALGAE_GH = REEF_G.interpolate(REEF_H, 0.5);
+      public static final Pose2d ALGAE_IJ = REEF_I.interpolate(REEF_J, 0.5);
+      public static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
+
+      // lists
+      private static final List<Pose2d> BLUE_NET_POSES = List.of(CENTER_LINE);
+      private static final List<Pose2d> RED_NET_POSES = getRedNetPoses();
+
+      private static final List<Pose2d> BLUE_REEF_POSES = List.of(REEF_A, REEF_B, REEF_C, REEF_D, REEF_E,
+          REEF_F, REEF_G, REEF_H, REEF_I, REEF_J, REEF_K, REEF_L);
+      private static final List<Pose2d> RED_REEF_POSES = getRedReefPoses();
+
+      private static final List<Pose2d> BLUE_ALGAE_POSES = List.of(ALGAE_AB, ALGAE_CD, ALGAE_EF, ALGAE_GH, ALGAE_IJ,
+          ALGAE_KL);
+      private static final List<Pose2d> RED_ALGAE_POSES = getRedAlgaePoses();
+
+    }
+
+    public static Pose2d getRedAlliancePose(Pose2d bluePose) {
+      return new Pose2d(FIELD_LENGTH.in(Units.Meters) - (bluePose.getX()),
+          FIELD_WIDTH.in(Units.Meters) - bluePose.getY(),
+          bluePose.getRotation().plus(Rotation2d.k180deg));
+    }
+
+    private static Pose2d[] getRedPosesFromList(List<Pose2d> bluePoseList) {
+      Pose2d[] returnedPoses = new Pose2d[bluePoseList.size()];
+      for (int i = 0; i < bluePoseList.size(); i++) {
+        returnedPoses[i] = getRedAlliancePose(bluePoseList.get(i));
+      }
+      return returnedPoses;
+    }
+
+    private static List<Pose2d> getRedReefPoses() {
+      Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_REEF_POSES);
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+          returnedPoses[5], returnedPoses[6], returnedPoses[7], returnedPoses[8], returnedPoses[9], returnedPoses[10],
+          returnedPoses[11]);
+    }
+
+    private static List<Pose2d> getRedAlgaePoses() {
+      Pose2d[] returnedPoses = new Pose2d[POSES.BLUE_ALGAE_POSES.size()];
+
+      for (int i = 0; i < POSES.BLUE_ALGAE_POSES.size(); i++) {
+        returnedPoses[i] = getRedAlliancePose(POSES.BLUE_ALGAE_POSES.get(i));
+      }
+
+      return List.of(returnedPoses[0], returnedPoses[1], returnedPoses[2], returnedPoses[3], returnedPoses[4],
+          returnedPoses[5]);
+    }
+
+    private static List<Pose2d> getRedNetPoses() {
+      Pose2d[] returnedPoses = getRedPosesFromList(POSES.BLUE_NET_POSES);
+      return List.of(returnedPoses[0]);
+
+    }
+
+    public static Supplier<List<Pose2d>> getAlgaePositions(Boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_ALGAE_POSES;
+      }
+      return () -> POSES.BLUE_ALGAE_POSES;
+    }
+
+    public static Supplier<List<Pose2d>> getReefPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_REEF_POSES;
+
+      }
+      return () -> POSES.BLUE_REEF_POSES;
+    }
+
+    public static Supplier<List<Pose2d>> getNetPositions(boolean onRed) {
+      if (onRed) {
+        return () -> POSES.RED_NET_POSES;
+      }
+      return () -> POSES.BLUE_NET_POSES;
+    }
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }

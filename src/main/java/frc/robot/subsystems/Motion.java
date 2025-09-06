@@ -24,11 +24,9 @@ public class Motion extends SubsystemBase {
   /** Creates a new Motion. */
   TalonFX leftLiftMotorFollower;
   TalonFX rightLiftMotorLeader;
-  TalonFX backLeftPivotMotorFollower;
-  TalonFX backRightPivotMotorFollower;
-  TalonFX frontLeftPivotMotorFollower;
-  TalonFX frontRightPivotMotorLeader;
-  TalonFX wristPivotMotor;
+  TalonFX leftPivotMotorFollower;
+  TalonFX rightPivotMotorLeader;
+  TalonFX intakePivotMotor;
 
   private Angle elevatorPivotLastDesiredAngle = Degrees.zero();
   private Angle intakeWristLastDesiredAngle = Degrees.zero();
@@ -38,22 +36,25 @@ public class Motion extends SubsystemBase {
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
     rightLiftMotorLeader = new TalonFX(mapMotion.RIGHT_LIFT_CAN);
-    backLeftPivotMotorFollower = new TalonFX(mapMotion.BACK_LEFT_PIVOT_CAN);
-    backRightPivotMotorFollower = new TalonFX(mapMotion.BACK_RIGHT_PIVOT_CAN);
-    frontLeftPivotMotorFollower = new TalonFX(mapMotion.FRONT_LEFT_PIVOT_CAN);
-    frontRightPivotMotorLeader = new TalonFX(mapMotion.FRONT_RIGHT_PIVOT_CAN);
-    wristPivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
+    leftPivotMotorFollower = new TalonFX(mapMotion.LEFT_PIVOT_CAN);
+    rightPivotMotorLeader = new TalonFX(mapMotion.RIGHT_PIVOT_CAN);
+    intakePivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
 
     elevatorLiftLastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
     leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
     rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
-    backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
+    leftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    rightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    intakePivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
+  }
+
+  public Distance getLiftPosition() {
+    if (Robot.isSimulation()) {
+      return elevatorLiftLastDesiredPosition;
+    }
+    return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
   }
 
   private void setLiftPosition(Distance height) {
@@ -63,10 +64,8 @@ public class Motion extends SubsystemBase {
   }
 
   private void setElevatorPivotAngle(Angle angle) {
-    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
-    frontLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
-    backLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
-    backRightPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), false));
+    rightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    leftPivotMotorFollower.setControl(new Follower(rightPivotMotorLeader.getDeviceID(), true));
     elevatorPivotLastDesiredAngle = angle;
   }
 
@@ -81,97 +80,18 @@ public class Motion extends SubsystemBase {
     setWristPivotAngle(positionGroup.wristAngle);
   }
 
-  public void setLiftCoastMode(boolean coastMode) {
-    if (coastMode) {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-    } else {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-    }
-  }
-
-  public void setPivotCoastMode(boolean coastMode) {
-    if (coastMode) {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-    } else {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-    }
-  }
-
-  public void setWristCoastMode(boolean coastMode) {
-    if (coastMode) {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Coast);
-    } else {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Brake);
-    }
-  }
-
-  public Distance getLiftPosition() {
-    if (Robot.isSimulation()) {
-      return elevatorLiftLastDesiredPosition;
-    }
-    return Units.Inches.of(rightLiftMotorLeader.getPosition().getValueAsDouble());
-  }
-
   public Angle getPivotAngle() {
     if (Robot.isSimulation()) {
       return elevatorPivotLastDesiredAngle;
     }
-    return frontRightPivotMotorLeader.getPosition().getValue();
+    return rightPivotMotorLeader.getPosition().getValue();
   }
 
   public Angle getWristAngle() {
     if (Robot.isSimulation()) {
       return intakeWristLastDesiredAngle;
     }
-    return Degrees.of(wristPivotMotor.getPosition().getValueAsDouble());
-  }
-
-  public AngularVelocity getPivotVelocity() {
-    return frontRightPivotMotorLeader.getRotorVelocity().getValue();
-  }
-
-  public AngularVelocity getWristVelocity() {
-    return wristPivotMotor.getRotorVelocity().getValue();
-  }
-
-  public AngularVelocity getLiftVelocity() {
-    return rightLiftMotorLeader.getRotorVelocity().getValue();
-  }
-
-  public boolean isLiftVelocityZero() {
-    return getLiftVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
-  }
-
-  public boolean isPivotVelocityZero() {
-    return getPivotVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
-  }
-
-  public boolean isWristVelocityZero() {
-    return getWristVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
-  }
-
-  public void resetLiftSensorPosition(Distance setpoint) {
-    rightLiftMotorLeader.setPosition(setpoint.in(Inches));
-    leftLiftMotorFollower.setPosition(setpoint.in(Inches));
-  }
-
-  public void resetPivotSensorPosition(Angle setpoint) {
-    frontRightPivotMotorLeader.setPosition(setpoint.in(Degrees));
-    frontLeftPivotMotorFollower.setPosition(setpoint.in(Degrees));
-    backRightPivotMotorFollower.setPosition(setpoint.in(Degrees));
-    backLeftPivotMotorFollower.setPosition(setpoint.in(Degrees));
-  }
-
-  public void resetWristSensorPosition(Angle setpoint) {
-    wristPivotMotor.setPosition(setpoint.in(Degrees));
+    return Degrees.of(intakePivotMotor.getPosition().getValueAsDouble());
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
