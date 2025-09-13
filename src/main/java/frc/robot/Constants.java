@@ -228,7 +228,7 @@ public final class Constants {
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
+      LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
@@ -297,7 +297,7 @@ public final class Constants {
     public static final Angle MAX_POS = Units.Degrees.of(90);
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
-    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(57);// todo replace with actual value
+    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(-138);
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**
