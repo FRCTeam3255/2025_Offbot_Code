@@ -70,7 +70,7 @@ public class ManualZeroPivot extends Command {
     if (!interrupted && zeroingSuccess) {
       globalMotion.hasPivotZeroed = true;
       globalMotion.resetPivotSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
-      globalMotion.setPivotCoastMode(false);
+      // globalMotion.setPivotCoastMode(false);
       System.out.println("Pivot Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Pivot was never zeroed :((( blame eli");
