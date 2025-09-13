@@ -233,10 +233,6 @@ public class RobotContainer {
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
-    conDriver.btn_South
-        .whileTrue(CAGE_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
-
     conDriver.btn_LeftBumper
         .whileTrue(NET_AUTO_DRIVING)
         .onFalse(MANUAL);
