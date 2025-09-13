@@ -56,7 +56,7 @@ public final class Constants {
   public static class constDrivetrain {
     // TODO: Convert all applicable fields to MEASUREs
 
-    // In Rotations: Obtain by aligning all of the wheels in the correct direction
+    // In Rotations:Obtain by aligning all of the wheels in the correct direction
     // and copy-pasting the Raw Absolute Encoder value
 
     // TODO: Swoffsets
