@@ -141,7 +141,7 @@ public class Motion extends SubsystemBase {
     if (Robot.isSimulation()) {
       return wristLastDesiredAngle;
     }
-    return Degrees.of(wristPivotMotor.getPosition().getValueAsDouble());
+    return wristPivotMotor.getPosition().getValue();
   }
 
   public AngularVelocity getPivotVelocity() {
@@ -181,7 +181,7 @@ public class Motion extends SubsystemBase {
   }
 
   public void resetWristSensorPosition(Angle setpoint) {
-    wristPivotMotor.setPosition(setpoint.in(Degrees));
+    wristPivotMotor.setPosition(setpoint);
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
