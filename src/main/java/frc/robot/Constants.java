@@ -297,7 +297,7 @@ public final class Constants {
     public static final Angle MAX_POS = Units.Degrees.of(90);
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
-    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(-138);// todo replace with actual value
+    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(-138);
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**
