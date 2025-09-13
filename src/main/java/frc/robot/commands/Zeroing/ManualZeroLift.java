@@ -39,17 +39,17 @@ public class ManualZeroLift extends Command {
 
     // Check if we have raised the elevator above a certain speed
     if (globalMotion.getLiftVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
-        || globalMotion.attemptingZeroing) {
+        || globalMotion.attemptingLiftZeroing) {
       // Enter zeroing mode!
-      if (!globalMotion.attemptingZeroing) {
-        globalMotion.attemptingZeroing = true;
+      if (!globalMotion.attemptingLiftZeroing) {
+        globalMotion.attemptingLiftZeroing = true;
         zeroingTimestamp = Units.Seconds.of(Timer.getFPGATimestamp());
         System.out.println("Elevator Zeroing Started!");
       }
 
       // Check if time elapsed is too high (zeroing timeout)
       if (Units.Seconds.of(Timer.getFPGATimestamp()).minus(zeroingTimestamp).gte(constMotion.ZEROING_TIMEOUT)) {
-        globalMotion.attemptingZeroing = false;
+        globalMotion.attemptingLiftZeroing = false;
         System.out.println("Elevator Zeroing Failed :(");
       } else {
         boolean deltaLiftVelocity = globalMotion.getLiftVelocity().minus(lastLiftVelocity)

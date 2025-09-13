@@ -38,7 +38,9 @@ public class Motion extends SubsystemBase {
   private Angle wristLastDesiredAngle = Degrees.zero();
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
-  public boolean attemptingZeroing = false;
+  public boolean attemptingLiftZeroing = false;
+  public boolean attemptingPivotZeroing = false;
+  public boolean attemptingWristZeroing = false;
   public boolean hasLiftZeroed = false;
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;

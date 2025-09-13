@@ -5,17 +5,12 @@
 package frc.robot;
 
 import com.frcteam3255.joystick.SN_XboxController;
-
-import java.util.List;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
-import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.commands.driver_states.DriveManual;
@@ -36,9 +31,9 @@ public class RobotContainer {
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
-  public Command manualZeroLift = new ManualZeroLift(subMotion);
-  public Command manualZeroPivot = new ManualZeroPivot(subMotion);
-  public Command manualZeroWrist = new ManualZeroWrist(subMotion);
+  public Command manualZeroLift = new ManualZeroLift(subMotion).ignoringDisable(true);
+  public Command manualZeroPivot = new ManualZeroPivot(subMotion).ignoringDisable(true);
+  public Command manualZeroWrist = new ManualZeroWrist(subMotion).ignoringDisable(true);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
