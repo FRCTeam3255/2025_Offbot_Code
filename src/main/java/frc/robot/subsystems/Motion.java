@@ -85,12 +85,12 @@ public class Motion extends SubsystemBase {
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
     if (isWristInDanger() == true) {
-      setWristPivotAngle(positionGroup.wristAngle);
+      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE);
     } else {
-      setLiftPosition(positionGroup.liftHeight);
-      setElevatorPivotAngle(positionGroup.pivotAngle);
       setWristPivotAngle(positionGroup.wristAngle);
     }
+    setElevatorPivotAngle(positionGroup.pivotAngle);
+    setLiftPosition(positionGroup.liftHeight);
   }
 
   public void setLiftCoastMode(boolean coastMode) {
