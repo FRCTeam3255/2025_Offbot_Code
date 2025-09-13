@@ -38,7 +38,9 @@ public class Motion extends SubsystemBase {
   private Angle wristLastDesiredAngle = Degrees.zero();
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
-  public boolean attemptingZeroing = false;
+  public boolean attemptingLiftZeroing = false;
+  public boolean attemptingPivotZeroing = false;
+  public boolean attemptingWristZeroing = false;
   public boolean hasLiftZeroed = false;
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;
@@ -143,7 +145,7 @@ public class Motion extends SubsystemBase {
     if (Robot.isSimulation()) {
       return wristLastDesiredAngle;
     }
-    return Degrees.of(wristPivotMotor.getPosition().getValueAsDouble());
+    return wristPivotMotor.getPosition().getValue();
   }
 
   public AngularVelocity getPivotVelocity() {
@@ -188,7 +190,7 @@ public class Motion extends SubsystemBase {
   }
 
   public void resetWristSensorPosition(Angle setpoint) {
-    wristPivotMotor.setPosition(setpoint.in(Degrees));
+    wristPivotMotor.setPosition(setpoint);
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {
