@@ -39,17 +39,17 @@ public class ManualZeroWrist extends Command {
     globalMotion.setWristCoastMode(true);
     // Check if we have raised the Wrist above a certain speed
     if (globalMotion.getWristVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
-        || globalMotion.attemptingZeroing) {
+        || globalMotion.attemptingWristZeroing) {
       // Enter zeroing mode!
-      if (!globalMotion.attemptingZeroing) {
-        globalMotion.attemptingZeroing = true;
+      if (!globalMotion.attemptingWristZeroing) {
+        globalMotion.attemptingWristZeroing = true;
         zeroingTimestamp = Units.Seconds.of(Timer.getFPGATimestamp());
         System.out.println("Wrist Zeroing Started!");
       }
 
       // Check if time elapsed is too high (zeroing timeout)
       if (Units.Seconds.of(Timer.getFPGATimestamp()).minus(zeroingTimestamp).gte(constMotion.ZEROING_TIMEOUT)) {
-        globalMotion.attemptingZeroing = false;
+        globalMotion.attemptingWristZeroing = false;
         System.out.println("Wrist Zeroing Failed :(");
       } else {
         boolean deltaWristVelocity = globalMotion.getWristVelocity().minus(lastWristVelocity)
