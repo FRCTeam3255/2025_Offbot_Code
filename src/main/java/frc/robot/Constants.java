@@ -228,7 +228,7 @@ public final class Constants {
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
+      LIFT_CONFIG.Feedback.SensorToMechanismRatio = 1 / 10;
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
@@ -273,7 +273,7 @@ public final class Constants {
       WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
           .in(Units.Degrees);
 
-      WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
+      WRIST_CONFIG.Feedback.SensorToMechanismRatio = 1 / 52.2;// TODO it needs the real ratio
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
 
