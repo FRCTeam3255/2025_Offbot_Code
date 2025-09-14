@@ -224,9 +224,9 @@ public final class Constants {
       LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
       LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
+      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Inches);
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
+      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
       LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
@@ -243,10 +243,10 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(110)
           .in(Units.Degrees);
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0)
           .in(Units.Degrees);
 
       ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 102.22;
@@ -305,7 +305,7 @@ public final class Constants {
      */
     public static final Time ZEROED_TIME = Units.Seconds.of(1);
 
-    public static final Angle PIVOT_STARING_CONFIG_VALUE = Units.Degrees.of(0);// todo replace with actual value
+    public static final Angle PIVOT_STARING_CONFIG_VALUE = Units.Degrees.of(45);// todo replace with actual value
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
   }
 

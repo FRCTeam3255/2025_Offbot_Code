@@ -27,14 +27,11 @@ public class StartingConfig extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (subMotion.hasLiftZeroed
-        && subMotion.hasPivotZeroed
-        && subMotion.hasWristZeroed
-        && subMotion.getPivotAngle().equals(constMotion.PIVOT_STARING_CONFIG_VALUE)) {
-      subMotion.setLiftCoastMode(false);
+    if (subMotion.hasPivotZeroed
+        && subMotion.getPivotAngle().gte(constMotion.PIVOT_STARING_CONFIG_VALUE)) {
       subMotion.setPivotCoastMode(false);
-      subMotion.setWristCoastMode(false);
       isAtStartingConfig = true;
+      subMotion.hasSetStartingConfig = true;
       System.out.println("Elevator Pivot is at starting config! :P" + subMotion.getPivotAngle());
     } else {
       System.out.println("Elevator Pivot is not at starting config!!1!!! :((( blame eli" + subMotion.getPivotAngle());

@@ -31,12 +31,12 @@ public class ManualZeroPivot extends Command {
   public void initialize() {
     zeroingSuccess = false;
     globalMotion.hasPivotZeroed = false;
+    globalMotion.setPivotCoastMode(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setPivotCoastMode(true);
     // Check if we have raised the pivot above a certain speed
     if (globalMotion.getPivotVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingPivotZeroing) {

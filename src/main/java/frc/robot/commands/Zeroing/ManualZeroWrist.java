@@ -31,12 +31,12 @@ public class ManualZeroWrist extends Command {
   public void initialize() {
     zeroingSuccess = false;
     globalMotion.hasWristZeroed = false;
+    globalMotion.setWristCoastMode(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setWristCoastMode(true);
     // Check if we have raised the Wrist above a certain speed
     if (globalMotion.getWristVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)
         || globalMotion.attemptingWristZeroing) {

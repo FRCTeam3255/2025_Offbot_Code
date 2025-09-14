@@ -44,6 +44,7 @@ public class Motion extends SubsystemBase {
   public boolean hasLiftZeroed = false;
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;
+  public boolean hasSetStartingConfig = false;
 
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
@@ -93,33 +94,39 @@ public class Motion extends SubsystemBase {
 
   public void setLiftCoastMode(boolean coastMode) {
     if (coastMode) {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
+      leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
     } else {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
+      leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
     }
   }
 
   public void setPivotCoastMode(boolean coastMode) {
     if (coastMode) {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
     } else {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
     }
   }
 
   public void setWristCoastMode(boolean coastMode) {
     if (coastMode) {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
     } else {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
     }
   }
 
