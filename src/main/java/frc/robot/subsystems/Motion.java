@@ -74,7 +74,7 @@ public class Motion extends SubsystemBase {
   }
 
   private void setElevatorPivotAngle(Angle angle) {
-    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle));
     frontLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backRightPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), false));
@@ -82,7 +82,7 @@ public class Motion extends SubsystemBase {
   }
 
   private void setWristPivotAngle(Angle angle) {
-    wristPivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    wristPivotMotor.setControl(positionRequest.withPosition(angle));
     wristLastDesiredAngle = angle;
   }
 

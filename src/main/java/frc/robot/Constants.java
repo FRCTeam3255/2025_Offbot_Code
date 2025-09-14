@@ -253,7 +253,11 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 60.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
 
