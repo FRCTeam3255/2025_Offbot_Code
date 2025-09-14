@@ -228,6 +228,11 @@ public final class Constants {
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+      LIFT_CONFIG.Slot0.kP = 0.0;
+      LIFT_CONFIG.Slot0.kI = 0;
+      LIFT_CONFIG.Slot0.kD = 0;
+      LIFT_CONFIG.Slot0.kS = 0;
+      LIFT_CONFIG.Slot0.kG = 0;
       LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
@@ -253,7 +258,7 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 60.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
@@ -280,6 +285,11 @@ public final class Constants {
       WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+      WRIST_CONFIG.Slot0.kP = 0.0;
+      WRIST_CONFIG.Slot0.kI = 0;
+      WRIST_CONFIG.Slot0.kD = 0;
+      WRIST_CONFIG.Slot0.kS = 0;
+      WRIST_CONFIG.Slot0.kG = 0;
 
       WRIST_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       WRIST_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
