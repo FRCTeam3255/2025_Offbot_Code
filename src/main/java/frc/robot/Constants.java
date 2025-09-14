@@ -224,15 +224,15 @@ public final class Constants {
       LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
       LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Inches);
+      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(60).in(Units.Inches);
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      LIFT_CONFIG.Slot0.kP = 0.0;
-      LIFT_CONFIG.Slot0.kI = 0;
-      LIFT_CONFIG.Slot0.kD = 0;
-      LIFT_CONFIG.Slot0.kS = 0;
-      LIFT_CONFIG.Slot0.kG = 0;
+      // LIFT_CONFIG.Slot0.kP = 1.1;// TODO: make faster
+      // LIFT_CONFIG.Slot0.kI = 0;
+      // LIFT_CONFIG.Slot0.kD = 0;
+      // LIFT_CONFIG.Slot0.kS = 0.3;
+      // LIFT_CONFIG.Slot0.kG = 0.15;
       LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
@@ -258,11 +258,11 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
+      // ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
+      // ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
+      // ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
+      // ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
+      // ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
 
