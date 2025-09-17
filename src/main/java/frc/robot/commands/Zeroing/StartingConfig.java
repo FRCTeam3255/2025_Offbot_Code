@@ -28,7 +28,7 @@ public class StartingConfig extends Command {
   @Override
   public void execute() {
     if (subMotion.hasPivotZeroed
-        && subMotion.getPivotAngle().gte(constMotion.PIVOT_STARING_CONFIG_VALUE)) {
+        && subMotion.getPivotAngle().gte(constMotion.PIVOT_STARTING_CONFIG_VALUE)) {
       subMotion.setPivotCoastMode(false);
       isAtStartingConfig = true;
       subMotion.hasSetStartingConfig = true;

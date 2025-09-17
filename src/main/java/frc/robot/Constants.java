@@ -318,7 +318,7 @@ public final class Constants {
      */
     public static final Time ZEROED_TIME = Units.Seconds.of(1);
 
-    public static final Angle PIVOT_STARING_CONFIG_VALUE = Units.Degrees.of(45);// todo replace with actual value
+    public static final Angle PIVOT_STARTING_CONFIG_VALUE = Units.Degrees.of(45);// todo replace with actual value
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
   }
 
