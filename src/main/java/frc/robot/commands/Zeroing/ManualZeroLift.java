@@ -30,12 +30,12 @@ public class ManualZeroLift extends Command {
   @Override
   public void initialize() {
     globalMotion.hasLiftZeroed = false;
+    globalMotion.setLiftCoastMode(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setLiftCoastMode(true);
 
     // Check if we have raised the elevator above a certain speed
     if (globalMotion.getLiftVelocity().gte(constMotion.MANUAL_ZEROING_START_VELOCITY)

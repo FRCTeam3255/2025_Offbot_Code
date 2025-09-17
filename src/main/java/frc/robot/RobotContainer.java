@@ -34,6 +34,7 @@ public class RobotContainer {
   public Command manualZeroLift = new ManualZeroLift(subMotion).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion).ignoringDisable(true);
   public Command manualZeroWrist = new ManualZeroWrist(subMotion).ignoringDisable(true);
+  public Command startingCofig = new StartingConfig(subMotion).ignoringDisable(true);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
