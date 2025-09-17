@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
+import static edu.wpi.first.units.Units.Rotations;
 
 import java.util.List;
 import java.util.Optional;
@@ -228,11 +229,11 @@ public final class Constants {
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      // LIFT_CONFIG.Slot0.kP = 1.1;// TODO: make faster
-      // LIFT_CONFIG.Slot0.kI = 0;
-      // LIFT_CONFIG.Slot0.kD = 0;
-      // LIFT_CONFIG.Slot0.kS = 0.3;
-      // LIFT_CONFIG.Slot0.kG = 0.15;
+      LIFT_CONFIG.Slot0.kP = 1.1;// TODO: make faster
+      LIFT_CONFIG.Slot0.kI = 0;
+      LIFT_CONFIG.Slot0.kD = 0;
+      LIFT_CONFIG.Slot0.kS = 0.3;
+      LIFT_CONFIG.Slot0.kG = 0.15;
       LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
@@ -258,11 +259,11 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      // ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
-      // ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
-      // ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
-      // ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
-      // ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
 
@@ -276,19 +277,17 @@ public final class Constants {
       WRIST_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
-          .in(Units.Degrees);
+      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Degrees.of(90).in(Rotations);
       WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
-          .in(Units.Degrees);
+      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Degrees.of(-111).in(Rotations);
 
       WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      WRIST_CONFIG.Slot0.kP = 0.0;
+      WRIST_CONFIG.Slot0.kP = 100;
       WRIST_CONFIG.Slot0.kI = 0;
       WRIST_CONFIG.Slot0.kD = 0;
-      WRIST_CONFIG.Slot0.kS = 0;
+      WRIST_CONFIG.Slot0.kS = 0.3;
       WRIST_CONFIG.Slot0.kG = 0;
 
       WRIST_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
