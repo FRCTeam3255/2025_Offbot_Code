@@ -258,7 +258,7 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 80.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 60.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
@@ -283,7 +283,7 @@ public final class Constants {
       WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      WRIST_CONFIG.Slot0.kP = 100;
+      WRIST_CONFIG.Slot0.kP = 100.0;
       WRIST_CONFIG.Slot0.kI = 0;
       WRIST_CONFIG.Slot0.kD = 0;
       WRIST_CONFIG.Slot0.kS = 0.3;
@@ -309,7 +309,7 @@ public final class Constants {
     public static final Angle MAX_POS = Units.Degrees.of(90);
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
-    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(-138);
+    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(0);
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**
@@ -317,7 +317,7 @@ public final class Constants {
      */
     public static final Time ZEROED_TIME = Units.Seconds.of(1);
 
-    public static final Angle PIVOT_STARTING_CONFIG_VALUE = Units.Degrees.of(45);// todo replace with actual value
+    public static final Angle PIVOT_STARTING_CONFIG_VALUE = Units.Degrees.of(90);// todo replace with actual value
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
 
     public static final Angle WRIST_DANGER_ANGLE = Units.Degrees.of(0);
@@ -341,7 +341,7 @@ public final class Constants {
 
       // algae intake motor config
       ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
@@ -349,7 +349,7 @@ public final class Constants {
 
       // coral intake motor config
       CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
@@ -541,14 +541,16 @@ public final class Constants {
     public static final double EJECTING_GAME_PIECE_SPEED = 1; // TODO: Replace with actual speed
     // algae speed consts
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_NET_SPEED = 1; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_PROCESSOR_SPEED = -1; // TODO: Replace with actual speed
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
     public static final double CLEAN_ALGAE_SPEED = 1;
+    public static final double INTAKE_L1_SPEED = -1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
-    public static final double INTAKE_CORAL_STATION_SPEED = 1; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 1;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
+    public static final double ALGAE_HOLD_SPEED = 0.3;
   }
 
   public static class PoseDriveGroup {

@@ -74,6 +74,7 @@ public class ManualZeroWrist extends Command {
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");
+      globalMotion.setWristCoastMode(false);
     }
   }
 

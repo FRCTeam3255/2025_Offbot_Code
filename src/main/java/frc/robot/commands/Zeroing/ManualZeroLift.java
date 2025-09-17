@@ -74,6 +74,7 @@ public class ManualZeroLift extends Command {
       System.out.println("Elevator Zeroing Successful!!!! Yippee and hooray!!! :3");
     } else {
       System.out.println("Elevator was never zeroed :((( blame eli");
+      globalMotion.setLiftCoastMode(false);
     }
   }
 
