@@ -4,26 +4,31 @@
 
 package frc.robot.commands.driver_states;
 
+import frc.robot.subsystems.*;
+import java.lang.Thread.State;
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.constDrivetrain;
+import frc.robot.Constants.*;
 
 public class DriveManual extends Command {
   Drivetrain subDrivetrain;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
+  double redAllianceMultiplier = 1;
   DriverStateMachine subDriverStateMachine;
+  Motion globalMotion;
 
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-      DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
+      DoubleSupplier yAxis, DoubleSupplier rotationAxis, Motion subMotion) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    globalMotion = subMotion;
 
     isOpenLoop = true;
 
@@ -33,18 +38,26 @@ public class DriveManual extends Command {
 
   @Override
   public void initialize() {
+    redAllianceMultiplier = constField.isRedAlliance() ? -1 : 1;
   }
 
   @Override
   public void execute() {
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+    // Get Joystick inputs
+    double xVelocity = xAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
+    ;
+    double yVelocity = -yAxis.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
+    ;
+    double rVelocity = -rotationAxis.getAsDouble() * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
     subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
 
     subDrivetrain.drive(
-        new Translation2d(velocities.x, velocities.y),
-        velocities.rotation,
-        isOpenLoop);
+        new Translation2d(xVelocity, yVelocity), rVelocity, isOpenLoop);
   }
 
   @Override
