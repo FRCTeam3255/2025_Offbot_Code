@@ -4,26 +4,29 @@
 
 package frc.robot.commands.Zeroing;
 
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroPivot extends Command {
   Motion globalMotion;
-
+  LED globalLED;
   boolean zeroingSuccess = false;
   Time zeroingTimestamp = Units.Seconds.of(0);
   AngularVelocity lastPivotVelocity = Units.RotationsPerSecond.of(0);
 
   /** Creates a new ManualZeroPivot. */
-  public ManualZeroPivot(Motion subMotion) {
+  public ManualZeroPivot(Motion subMotion, LED subLED) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
+    globalLED = subLED;
   }
 
   // Called when the command is initially scheduled.
@@ -32,6 +35,7 @@ public class ManualZeroPivot extends Command {
     zeroingSuccess = false;
     globalMotion.hasPivotZeroed = false;
     globalMotion.setPivotCoastMode(true);
+    globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,8 +76,10 @@ public class ManualZeroPivot extends Command {
       globalMotion.resetPivotSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
       // globalMotion.setPivotCoastMode(false);
       System.out.println("Pivot Zeroing Successful!!!! Yippee and hooray!!! :3");
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_SUCCESS, 1, 2);
     } else {
       System.out.println("Pivot was never zeroed :((( blame eli");
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 2);
     }
   }
 

@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix.led.CANdleConfiguration;
+// import com.ctre.phoenix6.configs.CANdleConfiguration;
+// import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -721,4 +725,18 @@ public final class Constants {
     }
   }
 
+  public static class constLED {
+    public static final CANdleConfiguration LED_CONFIG = new CANdleConfiguration();
+    static {
+      LED_CONFIG.brightnessScalar = 1;
+    }
+    public static final int[] IS_AT_STARTING_CONFIG = { 255, 0, 0 };
+    public static final int[] PIVOT_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] PIVOT_ZERO_SUCCESS = { 0, 0, 0 }; // no color
+    public static final int[] WRIST_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] WRIST_ZERO_SUCCESS = { 0, 0, 0 }; // no color
+    public static final int[] LIFT_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] LIFT_ZERO_SUCCESS = { 0, 0, 0 }; // no color
+
+  }
 }

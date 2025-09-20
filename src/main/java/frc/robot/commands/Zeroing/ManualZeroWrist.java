@@ -4,7 +4,9 @@
 
 package frc.robot.commands.Zeroing;
 
+import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -16,14 +18,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ManualZeroWrist extends Command {
   /** Creates a new ManualZeroWrist. */
   Motion globalMotion;
-
+  LED globalLED;
   boolean zeroingSuccess = false;
   Time zeroingTimestamp = Units.Seconds.of(0);
   AngularVelocity lastWristVelocity = Units.RotationsPerSecond.of(0);
 
-  public ManualZeroWrist(Motion subMotion) {
+  public ManualZeroWrist(Motion subMotion, LED subLED) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
+    globalLED = subLED;
   }
 
   // Called when the command is initially scheduled.
@@ -32,6 +35,7 @@ public class ManualZeroWrist extends Command {
     zeroingSuccess = false;
     globalMotion.hasWristZeroed = false;
     globalMotion.setWristCoastMode(true);
+    globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 1, 3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,8 +76,10 @@ public class ManualZeroWrist extends Command {
       globalMotion.resetWristSensorPosition(constMotion.WRIST_ZEROED_POSITION);
       globalMotion.setWristCoastMode(false);
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_SUCCESS, 1, 3);
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 1, 3);
       globalMotion.setWristCoastMode(false);
     }
   }

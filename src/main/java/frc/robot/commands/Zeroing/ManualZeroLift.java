@@ -4,26 +4,29 @@
 
 package frc.robot.commands.Zeroing;
 
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroLift extends Command {
   Motion globalMotion;
-
+  LED globalLED;
   Time zeroingTimestamp = Units.Seconds.of(0);
   boolean zeroingSuccess = false;
   AngularVelocity lastLiftVelocity = Units.RotationsPerSecond.of(0);
 
   /** Creates a new ManualZeroLift. */
-  public ManualZeroLift(Motion subMotion) {
+  public ManualZeroLift(Motion subMotion, LED subLED) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
+    globalLED = subLED;
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +34,7 @@ public class ManualZeroLift extends Command {
   public void initialize() {
     globalMotion.hasLiftZeroed = false;
     globalMotion.setLiftCoastMode(true);
+    globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 1, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,9 +76,11 @@ public class ManualZeroLift extends Command {
       globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
       globalMotion.setLiftCoastMode(false);
       System.out.println("Elevator Zeroing Successful!!!! Yippee and hooray!!! :3");
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_SUCCESS, 1, 1);
     } else {
       System.out.println("Elevator was never zeroed :((( blame eli");
       globalMotion.setLiftCoastMode(false);
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 1, 1);
     }
   }
 
