@@ -44,7 +44,7 @@ public class StartingConfig extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 1, 4);
+    globalLED.setLED(constLED.IS_AT_STARTING_CONFIG);
     subMotion.setPivotCoastMode(false);
   }
 

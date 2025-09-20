@@ -34,7 +34,8 @@ public class ManualZeroLift extends Command {
   public void initialize() {
     globalMotion.hasLiftZeroed = false;
     globalMotion.setLiftCoastMode(true);
-    globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 1, 1);
+    globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 0, 1);
+    globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 7, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,11 +77,13 @@ public class ManualZeroLift extends Command {
       globalMotion.resetLiftSensorPosition(constMotion.LIFT_ZEROED_POSITION);
       globalMotion.setLiftCoastMode(false);
       System.out.println("Elevator Zeroing Successful!!!! Yippee and hooray!!! :3");
-      globalLED.setLEDMatrix(constLED.LIFT_ZERO_SUCCESS, 1, 1);
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_SUCCESS, 0, 1);
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_SUCCESS, 7, 1);
     } else {
       System.out.println("Elevator was never zeroed :((( blame eli");
       globalMotion.setLiftCoastMode(false);
-      globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 1, 1);
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 0, 1);
+      globalLED.setLEDMatrix(constLED.LIFT_ZERO_FAILED, 7, 1);
     }
   }
 

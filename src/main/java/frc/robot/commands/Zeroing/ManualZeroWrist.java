@@ -35,7 +35,8 @@ public class ManualZeroWrist extends Command {
     zeroingSuccess = false;
     globalMotion.hasWristZeroed = false;
     globalMotion.setWristCoastMode(true);
-    globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 1, 3);
+    globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 2, 1);
+    globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 5, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,10 +77,13 @@ public class ManualZeroWrist extends Command {
       globalMotion.resetWristSensorPosition(constMotion.WRIST_ZEROED_POSITION);
       globalMotion.setWristCoastMode(false);
       System.out.println("Wrist Zeroing Successful!!!! Yippee and hooray!!! :3");
-      globalLED.setLEDMatrix(constLED.WRIST_ZERO_SUCCESS, 1, 3);
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_SUCCESS, 2, 1);
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_SUCCESS, 5, 1);
+
     } else {
       System.out.println("Wrist was never zeroed :((( blame eli");
-      globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 1, 3);
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 2, 1);
+      globalLED.setLEDMatrix(constLED.WRIST_ZERO_FAILED, 5, 1);
       globalMotion.setWristCoastMode(false);
     }
   }

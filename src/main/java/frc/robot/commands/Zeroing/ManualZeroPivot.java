@@ -35,7 +35,8 @@ public class ManualZeroPivot extends Command {
     zeroingSuccess = false;
     globalMotion.hasPivotZeroed = false;
     globalMotion.setPivotCoastMode(true);
-    globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 2);
+    globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 1);
+    globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 6, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,10 +77,12 @@ public class ManualZeroPivot extends Command {
       globalMotion.resetPivotSensorPosition(constMotion.PIVOT_ZEROED_POSITION);
       // globalMotion.setPivotCoastMode(false);
       System.out.println("Pivot Zeroing Successful!!!! Yippee and hooray!!! :3");
-      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_SUCCESS, 1, 2);
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_SUCCESS, 1, 1);
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_SUCCESS, 6, 1);
     } else {
       System.out.println("Pivot was never zeroed :((( blame eli");
-      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 2);
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 1, 1);
+      globalLED.setLEDMatrix(constLED.PIVOT_ZERO_FAILED, 6, 1);
     }
   }
 
