@@ -42,14 +42,15 @@ public class CleanLow extends Command {
     } else {
       cleanLow = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
-    globalMotion.setAllPosition(cleanLow);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
+
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(cleanLow);
   }
 
   // Called once the command ends or is interrupted.

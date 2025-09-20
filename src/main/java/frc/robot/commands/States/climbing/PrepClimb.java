@@ -31,7 +31,6 @@ public class PrepClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
     globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is still
                                                                                                // needed
     globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
@@ -40,6 +39,7 @@ public class PrepClimb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
   }
 
   // Called once the command ends or is interrupted.

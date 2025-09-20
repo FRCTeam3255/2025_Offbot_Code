@@ -44,7 +44,6 @@ public class CleanLowWithCoral extends Command {
     } else {
       cleanLowWithCoral = constMechanismPositions.CLEAN_LOW_FORWARDS;
     }
-    globalMotion.setAllPosition(cleanLowWithCoral);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_LOW_WITH_CORAL);
   }
@@ -52,6 +51,7 @@ public class CleanLowWithCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(cleanLowWithCoral);
   }
 
   // Called once the command ends or is interrupted.

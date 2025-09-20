@@ -52,7 +52,11 @@ public class PrepCoralWithAlgae extends Command {
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
     }
+  }
 
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
     if (targetLevel == 0) {
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO_WITH_ALGAE);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE);
@@ -66,11 +70,6 @@ public class PrepCoralWithAlgae extends Command {
       globalMotion.setAllPosition(prepL4);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
     }
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
   }
 
   // Called once the command ends or is interrupted.

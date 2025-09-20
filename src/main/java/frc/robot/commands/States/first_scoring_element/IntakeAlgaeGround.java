@@ -30,7 +30,6 @@ public class IntakeAlgaeGround extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND);
   }
@@ -38,6 +37,7 @@ public class IntakeAlgaeGround extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
   }
 
   // Called once the command ends or is interrupted.
