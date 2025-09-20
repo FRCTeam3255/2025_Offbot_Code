@@ -19,7 +19,7 @@ public class ScoringCoral extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
-    addRequirements(globalRotors);
+    addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
