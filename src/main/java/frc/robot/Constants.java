@@ -455,11 +455,11 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
 
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-4); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
-      INTAKE_CORAL_L1.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(-4); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
