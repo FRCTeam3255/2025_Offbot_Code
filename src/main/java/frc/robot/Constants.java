@@ -451,17 +451,17 @@ public final class Constants {
       INTAKE_CORAL_STATION.liftHeight = Inches.of(7.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
-      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(3); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
-      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
+      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual
 
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(6); // TODO: Replace with actual height
-      INTAKE_CORAL_L1.pivotAngle = Degrees.of(5); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       PREP_CORAL_L1.wristAngle = Degrees.of(10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
