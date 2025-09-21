@@ -39,7 +39,7 @@ public class IntakeCoralL1 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setAllIntake(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
   }
 
   // Returns true when the command should end.

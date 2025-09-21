@@ -472,12 +472,12 @@ public final class Constants {
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(35.56);
 
       PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(-100);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
-      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(53);
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(22); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(48); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70.01);
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(49); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(68);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -542,7 +542,7 @@ public final class Constants {
     // change all elevator/intake and their related methods to be Motion/Rotors and
     // setAllPosition() in Motion.java with groups in Constants.java ; change all
     // set speeds to methods in Rotors.java with constants in constRotorSpeeds
-    public static final double EJECTING_GAME_PIECE_SPEED = 1; // TODO: Replace with actual speed
+    public static final double EJECTING_GAME_PIECE_SPEED = -0.6; // TODO: Replace with actual speed
     // algae speed consts
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
@@ -553,9 +553,9 @@ public final class Constants {
     public static final double INTAKE_CORAL_ALGAE_SPEED = 1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
     public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
-    public static final double SCORE_CORAL_SPEED = 0.8;
+    public static final double SCORE_CORAL_SPEED = 0.4;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
-    public static final double ALGAE_HOLD_SPEED = 0.25;
+    public static final double ALGAE_HOLD_SPEED = 0.2;
     public static final double L1_CORAL_HOLD_SPEED = 0.3;
   }
 
