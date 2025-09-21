@@ -25,6 +25,8 @@ public class StartingConfig extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 2, 1);
+    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 5, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,8 +46,8 @@ public class StartingConfig extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 3, 1);
-    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 4, 1);
+    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 2, 1);
+    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 5, 1);
     subMotion.setPivotCoastMode(false);
   }
 
