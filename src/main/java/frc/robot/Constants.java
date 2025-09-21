@@ -451,7 +451,7 @@ public final class Constants {
       INTAKE_CORAL_STATION.liftHeight = Inches.of(7.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
-      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(3); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
 
@@ -459,13 +459,13 @@ public final class Constants {
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
-      INTAKE_CORAL_L1.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(6); // TODO: Replace with actual height
-      INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.pivotAngle = Degrees.of(5); // TODO: Replace with actual angle
 
       PREP_CORAL_L1.wristAngle = Degrees.of(10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L1.pivotAngle = Degrees.of(35);
+      PREP_CORAL_L1.pivotAngle = Degrees.of(40);
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(-115);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(7); // TODO: Replace with actual height
@@ -477,7 +477,7 @@ public final class Constants {
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
       PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(55); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70);
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(74);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height

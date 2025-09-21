@@ -387,7 +387,6 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_PROCESSOR_WITH_CORAL:
           case PREP_ALGAE_ZERO:
           case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:

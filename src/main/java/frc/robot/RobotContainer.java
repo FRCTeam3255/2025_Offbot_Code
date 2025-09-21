@@ -354,7 +354,7 @@ public class RobotContainer {
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
 
-    hasCoralL1Trigger
+    hasCoralL1Trigger.debounce(0.2)
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger
