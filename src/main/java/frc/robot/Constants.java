@@ -476,8 +476,8 @@ public final class Constants {
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(49); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(68);
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(52); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(64);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -550,13 +550,13 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
     public static final double CLEAN_ALGAE_SPEED = 1;
     public static final double INTAKE_L1_SPEED = -1;
-    public static final double INTAKE_CORAL_ALGAE_SPEED = 1;
+    public static final double INTAKE_CORAL_ALGAE_SPEED = -1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
     public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 0.4;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
     public static final double ALGAE_HOLD_SPEED = 0.2;
-    public static final double L1_CORAL_HOLD_SPEED = 0.3;
+    public static final double L1_CORAL_HOLD_SPEED = -0.2;
   }
 
   public static class PoseDriveGroup {
