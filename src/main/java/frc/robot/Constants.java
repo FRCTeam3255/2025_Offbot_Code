@@ -427,7 +427,7 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
     public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(7);
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
-    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(46);
+    public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(48);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
     static {
 
@@ -455,11 +455,11 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
 
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-4); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
-      INTAKE_CORAL_L1.wristAngle = Degrees.of(-4); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
@@ -472,11 +472,11 @@ public final class Constants {
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(35.56);
 
       PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(-100);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(19); // TODO: Replace with actual height
-      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50.9);
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(53);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(48); // TODO: Replace with actual height
       PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70.01);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
@@ -553,9 +553,10 @@ public final class Constants {
     public static final double INTAKE_CORAL_ALGAE_SPEED = 1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
     public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
-    public static final double SCORE_CORAL_SPEED = 1;
+    public static final double SCORE_CORAL_SPEED = 0.8;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
-    public static final double ALGAE_HOLD_SPEED = 0.3;
+    public static final double ALGAE_HOLD_SPEED = 0.25;
+    public static final double L1_CORAL_HOLD_SPEED = 0.3;
   }
 
   public static class PoseDriveGroup {
