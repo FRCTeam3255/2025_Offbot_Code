@@ -27,14 +27,15 @@ public class RobotContainer {
   private final Drivetrain subDrivetrain = new Drivetrain();
   private final Rotors subRotors = new Rotors();
   private final Motion subMotion = new Motion();
+  private final LED subLED = new LED();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
-  public Command manualZeroLift = new ManualZeroLift(subMotion).ignoringDisable(true);
-  public Command manualZeroPivot = new ManualZeroPivot(subMotion).ignoringDisable(true);
-  public Command manualZeroWrist = new ManualZeroWrist(subMotion).ignoringDisable(true);
-  public Command startingCofig = new StartingConfig(subMotion).ignoringDisable(true);
+  public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
+  public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
+  public Command manualZeroWrist = new ManualZeroWrist(subMotion, subLED).ignoringDisable(true);
+  public Command startingCofig = new StartingConfig(subMotion, subLED).ignoringDisable(true);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());

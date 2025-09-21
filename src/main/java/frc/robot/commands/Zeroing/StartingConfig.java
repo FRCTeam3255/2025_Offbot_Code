@@ -5,6 +5,7 @@
 package frc.robot.commands.Zeroing;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
 import frc.robot.subsystems.*;
 
@@ -12,16 +13,20 @@ import frc.robot.subsystems.*;
 public class StartingConfig extends Command {
   /** Creates a new StartingConfig. */
   Motion subMotion;
+  LED globalLED;
   boolean isAtStartingConfig = false;
 
-  public StartingConfig(Motion subMotion) {
+  public StartingConfig(Motion subMotion, LED subLED) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.subMotion = subMotion;
+    globalLED = subLED;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 2, 1);
+    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 5, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +46,8 @@ public class StartingConfig extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 2, 1);
+    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 5, 1);
     subMotion.setPivotCoastMode(false);
   }
 
