@@ -31,6 +31,7 @@ public class IntakeCoralStation extends Command {
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION);
     globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_STATION_SPEED);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

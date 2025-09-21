@@ -451,31 +451,6 @@ public class StateMachine extends SubsystemBase {
             return new IntakeCoralGround(subStateMachine, subMotion, subRotors);
         }
         break;
-
-      case INTAKE_CORAL_GROUND_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_ALGAE:
-          case INTAKE_CORAL_STATION_WITH_ALGAE:
-            return new IntakeCoralGroundWithAlgae(subStateMachine, subMotion, subRotors);
-        }
-        break;
-
-      case INTAKE_ALGAE_GROUND_WITH_CORAL:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case CLEAN_HIGH_WITH_CORAL:
-          case CLEAN_LOW_WITH_CORAL:
-          case PREP_CORAL_ZERO:
-            return new IntakeAlgaeGroundWithCoral(subStateMachine, subMotion, subRotors);
-        }
-        break;
-      case INTAKE_CORAL_STATION_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_ALGAE:
-          case INTAKE_CORAL_GROUND_WITH_ALGAE:
-            return new IntakeCoralStationWithAlgae(subStateMachine, subMotion, subRotors);
-        }
-        break;
     }
     return Commands.print("ITS SO OVER D: Invalid State Provided, Blame Eli. Attempted to go to: "
         + desiredState.toString() + " while at " + currentRobotState.toString());

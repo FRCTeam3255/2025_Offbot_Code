@@ -447,21 +447,21 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(86.16);
 
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-
       INTAKE_CORAL_STATION.wristAngle = Degrees.of(10.9);
       INTAKE_CORAL_STATION.liftHeight = Inches.of(7.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
 
-      INTAKE_CORAL_L1.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
+
+      INTAKE_CORAL_L1.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       PREP_CORAL_L1.wristAngle = Degrees.of(10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -550,6 +550,7 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
     public static final double CLEAN_ALGAE_SPEED = 1;
     public static final double INTAKE_L1_SPEED = -1;
+    public static final double INTAKE_CORAL_ALGAE_SPEED = 1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
     public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 1;
