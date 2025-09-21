@@ -452,15 +452,15 @@ public final class Constants {
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
-      INTAKE_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      INTAKE_CORAL_L1.liftHeight = Inches.of(6); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       PREP_CORAL_L1.wristAngle = Degrees.of(10);
@@ -476,8 +476,8 @@ public final class Constants {
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(50);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
-      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(52); // TODO: Replace with actual height
-      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(64);
+      PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(55); // TODO: Replace with actual height
+      PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(70);
 
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -520,7 +520,7 @@ public final class Constants {
       NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
 
       PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_PROCESSOR.liftHeight = Inches.of(0); // TODO: Replace with actual height
+      PREP_PROCESSOR.liftHeight = Inches.of(6); // TODO: Replace with actual height
       PREP_PROCESSOR.pivotAngle = Degrees.of(10); // TODO: Replace with actual angle
 
       CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
@@ -556,7 +556,7 @@ public final class Constants {
     public static final double SCORE_CORAL_SPEED = 0.4;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
     public static final double ALGAE_HOLD_SPEED = 0.2;
-    public static final double L1_CORAL_HOLD_SPEED = -0.2;
+    public static final double L1_CORAL_HOLD_SPEED = -0.1;
   }
 
   public static class PoseDriveGroup {
