@@ -67,11 +67,11 @@ public class Rotors extends SubsystemBase {
         coralLeftSensor.getIsDetected().getValue()) && !coralLowerMidSensor.getIsDetected().getValue() ||
         (coralUpperMidSensor.getIsDetected().getValue() &&
             coralRightSensor.getIsDetected().getValue() &&
-            !coralLowerMidSensor.getIsDetected().getValue()
-            || (coralLeftSensor.getIsDetected().getValue() &&
-                coralRightSensor.getIsDetected().getValue() &&
-                coralUpperMidSensor.getIsDetected().getValue() &&
-                !coralLowerMidSensor.getIsDetected().getValue()));
+            !coralLowerMidSensor.getIsDetected().getValue())
+        || (coralLeftSensor.getIsDetected().getValue() &&
+            coralRightSensor.getIsDetected().getValue() &&
+            coralUpperMidSensor.getIsDetected().getValue() &&
+            !coralLowerMidSensor.getIsDetected().getValue());
   }
 
   public boolean hasAlgae() {
