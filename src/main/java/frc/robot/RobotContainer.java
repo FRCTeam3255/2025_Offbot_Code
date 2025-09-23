@@ -186,7 +186,7 @@ public class RobotContainer {
 
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
-    conDriver.btn_Back
+    conDriver.btn_North
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
 
     conDriver.btn_LeftTrigger
@@ -221,11 +221,11 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
