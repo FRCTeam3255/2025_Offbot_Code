@@ -447,9 +447,9 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(86.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(10.9);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(15.8);
       INTAKE_CORAL_STATION.liftHeight = Inches.of(7.5);// huxly said 6.958
-      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
+      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(64);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
