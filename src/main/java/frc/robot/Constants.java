@@ -65,10 +65,10 @@ public final class Constants {
     // and copy-pasting the Raw Absolute Encoder value
 
     // TODO: Swoffsets
-    public static final double FRONT_LEFT_ABS_ENCODER_OFFSET = -0.187012;
-    public static final double FRONT_RIGHT_ABS_ENCODER_OFFSET = 0.453369;
-    public static final double BACK_LEFT_ABS_ENCODER_OFFSET = 0.183350;
-    public static final double BACK_RIGHT_ABS_ENCODER_OFFSET = -0.000977;
+    public static final double FRONT_LEFT_ABS_ENCODER_OFFSET = 0.317138671875;
+    public static final double FRONT_RIGHT_ABS_ENCODER_OFFSET = -0.051025390625;
+    public static final double BACK_LEFT_ABS_ENCODER_OFFSET = -0.3212890625;
+    public static final double BACK_RIGHT_ABS_ENCODER_OFFSET = -0.496337890625;
 
     public static final SN_SwerveConstants SWERVE_CONSTANTS = new SN_SwerveConstants(
         SN_SwerveConstants.MK4I.FALCON.L3.steerGearRatio,
@@ -85,7 +85,7 @@ public final class Constants {
      * Competition Robot.
      * </p>
      */
-    public static final LinearVelocity REAL_DRIVE_SPEED = Units.FeetPerSecond.of(15.1);
+    public static final LinearVelocity REAL_DRIVE_SPEED = Units.MetersPerSecond.of(4.5);
     // Physically measured from center to center of the wheels
     // Distance between Left & Right Wheels for 25 by 25 frame
     public static final double TRACK_WIDTH_25 = Units.Meters.convertFrom(19.75, Units.Inches);
@@ -153,7 +153,7 @@ public final class Constants {
       STEER_CONFIG.Slot0.kD = 0.14414076246334312;
 
       STEER_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-      STEER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      STEER_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       STEER_CONFIG.Feedback.SensorToMechanismRatio = SWERVE_CONSTANTS.steerGearRatio;
       STEER_CONFIG.ClosedLoopGeneral.ContinuousWrap = true;
 
