@@ -282,7 +282,7 @@ public final class Constants {
       WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
       WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Degrees.of(90).in(Rotations);
       WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Degrees.of(-111).in(Rotations);
+      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Degrees.of(-149.5).in(Rotations);
 
       WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
@@ -440,8 +440,8 @@ public final class Constants {
       CLEAN_LOW_FORWARDS.pivotAngle = Degrees.of(58.46);
 
       CLEAN_LOW_BACKWARDS.wristAngle = Degrees.of(-98.05);
-      CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(5);
-      CLEAN_LOW_BACKWARDS.pivotAngle = Degrees.of(83.88);
+      CLEAN_LOW_BACKWARDS.liftHeight = Inches.of(3);
+      CLEAN_LOW_BACKWARDS.pivotAngle = Degrees.of(85.88);
 
       CLEAN_HIGH_BACKWARDS.wristAngle = Degrees.of(-99.26);
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
@@ -479,7 +479,7 @@ public final class Constants {
       PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(55); // TODO: Replace with actual height
       PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(74);
 
-      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-130);
+      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-125);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(86.64);
 
@@ -488,7 +488,7 @@ public final class Constants {
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
-      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(44); // TODO: Replace with actual height
+      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(60); // TODO: Replace with actual height
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(89.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
