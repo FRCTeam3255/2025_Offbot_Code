@@ -452,11 +452,11 @@ public final class Constants {
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(64);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
+      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(5); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND.liftHeight = Inches.of(6); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND.liftHeight = Inches.of(5); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(3); // TODO: Replace with actual angle
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-3); // TODO: Replace with actual angle
@@ -555,7 +555,7 @@ public final class Constants {
     public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 0.4;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
-    public static final double ALGAE_HOLD_SPEED = 0.2;
+    public static final double ALGAE_HOLD_SPEED = 0.4;
     public static final double L1_CORAL_HOLD_SPEED = -0.1;
   }
 
