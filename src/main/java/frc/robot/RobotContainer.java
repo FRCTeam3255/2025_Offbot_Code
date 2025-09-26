@@ -93,6 +93,8 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.SCORING_CORAL));
   Command TRY_SCORING_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.SCORING_ALGAE));
+  Command TRY_SCORING_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_L1));
   Command TRY_CLEAN_HIGH = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.CLEAN_HIGH));
   Command TRY_CLEAN_LOW = Commands.deferredProxy(
@@ -186,7 +188,7 @@ public class RobotContainer {
 
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
-    conDriver.btn_Back
+    conDriver.btn_North
         .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
 
     conDriver.btn_LeftTrigger
@@ -221,11 +223,11 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
@@ -283,6 +285,7 @@ public class RobotContainer {
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
         .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
+        .whileTrue(TRY_SCORING_CORAL_L1)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL)
         .onFalse(TRY_HAS_ALGAE);
@@ -348,13 +351,13 @@ public class RobotContainer {
     hasCoralTrigger
         .whileTrue(TRY_HAS_CORAL);
 
-    hasAlgaeTrigger
+    hasAlgaeTrigger.debounce(0.2)
         .whileTrue(TRY_HAS_ALGAE);
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
 
-    hasCoralL1Trigger
+    hasCoralL1Trigger.debounce(0.2)
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger

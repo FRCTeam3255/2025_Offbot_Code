@@ -31,6 +31,7 @@ public class IntakeCoralGround extends Command {
   @Override
   public void initialize() {
     globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);
   }
 

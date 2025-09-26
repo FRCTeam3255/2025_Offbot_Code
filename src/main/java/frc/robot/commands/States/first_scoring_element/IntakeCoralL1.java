@@ -27,7 +27,6 @@ public class IntakeCoralL1 extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
-    globalRotors.setCoralIntakeL1Speed(constRotorsSpeeds.INTAKE_CORAL_L1_SPEED);
     globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
   }
 
@@ -40,7 +39,7 @@ public class IntakeCoralL1 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setAllIntake(0);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
   }
 
   // Returns true when the command should end.

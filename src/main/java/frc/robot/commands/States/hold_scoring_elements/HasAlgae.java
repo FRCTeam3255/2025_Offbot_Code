@@ -30,7 +30,15 @@ public class HasAlgae extends Command {
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.HAS_ALGAE);
     globalRotors.setHasAlgaeOverride(true);
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
+    if (globalStateMachine.getRobotState() == RobotState.INTAKE_ALGAE_GROUND ||
+        globalStateMachine.getRobotState() == RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL) {
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
+    } else if (globalStateMachine.getRobotState() == RobotState.CLEAN_HIGH ||
+        globalStateMachine.getRobotState() == RobotState.CLEAN_LOW ||
+        globalStateMachine.getRobotState() == RobotState.CLEAN_HIGH_WITH_CORAL ||
+        globalStateMachine.getRobotState() == RobotState.CLEAN_LOW_WITH_CORAL) {
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HARD_HOLD_SPEED);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
