@@ -78,6 +78,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_LOW:
           case EJECTING:
           case INTAKE_CORAL_L1:
+          case SCORING_CORAL_L1:
             return new None(subStateMachine, subMotion, subRotors);
         }
 
@@ -312,12 +313,11 @@ public class StateMachine extends SubsystemBase {
 
       case SCORING_CORAL:
         switch (currentRobotState) {
-          case PREP_CORAL_L1:
           case PREP_CORAL_L2:
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
 
-            return new ScoringCoral(subStateMachine, subRotors);
+            return new ScoringCoral(subStateMachine, subRotors, subDrivetrain);
         }
         break;
 
@@ -327,6 +327,13 @@ public class StateMachine extends SubsystemBase {
           case PREP_ALGAE_PROCESSOR:
           case PREP_ALGAE_ZERO:
             return new ScoringAlgae(subStateMachine, subRotors);
+        }
+        break;
+
+      case SCORING_CORAL_L1:
+        switch (currentRobotState) {
+          case PREP_CORAL_L1:
+            return new ScoringL1Coral(subStateMachine, subRotors);
         }
         break;
 
@@ -485,6 +492,7 @@ public class StateMachine extends SubsystemBase {
     // manipulating 1 game piece
     SCORING_CORAL,
     SCORING_ALGAE,
+    SCORING_CORAL_L1,
     CLEAN_HIGH,
     CLEAN_LOW,
     INTAKE_CORAL_STATION,

@@ -93,6 +93,8 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.SCORING_CORAL));
   Command TRY_SCORING_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.SCORING_ALGAE));
+  Command TRY_SCORING_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_L1));
   Command TRY_CLEAN_HIGH = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.CLEAN_HIGH));
   Command TRY_CLEAN_LOW = Commands.deferredProxy(
@@ -283,6 +285,7 @@ public class RobotContainer {
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
         .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
+        .whileTrue(TRY_SCORING_CORAL_L1)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL)
         .onFalse(TRY_HAS_ALGAE);
@@ -348,7 +351,7 @@ public class RobotContainer {
     hasCoralTrigger
         .whileTrue(TRY_HAS_CORAL);
 
-    hasAlgaeTrigger
+    hasAlgaeTrigger.debounce(0.2)
         .whileTrue(TRY_HAS_ALGAE);
 
     hasBothTrigger
