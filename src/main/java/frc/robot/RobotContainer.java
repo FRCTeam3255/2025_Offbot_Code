@@ -31,6 +31,7 @@ public class RobotContainer {
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
+  private final Vision subVision = new Vision();
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
@@ -189,7 +190,11 @@ public class RobotContainer {
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
     conDriver.btn_North
-        .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
+        .onTrue(Commands
+            .runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(
+                5.109,
+                5.227,
+                Rotation2d.fromDegrees(-120)))));
 
     conDriver.btn_LeftTrigger
         .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
@@ -357,7 +362,7 @@ public class RobotContainer {
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
 
-    hasCoralL1Trigger.debounce(0.2)
+    hasCoralL1Trigger.debounce(0.5)
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger
@@ -366,5 +371,10 @@ public class RobotContainer {
 
   public RobotState getRobotState() {
     return subStateMachine.getRobotState();
+  }
+
+  public Command AddVisionMeasurement() {
+    return new AddVisionMeasurement(subDrivetrain, subVision)
+        .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).ignoringDisable(true);
   }
 }

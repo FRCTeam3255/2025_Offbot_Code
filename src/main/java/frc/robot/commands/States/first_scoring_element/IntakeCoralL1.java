@@ -27,13 +27,17 @@ public class IntakeCoralL1 extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
+    if (!globalRotors.seeL1Coral()) {
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
+    } else if (globalRotors.seeL1Coral() && !globalRotors.hasL1Coral()) {
+      globalRotors.indexL1Coral(constRotorsSpeeds.INDEX_L1_SPEED);
+    }
   }
 
   // Called once the command ends or is interrupted.

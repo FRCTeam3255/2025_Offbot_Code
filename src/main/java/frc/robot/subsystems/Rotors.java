@@ -62,33 +62,45 @@ public class Rotors extends SubsystemBase {
         !coralRightSensor.getIsDetected().getValue();
   }
 
-  public boolean hasL1Coral() {
-    return (!coralUpperMidSensor.getIsDetected().getValue() &&
-        coralLeftSensor.getIsDetected().getValue() &&
-        coralLowerMidSensor.getIsDetected().getValue())
-        || (!coralUpperMidSensor.getIsDetected().getValue() &&
-            coralRightSensor.getIsDetected().getValue() &&
-            coralLowerMidSensor.getIsDetected().getValue())
-        || (coralLeftSensor.getIsDetected().getValue() &&
-            coralRightSensor.getIsDetected().getValue() &&
-            !coralUpperMidSensor.getIsDetected().getValue() &&
-            coralLowerMidSensor.getIsDetected().getValue());
+  public boolean seeL1Coral() {
+    return (!coralUpperMidSensor.getIsDetected().getValue()
+        && (coralLeftSensor.getIsDetected().getValue()
+            || coralRightSensor.getIsDetected().getValue()
+            || coralLowerMidSensor.getIsDetected().getValue()));
   }
 
   public void indexL1Coral(double speed) {
-    if ((!coralUpperMidSensor.getIsDetected().getValue() &&
-        coralLeftSensor.getIsDetected().getValue() &&
-        coralLowerMidSensor.getIsDetected().getValue())
-        || (!coralUpperMidSensor.getIsDetected().getValue() &&
-            coralLeftSensor.getIsDetected().getValue())) {
+    while ((!coralUpperMidSensor.getIsDetected().getValue()
+        && coralLeftSensor.getIsDetected().getValue()
+        && coralLowerMidSensor.getIsDetected().getValue()
+        && !coralRightSensor.getIsDetected().getValue()) ||
+        (!coralUpperMidSensor.getIsDetected().getValue()
+            && coralLeftSensor.getIsDetected().getValue()
+            && !coralRightSensor.getIsDetected().getValue())) {
       setCoralIntakeL1Speed(speed);
-    } else if ((coralUpperMidSensor.getIsDetected().getValue() &&
-        coralRightSensor.getIsDetected().getValue() &&
-        !coralLowerMidSensor.getIsDetected().getValue())
-        || (coralRightSensor.getIsDetected().getValue() &&
-            !coralLowerMidSensor.getIsDetected().getValue())) {
+    }
+    while ((!coralUpperMidSensor.getIsDetected().getValue()
+        && coralRightSensor.getIsDetected().getValue()
+        && coralLowerMidSensor.getIsDetected().getValue()
+        && !coralLeftSensor.getIsDetected().getValue()) ||
+        (!coralUpperMidSensor.getIsDetected().getValue()
+            && coralRightSensor.getIsDetected().getValue()
+            && !coralLeftSensor.getIsDetected().getValue())) {
       setCoralIntakeL1Speed(-speed);
     }
+    if (!coralUpperMidSensor.getIsDetected().getValue()
+        && coralRightSensor.getIsDetected().getValue()
+        && coralLeftSensor.getIsDetected().getValue()
+        && coralLowerMidSensor.getIsDetected().getValue()) {
+      setCoralIntakeL1Speed(0);
+    } else {
+      setCoralIntakeL1Speed(0);
+    }
+  }
+
+  public boolean hasL1Coral() {
+    return !coralUpperMidSensor.getIsDetected().getValue() && coralLeftSensor.getIsDetected().getValue()
+        && coralRightSensor.getIsDetected().getValue() && coralLowerMidSensor.getIsDetected().getValue();
   }
 
   public boolean hasAlgae() {
