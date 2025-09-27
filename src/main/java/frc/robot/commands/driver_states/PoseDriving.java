@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
@@ -15,6 +16,7 @@ public class PoseDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   PoseDriveGroup poseGroup;
+  Pose2d closestPose;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
@@ -24,7 +26,7 @@ public class PoseDriving extends Command {
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
     this.poseGroup = poseGroup;
-    addRequirements(this.subDrivetrain, this.subDriverStateMachine);
+    addRequirements(this.subDriverStateMachine);
   }
 
   @Override
@@ -33,7 +35,7 @@ public class PoseDriving extends Command {
 
   @Override
   public void execute() {
-    Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+    closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
     SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
 
@@ -72,6 +74,6 @@ public class PoseDriving extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) && DriverStation.isAutonomous();
   }
 }

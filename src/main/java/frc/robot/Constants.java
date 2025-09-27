@@ -565,6 +565,7 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
+    public Distance distanceTolerance = Units.Inches.of(1);
   }
 
   public static class constPoseDrive {

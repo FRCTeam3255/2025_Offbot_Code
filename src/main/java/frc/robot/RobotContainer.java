@@ -5,9 +5,9 @@
 package frc.robot;
 
 import com.frcteam3255.joystick.SN_XboxController;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.events.EventTrigger;
 
+import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -36,6 +36,8 @@ import frc.robot.subsystems.StateMachine.RobotState;
 public class RobotContainer {
   @NotLogged
   SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+  private final AutoFactory autoFactory;
 
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
@@ -198,6 +200,14 @@ public class RobotContainer {
     configOperatorBindings();
 
     subDrivetrain.resetModulesToAbsolute();
+
+    autoFactory = new AutoFactory(
+        subDrivetrain::getPose, // A function that returns the current robot pose
+        subDrivetrain::resetPoseToPose, // A function that resets the current robot pose to the provided Pose2d
+        subDrivetrain::followTrajectory, // The drive subsystem trajectory follower
+        true, // If alliance flipping should be enabled
+        subDrivetrain // The drive subsystem
+    );
   }
 
   private void configDriverBindings() {
@@ -273,7 +283,25 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("TaylerAuto");
+    return Commands.sequence(
+        autoFactory.resetOdometry("top_ji"),
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
+        autoFactory.trajectoryCmd("top_ji"),
+        Commands.waitSeconds(0.5),
+        TRY_PREP_CORAL_L4,
+        Commands.waitSeconds(0.5),
+        REEF_AUTO_DRIVING_RIGHT,
+        Commands.waitSeconds(0.5),
+        TRY_SCORING_CORAL,
+        Commands.waitSeconds(0.5),
+        autoFactory.trajectoryCmd("ji_cs"),
+        Commands.waitSeconds(0.5),
+        CORAL_STATION_AUTO_DRIVING_CLOSE,
+        Commands.waitSeconds(0.5),
+        TRY_INTAKE_CORAL_STATION
+
+    );
+
   }
 
   private void configOperatorBindings() {

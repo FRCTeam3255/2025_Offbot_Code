@@ -52,8 +52,9 @@ public class DriverStateMachine extends SubsystemBase {
     NET_AUTO_DRIVING,
     ALGAE_ROTATION_SNAPPING,
     ALGAE_AUTO_DRIVING,
-    CAGE_ROTATION_SNAPPING
+    CAGE_ROTATION_SNAPPING,
     // TODO: Add other driver states as needed
+    CHOREO,
   }
 
   public Command tryState(DriverState desiredState, DoubleSupplier xAxis,
