@@ -28,13 +28,13 @@ public class PrepProcessor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_PROCESSOR);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR);
   }
 
   // Called once the command ends or is interrupted.

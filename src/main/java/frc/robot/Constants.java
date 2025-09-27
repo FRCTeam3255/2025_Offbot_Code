@@ -7,12 +7,17 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Kilograms;
+import static edu.wpi.first.units.Units.Rotations;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix.led.CANdleConfiguration;
+// import com.ctre.phoenix6.configs.CANdleConfiguration;
+// import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -24,7 +29,6 @@ import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -57,7 +61,7 @@ public final class Constants {
   public static class constDrivetrain {
     // TODO: Convert all applicable fields to MEASUREs
 
-    // In Rotations: Obtain by aligning all of the wheels in the correct direction
+    // In Rotations:Obtain by aligning all of the wheels in the correct direction
     // and copy-pasting the Raw Absolute Encoder value
 
     // TODO: Swoffsets
@@ -224,11 +228,16 @@ public final class Constants {
       LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       LIFT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
       LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(62).in(Units.Meters);
+      LIFT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(60).in(Units.Inches);
       LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Meters);
+      LIFT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches);
       LIFT_CONFIG.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-      LIFT_CONFIG.Feedback.SensorToMechanismRatio = 10;
+      LIFT_CONFIG.Slot0.kP = 1.1;// TODO: make faster
+      LIFT_CONFIG.Slot0.kI = 0;
+      LIFT_CONFIG.Slot0.kD = 0;
+      LIFT_CONFIG.Slot0.kS = 0.3;
+      LIFT_CONFIG.Slot0.kG = 0.15;
+      LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicExpo_kV = 0.04;
@@ -243,17 +252,21 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(110)
           .in(Units.Degrees);
       ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
+      ELEVATOR_PIVOT_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0)
           .in(Units.Degrees);
 
       ELEVATOR_PIVOT_CONFIG.Feedback.SensorToMechanismRatio = 102.22;
 
       ELEVATOR_PIVOT_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-
+      ELEVATOR_PIVOT_CONFIG.Slot0.kP = 60.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kI = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kD = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
+      ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
 
@@ -267,15 +280,18 @@ public final class Constants {
       WRIST_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(57)
-          .in(Units.Degrees);
+      WRIST_CONFIG.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Degrees.of(90).in(Rotations);
       WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-37)
-          .in(Units.Degrees);
+      WRIST_CONFIG.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Degrees.of(-111).in(Rotations);
 
       WRIST_CONFIG.Feedback.SensorToMechanismRatio = 58.16;
       WRIST_CONFIG.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+      WRIST_CONFIG.Slot0.kP = 100.0;
+      WRIST_CONFIG.Slot0.kI = 0;
+      WRIST_CONFIG.Slot0.kD = 0;
+      WRIST_CONFIG.Slot0.kS = 0.3;
+      WRIST_CONFIG.Slot0.kG = 0;
 
       WRIST_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
       WRIST_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
@@ -297,7 +313,7 @@ public final class Constants {
     public static final Angle MAX_POS = Units.Degrees.of(90);
     public static final Angle MIN_POS = Units.Degrees.of(0);
 
-    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(57);// todo replace with actual value
+    public static final Angle WRIST_ZEROED_POSITION = Units.Degrees.of(0);
     public static final Angle PIVOT_ZEROED_POSITION = Units.Degrees.of(0);// todo replace with actual value
     public static final Distance LIFT_ZEROED_POSITION = Units.Meters.of(0);// todo replace with actual value
     /**
@@ -305,7 +321,13 @@ public final class Constants {
      */
     public static final Time ZEROED_TIME = Units.Seconds.of(1);
 
+    public static final Angle PIVOT_STARTING_CONFIG_VALUE = Units.Degrees.of(90);// todo replace with actual value
     public static final Voltage ZEROING_VOLTAGE = Units.Volts.of(1);
+
+    public static final Angle WRIST_DANGER_ANGLE = Units.Degrees.of(0);
+
+    public static final Angle PIVOT_DANGER_ANGLE = Units.Degrees.of(25);
+
   }
 
   public static class constRotors {
@@ -323,7 +345,7 @@ public final class Constants {
 
       // algae intake motor config
       ALGAE_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      ALGAE_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
@@ -331,7 +353,7 @@ public final class Constants {
 
       // coral intake motor config
       CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimit = 60;
@@ -523,14 +545,16 @@ public final class Constants {
     public static final double EJECTING_GAME_PIECE_SPEED = 1; // TODO: Replace with actual speed
     // algae speed consts
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_NET_SPEED = 1; // TODO: Replace with actual speed
-    public static final double SCORE_ALGAE_PROCESSOR_SPEED = 1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
+    public static final double SCORE_ALGAE_PROCESSOR_SPEED = -1; // TODO: Replace with actual speed
     public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
     public static final double CLEAN_ALGAE_SPEED = 1;
+    public static final double INTAKE_L1_SPEED = -1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
-    public static final double INTAKE_CORAL_STATION_SPEED = 1; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 1;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
+    public static final double ALGAE_HOLD_SPEED = 0.3;
   }
 
   public static class PoseDriveGroup {
@@ -701,4 +725,19 @@ public final class Constants {
     }
   }
 
+  public static class constLED {
+    public static final CANdleConfiguration LED_CONFIG = new CANdleConfiguration();
+    static {
+      LED_CONFIG.brightnessScalar = 1;
+    }
+    public static final int[] IS_NOT_AT_STARTING_CONFIG = { 255, 0, 0 };// no color
+    public static final int[] IS_AT_STARTING_CONFIG = { 0, 255, 0 };// green
+    public static final int[] PIVOT_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] PIVOT_ZERO_SUCCESS = { 0, 255, 0 }; // no color
+    public static final int[] WRIST_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] WRIST_ZERO_SUCCESS = { 0, 255, 0 }; // no color
+    public static final int[] LIFT_ZERO_FAILED = { 255, 0, 0 }; // red
+    public static final int[] LIFT_ZERO_SUCCESS = { 0, 255, 0 }; // no color
+
+  }
 }

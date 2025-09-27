@@ -26,7 +26,6 @@ public class None extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalMotion.setAllPosition(constMechanismPositions.NONE);
     globalRotors.setAlgaeIntakeMotorSpeed(0);
     globalRotors.setCoralIntakeMotorSpeed(0);
     globalStateMachine.setRobotState(RobotState.NONE);
@@ -35,6 +34,7 @@ public class None extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.NONE);
   }
 
   // Called once the command ends or is interrupted.

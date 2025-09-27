@@ -38,10 +38,13 @@ public class Motion extends SubsystemBase {
   private Angle wristLastDesiredAngle = Degrees.zero();
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
-  public boolean attemptingZeroing = false;
+  public boolean attemptingLiftZeroing = false;
+  public boolean attemptingPivotZeroing = false;
+  public boolean attemptingWristZeroing = false;
   public boolean hasLiftZeroed = false;
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;
+  public boolean hasSetStartingConfig = false;
 
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
@@ -71,7 +74,7 @@ public class Motion extends SubsystemBase {
   }
 
   private void setElevatorPivotAngle(Angle angle) {
-    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle));
     frontLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backRightPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), false));
@@ -79,45 +82,55 @@ public class Motion extends SubsystemBase {
   }
 
   private void setWristPivotAngle(Angle angle) {
-    wristPivotMotor.setControl(positionRequest.withPosition(angle.in(Degrees)));
+    wristPivotMotor.setControl(positionRequest.withPosition(angle));
     wristLastDesiredAngle = angle;
   }
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
-    setLiftPosition(positionGroup.liftHeight);
+    if (isWristInDanger() == true) {
+      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE);
+    } else {
+      setWristPivotAngle(positionGroup.wristAngle);
+    }
     setElevatorPivotAngle(positionGroup.pivotAngle);
-    setWristPivotAngle(positionGroup.wristAngle);
+    setLiftPosition(positionGroup.liftHeight);
   }
 
   public void setLiftCoastMode(boolean coastMode) {
     if (coastMode) {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
+      leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
     } else {
-      rightLiftMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      leftLiftMotorFollower.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.LIFT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
+      leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
     }
   }
 
   public void setPivotCoastMode(boolean coastMode) {
     if (coastMode) {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Coast);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
     } else {
-      frontRightPivotMotorLeader.setNeutralMode(NeutralModeValue.Brake);
-      frontLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backRightPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
-      backLeftPivotMotorFollower.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.ELEVATOR_PIVOT_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+      backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
     }
   }
 
   public void setWristCoastMode(boolean coastMode) {
     if (coastMode) {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Coast);
+      constMotion.WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
     } else {
-      wristPivotMotor.setNeutralMode(NeutralModeValue.Brake);
+      constMotion.WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
     }
   }
 
@@ -139,7 +152,7 @@ public class Motion extends SubsystemBase {
     if (Robot.isSimulation()) {
       return wristLastDesiredAngle;
     }
-    return Degrees.of(wristPivotMotor.getPosition().getValueAsDouble());
+    return wristPivotMotor.getPosition().getValue();
   }
 
   public AngularVelocity getPivotVelocity() {
@@ -166,6 +179,11 @@ public class Motion extends SubsystemBase {
     return getWristVelocity().isNear(Units.RotationsPerSecond.zero(), 0.01);
   }
 
+  public boolean isWristInDanger() {
+    return getWristAngle().lt(constMotion.WRIST_DANGER_ANGLE)
+        && elevatorPivotLastDesiredAngle.lt(constMotion.PIVOT_DANGER_ANGLE);
+  }
+
   public void resetLiftSensorPosition(Distance setpoint) {
     rightLiftMotorLeader.setPosition(setpoint.in(Inches));
     leftLiftMotorFollower.setPosition(setpoint.in(Inches));
@@ -179,7 +197,7 @@ public class Motion extends SubsystemBase {
   }
 
   public void resetWristSensorPosition(Angle setpoint) {
-    wristPivotMotor.setPosition(setpoint.in(Degrees));
+    wristPivotMotor.setPosition(setpoint);
   }
 
   public boolean arePositionsAtSetPoint(MechanismPositionGroup positionGroup) {

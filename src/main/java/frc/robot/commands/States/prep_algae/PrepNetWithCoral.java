@@ -43,13 +43,13 @@ public class PrepNetWithCoral extends Command {
     } else {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
-    globalMotion.setAllPosition(prepNet);
     globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(prepNet);
   }
 
   // Called once the command ends or is interrupted.

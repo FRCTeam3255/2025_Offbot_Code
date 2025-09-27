@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.manualZeroLift.schedule();
     m_robotContainer.manualZeroPivot.schedule();
     m_robotContainer.manualZeroWrist.schedule();
+    m_robotContainer.startingCofig.schedule();
   }
 
   @Override
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.manualZeroLift.cancel();
     m_robotContainer.manualZeroPivot.cancel();
     m_robotContainer.manualZeroWrist.cancel();
+    m_robotContainer.startingCofig.cancel();
   }
 
   @Override

@@ -21,9 +21,11 @@ import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
 import frc.robot.commands.Zeroing.ManualZeroWrist;
+import frc.robot.commands.Zeroing.StartingConfig;
 import frc.robot.commands.driver_states.DriveManual;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.RobotPoses;
 import frc.robot.subsystems.Rotors;
@@ -41,13 +43,15 @@ public class RobotContainer {
   private final Drivetrain subDrivetrain = new Drivetrain();
   private final Rotors subRotors = new Rotors();
   private final Motion subMotion = new Motion();
+  private final LED subLED = new LED();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
 
-  public Command manualZeroLift = new ManualZeroLift(subMotion);
-  public Command manualZeroPivot = new ManualZeroPivot(subMotion);
-  public Command manualZeroWrist = new ManualZeroWrist(subMotion);
+  public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
+  public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
+  public Command manualZeroWrist = new ManualZeroWrist(subMotion, subLED).ignoringDisable(true);
+  public Command startingCofig = new StartingConfig(subMotion, subLED).ignoringDisable(true);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());

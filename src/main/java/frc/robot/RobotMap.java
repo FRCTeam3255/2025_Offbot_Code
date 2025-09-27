@@ -61,4 +61,9 @@ public class RobotMap {
     public static final int FRONT_LEFT_PIVOT_CAN = 26;
     public static final int INTAKE_PIVOT_CAN = 27;
   }
+
+  // LED ID 31-40
+  public static class mapLED {
+    public static final int LED_CAN = 31;
+  }
 }

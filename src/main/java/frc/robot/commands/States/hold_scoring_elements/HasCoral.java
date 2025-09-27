@@ -28,16 +28,15 @@ public class HasCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.HAS_CORAL);
-    globalMotion.setAllPosition(constMechanismPositions.NONE);
-    globalRotors.setCoralIntakeMotorSpeed(0);
     globalRotors.setHasCoralOverride(true);
-
+    globalStateMachine.setRobotState(RobotState.HAS_CORAL);
+    globalRotors.setCoralIntakeMotorSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    globalMotion.setAllPosition(constMechanismPositions.NONE);
   }
 
   // Called once the command ends or is interrupted.
