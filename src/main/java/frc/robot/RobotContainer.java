@@ -42,7 +42,7 @@ public class RobotContainer {
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger isInCleaningStates = new Trigger(() -> subStateMachine.inCleaningState());
-  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral() && !subRotors.hasAlgae());
+  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral());
   private final Trigger isCageLatchedTrigger = new Trigger(() -> subRotors.isCageLatched());
   private final Trigger isInCSAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR

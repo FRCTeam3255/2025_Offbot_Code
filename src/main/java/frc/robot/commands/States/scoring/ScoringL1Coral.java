@@ -26,7 +26,7 @@ public class ScoringL1Coral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setAlgaeIntakeMotorSpeed(-constRotorsSpeeds.L1_CORAL_SCORE_SPEED);
+    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_SCORE_SPEED);
     globalStateMachine.setRobotState(RobotState.SCORING_CORAL_L1);
   }
 

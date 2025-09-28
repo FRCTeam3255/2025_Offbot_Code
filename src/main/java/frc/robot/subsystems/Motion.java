@@ -81,16 +81,16 @@ public class Motion extends SubsystemBase {
     elevatorPivotLastDesiredAngle = angle;
   }
 
-  private void setWristPivotAngle(Angle angle) {
-    wristPivotMotor.setControl(positionRequest.withPosition(angle));
+  private void setWristPivotAngle(Angle angle, int slot) {
+    wristPivotMotor.setControl(positionRequest.withPosition(angle).withSlot(slot));
     wristLastDesiredAngle = angle;
   }
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
     if (isWristInDanger() == true) {
-      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE);
+      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE, positionGroup.wristSlot);
     } else {
-      setWristPivotAngle(positionGroup.wristAngle);
+      setWristPivotAngle(positionGroup.wristAngle, positionGroup.wristSlot);
     }
     setElevatorPivotAngle(positionGroup.pivotAngle);
     setLiftPosition(positionGroup.liftHeight);
