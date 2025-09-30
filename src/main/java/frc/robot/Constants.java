@@ -278,8 +278,13 @@ public final class Constants {
       ELEVATOR_PIVOT_CONFIG.Slot0.kS = 0.25;
       ELEVATOR_PIVOT_CONFIG.Slot0.kG = .05;
 
-      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 9999;
-      ELEVATOR_PIVOT_CONFIG.MotionMagic.MotionMagicAcceleration = 9999;
+      ELEVATOR_PIVOT_CONFIG.Slot1.GravityType = GravityTypeValue.Arm_Cosine;
+      ELEVATOR_PIVOT_CONFIG.Slot1.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kP = 30.0;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kI = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kD = 0.0;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kS = 0.25;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kG = .05;
 
       ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = true;
       ELEVATOR_PIVOT_CONFIG.CurrentLimits.SupplyCurrentLowerLimit = 30;
@@ -418,6 +423,7 @@ public final class Constants {
     public Angle pivotTolerance;
     public Angle wristTolerance;
     public int wristSlot = 0;
+    public int pivotSlot = 0;
   }
 
   public static class constMechanismPositions {
@@ -446,11 +452,13 @@ public final class Constants {
     public static final MechanismPositionGroup PREP_PROCESSOR = new MechanismPositionGroup();
     public static final MechanismPositionGroup CLIMBED = new MechanismPositionGroup();
     public static final MechanismPositionGroup LATCHED = new MechanismPositionGroup();
+    public static final MechanismPositionGroup HAS_SCORING_ELEMENTS = new MechanismPositionGroup();
     public static final Distance ELEVATOR_CORAL_L1_HEIGHT = Units.Inches.of(0);
     public static final Distance ELEVATOR_CORAL_L2_HEIGHT = Units.Inches.of(7);
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(48);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
+
     static {
 
       CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(65.81);
@@ -473,22 +481,24 @@ public final class Constants {
       INTAKE_CORAL_STATION.liftHeight = Inches.of(6.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(64);
 
-      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(20); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4.0); // TODO: Replace with actual height
-      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(10); // TODO: Replace with actual
+      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(55); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
+      INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(21); // TODO: Replace with actual
       INTAKE_ALGAE_GROUND.pivotTolerance = Degrees.of(3);
       INTAKE_ALGAE_GROUND.wristTolerance = Degrees.of(3);
-      INTAKE_ALGAE_GROUND.wristSlot = 0;
+      INTAKE_ALGAE_GROUND.pivotSlot = 1;
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
-      INTAKE_CORAL_GROUND.liftHeight = Inches.of(4.0); // TODO: Replace with actual height
+      INTAKE_CORAL_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.pivotSlot = 1;
       INTAKE_CORAL_GROUND.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_GROUND.wristTolerance = Degrees.of(2);
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-10); // TODO: Replace with actual angle
-      INTAKE_CORAL_L1.liftHeight = Inches.of(4.0); // TODO: Replace with actual height
+      INTAKE_CORAL_L1.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      INTAKE_CORAL_L1.pivotSlot = 1;
       INTAKE_CORAL_L1.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_L1.wristTolerance = Degrees.of(2);
 
@@ -517,8 +527,8 @@ public final class Constants {
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(87.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
-      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(59); // TODO: Replace with actual height
-      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(87.65);
+      PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(57); // TODO: Replace with actual height
+      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(84.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -527,6 +537,7 @@ public final class Constants {
       PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(40); // TODO: Replace with actual angle
       PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(60); // TODO: Replace with actual height
       PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
+      PREP_ALGAE_NET_FORWARDS.pivotSlot = 1;
 
       PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(-40);
       PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(60);
@@ -534,11 +545,11 @@ public final class Constants {
 
       PREP_ALGAE_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_ALGAE_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_ALGAE_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_ALGAE_ZERO.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
 
       PREP_CORAL_ZERO.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_ZERO.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_CORAL_ZERO.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
 
       PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -547,6 +558,12 @@ public final class Constants {
       NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
+      NONE.pivotSlot = 1;
+
+      HAS_SCORING_ELEMENTS.wristAngle = Degrees.of(0);
+      HAS_SCORING_ELEMENTS.liftHeight = Inches.of(0);
+      HAS_SCORING_ELEMENTS.pivotAngle = Degrees.of(70);
+      HAS_SCORING_ELEMENTS.pivotSlot = 1;
 
       PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(6); // TODO: Replace with actual height
@@ -563,7 +580,6 @@ public final class Constants {
       LATCHED.liftHeight = Inches.of(0); // TODO: Replace with actual height
       LATCHED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       // backwards positions
-
     }
   }
 
@@ -576,7 +592,7 @@ public final class Constants {
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_PROCESSOR_SPEED = -1; // TODO: Replace with actual speed
-    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = 1;
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = -1;
     public static final double CLEAN_ALGAE_SPEED = 1;
     public static final double INTAKE_L1_SPEED = -1;
     public static final double INDEX_L1_SPEED = 0.2;
@@ -691,6 +707,10 @@ public final class Constants {
     public static final Distance FIELD_LENGTH = Units.Feet.of(57).plus(Units.Inches.of(6 + 7 / 8));
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
     public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
+    public static final Pose2d RESET_POS = new Pose2d(
+        5.109,
+        5.227,
+        Rotation2d.fromDegrees(-120));
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }

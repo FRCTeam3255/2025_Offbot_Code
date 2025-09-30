@@ -59,7 +59,7 @@ public class PrepCoralLv extends Command {
   @Override
   public void execute() {
     if (targetLevel == 0) {
-      globalMotion.setAllPosition(constMechanismPositions.NONE);
+      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
     } else if (targetLevel == 1) {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);

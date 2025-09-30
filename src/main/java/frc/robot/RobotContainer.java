@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
+import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.commands.driver_states.DriveManual;
@@ -191,10 +192,7 @@ public class RobotContainer {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
     conDriver.btn_North
         .onTrue(Commands
-            .runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(
-                5.109,
-                5.227,
-                Rotation2d.fromDegrees(-120)))));
+            .runOnce(() -> subDrivetrain.resetPoseToPose(constField.RESET_POS)));
 
     conDriver.btn_LeftTrigger
         .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
@@ -353,7 +351,7 @@ public class RobotContainer {
 
     conOperator.btn_Back.onTrue(HAS_ALGAE_OVERRIDE);
 
-    hasCoralTrigger
+    hasCoralTrigger.debounce(0.5)
         .whileTrue(TRY_HAS_CORAL);
 
     hasAlgaeTrigger.debounce(0.2)

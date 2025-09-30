@@ -36,7 +36,7 @@ public class HasCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.NONE);
+    globalMotion.setAllPosition(constMechanismPositions.HAS_SCORING_ELEMENTS);
   }
 
   // Called once the command ends or is interrupted.
