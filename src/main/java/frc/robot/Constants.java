@@ -247,6 +247,14 @@ public final class Constants {
       LIFT_CONFIG.Slot0.kD = 0;
       LIFT_CONFIG.Slot0.kS = 0.3;
       LIFT_CONFIG.Slot0.kG = 0.15;
+
+      LIFT_CONFIG.Slot1.GravityType = GravityTypeValue.Elevator_Static;
+      LIFT_CONFIG.Slot1.kP = 1.1;
+      LIFT_CONFIG.Slot1.kI = 0;
+      LIFT_CONFIG.Slot1.kD = 0;
+      LIFT_CONFIG.Slot1.kS = 0.3;
+      LIFT_CONFIG.Slot1.kG = 0.15;
+
       LIFT_CONFIG.Feedback.SensorToMechanismRatio = ((12.0 / 60.0) * (26.0 / 52.0)) * (1.910 * Math.PI);
       LIFT_CONFIG.MotionMagic.MotionMagicCruiseVelocity = 0;
       LIFT_CONFIG.MotionMagic.MotionMagicAcceleration = 0;
@@ -280,7 +288,7 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot1.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot1.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      ELEVATOR_PIVOT_CONFIG.Slot1.kP = 30.0;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kP = 60.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kI = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kD = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kS = 0.25;
@@ -486,19 +494,19 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(21); // TODO: Replace with actual
       INTAKE_ALGAE_GROUND.pivotTolerance = Degrees.of(3);
       INTAKE_ALGAE_GROUND.wristTolerance = Degrees.of(3);
-      INTAKE_ALGAE_GROUND.pivotSlot = 1;
+      // INTAKE_ALGAE_GROUND.pivotSlot = 1;
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_ALGAE_GROUND.pivotSlot = 1;
+      // INTAKE_ALGAE_GROUND.pivotSlot = 1;
       INTAKE_CORAL_GROUND.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_GROUND.wristTolerance = Degrees.of(2);
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-10); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-      INTAKE_CORAL_L1.pivotSlot = 1;
+      // INTAKE_CORAL_L1.pivotSlot = 1;
       INTAKE_CORAL_L1.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_L1.wristTolerance = Degrees.of(2);
 
@@ -523,12 +531,12 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(87.64);
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(-125);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(13); // TODO: Replace with actual height
-      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(87.33);
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(15); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(57); // TODO: Replace with actual height
-      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(84.65);
+      PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(88.65);
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -537,7 +545,7 @@ public final class Constants {
       PREP_ALGAE_NET_FORWARDS.wristAngle = Degrees.of(40); // TODO: Replace with actual angle
       PREP_ALGAE_NET_FORWARDS.liftHeight = Inches.of(60); // TODO: Replace with actual height
       PREP_ALGAE_NET_FORWARDS.pivotAngle = Degrees.of(90); // TODO: Replace with actual angle
-      PREP_ALGAE_NET_FORWARDS.pivotSlot = 1;
+      // PREP_ALGAE_NET_FORWARDS.pivotSlot = 1;
 
       PREP_ALGAE_NET_BACKWARDS.wristAngle = Degrees.of(-40);
       PREP_ALGAE_NET_BACKWARDS.liftHeight = Inches.of(60);
@@ -558,12 +566,12 @@ public final class Constants {
       NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
       NONE.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
-      NONE.pivotSlot = 1;
+      // NONE.pivotSlot = 1;
 
       HAS_SCORING_ELEMENTS.wristAngle = Degrees.of(0);
       HAS_SCORING_ELEMENTS.liftHeight = Inches.of(0);
       HAS_SCORING_ELEMENTS.pivotAngle = Degrees.of(70);
-      HAS_SCORING_ELEMENTS.pivotSlot = 1;
+      // HAS_SCORING_ELEMENTS.pivotSlot = 1;
 
       PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(6); // TODO: Replace with actual height
