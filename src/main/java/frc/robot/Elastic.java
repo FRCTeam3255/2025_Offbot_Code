@@ -25,7 +25,7 @@ public final class Elastic {
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
   /**
-   * Sends an notification to the Elastic dashboard. The notification is
+   * Sends a notification to the Elastic dashboard. The notification is
    * serialized as a JSON string
    * before being published.
    *
@@ -68,7 +68,7 @@ public final class Elastic {
   }
 
   /**
-   * Represents an notification object to be sent to the Elastic dashboard. This
+   * Represents a notification object to be sent to the Elastic dashboard. This
    * object holds
    * properties such as level, title, description, display time, and dimensions to
    * control how the
@@ -209,10 +209,11 @@ public final class Elastic {
       return title;
     }
 
+    
     /**
-     * Updates the description of this notification
+     * Gets the description of this notification
      *
-     * @param description the description to set the notification to
+     * @return the description of this notification
      */
     public void setDescription(String description) {
       this.description = description;
