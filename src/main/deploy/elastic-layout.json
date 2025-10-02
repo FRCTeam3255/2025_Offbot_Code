@@ -8,23 +8,10 @@
         "layouts": [],
         "containers": [
           {
-            "title": "Driving State",
-            "x": 0.0,
-            "y": 102.0,
-            "width": 408.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/subStateMachine/getDriverState",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
             "title": "Robot State",
-            "x": 986.0,
+            "x": 408.0,
             "y": 102.0,
-            "width": 374.0,
+            "width": 952.0,
             "height": 102.0,
             "type": "Large Text Display",
             "properties": {
@@ -35,10 +22,10 @@
           },
           {
             "title": "Has Coral",
-            "x": 136.0,
-            "y": 204.0,
-            "width": 272.0,
-            "height": 238.0,
+            "x": 0.0,
+            "y": 0.0,
+            "width": 408.0,
+            "height": 204.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/m_robotContainer/hasCoralTrigger",
@@ -52,9 +39,9 @@
           },
           {
             "title": "Has Algae",
-            "x": 986.0,
+            "x": 0.0,
             "y": 204.0,
-            "width": 238.0,
+            "width": 408.0,
             "height": 238.0,
             "type": "Boolean Box",
             "properties": {
@@ -68,37 +55,11 @@
             }
           },
           {
-            "title": "LEFT LABEL",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 408.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/LEFT_LABEL",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
-            "title": "RIGHT LABEL",
-            "x": 986.0,
-            "y": 0.0,
-            "width": 374.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/RIGHT_LABEL",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
             "title": "All At Set Point",
-            "x": 850.0,
-            "y": 102.0,
-            "width": 136.0,
-            "height": 340.0,
+            "x": 884.0,
+            "y": 204.0,
+            "width": 476.0,
+            "height": 238.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/m_robotContainer/elevatorAndAlgaeAtSetPoint",
@@ -113,9 +74,9 @@
           {
             "title": "Is Aligned",
             "x": 408.0,
-            "y": 102.0,
-            "width": 136.0,
-            "height": 340.0,
+            "y": 204.0,
+            "width": 476.0,
+            "height": 238.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/m_robotContainer/isAligned",
@@ -131,7 +92,7 @@
             "title": "Match Time",
             "x": 408.0,
             "y": 0.0,
-            "width": 578.0,
+            "width": 952.0,
             "height": 102.0,
             "type": "Match Time",
             "properties": {
@@ -141,55 +102,6 @@
               "time_display_mode": "Minutes and Seconds",
               "red_start_time": 15,
               "yellow_start_time": 30
-            }
-          },
-          {
-            "title": "Climber Camera",
-            "x": 544.0,
-            "y": 102.0,
-            "width": 306.0,
-            "height": 340.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/USB Camera 0",
-              "period": 0.06,
-              "rotation_turns": 0,
-              "compression": 40,
-              "fps": 30
-            }
-          },
-          {
-            "title": "isSafeToMoveElevator",
-            "x": 1224.0,
-            "y": 204.0,
-            "width": 136.0,
-            "height": 238.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "Robot/m_robotContainer/subCoralOuttake/isSafeToMoveElevator",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "Checkmark",
-              "false_icon": "X"
-            }
-          },
-          {
-            "title": "coralStuckSoftwareLimitEnable",
-            "x": 0.0,
-            "y": 204.0,
-            "width": 136.0,
-            "height": 238.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "Robot/m_robotContainer/coralStuckSoftwareLimitEnable",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
             }
           }
         ]
@@ -349,9 +261,9 @@
           {
             "title": "Robot State",
             "x": 0.0,
-            "y": 102.0,
+            "y": 136.0,
             "width": 544.0,
-            "height": 102.0,
+            "height": 136.0,
             "type": "Large Text Display",
             "properties": {
               "topic": "Robot/m_robotContainer/subStateMachine/getRobotState",
@@ -360,24 +272,11 @@
             }
           },
           {
-            "title": "Driving State",
-            "x": 0.0,
-            "y": 204.0,
-            "width": 544.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/subStateMachine/getDriverState",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
             "title": "All Zeroed",
             "x": 0.0,
-            "y": 306.0,
+            "y": 272.0,
             "width": 544.0,
-            "height": 136.0,
+            "height": 170.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/bothSubsystemsZeroed",
@@ -394,7 +293,7 @@
             "x": 0.0,
             "y": 0.0,
             "width": 544.0,
-            "height": 102.0,
+            "height": 136.0,
             "type": "Match Time",
             "properties": {
               "topic": "Robot/getMatchTime",
@@ -415,10 +314,10 @@
         "containers": [
           {
             "title": "Match Time",
-            "x": 612.0,
-            "y": 102.0,
-            "width": 748.0,
-            "height": 136.0,
+            "x": 510.0,
+            "y": 0.0,
+            "width": 850.0,
+            "height": 204.0,
             "type": "Match Time",
             "properties": {
               "topic": "Robot/getMatchTime",
@@ -430,37 +329,11 @@
             }
           },
           {
-            "title": "LEFT LABEL",
-            "x": 612.0,
-            "y": 0.0,
-            "width": 374.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/LEFT_LABEL",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
-            "title": "RIGHT LABEL",
-            "x": 986.0,
-            "y": 0.0,
-            "width": 374.0,
-            "height": 102.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "Robot/m_robotContainer/RIGHT_LABEL",
-              "period": 0.06,
-              "data_type": "string"
-            }
-          },
-          {
             "title": "Is Aligned",
-            "x": 612.0,
-            "y": 238.0,
-            "width": 374.0,
-            "height": 204.0,
+            "x": 510.0,
+            "y": 204.0,
+            "width": 408.0,
+            "height": 238.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/m_robotContainer/isAligned",
@@ -474,10 +347,10 @@
           },
           {
             "title": "Climber Deployed",
-            "x": 986.0,
-            "y": 238.0,
-            "width": 374.0,
-            "height": 204.0,
+            "x": 918.0,
+            "y": 204.0,
+            "width": 442.0,
+            "height": 238.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "Robot/m_robotContainer/subClimber/isClimbDeployed",
@@ -490,18 +363,16 @@
             }
           },
           {
-            "title": "Climber Camera",
+            "title": "Left Limelight",
             "x": 0.0,
             "y": 0.0,
-            "width": 612.0,
+            "width": 510.0,
             "height": 442.0,
             "type": "Camera Stream",
             "properties": {
-              "topic": "/CameraPublisher/USB Camera 0",
+              "topic": "/CameraPublisher/limelight-back",
               "period": 0.06,
-              "rotation_turns": 0,
-              "compression": 40,
-              "fps": 30
+              "rotation_turns": 0
             }
           }
         ]
