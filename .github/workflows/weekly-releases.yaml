@@ -1,0 +1,52 @@
+name: Weekly Pre-Release
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Every Monday at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  weekly-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: git fetch --prune --unshallow || true
+
+      - name: Set up date and week info
+        id: vars
+        run: |
+          WEEK=$(date +%U)
+          YEAR=$(date +%Y)
+          TAG="week${WEEK}-${YEAR}"
+          TITLE="Week${WEEK} Pre-release"
+
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+
+      - name: Get merged PRs from last 7 days
+        id: changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          since=$(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          prs=$(gh pr list --state merged --search "merged:>=$since" --json number,title,author,url --jq '.[] | "- \(.title) by @\(.author.login) in [#\(.number)](\(.url))"')
+          
+          if [ -z "$prs" ]; then
+            echo "changes=No pull requests merged this week." >> $GITHUB_OUTPUT
+          else
+            echo "changes=What's Changed\n$prs" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: Create pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: ${{ steps.vars.outputs.title }}
+          body: ${{ steps.changelog.outputs.changes }}
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
