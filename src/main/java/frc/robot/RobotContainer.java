@@ -361,6 +361,10 @@ public class RobotContainer {
         .onTrue(TRY_CLIMBING);
   }
 
+  public boolean allZeroed() {
+    return subMotion.hasLiftZeroed && subMotion.hasPivotZeroed && subMotion.hasWristZeroed;
+  }
+
   public RobotState getRobotState() {
     return subStateMachine.getRobotState();
   }
