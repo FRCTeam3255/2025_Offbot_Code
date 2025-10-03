@@ -431,7 +431,7 @@ public final class Constants {
     public Angle pivotTolerance;
     public Angle wristTolerance;
     public int wristSlot = 0;
-    public int pivotSlot = 0;
+    public int pivotSlot = 1;
     public int liftSlot = 0;
   }
 
