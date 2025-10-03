@@ -468,7 +468,20 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(48);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
 
+
     static {
+
+      PREP_CORAL_L2_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
+  
+      PREP_CORAL_L3_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
+  
+      PREP_CORAL_L4_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(65.81);
       CLEAN_HIGH_FORWARDS.liftHeight = Inches.of(19.975);
