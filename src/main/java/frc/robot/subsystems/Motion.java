@@ -67,8 +67,8 @@ public class Motion extends SubsystemBase {
     wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
   }
 
-  private void setLiftPosition(Distance height) {
-    rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
+  private void setLiftPosition(Distance height, int slot) {
+    rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)).withSlot(slot));
     leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     elevatorLiftLastDesiredPosition = height;
   }
@@ -93,7 +93,7 @@ public class Motion extends SubsystemBase {
       setWristPivotAngle(positionGroup.wristAngle, positionGroup.wristSlot);
     }
     setElevatorPivotAngle(positionGroup.pivotAngle, positionGroup.pivotSlot);
-    setLiftPosition(positionGroup.liftHeight);
+    setLiftPosition(positionGroup.liftHeight, positionGroup.liftSlot);
   }
 
   public void setLiftCoastMode(boolean coastMode) {

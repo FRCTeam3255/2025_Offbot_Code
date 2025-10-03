@@ -288,7 +288,7 @@ public final class Constants {
 
       ELEVATOR_PIVOT_CONFIG.Slot1.GravityType = GravityTypeValue.Arm_Cosine;
       ELEVATOR_PIVOT_CONFIG.Slot1.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      ELEVATOR_PIVOT_CONFIG.Slot1.kP = 60.0;
+      ELEVATOR_PIVOT_CONFIG.Slot1.kP = 45.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kI = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kD = 0.0;
       ELEVATOR_PIVOT_CONFIG.Slot1.kS = 0.25;
@@ -319,7 +319,7 @@ public final class Constants {
 
       WRIST_CONFIG.Slot1.GravityType = GravityTypeValue.Arm_Cosine;
       WRIST_CONFIG.Slot1.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-      WRIST_CONFIG.Slot1.kP = 80.0;
+      WRIST_CONFIG.Slot1.kP = 30.0;
       WRIST_CONFIG.Slot1.kI = 0;
       WRIST_CONFIG.Slot1.kD = 0;
       WRIST_CONFIG.Slot1.kS = 0.3;
@@ -432,6 +432,7 @@ public final class Constants {
     public Angle wristTolerance;
     public int wristSlot = 0;
     public int pivotSlot = 0;
+    public int liftSlot = 0;
   }
 
   public static class constMechanismPositions {
@@ -471,7 +472,7 @@ public final class Constants {
 
       CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(65.81);
       CLEAN_HIGH_FORWARDS.liftHeight = Inches.of(19.975);
-      CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(73.04);
+      CLEAN_HIGH_FORWARDS.pivotAngle = Degrees.of(71.04);
 
       CLEAN_LOW_FORWARDS.wristAngle = Degrees.of(65.15);
       CLEAN_LOW_FORWARDS.liftHeight = Inches.of(13);
@@ -485,28 +486,31 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(95.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(15.8);
-      INTAKE_CORAL_STATION.liftHeight = Inches.of(6.5);// huxly said 6.958
-      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(64);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(10.9);
+      INTAKE_CORAL_STATION.liftHeight = Inches.of(5.5);// huxly said 6.958
+      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(55); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(21); // TODO: Replace with actual
       INTAKE_ALGAE_GROUND.pivotTolerance = Degrees.of(3);
       INTAKE_ALGAE_GROUND.wristTolerance = Degrees.of(3);
-      // INTAKE_ALGAE_GROUND.pivotSlot = 1;
+      INTAKE_ALGAE_GROUND.pivotSlot = 1;
+      INTAKE_ALGAE_GROUND.wristSlot = 1;
 
       INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-      // INTAKE_ALGAE_GROUND.pivotSlot = 1;
+      INTAKE_CORAL_GROUND.pivotSlot = 1;
+      INTAKE_CORAL_GROUND.wristSlot = 1;
       INTAKE_CORAL_GROUND.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_GROUND.wristTolerance = Degrees.of(2);
 
       INTAKE_CORAL_L1.wristAngle = Degrees.of(-10); // TODO: Replace with actual angle
       INTAKE_CORAL_L1.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_L1.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
-      // INTAKE_CORAL_L1.pivotSlot = 1;
+      INTAKE_CORAL_L1.pivotSlot = 1;
+      INTAKE_CORAL_L1.wristSlot = 1;
       INTAKE_CORAL_L1.pivotTolerance = Degrees.of(2);
       INTAKE_CORAL_L1.wristTolerance = Degrees.of(2);
 
@@ -531,8 +535,8 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(87.64);
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(-125);
-      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(15); // TODO: Replace with actual height
-      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(86.33);
+      PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(17); // TODO: Replace with actual height
+      PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(84.33);
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(57); // TODO: Replace with actual height
@@ -559,7 +563,7 @@ public final class Constants {
       PREP_CORAL_ZERO.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_ZERO.pivotAngle = Degrees.of(70); // TODO: Replace with actual angle
 
-      PREP_CLIMB.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
+      PREP_CLIMB.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CLIMB.pivotAngle = Degrees.of(109.4); // TODO: Replace with actual angle
 
@@ -571,15 +575,21 @@ public final class Constants {
       HAS_SCORING_ELEMENTS.wristAngle = Degrees.of(0);
       HAS_SCORING_ELEMENTS.liftHeight = Inches.of(0);
       HAS_SCORING_ELEMENTS.pivotAngle = Degrees.of(70);
+      HAS_SCORING_ELEMENTS.wristSlot = 1;
+      HAS_SCORING_ELEMENTS.pivotSlot = 0;
+      HAS_SCORING_ELEMENTS.liftSlot = 0;
+
       // HAS_SCORING_ELEMENTS.pivotSlot = 1;
 
-      PREP_PROCESSOR.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
-      PREP_PROCESSOR.liftHeight = Inches.of(6); // TODO: Replace with actual height
-      PREP_PROCESSOR.pivotAngle = Degrees.of(10); // TODO: Replace with actual angle
+      PREP_PROCESSOR.wristAngle = Degrees.of(-2); // TODO: Replace with actual angle
+      PREP_PROCESSOR.liftHeight = Inches.of(4); // TODO: Replace with actual height
+      PREP_PROCESSOR.pivotAngle = Degrees.of(12); // TODO: Replace with actual angle
 
-      CLIMBED.wristAngle = Degrees.of(10); // TODO: Replace with actual angle
+      CLIMBED.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
       CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
       CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
+      CLIMBED.pivotSlot = 1;
+      CLIMBED.wristSlot = 0;
       CLIMBED.liftTolerance = Inches.of(1);
       CLIMBED.pivotTolerance = Degrees.of(1);
       CLIMBED.wristTolerance = Degrees.of(1);
@@ -612,10 +622,10 @@ public final class Constants {
     public static final double ALGAE_HOLD_SPEED = 0.4;
     public static final double ALGAE_HARD_HOLD_SPEED = 0.6;
 
-    public static final double L1_CORAL_HOLD_SPEED = -0.6;
+    public static final double L1_CORAL_HOLD_SPEED = -1;
     public static final double CORAL_L1_CORAL_HOLD_SPEED = 0;
     public static final double L1_CORAL_SCORE_SPEED = 0.5;
-    public static final double L1_INDEX_SPEED = -0.2;
+    public static final double L1_INDEX_SPEED = -0.1;
   }
 
   public static class PoseDriveGroup {

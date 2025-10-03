@@ -351,16 +351,16 @@ public class RobotContainer {
 
     conOperator.btn_Back.onTrue(HAS_ALGAE_OVERRIDE);
 
-    hasCoralTrigger.debounce(0.5)
+    hasCoralTrigger.debounce(0.1)
         .whileTrue(TRY_HAS_CORAL);
 
-    hasAlgaeTrigger.debounce(0.2)
+    hasAlgaeTrigger// debounce(0.2).and(conOperator.btn_West.negate()).and(conOperator.btn_East.negate())
         .whileTrue(TRY_HAS_ALGAE);
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
 
-    hasCoralL1Trigger.debounce(0.5)
+    hasCoralL1Trigger.debounce(0.1)
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger
