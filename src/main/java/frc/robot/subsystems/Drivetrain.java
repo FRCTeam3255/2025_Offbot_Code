@@ -118,7 +118,7 @@ public class Drivetrain extends SN_SuperSwerve {
         * redAllianceMultiplier;
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
         * redAllianceMultiplier;
-    double rotationVelocity = -rotationAxisSupplier.getAsDouble()
+    double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
     return new SwerveVelocity(xVelocity, yVelocity, rotationVelocity);

@@ -29,7 +29,7 @@ public class ScoringAlgae extends Command {
     if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_NET) {
       globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
     } else if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_PROCESSOR_SPEED);
+      globalRotors.setAlgaeIntakeMotorSpeed(0);
     }
     globalStateMachine.setRobotState(RobotState.SCORING_ALGAE);
   }
