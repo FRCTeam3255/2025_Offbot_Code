@@ -13,12 +13,12 @@ import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeCoralGroundWithAlgae extends Command {
+public class IntakeCoralGroundWAlgae extends Command {
   StateMachine globalStateMachine;
   Motion globalMotion;
   Rotors globalRotors;
 
-  public IntakeCoralGroundWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public IntakeCoralGroundWAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;

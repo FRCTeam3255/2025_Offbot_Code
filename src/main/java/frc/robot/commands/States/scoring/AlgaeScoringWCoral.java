@@ -11,11 +11,11 @@ import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Rotors;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ScoringCoralWithAlgae extends Command {
+public class AlgaeScoringWCoral extends Command {
   StateMachine globalStateMachine;
   Rotors globalRotors;
 
-  public ScoringCoralWithAlgae(StateMachine globalStateMachine, Rotors subRotors) {
+  public AlgaeScoringWCoral(StateMachine globalStateMachine, Rotors subRotors) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalRotors = subRotors;
     this.globalStateMachine = globalStateMachine;
@@ -26,8 +26,12 @@ public class ScoringCoralWithAlgae extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.SCORE_CORAL_SPEED);
-    globalStateMachine.setRobotState(RobotState.SCORING_CORAL_WITH_ALGAE);
+    if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_NET) {
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
+    } else if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_PROCESSOR_SPEED);
+    }
+    globalStateMachine.setRobotState(RobotState.SCORING_ALGAE_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +42,7 @@ public class ScoringCoralWithAlgae extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setHasCoralOverride(false);
+    globalRotors.setHasAlgaeOverride(false);
   }
 
   // Returns true when the command should end.
