@@ -22,6 +22,7 @@ import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
 import frc.robot.RobotMap.*;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 @Logged
 public class Motion extends SubsystemBase {
@@ -92,8 +93,16 @@ public class Motion extends SubsystemBase {
     } else {
       setWristPivotAngle(positionGroup.wristAngle);
     }
-    setElevatorPivotAngle(positionGroup.pivotAngle);
-    setLiftPosition(positionGroup.liftHeight);
+    if (isPivotInDangerUp() == true) {
+      setElevatorPivotAngle(positionGroup.pivotAngle);
+    } else {
+      setElevatorPivotAngle(positionGroup.pivotAngle);
+    }
+    if (isPivotInDangerDown() == true) {
+      setLiftPosition(positionGroup.liftHeight);
+    } else {
+      setLiftPosition(positionGroup.liftHeight);
+    }
   }
 
   public void setLiftCoastMode(boolean coastMode) {
@@ -182,6 +191,14 @@ public class Motion extends SubsystemBase {
   public boolean isWristInDanger() {
     return getWristAngle().lt(constMotion.WRIST_DANGER_ANGLE)
         && elevatorPivotLastDesiredAngle.lt(constMotion.PIVOT_DANGER_ANGLE);
+  }
+
+  public boolean isPivotInDangerUp() {
+    return getLiftPosition().lt(elevatorLiftLastDesiredPosition);
+  }
+
+  public boolean isPivotInDangerDown() {
+    return getPivotAngle().gt(elevatorPivotLastDesiredAngle);
   }
 
   public void resetLiftSensorPosition(Distance setpoint) {
