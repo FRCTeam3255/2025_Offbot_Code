@@ -317,7 +317,7 @@ public class StateMachine extends SubsystemBase {
           case PREP_CORAL_L3:
           case PREP_CORAL_L4:
 
-            return new ScoringCoral(subStateMachine, subRotors, subDrivetrain);
+            return new ScoringCoral(subStateMachine, subRotors, subDrivetrain, subMotion);
         }
         break;
 
