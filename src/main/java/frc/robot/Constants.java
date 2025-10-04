@@ -431,7 +431,7 @@ public final class Constants {
     public Angle pivotTolerance;
     public Angle wristTolerance;
     public int wristSlot = 0;
-    public int pivotSlot = 1;
+    public int pivotSlot = 0;
     public int liftSlot = 0;
   }
 
@@ -584,6 +584,9 @@ public final class Constants {
       PREP_PROCESSOR.wristAngle = Degrees.of(-2); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(4); // TODO: Replace with actual height
       PREP_PROCESSOR.pivotAngle = Degrees.of(12); // TODO: Replace with actual angle
+      PREP_PROCESSOR.pivotSlot = 0;
+      PREP_PROCESSOR.wristSlot = 1;
+      PREP_PROCESSOR.liftSlot = 0;
 
       CLIMBED.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
       CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
