@@ -139,7 +139,7 @@ public final class Constants {
     public static final double MIN_STEER_PERCENT = 0.01;
 
     // Rotational speed (degrees per second) while manually driving
-    public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(180);
+    public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
 
     // -- Motor Configurations --
     static {
@@ -210,7 +210,7 @@ public final class Constants {
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
       public static final ProfiledPIDController ROTATION_CONTROLLER = new ProfiledPIDController(
-          0.2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+          2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
       public static final Angle AT_ROTATION_TOLERANCE = Units.Degrees.of(1);
 
