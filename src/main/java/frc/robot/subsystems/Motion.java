@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Inches;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -17,6 +18,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
@@ -38,6 +40,7 @@ public class Motion extends SubsystemBase {
   private Angle wristLastDesiredAngle = Degrees.zero();
   private Distance elevatorLiftLastDesiredPosition = Units.Inches.zero();
   MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
+  VoltageOut voltageRequest = new VoltageOut(0);
   public boolean attemptingLiftZeroing = false;
   public boolean attemptingPivotZeroing = false;
   public boolean attemptingWristZeroing = false;
@@ -54,7 +57,7 @@ public class Motion extends SubsystemBase {
     frontLeftPivotMotorFollower = new TalonFX(mapMotion.FRONT_LEFT_PIVOT_CAN);
     frontRightPivotMotorLeader = new TalonFX(mapMotion.FRONT_RIGHT_PIVOT_CAN);
     wristPivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
-
+    voltageRequest = new VoltageOut(0);
     elevatorLiftLastDesiredPosition = Units.Inches.of(0);
     // Set default motor configurations if needed
     // e.g., elevatorLeftMotor.configFactoryDefault();
@@ -132,6 +135,22 @@ public class Motion extends SubsystemBase {
       constMotion.WRIST_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
     }
+  }
+
+  public void setLiftVoltage(Voltage voltage) {
+    rightLiftMotorLeader.setControl(voltageRequest.withOutput(voltage));
+    leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
+  }
+
+  public void setPivotVoltage(Voltage voltage) {
+    frontRightPivotMotorLeader.setControl(voltageRequest.withOutput(voltage));
+    frontLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
+    backLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
+    backRightPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), false));
+  }
+
+  public void setWristVoltage(Voltage voltage) {
+    wristPivotMotor.setControl(voltageRequest.withOutput(voltage));
   }
 
   public Distance getLiftPosition() {
