@@ -468,6 +468,7 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(48);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
 
+
     static {
 
       CLEAN_HIGH_FORWARDS.wristAngle = Degrees.of(65.81);
@@ -533,14 +534,23 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-125);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(87.64);
+      PREP_CORAL_L2_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(-125);
       PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(17); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(84.33);
+      PREP_CORAL_L3_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(57); // TODO: Replace with actual height
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(88.65);
+      PREP_CORAL_L4_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
