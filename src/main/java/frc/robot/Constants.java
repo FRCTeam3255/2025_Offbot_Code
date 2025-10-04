@@ -486,9 +486,9 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(95.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(10.9);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(11.9);
       INTAKE_CORAL_STATION.liftHeight = Inches.of(5.5);// huxly said 6.958
-      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
+      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(65.0);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(55); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
@@ -729,9 +729,9 @@ public final class Constants {
     public static final Distance FIELD_WIDTH = Units.Feet.of(26).plus(Units.Inches.of(5));
     public static final Pose3d SCORING_ELEMENT_NOT_COLLECTED = new Pose3d(0, 0, -1, Rotation3d.kZero);
     public static final Pose2d RESET_POS = new Pose2d(
-        5.109,
-        5.227,
-        Rotation2d.fromDegrees(-120));
+        3.15,
+        4.0,
+        Rotation2d.fromDegrees(0.0));
 
     public static final Pose2d WORKSHOP_STARTING_POSE = new Pose2d(5.98, 2.60, new Rotation2d(0));
   }
