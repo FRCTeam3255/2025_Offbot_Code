@@ -491,18 +491,6 @@ public final class Constants {
       INTAKE_CORAL_STATION.liftHeight = Inches.of(5.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(56.9);
 
-      PREP_CORAL_L2_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
-      PREP_CORAL_L2_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
-      PREP_CORAL_L2_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
-  
-      PREP_CORAL_L3_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
-      PREP_CORAL_L3_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
-      PREP_CORAL_L3_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
-  
-      PREP_CORAL_L4_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
-      PREP_CORAL_L4_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
-      PREP_CORAL_L4_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
-
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(55); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(21); // TODO: Replace with actual
@@ -546,14 +534,23 @@ public final class Constants {
       PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-125);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(87.64);
+      PREP_CORAL_L2_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L2_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_L3_BACKWARDS.wristAngle = Degrees.of(-125);
       PREP_CORAL_L3_BACKWARDS.liftHeight = Inches.of(17); // TODO: Replace with actual height
       PREP_CORAL_L3_BACKWARDS.pivotAngle = Degrees.of(84.33);
+      PREP_CORAL_L3_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L3_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_L4_BACKWARDS.wristAngle = Degrees.of(-145);
       PREP_CORAL_L4_BACKWARDS.liftHeight = Inches.of(57); // TODO: Replace with actual height
       PREP_CORAL_L4_BACKWARDS.pivotAngle = Degrees.of(88.65);
+      PREP_CORAL_L4_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
+      PREP_CORAL_L4_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
 
       PREP_CORAL_ZERO_WITH_ALGAE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       PREP_CORAL_ZERO_WITH_ALGAE.liftHeight = Inches.of(0); // TODO: Replace with actual height
