@@ -815,14 +815,14 @@ public final class Constants {
     static {
       LED_CONFIG.brightnessScalar = 1;
     }
-    public static final int[] IS_NOT_AT_STARTING_CONFIG = { 255, 0, 0 };// no color
+    public static final int[] IS_NOT_AT_STARTING_CONFIG = { 0, 0, 255 };// blue
     public static final int[] IS_AT_STARTING_CONFIG = { 0, 255, 0 };// green
-    public static final int[] PIVOT_ZERO_FAILED = { 255, 0, 0 }; // red
-    public static final int[] PIVOT_ZERO_SUCCESS = { 0, 255, 0 }; // no color
-    public static final int[] WRIST_ZERO_FAILED = { 255, 0, 0 }; // red
-    public static final int[] WRIST_ZERO_SUCCESS = { 0, 255, 0 }; // no color
-    public static final int[] LIFT_ZERO_FAILED = { 255, 0, 0 }; // red
-    public static final int[] LIFT_ZERO_SUCCESS = { 0, 255, 0 }; // no color
+    public static final int[] PIVOT_ZERO_FAILED = { 0, 0, 255 }; // blue
+    public static final int[] PIVOT_ZERO_SUCCESS = { 0, 255, 0 }; // green
+    public static final int[] WRIST_ZERO_FAILED = { 0, 0, 255 }; // blue
+    public static final int[] WRIST_ZERO_SUCCESS = { 0, 255, 0 }; // green
+    public static final int[] LIFT_ZERO_FAILED = { 0, 0, 255 }; // blue
+    public static final int[] LIFT_ZERO_SUCCESS = { 0, 255, 0 }; // green
 
   }
 }
