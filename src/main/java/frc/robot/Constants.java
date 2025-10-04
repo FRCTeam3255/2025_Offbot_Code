@@ -486,7 +486,7 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(22);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(95.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(11.9);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(13.9);
       INTAKE_CORAL_STATION.liftHeight = Inches.of(5.5);// huxly said 6.958
       INTAKE_CORAL_STATION.pivotAngle = Degrees.of(65.0);
 
@@ -517,6 +517,8 @@ public final class Constants {
       PREP_CORAL_L1.wristAngle = Degrees.of(10);
       PREP_CORAL_L1.liftHeight = Inches.of(0); // TODO: Replace with actual height
       PREP_CORAL_L1.pivotAngle = Degrees.of(40);
+      PREP_CORAL_L1.pivotSlot = 1;
+      PREP_CORAL_L1.wristSlot = 1;
 
       PREP_CORAL_L2_FORWARDS.wristAngle = Degrees.of(-115);
       PREP_CORAL_L2_FORWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -584,8 +586,8 @@ public final class Constants {
       PREP_PROCESSOR.wristAngle = Degrees.of(-2); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(4); // TODO: Replace with actual height
       PREP_PROCESSOR.pivotAngle = Degrees.of(12); // TODO: Replace with actual angle
-      PREP_PROCESSOR.pivotSlot = 0;
-      PREP_PROCESSOR.wristSlot = 1;
+      PREP_PROCESSOR.pivotSlot = 1;
+      PREP_PROCESSOR.wristSlot = 0;
       PREP_PROCESSOR.liftSlot = 0;
 
       CLIMBED.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
@@ -619,7 +621,7 @@ public final class Constants {
     public static final double INDEX_L1_SPEED = 0.2;
     public static final double INTAKE_CORAL_ALGAE_SPEED = -1;
     public static final double INTAKE_CORAL_GROUND_SPEED = 1; // TODO: Replace with actual speed
-    public static final double INTAKE_CORAL_STATION_SPEED = 0.7; // TODO: Replace with actual speed
+    public static final double INTAKE_CORAL_STATION_SPEED = 0.6; // TODO: Replace with actual speed
     public static final double SCORE_CORAL_SPEED = 0.4;
     public static final double INTAKE_CORAL_L1_SPEED = 1; // TODO: Replace with actual speed
     public static final double ALGAE_HOLD_SPEED = 0.4;
