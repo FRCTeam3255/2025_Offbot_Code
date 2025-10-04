@@ -820,7 +820,7 @@ public final class Constants {
     public static final int[] PIVOT_ZERO_FAILED = { 0, 0, 255 }; // blue
     public static final int[] PIVOT_ZERO_SUCCESS = { 0, 255, 0 }; // green
     public static final int[] WRIST_ZERO_FAILED = { 0, 0, 255 }; // blue
-    public static final int[] WRIST_ZERO_SUCCESS = { 0, 255, 0 }; // no color
+    public static final int[] WRIST_ZERO_SUCCESS = { 0, 255, 0 }; // green
     public static final int[] LIFT_ZERO_FAILED = { 0, 0, 255 }; // blue
     public static final int[] LIFT_ZERO_SUCCESS = { 0, 255, 0 }; // no color
 
