@@ -4,15 +4,15 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.frcteam3255.utils.LimelightHelpers;
 import com.frcteam3255.utils.LimelightHelpers.PoseEstimate;
-import java.util.Optional;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.units.measure.AngularVelocity;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.constVision;
 
@@ -165,8 +165,11 @@ public class Vision extends SubsystemBase {
       } else if (lastEstimateLeft.avgTagDist < lastEstimateRight.avgTagDist
           && lastEstimateLeft.avgTagDist < lastEstimateBack.avgTagDist) {
         return Optional.of(lastEstimateLeft);
-      } else {
+      } else if (lastEstimateBack.avgTagDist < lastEstimateRight.avgTagDist
+          && lastEstimateBack.avgTagDist < lastEstimateLeft.avgTagDist) {
         return Optional.of(lastEstimateBack);
+      } else {
+        return Optional.empty();
       }
     }
   }
