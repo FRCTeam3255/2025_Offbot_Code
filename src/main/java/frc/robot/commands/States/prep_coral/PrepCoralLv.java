@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Field;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
@@ -62,6 +63,8 @@ public class PrepCoralLv extends Command {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
     } else if (targetLevel == 1) {
       globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
+      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
+      globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.CORAL_L1_CORAL_HOLD_SPEED);
       globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
     } else if (targetLevel == 2) {
       globalMotion.setAllPosition(prepL2);

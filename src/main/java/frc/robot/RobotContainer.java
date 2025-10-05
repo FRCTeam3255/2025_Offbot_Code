@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
+import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
@@ -49,6 +50,7 @@ public class RobotContainer {
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
+  private final Vision subVision = new Vision();
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
@@ -59,7 +61,7 @@ public class RobotContainer {
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger isInCleaningStates = new Trigger(() -> subStateMachine.inCleaningState());
-  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral() && !subRotors.hasAlgae());
+  private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral());
   private final Trigger isCageLatchedTrigger = new Trigger(() -> subRotors.isCageLatched());
   private final Trigger isInCSAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR
@@ -111,6 +113,8 @@ public class RobotContainer {
       () -> subStateMachine.tryState(RobotState.SCORING_CORAL));
   Command TRY_SCORING_ALGAE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.SCORING_ALGAE));
+  Command TRY_SCORING_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_L1));
   Command TRY_CLEAN_HIGH = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.CLEAN_HIGH));
   Command TRY_CLEAN_LOW = Commands.deferredProxy(
@@ -212,8 +216,9 @@ public class RobotContainer {
 
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
-    conDriver.btn_Back
-        .onTrue(Commands.runOnce(() -> subDrivetrain.resetPoseToPose(new Pose2d(0, 0, new Rotation2d()))));
+    conDriver.btn_North
+        .onTrue(Commands
+            .runOnce(() -> subDrivetrain.resetPoseToPose(constField.RESET_POS)));
 
     conDriver.btn_LeftTrigger
         .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
@@ -247,11 +252,11 @@ public class RobotContainer {
         .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_AUTO_DRIVING)
         .onFalse(MANUAL);
 
-    conDriver.btn_North
+    conDriver.btn_East
         .whileTrue(PROCESSOR_ROTATION_SNAPPING)
         .onFalse(MANUAL);
 
@@ -323,6 +328,7 @@ public class RobotContainer {
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
         .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
+        .whileTrue(TRY_SCORING_CORAL_L1)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL)
         .onFalse(TRY_HAS_ALGAE);
@@ -386,23 +392,32 @@ public class RobotContainer {
     conOperator.btn_Back.or(new EventTrigger("HAS_ALGAE_OVERRIDE_TRIGGER"))
         .onTrue(HAS_ALGAE_OVERRIDE);
 
-    hasCoralTrigger
+    hasCoralTrigger.debounce(0.1)
         .whileTrue(TRY_HAS_CORAL);
 
-    hasAlgaeTrigger
+    hasAlgaeTrigger// debounce(0.2).and(conOperator.btn_West.negate()).and(conOperator.btn_East.negate())
         .whileTrue(TRY_HAS_ALGAE);
 
     hasBothTrigger
         .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
 
-    hasCoralL1Trigger
+    hasCoralL1Trigger.debounce(0.1)
         .whileTrue(TRY_PREP_CORAL_L1);
 
     isCageLatchedTrigger
         .onTrue(TRY_CLIMBING);
   }
 
+  public boolean allZeroed() {
+    return subMotion.hasLiftZeroed && subMotion.hasPivotZeroed && subMotion.hasWristZeroed;
+  }
+
   public RobotState getRobotState() {
     return subStateMachine.getRobotState();
+  }
+
+  public Command AddVisionMeasurement() {
+    return new AddVisionMeasurement(subDrivetrain, subVision)
+        .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).ignoringDisable(true);
   }
 }

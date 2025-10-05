@@ -67,33 +67,33 @@ public class Motion extends SubsystemBase {
     wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
   }
 
-  private void setLiftPosition(Distance height) {
-    rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)));
+  private void setLiftPosition(Distance height, int slot) {
+    rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)).withSlot(slot));
     leftLiftMotorFollower.setControl(new Follower(rightLiftMotorLeader.getDeviceID(), true));
     elevatorLiftLastDesiredPosition = height;
   }
 
-  private void setElevatorPivotAngle(Angle angle) {
-    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle));
+  private void setElevatorPivotAngle(Angle angle, int slot) {
+    frontRightPivotMotorLeader.setControl(positionRequest.withPosition(angle).withSlot(slot));
     frontLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backLeftPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), true));
     backRightPivotMotorFollower.setControl(new Follower(frontRightPivotMotorLeader.getDeviceID(), false));
     elevatorPivotLastDesiredAngle = angle;
   }
 
-  private void setWristPivotAngle(Angle angle) {
-    wristPivotMotor.setControl(positionRequest.withPosition(angle));
+  private void setWristPivotAngle(Angle angle, int slot) {
+    wristPivotMotor.setControl(positionRequest.withPosition(angle).withSlot(slot));
     wristLastDesiredAngle = angle;
   }
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
     if (isWristInDanger() == true) {
-      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE);
+      setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE, positionGroup.wristSlot);
     } else {
-      setWristPivotAngle(positionGroup.wristAngle);
+      setWristPivotAngle(positionGroup.wristAngle, positionGroup.wristSlot);
     }
-    setElevatorPivotAngle(positionGroup.pivotAngle);
-    setLiftPosition(positionGroup.liftHeight);
+    setElevatorPivotAngle(positionGroup.pivotAngle, positionGroup.pivotSlot);
+    setLiftPosition(positionGroup.liftHeight, positionGroup.liftSlot);
   }
 
   public void setLiftCoastMode(boolean coastMode) {

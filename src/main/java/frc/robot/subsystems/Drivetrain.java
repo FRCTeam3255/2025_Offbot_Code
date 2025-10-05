@@ -138,7 +138,7 @@ public class Drivetrain extends SN_SuperSwerve {
         * redAllianceMultiplier;
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
         * redAllianceMultiplier;
-    double rotationVelocity = -rotationAxisSupplier.getAsDouble()
+    double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
     return new SwerveVelocity(xVelocity, yVelocity, rotationVelocity);
@@ -165,7 +165,8 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lockY) {
       automatedDTVelocity.vyMetersPerSecond = manualVelocities.y;
     }
-    drive(automatedDTVelocity, isOpenLoop);
+    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    drive(automatedDTVelocity, isOpenLoop = false);
   }
 
   public void rotationalAlign(Pose2d desiredTarget, SwerveVelocity velocities, boolean isOpenLoop) {
