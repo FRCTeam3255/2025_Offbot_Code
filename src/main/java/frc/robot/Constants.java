@@ -576,7 +576,7 @@ public final class Constants {
 
       PREP_CLIMB.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CLIMB.pivotAngle = Degrees.of(109.4); // TODO: Replace with actual angle
+      PREP_CLIMB.pivotAngle = Degrees.of(106.4); // TODO: Replace with actual angle
 
       NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -599,7 +599,7 @@ public final class Constants {
       PREP_PROCESSOR.wristSlot = 0;
       PREP_PROCESSOR.liftSlot = 0;
 
-      CLIMBED.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
+      CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
       CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLIMBED.pivotSlot = 1;
@@ -624,7 +624,7 @@ public final class Constants {
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_PROCESSOR_SPEED = -1; // TODO: Replace with actual speed
-    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = -1;
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = -0.5;
     public static final double CLEAN_ALGAE_SPEED = 1;
     public static final double INTAKE_L1_SPEED = -1;
     public static final double INDEX_L1_SPEED = 0.2;
