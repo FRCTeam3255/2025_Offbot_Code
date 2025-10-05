@@ -50,21 +50,6 @@ public class Drivetrain extends SN_SuperSwerve {
           mapDrivetrain.CAN_BUS_NAME),
   };
 
-  /**
-   * Class to hold calculated velocity results
-   */
-  public static class SwerveVelocity {
-    public final double x;
-    public final double y;
-    public final double rotation;
-
-    public SwerveVelocity(double xVelocity, double yVelocity, double rotationVelocity) {
-      this.x = xVelocity;
-      this.y = yVelocity;
-      this.rotation = rotationVelocity;
-    }
-  }
-
   public Drivetrain() {
     super(
         constDrivetrain.SWERVE_CONSTANTS,
@@ -127,9 +112,9 @@ public class Drivetrain extends SN_SuperSwerve {
    * @param xAxisSupplier        X-axis joystick input supplier
    * @param yAxisSupplier        Y-axis joystick input supplier
    * @param rotationAxisSupplier Rotation joystick input supplier
-   * @return VelocityResult containing calculated velocities
+   * @return ChassisSpeeds containing calculated velocities
    */
-  public SwerveVelocity calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
+  public ChassisSpeeds calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
       DoubleSupplier rotationAxisSupplier) {
     boolean isRed = isRedAlliance();
     double redAllianceMultiplier = isRed ? -1 : 1;
@@ -141,7 +126,7 @@ public class Drivetrain extends SN_SuperSwerve {
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
-    return new SwerveVelocity(xVelocity, yVelocity, rotationVelocity);
+    return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }
 
   public static boolean isRedAlliance() {
@@ -150,7 +135,7 @@ public class Drivetrain extends SN_SuperSwerve {
 
   public void autoAlign(
       Pose2d desiredTarget,
-      SwerveVelocity manualVelocities,
+      ChassisSpeeds manualVelocities,
       boolean isOpenLoop,
       boolean lockX,
       boolean lockY) {
@@ -160,26 +145,19 @@ public class Drivetrain extends SN_SuperSwerve {
         desiredTarget.getRotation());
 
     if (lockX) {
-      automatedDTVelocity.vxMetersPerSecond = manualVelocities.x;
+      automatedDTVelocity.vxMetersPerSecond = manualVelocities.vxMetersPerSecond;
     }
     if (lockY) {
-      automatedDTVelocity.vyMetersPerSecond = manualVelocities.y;
+      automatedDTVelocity.vyMetersPerSecond = manualVelocities.vyMetersPerSecond;
     }
     automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
-    drive(automatedDTVelocity, isOpenLoop = false);
+    drive(automatedDTVelocity, isOpenLoop);
   }
 
-  public void rotationalAlign(Pose2d desiredTarget, SwerveVelocity velocities, boolean isOpenLoop) {
+  public void rotationalAlign(Pose2d desiredTarget, ChassisSpeeds velocities, boolean isOpenLoop) {
     // Rotational-only auto-align
-    drive(new Translation2d(velocities.x, velocities.y),
+    drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
-  }
-
-  public void drive(SwerveVelocity velocities, boolean isOpenLoop) {
-    drive(
-        new Translation2d(velocities.x, velocities.y),
-        velocities.rotation,
-        isOpenLoop);
   }
 
   public Pose2d getClosestPose(List<Pose2d> poses) {

@@ -4,12 +4,11 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.SwerveVelocity;
 
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
@@ -37,7 +36,7 @@ public class PoseDriving extends Command {
   public void execute() {
     closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+    ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
@@ -47,7 +46,8 @@ public class PoseDriving extends Command {
 
     if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup) && backwardsAllowed) {
       closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
-      velocities = new SwerveVelocity(-velocities.x, -velocities.y, velocities.rotation);
+      velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
+      velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
     }
 
     if (isInAutoDriveZone) {
@@ -70,10 +70,12 @@ public class PoseDriving extends Command {
   @Override
   public void end(boolean interrupted) {
     subDrivetrain.neutralDriveOutputs();
+    System.out.println("Ended PoseDriving");
   }
 
   @Override
   public boolean isFinished() {
-    return subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) && DriverStation.isAutonomous();
+    return false;// subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
+                 // DriverStation.isAutonomous();
   }
 }

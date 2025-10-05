@@ -12,10 +12,9 @@ import static edu.wpi.first.units.Units.Rotations;
 import java.util.List;
 import java.util.Optional;
 
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 // import com.ctre.phoenix6.configs.CANdleConfiguration;
 // import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -29,6 +28,7 @@ import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -651,6 +651,7 @@ public final class Constants {
     public boolean lockY;
     public boolean backwardsAllowed;
     public Distance distanceTolerance = Units.Inches.of(1);
+    public Angle rotationTolerance = Units.Degrees.of(1);
   }
 
   public static class constPoseDrive {

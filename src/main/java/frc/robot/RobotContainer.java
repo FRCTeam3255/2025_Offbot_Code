@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.Set;
+
 import com.frcteam3255.joystick.SN_XboxController;
 import com.pathplanner.lib.events.EventTrigger;
 
@@ -13,6 +15,7 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
@@ -22,8 +25,8 @@ import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
 import frc.robot.commands.Zeroing.ManualZeroWrist;
 import frc.robot.commands.Zeroing.StartingConfig;
-import frc.robot.commands.driver_states.DriveManual;
 import frc.robot.subsystems.DriverStateMachine;
+import frc.robot.subsystems.DriverStateMachine.DriverState;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
@@ -150,55 +153,70 @@ public class RobotContainer {
   Command HAS_CORAL_L1_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
 
   // --- Driver State Commands ---
-  Command MANUAL = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
-          conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command REEF_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command CORAL_STATION_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command REEF_AUTO_DRIVING_LEFT = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command REEF_AUTO_DRIVING_RIGHT = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command CORAL_STATION_AUTO_DRIVING_FAR = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command CORAL_STATION_AUTO_DRIVING_CLOSE = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command PROCESSOR_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command PROCESSOR_AUTO_DRIVING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command NET_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command NET_AUTO_DRIVING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command ALGAE_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command ALGAE_AUTO_DRIVING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-  Command CAGE_ROTATION_SNAPPING = Commands.deferredProxy(
-      () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
+  Command MANUAL = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
+          conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command REEF_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command CORAL_STATION_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command REEF_AUTO_DRIVING_LEFT = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command REEF_AUTO_DRIVING_RIGHT = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command CORAL_STATION_AUTO_DRIVING_FAR = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command CORAL_STATION_AUTO_DRIVING_CLOSE = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command PROCESSOR_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command PROCESSOR_AUTO_DRIVING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command NET_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command NET_AUTO_DRIVING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_AUTO_DRIVING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command ALGAE_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command ALGAE_AUTO_DRIVING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_AUTO_DRIVING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+  Command CAGE_ROTATION_SNAPPING = new DeferredCommand(
+      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+      Set.of(subDriverStateMachine));
+
+  private Command autoSequence;
 
   public RobotContainer() {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
-    subDrivetrain
-        .setDefaultCommand(new DriveManual(
-            subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
+    subDriverStateMachine
+        .setDefaultCommand(MANUAL);
 
     configDriverBindings();
     configOperatorBindings();
@@ -210,8 +228,23 @@ public class RobotContainer {
         subDrivetrain::resetPoseToPose, // A function that resets the current robot pose to the provided Pose2d
         subDrivetrain::followTrajectory, // The drive subsystem trajectory follower
         true, // If alliance flipping should be enabled
-        subDrivetrain // The drive subsystem
+        subDriverStateMachine // The drive subsystem
     );
+    autoSequence = Commands.sequence(
+        autoFactory.resetOdometry("top_ji"),
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
+        runPath("top_ji"),
+        // new DeferredCommand(() -> autoFactory.trajectoryCmd("top_ji"),
+        // Set.of(subDriverStateMachine)),
+        REEF_AUTO_DRIVING_RIGHT);
+    // new DeferredCommand(() -> autoFactory.trajectoryCmd("ji_cs"),
+    // Set.of(subDriverStateMachine)),
+    // CORAL_STATION_AUTO_DRIVING_CLOSE);
+  }
+
+  Command runPath(String pathName) {
+    return autoFactory.trajectoryCmd(pathName)
+        .alongWith(Commands.runOnce(() -> subDriverStateMachine.setDriverState(DriverState.CHOREO)));
   }
 
   private void configDriverBindings() {
@@ -288,24 +321,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.sequence(
-        autoFactory.resetOdometry("top_ji"),
-        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
-        autoFactory.trajectoryCmd("top_ji"),
-        Commands.waitSeconds(0.5),
-        TRY_PREP_CORAL_L4,
-        Commands.waitSeconds(0.5),
-        REEF_AUTO_DRIVING_RIGHT,
-        Commands.waitSeconds(0.5),
-        TRY_SCORING_CORAL,
-        Commands.waitSeconds(0.5),
-        autoFactory.trajectoryCmd("ji_cs"),
-        Commands.waitSeconds(0.5),
-        CORAL_STATION_AUTO_DRIVING_CLOSE,
-        Commands.waitSeconds(0.5),
-        TRY_INTAKE_CORAL_STATION
-
-    );
+    return autoSequence;
 
   }
 
