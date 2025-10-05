@@ -6,15 +6,23 @@ package frc.robot;
 
 import edu.wpi.first.epilogue.Epilogue;
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.net.WebServer;
+import edu.wpi.first.units.measure.MutCurrent;
+import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.constField;
+import frc.robot.commands.Zeroing.ManualZeroLift;
+import edu.wpi.first.cameraserver.CameraServer;
 
 @Logged
 public class Robot extends TimedRobot {
@@ -23,8 +31,6 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private boolean bothSubsystemsZeroed = false;
-
-  private CommandScheduler cmdScheduler = CommandScheduler.getInstance();
 
   @Override
   public void robotInit() {
@@ -42,15 +48,15 @@ public class Robot extends TimedRobot {
     // Log the DS data and joysticks
     DriverStation.startDataLog(DataLogManager.getLog(), true);
     DriverStation.silenceJoystickConnectionWarning(Constants.constControllers.SILENCE_JOYSTICK_WARNINGS);
-    // m_robotContainer.manualZeroLift.schedule();
-    // m_robotContainer.manualZeroPivot.schedule();
-    // m_robotContainer.manualZeroWrist.schedule();
-    // m_robotContainer.startingCofig.schedule();
+    m_robotContainer.manualZeroLift.schedule();
+    m_robotContainer.manualZeroPivot.schedule();
+    m_robotContainer.manualZeroWrist.schedule();
+    m_robotContainer.startingCofig.schedule();
   }
 
   @Override
   public void robotPeriodic() {
-    cmdScheduler.run();
+    CommandScheduler.getInstance().run();
     m_robotContainer.AddVisionMeasurement().schedule();
 
   }
