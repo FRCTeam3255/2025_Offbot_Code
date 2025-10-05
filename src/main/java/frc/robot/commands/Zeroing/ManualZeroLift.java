@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Zeroing;
 
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Motion;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
@@ -11,8 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
-import frc.robot.subsystems.LED;
-import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualZeroLift extends Command {
@@ -62,7 +62,6 @@ public class ManualZeroLift extends Command {
 
         if (deltaLiftVelocity && lastLiftVelocity.lte(Units.RotationsPerSecond.of(0))) {
           zeroingSuccess = true;
-          globalMotion.setLiftCoastMode(false);
         } else {
           lastLiftVelocity = globalMotion.getLiftVelocity();
         }
