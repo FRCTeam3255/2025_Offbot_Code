@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "P-G"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GFAlgae-Net"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Net-EFAlgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "EFAlgae-Net"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Net-CDAlgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CDAlgae-Net"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

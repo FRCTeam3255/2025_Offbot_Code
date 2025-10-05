@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +28,6 @@ import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.commands.driver_states.DriveManual;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.DriverStateMachine.DriverState;
 import frc.robot.subsystems.StateMachine.RobotState;
 import frc.robot.commands.Zeroing.*;
 import edu.wpi.first.epilogue.Logged;
@@ -208,7 +203,9 @@ public class RobotContainer {
             subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
     configDriverBindings();
+    configureAutoBindings();
     configOperatorBindings();
+    configureAutoSelector();
 
     subDrivetrain.resetModulesToAbsolute();
   }
@@ -401,10 +398,11 @@ public class RobotContainer {
   }
 
     // ------ Autos ------
-  public Command getAutonomousCommand() {
-    return Commands.runOnce(() -> subDrivetrain.resetPoseToPose(Constants.constField.WORKSHOP_STARTING_POSE))
-        .andThen(new ExampleAuto(subDrivetrain));
-  }
+    public Command getAutonomousCommand() {
+      AUTO_PREP_NUM = 0;
+      selectAutoMap();
+      return Commands.runOnce(() -> subDrivetrain.resetPoseToPose(Constants.constField.WORKSHOP_STARTING_POSE));
+    }
 
   public void resetToAutoPose() {
     Rotation2d desiredRotation = Rotation2d.kZero;
@@ -422,7 +420,7 @@ public class RobotContainer {
   }
 
   private void configureAutoSelector() {
-    autoChooser = AutoBuilder.buildAutoChooser("Four-Piece-Low");
+    autoChooser = AutoBuilder.buildAutoChooser("Algae_Far_Net");
     SmartDashboard.putData(autoChooser);
   }
 
