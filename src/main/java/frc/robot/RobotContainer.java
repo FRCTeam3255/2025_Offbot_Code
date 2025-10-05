@@ -5,22 +5,20 @@
 package frc.robot;
 
 import java.util.List;
-import java.util.Set;
 
 import com.frcteam3255.joystick.SN_XboxController;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.events.EventTrigger;
+import com.pathplanner.lib.path.PathPlannerPath;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
@@ -31,7 +29,6 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.StateMachine.RobotState;
 import frc.robot.commands.Zeroing.*;
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
 
 @Logged
 public class RobotContainer {
@@ -46,6 +43,8 @@ public class RobotContainer {
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
   private final Vision subVision = new Vision();
+
+  SendableChooser<Command> autoChooser;
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
@@ -188,13 +187,6 @@ public class RobotContainer {
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
-  @NotLogged
-  SendableChooser<Command> autoChooser = new SendableChooser<>();
-
-  Pair<RobotState, Pose2d>[] SELECTED_AUTO_PREP_MAP;
-  public static String SELECTED_AUTO_PREP_MAP_NAME = "none :("; // For logging :p
-  int AUTO_PREP_NUM = 0;
-
   public RobotContainer() {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
@@ -203,11 +195,20 @@ public class RobotContainer {
             subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
     configDriverBindings();
-    configureAutoBindings();
     configOperatorBindings();
-    configureAutoSelector();
 
     subDrivetrain.resetModulesToAbsolute();
+
+    // Auto Triggers
+    new EventTrigger("intake_coral_ground").whileTrue(TRY_INTAKE_CORAL_GROUND);
+
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    // Another option that allows you to specify the default auto by its name
+    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configDriverBindings() {
@@ -397,215 +398,16 @@ public class RobotContainer {
         .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).ignoringDisable(true);
   }
 
-    // ------ Autos ------
-    public Command getAutonomousCommand() {
-      AUTO_PREP_NUM = 0;
-      selectAutoMap();
-      return Commands.runOnce(() -> subDrivetrain.resetPoseToPose(Constants.constField.WORKSHOP_STARTING_POSE));
-    }
+  public Command getAutonomousCommand() {
+    try{
+        // Load the path you want to follow using its name in the GUI
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
 
-  public void resetToAutoPose() {
-    Rotation2d desiredRotation = Rotation2d.kZero;
-
-    try {
-      desiredRotation = PathPlannerAuto.getPathGroupFromAutoFile(autoChooser.getSelected().getName()).get(0)
-          .getIdealStartingState().rotation();
-      if (constField.isRedAlliance()) {
-        desiredRotation = desiredRotation.plus(Rotation2d.k180deg);
-      }
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return AutoBuilder.followPath(path);
     } catch (Exception e) {
-    }
-
-    subDrivetrain.resetPoseToPose(new Pose2d(subDrivetrain.getPose().getTranslation(), desiredRotation));
-  }
-
-  private void configureAutoSelector() {
-    autoChooser = AutoBuilder.buildAutoChooser("Algae_Far_Net");
-    SmartDashboard.putData(autoChooser);
-  }
-
-  private void configureAutoBindings() {
-    // i decorate my commands like a christmas tree
-    // -- Named Commands --
-    NamedCommands.registerCommand("PrepPlace",
-        Commands.runOnce(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L4))
-            .until(() -> subStateMachine.getRobotState() == RobotState.PREP_CORAL_L4)
-            .asProxy().withName("PrepPlace"));
-
-    NamedCommands.registerCommand("PrepPlaceWithAlgae",
-        Commands.runOnce(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE))
-            .until(() -> subStateMachine.getRobotState() == RobotState.PREP_CORAL_L4_WITH_ALGAE)
-            .asProxy());
-
-    // -- Event Markers --
-    EventTrigger prepL2 = new EventTrigger("PrepL2");
-    prepL2
-        .onTrue(new DeferredCommand(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L1),
-            Set.of(subStateMachine)).repeatedly()
-            .until(() -> subStateMachine.getRobotState() == RobotState.PREP_CORAL_L1));
-
-    EventTrigger prepPlace = new EventTrigger("PrepPlace");
-    prepPlace
-        .onTrue(new DeferredCommand(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L4),
-            Set.of(subStateMachine)).repeatedly()
-            .until(() -> subStateMachine.getRobotState() == RobotState.PREP_CORAL_L4));
-  }
-
-  /**
-   * Populates the selected AutoMap for your autonomous command.
-   */
-  private void selectAutoMap() {
-    SELECTED_AUTO_PREP_MAP = configureAutoPrepMaps(autoChooser.getSelected().getName());
-    SELECTED_AUTO_PREP_MAP_NAME = autoChooser.getSelected().getName();
-  }
-
-  /**
-   * Configures the autonomous preparation maps based on the selected autonomous routine.
-   * This method returns an array of pairs, where each pair consists of a {@link RobotState} 
-   * and a {@link Pose2d} representing the robot's state and its target position on the field.
-   * 
-   * The method supports a variety of autonomous routines, each with its own predefined sequence 
-   * of robot states and field positions. The positions are retrieved from the field configuration 
-   * and are dynamically adjusted based on the alliance color (red or blue).
-   * 
-   * @param selectedAuto The name of the selected autonomous routine. This determines the sequence 
-   *                     of robot states and positions to be used. Supported values include:
-   *                     <ul>
-   *                       <li>"Four_Piece_High" - A routine for scoring four pieces in high positions.</li>
-   *                       <li>"Four_Piece_High_Double_Tickle" - A variation of the high scoring routine.</li>
-   *                       <li>"Four_Piece_Low" - A routine for scoring four pieces in low positions.</li>
-   *                       <li>"Four_Piece_High_Single_Tickle" - Another variation of the high scoring routine.</li>
-   *                       <li>"Algae_Net" - A routine involving algae positions and net scoring.</li>
-   *                       <li>"Ch_Algae_2.5_Net_Side" - A routine for handling algae and net scoring on one side.</li>
-   *                       <li>"Ch_Algae_2.5_Net_To_KL" - A routine for handling algae and net scoring towards KL positions.</li>
-   *                       <li>"Right_Algae_Net" - A routine for handling algae and net scoring on the right side.</li>
-   *                       <li>"Ch_Algae_2.5_Processor_Side" - A routine for handling algae and processor scoring on one side.</li>
-   *                       <li>"Ch_Algae_2.5_Processor_To_CD" - A routine for handling algae and processor scoring towards CD positions.</li>
-   *                       <li>"Moo_High" - A high scoring routine with a specific sequence of positions.</li>
-   *                       <li>"Moo_Low" - A low scoring routine with a specific sequence of positions.</li>
-   *                     </ul>
-   * 
-   * @return An array of {@link Pair} objects, where each pair contains:
-   *         <ul>
-   *           <li>{@link RobotState} - The robot's state during the autonomous routine.</li>
-   *           <li>{@link Pose2d} - The target position on the field for the robot.</li>
-   *         </ul>
-   *         The size of the array depends on the selected routine. If no valid routine is selected, 
-   *         a default array with a single pair is returned, where the position is an empty {@link Pose2d}.
-   * 
-   * <p>Implementation Details:</p>
-   * <ul>
-   *   <li>The method uses predefined constants for robot states, such as {@code AUTO_PREP_CORAL_4}.</li>
-   *   <li>Field positions and algae positions are dynamically retrieved based on the alliance color.</li>
-   *   <li>Each case in the switch statement corresponds to a specific autonomous routine, defining 
-   *       the sequence of states and positions.</li>
-   *   <li>If the selected routine is not recognized, a default pair with an empty position is returned.</li>
-   * </ul>
-   * 
-   * <p>Note:</p>
-   * <ul>
-   *   <li>Ensure that the field positions and algae positions are properly initialized before calling this method.</li>
-   *   <li>Invalid indices in the field positions or algae positions lists may result in runtime exceptions.</li>
-   * </ul>
-   */
-  private Pair<RobotState, Pose2d>[] configureAutoPrepMaps(String selectedAuto) {
-    RobotState AUTO_PREP_CORAL_4 = RobotState.PREP_CORAL_L4;
-    RobotState AUTO_PREP_CORAL_2 = RobotState.PREP_CORAL_L2;
-    List<Pose2d> fieldPositions = constField.getReefPositions(constField.isRedAlliance()).get();
-    List<Pose2d> algaePositions = constField.getAlgaePositionsClose(constField.isRedAlliance()).get();
-
-    switch (selectedAuto) {
-      case "Four_Piece_High":
-        Pair<RobotState, Pose2d>[] fourPieceHigh = new Pair[4];
-        fourPieceHigh[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(11)); // L
-        fourPieceHigh[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(10)); // K
-        fourPieceHigh[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(0)); // A
-        fourPieceHigh[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(9)); // J
-        return fourPieceHigh;
-      case "Four_Piece_High_Double_Tickle":
-        Pair<RobotState, Pose2d>[] fourPieceHighDoubleTickle = new Pair[4];
-        fourPieceHighDoubleTickle[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(11)); // L
-        fourPieceHighDoubleTickle[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(10)); // K
-        fourPieceHighDoubleTickle[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(0)); // A
-        fourPieceHighDoubleTickle[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(9)); // J
-        return fourPieceHighDoubleTickle;
-      case "Four_Piece_Low":
-        Pair<RobotState, Pose2d>[] fourPieceLow = new Pair[4];
-        fourPieceLow[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(2)); // C
-        fourPieceLow[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(3)); // D
-        fourPieceLow[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(1)); // B
-        fourPieceLow[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(4)); // E
-        return fourPieceLow;
-      case "Four_Piece_High_Single_Tickle":
-        Pair<RobotState, Pose2d>[] fourPieceHighSingleTickle = new Pair[4];
-        fourPieceHighSingleTickle[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(11)); // L
-        fourPieceHighSingleTickle[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(10)); // K
-        fourPieceHighSingleTickle[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(0)); // A
-        fourPieceHighSingleTickle[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(9)); // J
-        return fourPieceHighSingleTickle;
-      case "Algae_Net":
-        Pair<RobotState, Pose2d>[] algaeNet = new Pair[3];
-        algaeNet[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        algaeNet[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        algaeNet[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(4)); // ALGAE IJ
-        return algaeNet;
-      case "Ch_Algae_2.5_Net_Side":
-        Pair<RobotState, Pose2d>[] algae3NetSide = new Pair[4];
-        algae3NetSide[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        algae3NetSide[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        algae3NetSide[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(4)); // ALGAE IJ
-        algae3NetSide[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(2)); // ALGAE EF
-        return algae3NetSide;
-
-      case "Ch_Algae_2.5_Net_To_KL":
-        Pair<RobotState, Pose2d>[] algae3NetKL = new Pair[4];
-        algae3NetKL[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        algae3NetKL[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        algae3NetKL[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(4)); // ALGAE IJ
-        algae3NetKL[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(5)); // ALGAE KL
-        return algae3NetKL;
-
-      case "Right_Algae_Net":
-        Pair<RobotState, Pose2d>[] rightAlgaeNet = new Pair[3];
-        rightAlgaeNet[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        rightAlgaeNet[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        rightAlgaeNet[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(2)); // ALGAE EF
-        return rightAlgaeNet;
-
-      case "Ch_Algae_2.5_Processor_Side":
-        Pair<RobotState, Pose2d>[] algae3ProcessorSide = new Pair[4];
-        algae3ProcessorSide[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        algae3ProcessorSide[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        algae3ProcessorSide[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(2)); // ALGAE EF
-        algae3ProcessorSide[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(4)); // ALGAE IJ
-        return algae3ProcessorSide;
-
-      case "Ch_Algae_2.5_Processor_To_CD":
-        Pair<RobotState, Pose2d>[] algae3ProcessorCD = new Pair[4];
-        algae3ProcessorCD[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(7)); // H
-        algae3ProcessorCD[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(3)); // ALGAE GH
-        algae3ProcessorCD[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(2)); // ALGAE EF
-        algae3ProcessorCD[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, algaePositions.get(1)); // ALGAE CD
-        return algae3ProcessorCD;
-
-      case "Moo_High":
-        Pair<RobotState, Pose2d>[] mooHigh = new Pair[4];
-        mooHigh[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(9)); // j
-        mooHigh[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(11)); // l
-        mooHigh[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(10)); // k
-        mooHigh[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(8)); // i
-        return mooHigh;
-      case "Moo_Low":
-        Pair<RobotState, Pose2d>[] mooLow = new Pair[4];
-        mooLow[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(4)); // E
-        mooLow[1] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(2)); // C
-        mooLow[2] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(3)); // D
-        mooLow[3] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, fieldPositions.get(5)); // F
-        return mooLow;
-      default:
-        Pair<RobotState, Pose2d>[] noAutoSelected = new Pair[1];
-        noAutoSelected[0] = new Pair<RobotState, Pose2d>(AUTO_PREP_CORAL_4, new Pose2d());
-        return noAutoSelected;
+        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+        return Commands.none();
     }
   }
 
