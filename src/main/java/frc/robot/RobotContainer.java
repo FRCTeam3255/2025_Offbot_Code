@@ -10,8 +10,6 @@ import com.pathplanner.lib.events.EventTrigger;
 import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
+import frc.robot.commands.AddVisionMeasurement;
 import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
 import frc.robot.commands.Zeroing.ManualZeroWrist;
@@ -32,6 +31,7 @@ import frc.robot.subsystems.RobotPoses;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.subsystems.Vision;
 
 @Logged
 public class RobotContainer {
