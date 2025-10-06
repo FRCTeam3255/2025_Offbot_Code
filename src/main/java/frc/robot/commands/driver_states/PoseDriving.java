@@ -35,7 +35,7 @@ public class PoseDriving extends Command {
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, false);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,

@@ -8,7 +8,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constDrivetrain;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 
@@ -18,9 +17,9 @@ public class DriveManual extends Command {
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
   boolean slowMode;
-
+  
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-      DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean slowMode) {
+    DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean slowMode) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
@@ -40,10 +39,7 @@ public class DriveManual extends Command {
 
   @Override
   public void execute() {
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(
-        () -> xAxis.getAsDouble() * (slowMode ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1),
-        () -> yAxis.getAsDouble() * (slowMode ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1),
-        rotationAxis);
+    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
     subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
 
