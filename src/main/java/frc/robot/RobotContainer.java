@@ -7,7 +7,6 @@ package frc.robot;
 import java.util.Set;
 
 import com.frcteam3255.joystick.SN_XboxController;
-import com.pathplanner.lib.events.EventTrigger;
 
 import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
@@ -234,9 +233,11 @@ public class RobotContainer {
         autoFactory.resetOdometry("top_ji"),
         Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
         runPath("top_ji"),
-        REEF_AUTO_DRIVING_RIGHT,
+        REEF_AUTO_DRIVING_RIGHT.alongWith(TRY_PREP_CORAL_L4.asProxy().withTimeout(1)),
+        TRY_SCORING_CORAL.asProxy().withTimeout(1),
+        TRY_NONE.asProxy().withTimeout(1),
         runPath("ji_cs"),
-        CORAL_STATION_AUTO_DRIVING_CLOSE);
+        CORAL_STATION_AUTO_DRIVING_CLOSE.alongWith(TRY_INTAKE_CORAL_STATION.asProxy().withTimeout(1)));
   }
 
   Command runPath(String pathName) {
@@ -324,19 +325,19 @@ public class RobotContainer {
 
   private void configOperatorBindings() {
     // Add operator bindings here if needed
-    conOperator.btn_LeftTrigger.or(new EventTrigger("INTAKE_CORAL_GROUND_TRIGGER"))
+    conOperator.btn_LeftTrigger
         .whileTrue(TRY_INTAKE_CORAL_GROUND)
         .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_LeftBumper.or(new EventTrigger("INTAKE_ALGAE_GROUND_TRIGGER"))
+    conOperator.btn_LeftBumper
         .whileTrue(TRY_INTAKE_ALGAE_GROUND)
         .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_RightTrigger.or(new EventTrigger("SCORING_TRIGGER"))
+    conOperator.btn_RightTrigger
         .whileTrue(TRY_SCORING_CORAL)
         .whileTrue(TRY_SCORING_ALGAE)
         .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
@@ -346,63 +347,63 @@ public class RobotContainer {
         .onFalse(TRY_HAS_CORAL)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_RightBumper.or(new EventTrigger("INTAKE_CORAL_STATION_TRIGGER"))
+    conOperator.btn_RightBumper
         .whileTrue(TRY_INTAKE_CORAL_STATION)
         .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_ALGAE);
 
-    conOperator.btn_A.or(new EventTrigger("PREP_CORAL_L1_TRIGGER"))
+    conOperator.btn_A
         .whileTrue(TRY_INTAKE_CORAL_L1)
         .onFalse(TRY_NONE);
 
-    conOperator.btn_B.or(new EventTrigger("PREP_CORAL_L3_TRIGGER"))
+    conOperator.btn_B
         .onTrue(TRY_PREP_CORAL_L3)
         .onTrue(TRY_PREP_CORAL_L3_WITH_ALGAE);
 
-    conOperator.btn_X.or(new EventTrigger("PREP_CORAL_L2_TRIGGER"))
+    conOperator.btn_X
         .onTrue(TRY_PREP_CORAL_L2)
         .onTrue(TRY_PREP_CORAL_L2_WITH_ALGAE);
 
-    conOperator.btn_Y.or(new EventTrigger("PREP_CORAL_L4_TRIGGER"))
+    conOperator.btn_Y
         .onTrue(TRY_PREP_CORAL_L4)
         .onTrue(TRY_PREP_CORAL_L4_WITH_ALGAE);
 
-    conOperator.btn_LeftStick.or(new EventTrigger("EJECTING_TRIGGER"))
+    conOperator.btn_LeftStick
         .whileTrue(TRY_EJECTING)
         .onFalse(TRY_NONE);
 
-    conOperator.btn_RightStick.or(new EventTrigger("PREP_CORAL_ZERO_TRIGGER"))
+    conOperator.btn_RightStick
         .onTrue(TRY_PREP_CORAL_ZERO)
         .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE)
         .onTrue(TRY_PREP_ALGAE_ZERO);
 
-    conOperator.btn_North.or(new EventTrigger("PREP_ALGAE_NET_TRIGGER"))
+    conOperator.btn_North
         .onTrue(TRY_PREP_ALGAE_NET)
         .onTrue(TRY_PREP_ALGAE_NET_WITH_CORAL);
 
-    conOperator.btn_South.or(new EventTrigger("PREP_ALGAE_PROCESSOR_TRIGGER"))
+    conOperator.btn_South
         .onTrue(TRY_PREP_ALGAE_PROCESSOR)
         .onTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
 
-    conOperator.btn_East.or(new EventTrigger("CLEAN_HIGH_TRIGGER"))
+    conOperator.btn_East
         .whileTrue(TRY_CLEAN_HIGH)
         .whileTrue(TRY_CLEAN_HIGH_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_West.or(new EventTrigger("CLEAN_LOW_TRIGGER"))
+    conOperator.btn_West
         .whileTrue(TRY_CLEAN_LOW)
         .whileTrue(TRY_CLEAN_LOW_WITH_CORAL)
         .onFalse(TRY_NONE)
         .onFalse(TRY_HAS_CORAL);
 
-    conOperator.btn_Start.or(new EventTrigger("HAS_CORAL_OVERRIDE_TRIGGER"))
+    conOperator.btn_Start
 
         .onTrue(HAS_CORAL_OVERRIDE)
         .onTrue(HAS_CORAL_L1_OVERRIDE);
 
-    conOperator.btn_Back.or(new EventTrigger("HAS_ALGAE_OVERRIDE_TRIGGER"))
+    conOperator.btn_Back
         .onTrue(HAS_ALGAE_OVERRIDE);
 
     hasCoralTrigger.debounce(0.1)

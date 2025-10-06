@@ -427,9 +427,9 @@ public final class Constants {
     public Angle wristAngle;
     public Distance liftHeight;
     public Angle pivotAngle;
-    public Distance liftTolerance;
-    public Angle pivotTolerance;
-    public Angle wristTolerance;
+    public Distance liftTolerance = Inches.of(1);
+    public Angle pivotTolerance = Degrees.of(1);
+    public Angle wristTolerance = Degrees.of(1);
     public int wristSlot = 0;
     public int pivotSlot = 0;
     public int liftSlot = 0;
