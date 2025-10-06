@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -19,13 +18,6 @@ public class RobotPoses extends SubsystemBase {
   /** Creates a new RobotPoses. */
 
   private static RobotPoses instance;
-
-  @NotLogged
-  private Drivetrain subDrivetrain;
-  @NotLogged
-  private Motion subMotion;
-  @NotLogged
-  private Rotors subRotors;
 
   Pose3d modelDrivetrain = Pose3d.kZero;
   Pose3d model0Pivot = Pose3d.kZero;
@@ -52,38 +44,35 @@ public class RobotPoses extends SubsystemBase {
       Units.Inches.of(8),
       Rotation3d.kZero);
 
-  private RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
-    this.subDrivetrain = subDrivetrain;
-    this.subMotion = subMotion;
-    this.subRotors = subRotors;
+  private RobotPoses() {
   }
 
-  public static RobotPoses getInstance(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
+  public static RobotPoses getInstance() {
     if (instance == null) {
-      instance = new RobotPoses(subDrivetrain, subMotion, subRotors);
+      instance = new RobotPoses();
     }
     return instance;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
     elevatorTransform3d = new Transform3d(
         Units.Inches.zero(),
-        subMotion.getLiftPosition().div(2),
+        Motion.getInstance().getLiftPosition().div(2),
         Units.Inches.zero(),
         Rotation3d.kZero);
     pivotRotation3d = new Rotation3d(
-        subMotion.getPivotAngle(),
+        Motion.getInstance().getPivotAngle(),
         Units.Degrees.zero(),
         Units.Degrees.zero());
     wristRotation3d = new Rotation3d(
         Units.Degrees.zero(),
-        subMotion.getWristAngle(),
+        Motion.getInstance().getWristAngle(),
         Units.Degrees.zero());
 
     // Robot Positions
-    modelDrivetrain = new Pose3d(subDrivetrain.getPose());
+    modelDrivetrain = new Pose3d(Drivetrain.getInstance().getPose());
 
     model0Pivot = Pose3d.kZero.rotateAround(
         Pose3d.kZero.plus(elevatorPivotPoint).getTranslation(), pivotRotation3d)
@@ -105,15 +94,15 @@ public class RobotPoses extends SubsystemBase {
 
     // game pieces
 
-    if (subRotors.hasAlgae()) {
+    if (Rotors.getInstance().hasAlgae()) {
       algaePose = model3Intake.plus(constRotors.ALGAE_INTAKE_TO_ALGAE);
     } else {
       algaePose = constField.SCORING_ELEMENT_NOT_COLLECTED;
     }
 
-    if (subRotors.hasCoral()) {
+    if (Rotors.getInstance().hasCoral()) {
       coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL);
-    } else if (subRotors.hasL1Coral()) {
+    } else if (Rotors.getInstance().hasL1Coral()) {
       coralPose = model3Intake.plus(constRotors.CORAL_INTAKE_TO_CORAL_L1);
     } else
       coralPose = constField.SCORING_ELEMENT_NOT_COLLECTED;

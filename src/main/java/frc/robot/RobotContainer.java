@@ -41,7 +41,7 @@ public class RobotContainer {
   private final LED subLED = LED.getInstance();
   private final StateMachine subStateMachine = StateMachine.getInstance();
   private final DriverStateMachine subDriverStateMachine = DriverStateMachine.getInstance();
-  private final RobotPoses robotPose = RobotPoses.getInstance(subDrivetrain, subMotion, subRotors);
+  private final RobotPoses robotPose = RobotPoses.getInstance();
   private final Vision subVision = Vision.getInstance();
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
