@@ -28,6 +28,7 @@ import frc.robot.Constants.constDrivetrain;
 import frc.robot.Constants.constVision;
 import frc.robot.Robot;
 import frc.robot.RobotMap.mapDrivetrain;
+import frc.robot.subsystems.*;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
@@ -115,9 +116,11 @@ public class Drivetrain extends SN_SuperSwerve {
     double redAllianceMultiplier = isRed ? -1 : 1;
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
