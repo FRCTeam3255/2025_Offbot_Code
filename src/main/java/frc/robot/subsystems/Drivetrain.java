@@ -25,6 +25,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.constDrivetrain;
+import frc.robot.Constants.constMotion;
 import frc.robot.Constants.constVision;
 import frc.robot.Robot;
 import frc.robot.RobotMap.mapDrivetrain;
@@ -64,7 +65,9 @@ public class Drivetrain extends SN_SuperSwerve {
     }
   }
 
-  public Drivetrain() {
+  Motion subMotion;
+
+  public Drivetrain(Motion subMotion) {
     super(
         constDrivetrain.SWERVE_CONSTANTS,
         modules,
@@ -91,6 +94,7 @@ public class Drivetrain extends SN_SuperSwerve {
         constDrivetrain.AUTO.ROBOT_CONFIG,
         () -> isRedAlliance(),
         Robot.isSimulation());
+    this.subMotion = subMotion;
   }
 
   @Override
@@ -117,10 +121,10 @@ public class Drivetrain extends SN_SuperSwerve {
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
         * redAllianceMultiplier
-        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
+        - subMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
         * redAllianceMultiplier
-        - globalMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
+        - subMotion.getLiftPosition().in(Units.Meters) / constMotion.HEIGHT_DIVIDER.in(Units.Meters);
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
