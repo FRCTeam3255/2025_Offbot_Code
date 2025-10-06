@@ -4,6 +4,7 @@
 
 package frc.robot.commands.driver_states;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,10 +17,10 @@ public class DriveManual extends Command {
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
-  boolean slowMode;
+  BooleanSupplier slowMode;
   
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-    DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean slowMode) {
+    DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;

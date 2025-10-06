@@ -1,5 +1,6 @@
 package frc.robot.commands.driver_states;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,15 +15,17 @@ public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
+  BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
+    this.slowMode = slowMode;
     this.poseGroup = poseGroup;
     addRequirements(this.subDrivetrain, this.subDriverStateMachine);
   }
@@ -35,7 +38,7 @@ public class PoseDriving extends Command {
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, false);
+    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
