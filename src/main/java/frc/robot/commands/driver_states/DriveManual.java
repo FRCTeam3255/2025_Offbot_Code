@@ -16,9 +16,11 @@ public class DriveManual extends Command {
   DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
+  boolean slowMode;
 
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-      DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
+      DoubleSupplier yAxis, DoubleSupplier rotationAxis, boolean slowMode) {
+    this.slowMode = slowMode;
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
@@ -37,7 +39,7 @@ public class DriveManual extends Command {
 
   @Override
   public void execute() {
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
     subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
 

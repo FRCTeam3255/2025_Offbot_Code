@@ -140,6 +140,7 @@ public final class Constants {
 
     // Rotational speed (degrees per second) while manually driving
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
+    public static final double SLOW_MODE_MULTIPLIER = 0.5;
 
     // -- Motor Configurations --
     static {
