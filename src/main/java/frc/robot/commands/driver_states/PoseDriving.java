@@ -15,11 +15,9 @@ public class PoseDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   PoseDriveGroup poseGroup;
-  boolean slowMode;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup, boolean slowMode) {
-    this.slowMode = slowMode;
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
@@ -37,7 +35,7 @@ public class PoseDriving extends Command {
   public void execute() {
     Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
+    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,

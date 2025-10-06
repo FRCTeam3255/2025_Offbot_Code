@@ -110,14 +110,14 @@ public class Drivetrain extends SN_SuperSwerve {
    * @return VelocityResult containing calculated velocities
    */
   public SwerveVelocity calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
-      DoubleSupplier rotationAxisSupplier, boolean slowMode) {
+      DoubleSupplier rotationAxisSupplier) {
     boolean isRed = isRedAlliance();
     double redAllianceMultiplier = isRed ? -1 : 1;
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier * (slowMode ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1);
+        * redAllianceMultiplier;
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier * (slowMode ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1);
+        * redAllianceMultiplier;
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
