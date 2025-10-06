@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 @Logged
 public class StateMachine extends SubsystemBase {
@@ -43,6 +45,10 @@ public class StateMachine extends SubsystemBase {
       }
     }
     return false;
+  }
+
+  public Trigger mapCommand(RobotState state, Command command) {
+        return new Trigger(() -> getRobotState() == state).whileTrue(command);
   }
 
   public void tryState(RobotState desiredState) {
