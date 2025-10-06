@@ -56,7 +56,6 @@ import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.StateTriggers;
 
 @Logged
 public class RobotContainer {
@@ -71,47 +70,6 @@ public class RobotContainer {
   private final DriverStateMachine subDriverStateMachine = DriverStateMachine.getInstance();
   private final RobotPoses robotPose = RobotPoses.getInstance();
   private final Vision subVision = Vision.getInstance();
-
-
-  // State triggers for all robot states
-  private final Trigger noneTrigger = subStateMachine.mapCommand(RobotState.NONE, new None());
-  private final Trigger prepClimbTrigger = subStateMachine.mapCommand(RobotState.PREP_CLIMB, new PrepClimb());
-  private final Trigger climbingTrigger = subStateMachine.mapCommand(RobotState.CLIMBING, new Climbing());
-  private final Trigger prepCoralZeroTrigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_ZERO, new PrepCoralLv(0));
-  private final Trigger prepCoralL1Trigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L1, new PrepCoralLv(1));
-  private final Trigger prepCoralL2Trigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L2, new PrepCoralLv(2));
-  private final Trigger prepCoralL3Trigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L3, new PrepCoralLv(3));
-  private final Trigger prepCoralL4Trigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L4, new PrepCoralLv(4));
-  private final Trigger prepCoralL2WithAlgaeTrigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L2_WITH_ALGAE, new PrepCoralWithAlgae(2));
-  private final Trigger prepCoralL3WithAlgaeTrigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L3_WITH_ALGAE, new PrepCoralWithAlgae(3));
-  private final Trigger prepCoralL4WithAlgaeTrigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_L4_WITH_ALGAE, new PrepCoralWithAlgae(4));
-  private final Trigger prepCoralZeroWithAlgaeTrigger = subStateMachine.mapCommand(RobotState.PREP_CORAL_ZERO_WITH_ALGAE, new PrepCoralWithAlgae(0));
-  private final Trigger prepAlgaeNetTrigger = subStateMachine.mapCommand(RobotState.PREP_ALGAE_NET, new PrepNet());
-  private final Trigger prepAlgaeProcessorTrigger = subStateMachine.mapCommand(RobotState.PREP_ALGAE_PROCESSOR, new PrepProcessor());
-  private final Trigger prepAlgaeZeroTrigger = subStateMachine.mapCommand(RobotState.PREP_ALGAE_ZERO, new PrepAlgaeZero());
-  private final Trigger prepAlgaeNetWithCoralTrigger = subStateMachine.mapCommand(RobotState.PREP_ALGAE_NET_WITH_CORAL, new PrepNetWithCoral());
-  private final Trigger prepAlgaeProcessorWithCoralTrigger = subStateMachine.mapCommand(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, new PrepProcessorWithCoral());
-  private final Trigger hasCoralTriggerState = subStateMachine.mapCommand(RobotState.HAS_CORAL, new HasCoral());
-  private final Trigger hasAlgaeTriggerState = subStateMachine.mapCommand(RobotState.HAS_ALGAE, new HasAlgae());
-  private final Trigger hasCoralAndAlgaeTrigger = subStateMachine.mapCommand(RobotState.HAS_CORAL_AND_ALGAE, new HasCoralAndAlgae());
-  private final Trigger scoringCoralTrigger = subStateMachine.mapCommand(RobotState.SCORING_CORAL, new ScoringCoral());
-  private final Trigger scoringAlgaeTrigger = subStateMachine.mapCommand(RobotState.SCORING_ALGAE, new ScoringAlgae());
-  private final Trigger scoringCoralL1Trigger = subStateMachine.mapCommand(RobotState.SCORING_CORAL_L1, new ScoringL1Coral());
-  private final Trigger cleanHighTrigger = subStateMachine.mapCommand(RobotState.CLEAN_HIGH, new CleanHigh());
-  private final Trigger cleanLowTrigger = subStateMachine.mapCommand(RobotState.CLEAN_LOW, new CleanLow());
-  private final Trigger intakeCoralStationTrigger = subStateMachine.mapCommand(RobotState.INTAKE_CORAL_STATION, new IntakeCoralStation());
-  private final Trigger intakeAlgaeGroundTrigger = subStateMachine.mapCommand(RobotState.INTAKE_ALGAE_GROUND, new IntakeAlgaeGround());
-  private final Trigger intakeCoralL1Trigger = subStateMachine.mapCommand(RobotState.INTAKE_CORAL_L1, new IntakeCoralL1());
-  private final Trigger ejectingTrigger = subStateMachine.mapCommand(RobotState.EJECTING, new Ejecting());
-  private final Trigger scoringAlgaeWithCoralTrigger = subStateMachine.mapCommand(RobotState.SCORING_ALGAE_WITH_CORAL, new ScoringAlgaeWithCoral());
-  private final Trigger scoringCoralWithAlgaeTrigger = subStateMachine.mapCommand(RobotState.SCORING_CORAL_WITH_ALGAE, new ScoringCoralWithAlgae());
-  private final Trigger cleanHighWithCoralTrigger = subStateMachine.mapCommand(RobotState.CLEAN_HIGH_WITH_CORAL, new CleanHighWithCoral());
-  private final Trigger cleanLowWithCoralTrigger = subStateMachine.mapCommand(RobotState.CLEAN_LOW_WITH_CORAL, new CleanLowWithCoral());
-  private final Trigger intakeCoralGroundTrigger = subStateMachine.mapCommand(RobotState.INTAKE_CORAL_GROUND, new IntakeCoralGround());
-  // If you have commands for these, add them:
-  // private final Trigger intakeCoralGroundWithAlgaeTrigger = subStateMachine.createTrigger(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE, new IntakeCoralGroundWithAlgae());
-  // private final Trigger intakeAlgaeGroundWithCoralTrigger = subStateMachine.createTrigger(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL, new IntakeAlgaeGroundWithCoral());
-  // private final Trigger intakeCoralStationWithAlgaeTrigger = subStateMachine.createTrigger(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE, new IntakeCoralStationWithAlgae());
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
@@ -136,14 +94,50 @@ public class RobotContainer {
     subDrivetrain
         .setDefaultCommand(new DriveManual(
             conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
- 
+
     configDriverBindings();
     configOperatorBindings();
 
     subDrivetrain.resetModulesToAbsolute();
+
+    // --- State Machine Commands ---
+    subStateMachine.mapCommand(RobotState.NONE, new None());
+    subStateMachine.mapCommand(RobotState.PREP_CLIMB, new PrepClimb());
+    subStateMachine.mapCommand(RobotState.CLIMBING, new Climbing());
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_ZERO, new PrepCoralLv(0));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L1, new PrepCoralLv(1));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L2, new PrepCoralLv(2));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L3, new PrepCoralLv(3));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L4, new PrepCoralLv(4));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L2_WITH_ALGAE, new PrepCoralWithAlgae(2));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L3_WITH_ALGAE, new PrepCoralWithAlgae(3));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_L4_WITH_ALGAE, new PrepCoralWithAlgae(4));
+    subStateMachine.mapCommand(RobotState.PREP_CORAL_ZERO_WITH_ALGAE, new PrepCoralWithAlgae(0));
+    subStateMachine.mapCommand(RobotState.PREP_ALGAE_NET, new PrepNet());
+    subStateMachine.mapCommand(RobotState.PREP_ALGAE_PROCESSOR, new PrepProcessor());
+    subStateMachine.mapCommand(RobotState.PREP_ALGAE_ZERO, new PrepAlgaeZero());
+    subStateMachine.mapCommand(RobotState.PREP_ALGAE_NET_WITH_CORAL, new PrepNetWithCoral());
+    subStateMachine.mapCommand(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, new PrepProcessorWithCoral());
+    subStateMachine.mapCommand(RobotState.HAS_CORAL, new HasCoral());
+    subStateMachine.mapCommand(RobotState.HAS_ALGAE, new HasAlgae());
+    subStateMachine.mapCommand(RobotState.HAS_CORAL_AND_ALGAE, new HasCoralAndAlgae());
+    subStateMachine.mapCommand(RobotState.SCORING_CORAL, new ScoringCoral());
+    subStateMachine.mapCommand(RobotState.SCORING_ALGAE, new ScoringAlgae());
+    subStateMachine.mapCommand(RobotState.SCORING_CORAL_L1, new ScoringL1Coral());
+    subStateMachine.mapCommand(RobotState.CLEAN_HIGH, new CleanHigh());
+    subStateMachine.mapCommand(RobotState.CLEAN_LOW, new CleanLow());
+    subStateMachine.mapCommand(RobotState.INTAKE_CORAL_STATION, new IntakeCoralStation());
+    subStateMachine.mapCommand(RobotState.INTAKE_ALGAE_GROUND, new IntakeAlgaeGround());
+    subStateMachine.mapCommand(RobotState.INTAKE_CORAL_L1, new IntakeCoralL1());
+    subStateMachine.mapCommand(RobotState.EJECTING, new Ejecting());
+    subStateMachine.mapCommand(RobotState.SCORING_ALGAE_WITH_CORAL, new ScoringAlgaeWithCoral());
+    subStateMachine.mapCommand(RobotState.SCORING_CORAL_WITH_ALGAE, new ScoringCoralWithAlgae());
+    subStateMachine.mapCommand(RobotState.CLEAN_HIGH_WITH_CORAL, new CleanHighWithCoral());
+    subStateMachine.mapCommand(RobotState.CLEAN_LOW_WITH_CORAL, new CleanLowWithCoral());
+    subStateMachine.mapCommand(RobotState.INTAKE_CORAL_GROUND, new IntakeCoralGround());
   }
 
-    // --- Driver State Commands ---
+  // --- Driver State Commands ---
   Command MANUAL = Commands.deferredProxy(
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
           conDriver.axis_LeftX, conDriver.axis_RightX));
@@ -186,7 +180,6 @@ public class RobotContainer {
   Command CAGE_ROTATION_SNAPPING = Commands.deferredProxy(
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-
 
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
