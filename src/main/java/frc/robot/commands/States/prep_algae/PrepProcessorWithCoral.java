@@ -4,37 +4,29 @@
 
 package frc.robot.commands.States.prep_algae;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepProcessorWithCoral extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
 
-  public PrepProcessorWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepProcessorWithCoral() {
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL);
+    StateMachine.getInstance().setRobotState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR);
+    Motion.getInstance().setAllPosition(constMechanismPositions.PREP_PROCESSOR);
   }
 
   // Called once the command ends or is interrupted.

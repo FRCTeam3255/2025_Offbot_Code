@@ -5,39 +5,49 @@
 package frc.robot;
 
 import com.frcteam3255.joystick.SN_XboxController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
-import frc.robot.commands.*;
+import frc.robot.commands.AddVisionMeasurement;
+import frc.robot.commands.ExampleAuto;
+import frc.robot.commands.Zeroing.ManualZeroLift;
+import frc.robot.commands.Zeroing.ManualZeroPivot;
+import frc.robot.commands.Zeroing.ManualZeroWrist;
+import frc.robot.commands.Zeroing.StartingConfig;
 import frc.robot.commands.driver_states.DriveManual;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.DriverStateMachine;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.RobotPoses;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
-import frc.robot.commands.Zeroing.*;
-import edu.wpi.first.epilogue.Logged;
+import frc.robot.subsystems.Vision;
 
 @Logged
 public class RobotContainer {
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
-  private final Drivetrain subDrivetrain = new Drivetrain();
-  private final Rotors subRotors = new Rotors();
-  private final Motion subMotion = new Motion();
-  private final LED subLED = new LED();
-  private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
-  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
-  private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
-  private final Vision subVision = new Vision();
+  private final Drivetrain subDrivetrain = Drivetrain.getInstance();
+  private final Rotors subRotors = Rotors.getInstance();
+  private final Motion subMotion = Motion.getInstance();
+  private final LED subLED = LED.getInstance();
+  private final StateMachine subStateMachine = StateMachine.getInstance();
+  private final DriverStateMachine subDriverStateMachine = DriverStateMachine.getInstance();
+  private final RobotPoses robotPose = RobotPoses.getInstance(subDrivetrain, subMotion, subRotors);
+  private final Vision subVision = Vision.getInstance();
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroPivot = new ManualZeroPivot(subMotion, subLED).ignoringDisable(true);
   public Command manualZeroWrist = new ManualZeroWrist(subMotion, subLED).ignoringDisable(true);
-  public Command startingCofig = new StartingConfig(subMotion, subLED).ignoringDisable(true);
+  public Command startingCofig = new StartingConfig().ignoringDisable(true);
 
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
@@ -180,7 +190,7 @@ public class RobotContainer {
 
     subDrivetrain
         .setDefaultCommand(new DriveManual(
-            subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
+            conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
     configDriverBindings();
     configOperatorBindings();
@@ -376,7 +386,7 @@ public class RobotContainer {
   }
 
   public Command AddVisionMeasurement() {
-    return new AddVisionMeasurement(subDrivetrain, subVision)
+    return new AddVisionMeasurement()
         .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).ignoringDisable(true);
   }
 }

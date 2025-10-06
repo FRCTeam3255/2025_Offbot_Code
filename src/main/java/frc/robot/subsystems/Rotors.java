@@ -12,27 +12,14 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
+import frc.robot.Constants.constRotors;
 import frc.robot.RobotMap.mapRotors;
 
 @Logged
 public class Rotors extends SubsystemBase {
-  /** Creates a new Rotors. */
+  private static Rotors instance;
 
-  TalonFX coralIntakeLeftMotor;
-  TalonFX coralIntakeRightMotor;
-  TalonFX algaeIntakeMotor;
-  TalonFX cageCollectMotor;
-  CANrange coralUpperMidSensor;
-  CANrange coralLowerMidSensor;
-  CANrange coralLeftSensor;
-  CANrange coralRightSensor;
-  boolean indexingCoral;
-  MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
-  boolean hasAlgaeOverride = false;
-  boolean hasCoralOverride = false;
-
-  public Rotors() {
+  private Rotors() {
     coralIntakeLeftMotor = new TalonFX(mapRotors.CORAL_INTAKE_LEFT_CAN);
     coralIntakeRightMotor = new TalonFX(mapRotors.CORAL_INTAKE_RIGHT_CAN);
     algaeIntakeMotor = new TalonFX(mapRotors.INTAKE_ALGAE_CAN);
@@ -51,6 +38,26 @@ public class Rotors extends SubsystemBase {
     coralRightSensor.getConfigurator().apply(constRotors.CORAL_INTAKE_SENSOR_CONFIG);
     cageCollectMotor.getConfigurator().apply(constRotors.CLIMBER_CONFIG);
   }
+
+  public static Rotors getInstance() {
+    if (instance == null) {
+      instance = new Rotors();
+    }
+    return instance;
+  }
+
+  TalonFX coralIntakeLeftMotor;
+  TalonFX coralIntakeRightMotor;
+  TalonFX algaeIntakeMotor;
+  TalonFX cageCollectMotor;
+  CANrange coralUpperMidSensor;
+  CANrange coralLowerMidSensor;
+  CANrange coralLeftSensor;
+  CANrange coralRightSensor;
+  boolean indexingCoral;
+  MotionMagicExpoVoltage positionRequest = new MotionMagicExpoVoltage(0);
+  boolean hasAlgaeOverride = false;
+  boolean hasCoralOverride = false;
 
   public boolean hasCoral() {
     if (hasCoralOverride) {

@@ -16,10 +16,10 @@ public class PoseDriving extends Command {
   DoubleSupplier xAxis, yAxis, rotationAxis;
   PoseDriveGroup poseGroup;
 
-  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
-    this.subDrivetrain = subDrivetrain;
-    this.subDriverStateMachine = subDriverStateMachine;
+  public PoseDriving(DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis,
+      PoseDriveGroup poseGroup) {
+    this.subDrivetrain = Drivetrain.getInstance();
+    this.subDriverStateMachine = DriverStateMachine.getInstance();
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;

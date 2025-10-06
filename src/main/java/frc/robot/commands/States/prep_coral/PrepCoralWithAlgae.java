@@ -18,24 +18,22 @@ import frc.robot.subsystems.StateMachine.RobotState;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepCoralWithAlgae extends Command {
   /** Creates a new PrepCoralWithAlgae. */
-  Drivetrain globalDrivetrain;
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
+  Drivetrain globalDrivetrain = Drivetrain.getInstance();
+  Motion globalMotion = Motion.getInstance();
+  Rotors globalRotors = Rotors.getInstance();
+  StateMachine globalStateMachine = StateMachine.getInstance();
   Pose2d closestPoseByRotation;
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
   int targetLevel;
 
-  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
-      Drivetrain subDrivetrain, int level) {
+  public PrepCoralWithAlgae(int level) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
+    addRequirements(globalDrivetrain);
+    addRequirements(globalMotion);
+    addRequirements(globalRotors);
     targetLevel = level;
   }
 

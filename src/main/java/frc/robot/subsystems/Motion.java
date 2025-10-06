@@ -21,10 +21,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMotion;
 import frc.robot.Robot;
-import frc.robot.RobotMap.*;
+import frc.robot.RobotMap.mapMotion;
 
 @Logged
 public class Motion extends SubsystemBase {
+  private static Motion instance;
+
+  private Motion() {
+    leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
+    rightLiftMotorLeader = new TalonFX(mapMotion.RIGHT_LIFT_CAN);
+    backLeftPivotMotorFollower = new TalonFX(mapMotion.BACK_LEFT_PIVOT_CAN);
+    backRightPivotMotorFollower = new TalonFX(mapMotion.BACK_RIGHT_PIVOT_CAN);
+    frontLeftPivotMotorFollower = new TalonFX(mapMotion.FRONT_LEFT_PIVOT_CAN);
+    frontRightPivotMotorLeader = new TalonFX(mapMotion.FRONT_RIGHT_PIVOT_CAN);
+    wristPivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
+
+    elevatorLiftLastDesiredPosition = Units.Inches.of(0);
+    // Set default motor configurations if needed
+    // e.g., elevatorLeftMotor.configFactoryDefault();
+    leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
+    rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
+    backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
+    wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
+  }
+
+  public static Motion getInstance() {
+    if (instance == null) {
+      instance = new Motion();
+    }
+    return instance;
+  }
+
   /** Creates a new Motion. */
   TalonFX leftLiftMotorFollower;
   TalonFX rightLiftMotorLeader;
@@ -45,27 +75,6 @@ public class Motion extends SubsystemBase {
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;
   public boolean hasSetStartingConfig = false;
-
-  public Motion() {
-    leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
-    rightLiftMotorLeader = new TalonFX(mapMotion.RIGHT_LIFT_CAN);
-    backLeftPivotMotorFollower = new TalonFX(mapMotion.BACK_LEFT_PIVOT_CAN);
-    backRightPivotMotorFollower = new TalonFX(mapMotion.BACK_RIGHT_PIVOT_CAN);
-    frontLeftPivotMotorFollower = new TalonFX(mapMotion.FRONT_LEFT_PIVOT_CAN);
-    frontRightPivotMotorLeader = new TalonFX(mapMotion.FRONT_RIGHT_PIVOT_CAN);
-    wristPivotMotor = new TalonFX(mapMotion.INTAKE_PIVOT_CAN);
-
-    elevatorLiftLastDesiredPosition = Units.Inches.of(0);
-    // Set default motor configurations if needed
-    // e.g., elevatorLeftMotor.configFactoryDefault();
-    leftLiftMotorFollower.getConfigurator().apply(constMotion.LIFT_CONFIG);
-    rightLiftMotorLeader.getConfigurator().apply(constMotion.LIFT_CONFIG);
-    backLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    backRightPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    frontLeftPivotMotorFollower.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    frontRightPivotMotorLeader.getConfigurator().apply(constMotion.ELEVATOR_PIVOT_CONFIG);
-    wristPivotMotor.getConfigurator().apply(constMotion.WRIST_CONFIG);
-  }
 
   private void setLiftPosition(Distance height, int slot) {
     rightLiftMotorLeader.setControl(positionRequest.withPosition(height.in(Units.Inches)).withSlot(slot));

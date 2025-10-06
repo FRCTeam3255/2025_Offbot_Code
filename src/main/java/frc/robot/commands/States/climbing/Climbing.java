@@ -4,48 +4,40 @@
 
 package frc.robot.commands.States.climbing;
 
-import frc.robot.subsystems.Rotors;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.*;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Climbing extends Command {
-  Motion globalMotion;
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
 
-  public Climbing(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalMotion = subMotion;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public Climbing() {
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.CLIMBING);
+    StateMachine.getInstance().setRobotState(RobotState.CLIMBING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.CLIMBED);
+    Motion.getInstance().setAllPosition(constMechanismPositions.CLIMBED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalMotion.setAllPosition(constMechanismPositions.LATCHED);
+    Motion.getInstance().setAllPosition(constMechanismPositions.LATCHED);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalMotion.arePositionsAtSetPoint(constMechanismPositions.CLIMBED);
+    return Motion.getInstance().arePositionsAtSetPoint(constMechanismPositions.CLIMBED);
   }
 }

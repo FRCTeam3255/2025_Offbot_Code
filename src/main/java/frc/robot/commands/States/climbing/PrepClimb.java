@@ -6,7 +6,6 @@ package frc.robot.commands.States.climbing;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.Constants.constRotors;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
@@ -20,11 +19,11 @@ public class PrepClimb extends Command {
   Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public PrepClimb(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public PrepClimb() {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
+    globalMotion = Motion.getInstance();
+    globalRotors = Rotors.getInstance();
+    globalStateMachine = StateMachine.getInstance();
     addRequirements(globalStateMachine);
   }
 

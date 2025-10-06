@@ -4,37 +4,31 @@
 
 package frc.robot.commands.States;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class None extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
-
-  public None(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public None() {
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setAlgaeIntakeMotorSpeed(0);
-    globalRotors.setCoralIntakeMotorSpeed(0);
-    globalStateMachine.setRobotState(RobotState.NONE);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(0);
+    Rotors.getInstance().setCoralIntakeMotorSpeed(0);
+    StateMachine.getInstance().setRobotState(RobotState.NONE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.NONE);
+    Motion.getInstance().setAllPosition(constMechanismPositions.NONE);
   }
 
   // Called once the command ends or is interrupted.

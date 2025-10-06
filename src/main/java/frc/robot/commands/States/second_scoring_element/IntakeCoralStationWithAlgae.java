@@ -14,29 +14,25 @@ import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCoralStationWithAlgae extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public IntakeCoralStationWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
+  public IntakeCoralStationWithAlgae(StateMachine globalStateMachine) {
     this.globalStateMachine = globalStateMachine;
-    addRequirements(globalMotion, globalRotors);
+    addRequirements(globalStateMachine);
+    addRequirements(Motion.getInstance(), Rotors.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_STATION_SPEED);
+    Rotors.getInstance().setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_STATION_SPEED);
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_STATION);
+    Motion.getInstance().setAllPosition(constMechanismPositions.INTAKE_CORAL_STATION);
   }
 
   // Called once the command ends or is interrupted.

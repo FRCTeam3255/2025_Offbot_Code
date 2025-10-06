@@ -5,38 +5,33 @@
 package frc.robot.commands.States.first_scoring_element;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.*;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCoralL1 extends Command {
   /** Creates a new IntakeCoralL1. */
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
-  Motion globalMotion;
-
-  public IntakeCoralL1(StateMachine subStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalStateMachine = subStateMachine;
-    addRequirements(globalStateMachine);
+  public IntakeCoralL1() {
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
+    StateMachine.getInstance().setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
-    if (!globalRotors.seeL1Coral()) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
-    } else if (globalRotors.seeL1Coral() && !globalRotors.hasL1Coral()) {
-      globalRotors.indexL1Coral(constRotorsSpeeds.INDEX_L1_SPEED);
+    Motion.getInstance().setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
+    if (!Rotors.getInstance().seeL1Coral()) {
+      Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
+    } else if (Rotors.getInstance().seeL1Coral() && !Rotors.getInstance().hasL1Coral()) {
+      Rotors.getInstance().indexL1Coral(constRotorsSpeeds.INDEX_L1_SPEED);
     }
   }
 
@@ -48,6 +43,6 @@ public class IntakeCoralL1 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalRotors.hasL1Coral();
+    return Rotors.getInstance().hasL1Coral();
   }
 }

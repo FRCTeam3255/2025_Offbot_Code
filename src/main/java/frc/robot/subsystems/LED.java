@@ -4,21 +4,29 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.CANdle;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.constLED;
 import frc.robot.RobotMap.mapLED;
 
-import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.CANdle;
-
 public class LED extends SubsystemBase {
-  CANdle LED;
+  private static LED instance;
+  private CANdle LED;
 
   /** Creates a new LED. */
 
-  public LED() {
+  private LED() {
     LED = new CANdle(mapLED.LED_CAN);
     LED.configAllSettings(constLED.LED_CONFIG);
+  }
+
+  public static LED getInstance() {
+    if (instance == null) {
+      instance = new LED();
+    }
+    return instance;
   }
 
   public void setLED(int[] rgb) {

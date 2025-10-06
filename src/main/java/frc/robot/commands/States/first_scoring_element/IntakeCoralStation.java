@@ -4,25 +4,20 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCoralStation extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
   StateMachine globalStateMachine;
 
-  public IntakeCoralStation(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
+  public IntakeCoralStation() {
+    this.globalStateMachine = StateMachine.getInstance();
     addRequirements(globalStateMachine);
   }
 
@@ -30,25 +25,25 @@ public class IntakeCoralStation extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_STATION);
-    globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_STATION_SPEED);
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
+    Rotors.getInstance().setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_STATION_SPEED);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_STATION);
+    Motion.getInstance().setAllPosition(constMechanismPositions.INTAKE_CORAL_STATION);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setAllIntake(0);
+    Rotors.getInstance().setAllIntake(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalRotors.hasCoral();
+    return Rotors.getInstance().hasCoral();
   }
 }

@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,17 +16,20 @@ import frc.robot.commands.driver_states.PoseDriving;
 
 @Logged
 public class DriverStateMachine extends SubsystemBase {
+  private static DriverStateMachine instance;
+
   /** Creates a new DriverStateMachine. */
   public static DriverState currentDriverState = DriverState.MANUAL;
 
-  @NotLogged
-  Drivetrain subDrivetrain;
-  @NotLogged
-  DriverStateMachine subDriverStateMachine = this;
-
-  public DriverStateMachine(Drivetrain subDrivetrain) {
+  private DriverStateMachine() {
     currentDriverState = DriverState.MANUAL;
-    this.subDrivetrain = subDrivetrain;
+  }
+
+  public static DriverStateMachine getInstance() {
+    if (instance == null) {
+      instance = new DriverStateMachine();
+    }
+    return instance;
   }
 
   public DriverState getDriverState() {
@@ -75,7 +77,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new DriveManual(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis);
+            return new DriveManual(xAxis, yAxis, rotationAxis);
         }
 
         break;
@@ -95,7 +97,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.CORAL_REEF_LEFT);
         }
         break;
@@ -115,7 +117,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.CORAL_REEF_RIGHT);
         }
         break;
@@ -136,7 +138,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.CORAL_STATION_FAR);
         }
         break;
@@ -157,7 +159,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.CORAL_STATION_CLOSE);
         }
         break;
@@ -178,7 +180,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.PROCESSOR);
         }
         break;
@@ -199,7 +201,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.PROCESSOR);
         }
         break;
@@ -220,7 +222,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.NET);
         }
         break;
@@ -240,7 +242,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.NET);
         }
         break;
@@ -260,7 +262,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.ALGAE_REEF);
         }
         break;
@@ -280,7 +282,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.ALGAE_REEF);
         }
         break;
@@ -300,7 +302,7 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return new PoseDriving(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis,
+            return new PoseDriving(xAxis, yAxis, rotationAxis,
                 constPoseDrive.CAGE);
         }
         break;

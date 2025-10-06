@@ -31,6 +31,44 @@ import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
+  private static Drivetrain instance;
+
+  private Drivetrain() {
+    super(
+        constDrivetrain.SWERVE_CONSTANTS,
+        modules,
+        constDrivetrain.WHEELBASE,
+        constDrivetrain.TRACK_WIDTH,
+        mapDrivetrain.CAN_BUS_NAME,
+        mapDrivetrain.PIGEON_CAN,
+        constDrivetrain.MIN_STEER_PERCENT,
+        constDrivetrain.DRIVE_CONFIG,
+        constDrivetrain.STEER_CONFIG,
+        constDrivetrain.CANCODER_CONFIG,
+        VecBuilder.fill(
+            constDrivetrain.MEASUREMENT_STD_DEVS_POS,
+            constDrivetrain.MEASUREMENT_STD_DEVS_POS,
+            constDrivetrain.MEASUREMENT_STD_DEV_HEADING),
+        VecBuilder.fill(
+            constVision.STD_DEVS_POS,
+            constVision.STD_DEVS_POS,
+            constVision.STD_DEVS_HEADING),
+        constDrivetrain.AUTO.AUTO_DRIVE_PID,
+        constDrivetrain.AUTO.AUTO_STEER_PID,
+        constDrivetrain.TELEOP_AUTO_ALIGN.TELEOP_AUTO_ALIGN_CONTROLLER,
+        constDrivetrain.TURN_SPEED,
+        constDrivetrain.AUTO.ROBOT_CONFIG,
+        () -> isRedAlliance(),
+        Robot.isSimulation());
+  }
+
+  public static Drivetrain getInstance() {
+    if (instance == null) {
+      instance = new Drivetrain();
+    }
+    return instance;
+  }
+
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {
@@ -61,35 +99,6 @@ public class Drivetrain extends SN_SuperSwerve {
       this.y = yVelocity;
       this.rotation = rotationVelocity;
     }
-  }
-
-  public Drivetrain() {
-    super(
-        constDrivetrain.SWERVE_CONSTANTS,
-        modules,
-        constDrivetrain.WHEELBASE,
-        constDrivetrain.TRACK_WIDTH,
-        mapDrivetrain.CAN_BUS_NAME,
-        mapDrivetrain.PIGEON_CAN,
-        constDrivetrain.MIN_STEER_PERCENT,
-        constDrivetrain.DRIVE_CONFIG,
-        constDrivetrain.STEER_CONFIG,
-        constDrivetrain.CANCODER_CONFIG,
-        VecBuilder.fill(
-            constDrivetrain.MEASUREMENT_STD_DEVS_POS,
-            constDrivetrain.MEASUREMENT_STD_DEVS_POS,
-            constDrivetrain.MEASUREMENT_STD_DEV_HEADING),
-        VecBuilder.fill(
-            constVision.STD_DEVS_POS,
-            constVision.STD_DEVS_POS,
-            constVision.STD_DEVS_HEADING),
-        constDrivetrain.AUTO.AUTO_DRIVE_PID,
-        constDrivetrain.AUTO.AUTO_STEER_PID,
-        constDrivetrain.TELEOP_AUTO_ALIGN.TELEOP_AUTO_ALIGN_CONTROLLER,
-        constDrivetrain.TURN_SPEED,
-        constDrivetrain.AUTO.ROBOT_CONFIG,
-        () -> isRedAlliance(),
-        Robot.isSimulation());
   }
 
   @Override

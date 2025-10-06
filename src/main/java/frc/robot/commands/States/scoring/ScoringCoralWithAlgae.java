@@ -4,21 +4,19 @@
 
 package frc.robot.commands.States.scoring;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ScoringCoralWithAlgae extends Command {
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
+  StateMachine globalStateMachine = StateMachine.getInstance();
+  Rotors globalRotors = Rotors.getInstance();
 
-  public ScoringCoralWithAlgae(StateMachine globalStateMachine, Rotors subRotors) {
+  public ScoringCoralWithAlgae() {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
     addRequirements(globalRotors);
   }

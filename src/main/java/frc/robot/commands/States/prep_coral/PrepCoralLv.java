@@ -20,23 +20,16 @@ import frc.robot.subsystems.StateMachine.RobotState;
 public class PrepCoralLv extends Command {
   /** Creates a new PrepCoralLv. */
   Drivetrain globalDrivetrain;
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
   Pose2d closestPoseByRotation;
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
   int targetLevel;
 
-  public PrepCoralLv(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain,
-      int level) {
+  public PrepCoralLv(int level) {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    globalDrivetrain = subDrivetrain;
-    addRequirements(globalStateMachine);
+    globalDrivetrain = Drivetrain.getInstance();
+    addRequirements(StateMachine.getInstance());
     targetLevel = level;
   }
 
@@ -59,22 +52,22 @@ public class PrepCoralLv extends Command {
   @Override
   public void execute() {
     if (targetLevel == 0) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO);
+      Motion.getInstance().setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
+      StateMachine.getInstance().setRobotState(RobotState.PREP_CORAL_ZERO);
     } else if (targetLevel == 1) {
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L1);
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
-      globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.CORAL_L1_CORAL_HOLD_SPEED);
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_L1);
+      StateMachine.getInstance().setRobotState(RobotState.PREP_CORAL_L1);
+      Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_HOLD_SPEED);
+      Rotors.getInstance().setCoralIntakeMotorSpeed(constRotorsSpeeds.CORAL_L1_CORAL_HOLD_SPEED);
+      Motion.getInstance().setAllPosition(constMechanismPositions.PREP_CORAL_L1);
     } else if (targetLevel == 2) {
-      globalMotion.setAllPosition(prepL2);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2);
+      Motion.getInstance().setAllPosition(prepL2);
+      StateMachine.getInstance().setRobotState(RobotState.PREP_CORAL_L2);
     } else if (targetLevel == 3) {
-      globalMotion.setAllPosition(prepL3);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3);
+      Motion.getInstance().setAllPosition(prepL3);
+      StateMachine.getInstance().setRobotState(RobotState.PREP_CORAL_L3);
     } else if (targetLevel == 4) {
-      globalMotion.setAllPosition(prepL4);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4);
+      Motion.getInstance().setAllPosition(prepL4);
+      StateMachine.getInstance().setRobotState(RobotState.PREP_CORAL_L4);
     }
 
   }

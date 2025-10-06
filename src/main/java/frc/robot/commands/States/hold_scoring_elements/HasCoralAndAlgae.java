@@ -4,41 +4,37 @@
 
 package frc.robot.commands.States.hold_scoring_elements;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.Rotors;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class HasCoralAndAlgae extends Command {
   StateMachine globalStateMachine;
-  Motion globalMotion;
-  Rotors globalRotors;
 
-  public HasCoralAndAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.globalStateMachine = globalStateMachine;
-    globalMotion = subMotion;
-    globalRotors = subRotors;
+  public HasCoralAndAlgae() {
+    globalStateMachine = StateMachine.getInstance();
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalRotors.setHasCoralOverride(true);
-    globalRotors.setHasAlgaeOverride(true);
+    Rotors.getInstance().setHasCoralOverride(true);
+    Rotors.getInstance().setHasAlgaeOverride(true);
     globalStateMachine.setRobotState(RobotState.HAS_CORAL_AND_ALGAE);
-    globalRotors.setCoralIntakeMotorSpeed(0);
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
+    Rotors.getInstance().setCoralIntakeMotorSpeed(0);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.HAS_SCORING_ELEMENTS);
+    Motion.getInstance().setAllPosition(constMechanismPositions.HAS_SCORING_ELEMENTS);
   }
 
   // Called once the command ends or is interrupted.

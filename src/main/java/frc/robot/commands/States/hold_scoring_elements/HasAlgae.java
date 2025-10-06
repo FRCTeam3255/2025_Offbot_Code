@@ -4,12 +4,13 @@
 
 package frc.robot.commands.States.hold_scoring_elements;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.Rotors;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
+import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class HasAlgae extends Command {
@@ -17,11 +18,10 @@ public class HasAlgae extends Command {
   Motion globalMotion;
   Rotors globalRotors;
 
-  public HasAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.globalStateMachine = globalStateMachine;
-    globalMotion = subMotion;
-    globalRotors = subRotors;
+  public HasAlgae() {
+    globalStateMachine = StateMachine.getInstance();
+    globalMotion = Motion.getInstance();
+    globalRotors = Rotors.getInstance();
     addRequirements(globalStateMachine);
   }
 

@@ -18,6 +18,18 @@ import frc.robot.Constants.constVision;
 
 @Logged
 public class Vision extends SubsystemBase {
+  private static Vision instance;
+
+  private Vision() {
+  }
+
+  public static Vision getInstance() {
+    if (instance == null) {
+      instance = new Vision();
+    }
+    return instance;
+  }
+
   PoseEstimate lastEstimateRight = new PoseEstimate();
   PoseEstimate lastEstimateLeft = new PoseEstimate();
   PoseEstimate lastEstimateBack = new PoseEstimate();
@@ -35,9 +47,6 @@ public class Vision extends SubsystemBase {
   Pose2d backPose = new Pose2d();
 
   private boolean useMegaTag2 = true;
-
-  public Vision() {
-  }
 
   public PoseEstimate[] getLastPoseEstimates() {
     return new PoseEstimate[] { lastEstimateRight, lastEstimateLeft, lastEstimateBack };

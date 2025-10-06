@@ -4,52 +4,39 @@
 
 package frc.robot.commands.States.prep_algae;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PrepNetWithCoral extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
-  Drivetrain globalDrivetrain;
-  Pose2d closestPoseByRotation;
   MechanismPositionGroup prepNet;
 
-  public PrepNetWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
-      Drivetrain subDrivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepNetWithCoral() {
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(
+    if (Drivetrain.getInstance().isActionBackwards(
         Field.FieldElementGroups.NET_POSES.getAll())) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
     } else {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
-    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET_WITH_CORAL);
+    StateMachine.getInstance().setRobotState(RobotState.PREP_ALGAE_NET_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(prepNet);
+    Motion.getInstance().setAllPosition(prepNet);
   }
 
   // Called once the command ends or is interrupted.

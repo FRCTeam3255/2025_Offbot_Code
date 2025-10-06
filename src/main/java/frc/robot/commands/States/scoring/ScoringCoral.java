@@ -4,29 +4,28 @@
 
 package frc.robot.commands.States.scoring;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.StateMachine;
-import static frc.robot.Constants.*;
+import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ScoringCoral extends Command {
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
-  Drivetrain globalDrivetrain;
-  Motion globalMotion;
+  StateMachine globalStateMachine = StateMachine.getInstance();
+  Rotors globalRotors = Rotors.getInstance();
+  Drivetrain globalDrivetrain = Drivetrain.getInstance();
+  Motion globalMotion = Motion.getInstance();
 
-  public ScoringCoral(StateMachine globalStateMachine, Rotors subRotors, Drivetrain subDrivetrain, Motion subMotion) {
+  public ScoringCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    globalDrivetrain = subDrivetrain;
-    globalMotion = subMotion;
     addRequirements(globalStateMachine);
+    addRequirements(globalRotors);
+    addRequirements(globalDrivetrain);
+    addRequirements(globalMotion);
   }
 
   // Called when the command is initially scheduled.
@@ -34,9 +33,9 @@ public class ScoringCoral extends Command {
   public void initialize() {
     double speed = constRotorsSpeeds.SCORE_CORAL_SPEED;
     if (globalMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L2_BACKWARDS)
-    || globalMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L3_BACKWARDS)
-    || globalMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L4_BACKWARDS)) {
-        speed = -speed;
+        || globalMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L3_BACKWARDS)
+        || globalMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L4_BACKWARDS)) {
+      speed = -speed;
     }
     globalRotors.setCoralIntakeMotorSpeed(speed);
     globalStateMachine.setRobotState(RobotState.SCORING_CORAL);

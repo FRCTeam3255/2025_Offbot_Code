@@ -7,48 +7,47 @@ package frc.robot.commands.Zeroing;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMotion;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Motion;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class StartingConfig extends Command {
   /** Creates a new StartingConfig. */
-  Motion subMotion;
-  LED globalLED;
   boolean isAtStartingConfig = false;
 
-  public StartingConfig(Motion subMotion, LED subLED) {
+  public StartingConfig() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.subMotion = subMotion;
-    globalLED = subLED;
+    addRequirements(Motion.getInstance(), LED.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 2, 1);
-    globalLED.setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 5, 1);
+    LED.getInstance().setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 2, 1);
+    LED.getInstance().setLEDMatrix(constLED.IS_NOT_AT_STARTING_CONFIG, 5, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (subMotion.hasPivotZeroed
-        && subMotion.getPivotAngle().gte(constMotion.PIVOT_STARTING_CONFIG_VALUE)) {
-      subMotion.setPivotCoastMode(false);
+    if (Motion.getInstance().hasPivotZeroed
+        && Motion.getInstance().getPivotAngle().gte(constMotion.PIVOT_STARTING_CONFIG_VALUE)) {
+      Motion.getInstance().setPivotCoastMode(false);
       isAtStartingConfig = true;
-      subMotion.hasSetStartingConfig = true;
-      System.out.println("Elevator Pivot is at starting config! :P" + subMotion.getPivotAngle());
+      Motion.getInstance().hasSetStartingConfig = true;
+      System.out.println("Elevator Pivot is at starting config! :P" + Motion.getInstance().getPivotAngle());
     } else {
-      System.out.println("Elevator Pivot is not at starting config!!1!!! :((( blame eli" + subMotion.getPivotAngle());
+      System.out.println(
+          "Elevator Pivot is not at starting config!!1!!! :((( blame eli" + Motion.getInstance().getPivotAngle());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 2, 1);
-    globalLED.setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 5, 1);
-    subMotion.setPivotCoastMode(false);
+    LED.getInstance().setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 2, 1);
+    LED.getInstance().setLEDMatrix(constLED.IS_AT_STARTING_CONFIG, 5, 1);
+    Motion.getInstance().setPivotCoastMode(false);
   }
 
   // Returns true when the command should end.

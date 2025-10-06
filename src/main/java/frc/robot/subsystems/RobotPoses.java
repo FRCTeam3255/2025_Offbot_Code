@@ -11,12 +11,14 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.Constants.constField;
+import frc.robot.Constants.constRotors;
 
 @Logged
 public class RobotPoses extends SubsystemBase {
   /** Creates a new RobotPoses. */
+
+  private static RobotPoses instance;
 
   @NotLogged
   private Drivetrain subDrivetrain;
@@ -50,10 +52,17 @@ public class RobotPoses extends SubsystemBase {
       Units.Inches.of(8),
       Rotation3d.kZero);
 
-  public RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
+  private RobotPoses(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
     this.subDrivetrain = subDrivetrain;
     this.subMotion = subMotion;
     this.subRotors = subRotors;
+  }
+
+  public static RobotPoses getInstance(Drivetrain subDrivetrain, Motion subMotion, Rotors subRotors) {
+    if (instance == null) {
+      instance = new RobotPoses(subDrivetrain, subMotion, subRotors);
+    }
+    return instance;
   }
 
   @Override

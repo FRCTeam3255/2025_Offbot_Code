@@ -4,38 +4,30 @@
 
 package frc.robot.commands.States.second_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeAlgaeGroundWithCoral extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
-
-  public IntakeAlgaeGroundWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalMotion, globalRotors);
+  public IntakeAlgaeGroundWithCoral() {
+    addRequirements(StateMachine.getInstance());
   }
 
   @Override
   public void initialize() {
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
-    globalStateMachine.setRobotState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_ALGAE_SPEED);
+    StateMachine.getInstance().setRobotState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
+    Motion.getInstance().setAllPosition(constMechanismPositions.INTAKE_ALGAE_GROUND);
   }
 
   // Called once the command ends or is interrupted.

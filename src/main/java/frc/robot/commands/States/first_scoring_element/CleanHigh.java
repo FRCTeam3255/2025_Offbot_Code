@@ -4,7 +4,6 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
@@ -18,20 +17,12 @@ import frc.robot.subsystems.StateMachine.RobotState;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CleanHigh extends Command {
-  StateMachine globalStateMachine;
-  Motion globalMotion;
-  Rotors globalRotors;
-  Pose2d closestPoseByRotation;
   Drivetrain globalDrivetrain;
   MechanismPositionGroup cleanHigh;
 
-  public CleanHigh(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.globalStateMachine = globalStateMachine;
-    this.globalMotion = subMotion;
-    this.globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    addRequirements(globalStateMachine);
+  public CleanHigh() {
+    globalDrivetrain = Drivetrain.getInstance();
+    addRequirements(StateMachine.getInstance());
   }
 
   // Called when the command is initially scheduled.
@@ -42,14 +33,14 @@ public class CleanHigh extends Command {
     } else {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
-    globalStateMachine.setRobotState(RobotState.CLEAN_HIGH);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
+    StateMachine.getInstance().setRobotState(RobotState.CLEAN_HIGH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(cleanHigh);
+    Motion.getInstance().setAllPosition(cleanHigh);
   }
 
   // Called once the command ends or is interrupted.

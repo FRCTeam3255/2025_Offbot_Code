@@ -17,18 +17,17 @@ public class DriveManual extends Command {
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
 
-  public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-      DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
-    this.subDrivetrain = subDrivetrain;
-    this.subDriverStateMachine = subDriverStateMachine;
+  public DriveManual(DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis) {
+    subDrivetrain = Drivetrain.getInstance();
+    subDriverStateMachine = DriverStateMachine.getInstance();
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
 
     isOpenLoop = true;
 
-    addRequirements(this.subDrivetrain);
-    addRequirements(this.subDriverStateMachine);
+    addRequirements(subDrivetrain);
+    addRequirements(subDriverStateMachine);
   }
 
   @Override

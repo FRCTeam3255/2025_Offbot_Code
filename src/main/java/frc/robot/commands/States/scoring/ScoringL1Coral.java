@@ -13,14 +13,13 @@ import frc.robot.subsystems.StateMachine.RobotState;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ScoringL1Coral extends Command {
   /** Creates a new ScoringL1Coral. */
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
+  StateMachine globalStateMachine = StateMachine.getInstance();
+  Rotors globalRotors = Rotors.getInstance();
 
-  public ScoringL1Coral(StateMachine globalStateMachine, Rotors subRotors) {
+  public ScoringL1Coral() {
     // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
+    addRequirements(globalRotors);
   }
 
   // Called when the command is initially scheduled.

@@ -4,7 +4,6 @@
 
 package frc.robot.commands.States.second_scoring_element;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
@@ -19,40 +18,31 @@ import frc.robot.subsystems.StateMachine.RobotState;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CleanHighWithCoral extends Command {
   /** Creates a new CleanHighWithCoral. */
-  Motion globalMotion;
-  Rotors globalRotors;
   StateMachine globalStateMachine;
-  Pose2d closestPoseByRotation;
-  Drivetrain globalDrivetrain;
   MechanismPositionGroup cleanHighWithCoral;
 
-  public CleanHighWithCoral(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
-      Drivetrain subDrivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.globalStateMachine = globalStateMachine;
-    this.globalMotion = subMotion;
-    this.globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
+  public CleanHighWithCoral() {
+    this.globalStateMachine = StateMachine.getInstance();
     addRequirements(globalStateMachine);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(
-        Field.FieldElementGroups.ALGAE_POSES.getAll()) == true) {
+    if (Drivetrain.getInstance().isActionBackwards(
+        Field.FieldElementGroups.ALGAE_POSES.getAll())) {
       cleanHighWithCoral = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
     } else {
       cleanHighWithCoral = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
+    Rotors.getInstance().setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
     globalStateMachine.setRobotState(RobotState.CLEAN_HIGH_WITH_CORAL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(cleanHighWithCoral);
+    Motion.getInstance().setAllPosition(cleanHighWithCoral);
   }
 
   // Called once the command ends or is interrupted.
