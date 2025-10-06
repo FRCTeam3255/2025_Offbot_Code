@@ -9,12 +9,39 @@ import com.frcteam3255.joystick.SN_XboxController;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
 import frc.robot.RobotMap.mapControllers;
-import frc.robot.commands.AddVisionMeasurement;
-import frc.robot.commands.ExampleAuto;
+import frc.robot.commands.*;
+import frc.robot.commands.States.*;
+import frc.robot.commands.States.climbing.Climbing;
+import frc.robot.commands.States.climbing.PrepClimb;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralL1;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralStation;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
+import frc.robot.commands.States.hold_scoring_elements.HasCoral;
+import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
+import frc.robot.commands.States.prep_algae.PrepAlgaeZero;
+import frc.robot.commands.States.prep_algae.PrepNet;
+import frc.robot.commands.States.prep_algae.PrepNetWithCoral;
+import frc.robot.commands.States.prep_algae.PrepProcessor;
+import frc.robot.commands.States.prep_algae.PrepProcessorWithCoral;
+import frc.robot.commands.States.prep_coral.PrepCoralLv;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgae;
+import frc.robot.commands.States.scoring.ScoringAlgae;
+import frc.robot.commands.States.scoring.ScoringAlgaeWithCoral;
+import frc.robot.commands.States.scoring.ScoringCoral;
+import frc.robot.commands.States.scoring.ScoringCoralWithAlgae;
+import frc.robot.commands.States.scoring.ScoringL1Coral;
+import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
+import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
+import frc.robot.commands.States.second_scoring_element.Ejecting;
 import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
 import frc.robot.commands.Zeroing.ManualZeroWrist;
@@ -61,87 +88,59 @@ public class RobotContainer {
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
 
-  Command TRY_NONE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.NONE));
-  Command TRY_CLIMBING = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.CLIMBING));
-  Command TRY_PREP_CLIMB = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CLIMB));
-  Command TRY_PREP_CORAL_ZERO = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO));
-  Command TRY_PREP_CORAL_L1 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
-  Command TRY_PREP_CORAL_L2 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2));
-  Command TRY_PREP_CORAL_L3 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3));
-  Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
-  Command TRY_PREP_CORAL_L2_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
-  Command TRY_PREP_CORAL_L3_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3_WITH_ALGAE));
-  Command TRY_PREP_CORAL_L4_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE));
-  Command TRY_PREP_CORAL_ZERO_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE));
-  Command TRY_PREP_ALGAE_NET = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_NET));
-  Command TRY_PREP_ALGAE_PROCESSOR = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR));
-  Command TRY_PREP_ALGAE_ZERO = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_ZERO));
-  Command TRY_PREP_ALGAE_NET_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_NET_WITH_CORAL));
-  Command TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL));
-  Command TRY_HAS_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.HAS_CORAL));
-  Command TRY_HAS_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.HAS_ALGAE));
-  Command TRY_HAS_CORAL_AND_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE));
-  Command TRY_SCORING_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.SCORING_CORAL));
-  Command TRY_SCORING_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.SCORING_ALGAE));
-  Command TRY_SCORING_CORAL_L1 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_L1));
-  Command TRY_CLEAN_HIGH = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.CLEAN_HIGH));
-  Command TRY_CLEAN_LOW = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.CLEAN_LOW));
-  Command TRY_INTAKE_CORAL_STATION = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION));
-  Command TRY_INTAKE_ALGAE_GROUND = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND));
-  Command TRY_EJECTING = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.EJECTING));
-  Command TRY_SCORING_ALGAE_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.SCORING_ALGAE_WITH_CORAL));
-  Command TRY_SCORING_CORAL_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_WITH_ALGAE));
-  Command TRY_CLEAN_HIGH_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.CLEAN_HIGH_WITH_CORAL));
-  Command TRY_CLEAN_LOW_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.CLEAN_LOW_WITH_CORAL));
-  Command TRY_INTAKE_CORAL_GROUND = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND));
-  Command TRY_INTAKE_CORAL_GROUND_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE));
-  Command TRY_INTAKE_ALGAE_GROUND_WITH_CORAL = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL));
-  Command TRY_INTAKE_CORAL_STATION_WITH_ALGAE = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE));
-  Command TRY_INTAKE_CORAL_L1 = Commands.deferredProxy(
-      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_L1));
-  Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_CORAL)
-      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
-  Command HAS_ALGAE_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_ALGAE)
-      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
-  Command HAS_CORAL_L1_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
 
-  // --- Driver State Commands ---
+  // STATES
+  public final Trigger noneTrigger = new Trigger(() -> getRobotState() == RobotState.NONE).whileTrue(new None());
+  public final Trigger prepClimbTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CLIMB).whileTrue(new PrepClimb());
+  public final Trigger climbingTrigger = new Trigger(() -> getRobotState() == RobotState.CLIMBING).whileTrue(new Climbing());
+  public final Trigger prepCoralZeroTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_ZERO).whileTrue(new PrepCoralLv(0));
+  public final Trigger prepCoralL1Trigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L1).whileTrue(new PrepCoralLv(1));
+  public final Trigger prepCoralL2Trigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L2).whileTrue(new PrepCoralLv(2));
+  public final Trigger prepCoralL3Trigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L3).whileTrue(new PrepCoralLv(3));
+  public final Trigger prepCoralL4Trigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L4).whileTrue(new PrepCoralLv(4));
+  public final Trigger prepCoralL2WithAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE).whileTrue(new PrepCoralWithAlgae(2));
+  public final Trigger prepCoralL3WithAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L3_WITH_ALGAE).whileTrue(new PrepCoralWithAlgae(3));
+  public final Trigger prepCoralL4WithAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_L4_WITH_ALGAE).whileTrue(new PrepCoralWithAlgae(4));
+  public final Trigger prepCoralZeroWithAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_CORAL_ZERO_WITH_ALGAE).whileTrue(new PrepCoralWithAlgae(0));
+  public final Trigger prepAlgaeNetTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_ALGAE_NET).whileTrue(new PrepNet());
+  public final Trigger prepAlgaeProcessorTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_ALGAE_PROCESSOR).whileTrue(new PrepProcessor());
+  public final Trigger prepAlgaeZeroTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_ALGAE_ZERO).whileTrue(new PrepAlgaeZero());
+  public final Trigger prepAlgaeNetWithCoralTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_ALGAE_NET_WITH_CORAL).whileTrue(new PrepNetWithCoral());
+  public final Trigger prepAlgaeProcessorWithCoralTrigger = new Trigger(() -> getRobotState() == RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL).whileTrue(new PrepProcessorWithCoral());
+  // public final Trigger hasCoralTrigger = new Trigger(() -> getRobotState() == RobotState.HAS_CORAL).whileTrue(new HasCoral());
+  // public final Trigger hasAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.HAS_ALGAE).whileTrue(new HasAlgae());
+  public final Trigger hasCoralAndAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.HAS_CORAL_AND_ALGAE).whileTrue(new HasCoralAndAlgae());
+  public final Trigger scoringCoralTrigger = new Trigger(() -> getRobotState() == RobotState.SCORING_CORAL).whileTrue(new ScoringCoral());
+  public final Trigger scoringAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.SCORING_ALGAE).whileTrue(new ScoringAlgae());
+  public final Trigger scoringCoralL1Trigger = new Trigger(() -> getRobotState() == RobotState.SCORING_CORAL_L1).whileTrue(new ScoringL1Coral());
+  public final Trigger cleanHighTrigger = new Trigger(() -> getRobotState() == RobotState.CLEAN_HIGH).whileTrue(new CleanHigh());
+  public final Trigger cleanLowTrigger = new Trigger(() -> getRobotState() == RobotState.CLEAN_LOW).whileTrue(new CleanLow());
+  public final Trigger intakeCoralStationTrigger = new Trigger(() -> getRobotState() == RobotState.INTAKE_CORAL_STATION).whileTrue(new IntakeCoralStation());
+  public final Trigger intakeAlgaeGroundTrigger = new Trigger(() -> getRobotState() == RobotState.INTAKE_ALGAE_GROUND).whileTrue(new IntakeAlgaeGround());
+  public final Trigger intakeCoralL1Trigger = new Trigger(() -> getRobotState() == RobotState.INTAKE_CORAL_L1).whileTrue(new IntakeCoralL1());
+  public final Trigger ejectingTrigger = new Trigger(() -> getRobotState() == RobotState.EJECTING).whileTrue(new Ejecting());
+  public final Trigger scoringAlgaeWithCoralTrigger = new Trigger(() -> getRobotState() == RobotState.SCORING_ALGAE_WITH_CORAL).whileTrue(new ScoringAlgaeWithCoral());
+  public final Trigger scoringCoralWithAlgaeTrigger = new Trigger(() -> getRobotState() == RobotState.SCORING_CORAL_WITH_ALGAE).whileTrue(new ScoringCoralWithAlgae());
+  public final Trigger cleanHighWithCoralTrigger = new Trigger(() -> getRobotState() == RobotState.CLEAN_HIGH_WITH_CORAL).whileTrue(new CleanHighWithCoral());
+  public final Trigger cleanLowWithCoralTrigger = new Trigger(() -> getRobotState() == RobotState.CLEAN_LOW_WITH_CORAL).whileTrue(new CleanLowWithCoral());
+  public final Trigger intakeCoralGroundTrigger = new Trigger(() -> getRobotState() == RobotState.INTAKE_CORAL_GROUND).whileTrue(new IntakeCoralGround());
+
+
+
+  public RobotContainer() {
+    conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
+
+    subDrivetrain
+        .setDefaultCommand(new DriveManual(
+            conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
+ 
+    configDriverBindings();
+    configOperatorBindings();
+
+    subDrivetrain.resetModulesToAbsolute();
+  }
+
+    // --- Driver State Commands ---
   Command MANUAL = Commands.deferredProxy(
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
           conDriver.axis_LeftX, conDriver.axis_RightX));
@@ -185,18 +184,6 @@ public class RobotContainer {
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
-  public RobotContainer() {
-    conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
-
-    subDrivetrain
-        .setDefaultCommand(new DriveManual(
-            conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
-
-    configDriverBindings();
-    configOperatorBindings();
-
-    subDrivetrain.resetModulesToAbsolute();
-  }
 
   private void configDriverBindings() {
     conDriver.btn_B.onTrue(Commands.runOnce(() -> subDrivetrain.resetModulesToAbsolute()));
@@ -257,18 +244,18 @@ public class RobotContainer {
         .onFalse(MANUAL);
 
     conDriver.btn_Start
-        .onTrue(TRY_PREP_CLIMB);
+        .onTrue(new TRY_STATE(RobotState.PREP_CLIMB));
 
     conDriver.btn_Y
-        .whileTrue(TRY_CLIMBING);
+        .whileTrue(new TRY_STATE(RobotState.CLIMBING));
 
     isInCSAutoDriveState
-        .whileTrue(TRY_INTAKE_CORAL_STATION)
-        .onFalse(TRY_NONE);
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_STATION))
+        .onFalse(new TRY_STATE(RobotState.NONE));
 
     isInProcessorAutoDriveState
-        .whileTrue(TRY_PREP_ALGAE_PROCESSOR)
-        .whileTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
+        .whileTrue(new TRY_STATE(RobotState.PREP_ALGAE_PROCESSOR))
+        .whileTrue(new TRY_STATE(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL));
   }
 
   public Command getAutonomousCommand() {
@@ -277,104 +264,99 @@ public class RobotContainer {
   }
 
   private void configOperatorBindings() {
-    // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
-
-        .whileTrue(TRY_INTAKE_CORAL_GROUND)
-        .whileTrue(TRY_INTAKE_CORAL_GROUND_WITH_ALGAE)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_GROUND))
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_ALGAE));
 
     conOperator.btn_LeftBumper
-
-        .whileTrue(TRY_INTAKE_ALGAE_GROUND)
-        .whileTrue(TRY_INTAKE_ALGAE_GROUND_WITH_CORAL)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL);
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_ALGAE_GROUND))
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_CORAL));
 
     conOperator.btn_RightTrigger
-
-        .whileTrue(TRY_SCORING_CORAL)
-        .whileTrue(TRY_SCORING_ALGAE)
-        .whileTrue(TRY_SCORING_ALGAE_WITH_CORAL)
-        .whileTrue(TRY_SCORING_CORAL_WITH_ALGAE)
-        .whileTrue(TRY_SCORING_CORAL_L1)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(new TRY_STATE(RobotState.SCORING_CORAL))
+        .whileTrue(new TRY_STATE(RobotState.SCORING_ALGAE))
+        .whileTrue(new TRY_STATE(RobotState.SCORING_ALGAE_WITH_CORAL))
+        .whileTrue(new TRY_STATE(RobotState.SCORING_CORAL_WITH_ALGAE))
+        .whileTrue(new TRY_STATE(RobotState.SCORING_CORAL_L1))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_CORAL))
+        .onFalse(new TRY_STATE(RobotState.HAS_ALGAE));
 
     conOperator.btn_RightBumper
-
-        .whileTrue(TRY_INTAKE_CORAL_STATION)
-        .whileTrue(TRY_INTAKE_CORAL_STATION_WITH_ALGAE)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_ALGAE);
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_STATION))
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_ALGAE));
 
     conOperator.btn_A
-        .whileTrue(TRY_INTAKE_CORAL_L1)
-        .onFalse(TRY_NONE);
+        .whileTrue(new TRY_STATE(RobotState.INTAKE_CORAL_L1))
+        .onFalse(new TRY_STATE(RobotState.NONE));
 
     conOperator.btn_B
-        .onTrue(TRY_PREP_CORAL_L3)
-        .onTrue(TRY_PREP_CORAL_L3_WITH_ALGAE);
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L3))
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L3_WITH_ALGAE));
 
     conOperator.btn_X
-        .onTrue(TRY_PREP_CORAL_L2)
-        .onTrue(TRY_PREP_CORAL_L2_WITH_ALGAE);
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L2))
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L2_WITH_ALGAE));
 
     conOperator.btn_Y
-        .onTrue(TRY_PREP_CORAL_L4)
-        .onTrue(TRY_PREP_CORAL_L4_WITH_ALGAE);
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L4))
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L4_WITH_ALGAE));
 
     conOperator.btn_LeftStick
-        .whileTrue(TRY_EJECTING)
-        .onFalse(TRY_NONE);
+        .whileTrue(new TRY_STATE(RobotState.EJECTING))
+        .onFalse(new TRY_STATE(RobotState.NONE));
 
     conOperator.btn_RightStick
-        .onTrue(TRY_PREP_CORAL_ZERO)
-        .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE)
-        .onTrue(TRY_PREP_ALGAE_ZERO);
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_ZERO))
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_ZERO_WITH_ALGAE))
+        .onTrue(new TRY_STATE(RobotState.PREP_ALGAE_ZERO));
 
     conOperator.btn_North
-        .onTrue(TRY_PREP_ALGAE_NET)
-        .onTrue(TRY_PREP_ALGAE_NET_WITH_CORAL);
+        .onTrue(new TRY_STATE(RobotState.PREP_ALGAE_NET))
+        .onTrue(new TRY_STATE(RobotState.PREP_ALGAE_NET_WITH_CORAL));
 
     conOperator.btn_South
-        .onTrue(TRY_PREP_ALGAE_PROCESSOR)
-        .onTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
+        .onTrue(new TRY_STATE(RobotState.PREP_ALGAE_PROCESSOR))
+        .onTrue(new TRY_STATE(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL));
 
     conOperator.btn_East
-        .whileTrue(TRY_CLEAN_HIGH)
-        .whileTrue(TRY_CLEAN_HIGH_WITH_CORAL)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL);
+        .whileTrue(new TRY_STATE(RobotState.CLEAN_HIGH))
+        .whileTrue(new TRY_STATE(RobotState.CLEAN_HIGH_WITH_CORAL))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_CORAL));
 
     conOperator.btn_West
-        .whileTrue(TRY_CLEAN_LOW)
-        .whileTrue(TRY_CLEAN_LOW_WITH_CORAL)
-        .onFalse(TRY_NONE)
-        .onFalse(TRY_HAS_CORAL);
+        .whileTrue(new TRY_STATE(RobotState.CLEAN_LOW))
+        .whileTrue(new TRY_STATE(RobotState.CLEAN_LOW_WITH_CORAL))
+        .onFalse(new TRY_STATE(RobotState.NONE))
+        .onFalse(new TRY_STATE(RobotState.HAS_CORAL));
 
     conOperator.btn_Start
-        .onTrue(HAS_CORAL_OVERRIDE)
-        .onTrue(HAS_CORAL_L1_OVERRIDE);
+        .onTrue(new TRY_STATE(RobotState.HAS_CORAL))
+        .onTrue(new TRY_STATE(RobotState.PREP_CORAL_L1));
 
-    conOperator.btn_Back.onTrue(HAS_ALGAE_OVERRIDE);
+    conOperator.btn_Back.onTrue(new TRY_STATE(RobotState.HAS_ALGAE));
 
     hasCoralTrigger.debounce(0.1)
-        .whileTrue(TRY_HAS_CORAL);
+        .whileTrue(new TRY_STATE(RobotState.HAS_CORAL));
 
-    hasAlgaeTrigger// debounce(0.2).and(conOperator.btn_West.negate()).and(conOperator.btn_East.negate())
-        .whileTrue(TRY_HAS_ALGAE);
+    hasAlgaeTrigger
+        .whileTrue(new TRY_STATE(RobotState.HAS_ALGAE));
 
     hasBothTrigger
-        .whileTrue(TRY_HAS_CORAL_AND_ALGAE);
+        .whileTrue(new TRY_STATE(RobotState.HAS_CORAL_AND_ALGAE));
 
     hasCoralL1Trigger.debounce(0.1)
-        .whileTrue(TRY_PREP_CORAL_L1);
+        .whileTrue(new TRY_STATE(RobotState.PREP_CORAL_L1));
 
     isCageLatchedTrigger
-        .onTrue(TRY_CLIMBING);
+        .onTrue(new TRY_STATE(RobotState.CLIMBING));
   }
 
   public boolean allZeroed() {
