@@ -9,12 +9,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.EnumMap;
+import java.util.EnumSet;
+
 @Logged
 public class StateMachine extends SubsystemBase {
   private static StateMachine instance;
 
   public static RobotState currentRobotState;
 
+  private static final Map<RobotState, Set<RobotState>> allowedTransitions = new EnumMap<>(RobotState.class);
   
   private StateMachine() {
     currentRobotState = RobotState.NONE;
@@ -52,376 +58,138 @@ public class StateMachine extends SubsystemBase {
   }
 
   public void tryState(RobotState desiredState) {
-    switch (desiredState) {
-      case NONE:
-        switch (currentRobotState) {
-          case PREP_CLIMB:
-          case SCORING_CORAL:
-          case SCORING_ALGAE:
-          case INTAKE_CORAL_GROUND:
-          case INTAKE_ALGAE_GROUND:
-          case INTAKE_CORAL_STATION:
-          case CLEAN_HIGH:
-          case CLEAN_LOW:
-          case EJECTING:
-          case INTAKE_CORAL_L1:
-          case SCORING_CORAL_L1:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // climbing states
-      case PREP_CLIMB:
-        switch (currentRobotState) {
-          case NONE:
-          case HAS_CORAL:
-          case HAS_ALGAE:
-          case HAS_CORAL_AND_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case CLIMBING:
-        switch (currentRobotState) {
-          case PREP_CLIMB:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // Prep Coral only
-      case PREP_CORAL_ZERO:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L1:
-        switch (currentRobotState) {
-          case INTAKE_CORAL_L1:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L2:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-          case PREP_CORAL_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L3:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L4:
-          case PREP_CORAL_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L4:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // prep Coral with Algae
-      case PREP_CORAL_L2_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_NET_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L3_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_NET_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_L4_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_NET_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_CORAL_ZERO_WITH_ALGAE:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_NET_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // prep Algae only
-      case PREP_ALGAE_NET:
-        switch (currentRobotState) {
-          case HAS_ALGAE:
-          case PREP_ALGAE_PROCESSOR:
-          case PREP_ALGAE_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_ALGAE_PROCESSOR:
-        switch (currentRobotState) {
-          case HAS_ALGAE:
-          case PREP_ALGAE_ZERO:
-          case PREP_ALGAE_NET:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_ALGAE_ZERO:
-        switch (currentRobotState) {
-          case HAS_ALGAE:
-          case PREP_ALGAE_NET:
-          case PREP_ALGAE_PROCESSOR:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // prep Algae with Coral
-      case PREP_ALGAE_NET_WITH_CORAL:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-        switch (currentRobotState) {
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_ALGAE_NET_WITH_CORAL:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // holding 1 game piece
-      case HAS_CORAL:
-        switch (currentRobotState) {
-          case INTAKE_CORAL_GROUND:
-          case INTAKE_CORAL_STATION:
-          case SCORING_ALGAE_WITH_CORAL:
-          case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case HAS_ALGAE:
-        switch (currentRobotState) {
-          case CLEAN_HIGH:
-          case CLEAN_LOW:
-          case INTAKE_ALGAE_GROUND:
-          case SCORING_CORAL_WITH_ALGAE:
-          case INTAKE_CORAL_GROUND_WITH_ALGAE:
-          case INTAKE_CORAL_STATION_WITH_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // holding 2 game pieces
-      case HAS_CORAL_AND_ALGAE:
-        switch (currentRobotState) {
-          case INTAKE_ALGAE_GROUND_WITH_CORAL:
-          case INTAKE_CORAL_GROUND_WITH_ALGAE:
-          case INTAKE_CORAL_STATION_WITH_ALGAE:
-          case CLEAN_HIGH_WITH_CORAL:
-          case CLEAN_LOW_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // manipulating 1 game piece
-      case SCORING_CORAL:
-        switch (currentRobotState) {
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case SCORING_ALGAE:
-        switch (currentRobotState) {
-          case PREP_ALGAE_NET:
-          case PREP_ALGAE_PROCESSOR:
-          case PREP_ALGAE_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case SCORING_CORAL_L1:
-        switch (currentRobotState) {
-          case PREP_CORAL_L1:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case CLEAN_HIGH:
-        switch (currentRobotState) {
-          case CLEAN_LOW:
-          case INTAKE_ALGAE_GROUND:
-          case NONE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case CLEAN_LOW:
-        switch (currentRobotState) {
-          case NONE:
-          case INTAKE_ALGAE_GROUND:
-          case CLEAN_HIGH:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case INTAKE_CORAL_STATION:
-        switch (currentRobotState) {
-          case NONE:
-          case INTAKE_CORAL_GROUND:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case INTAKE_ALGAE_GROUND:
-        switch (currentRobotState) {
-          case NONE:
-          case CLEAN_HIGH:
-          case CLEAN_LOW:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case INTAKE_CORAL_L1:
-        switch (currentRobotState) {
-          case NONE:
-          case INTAKE_CORAL_STATION:
-          case INTAKE_CORAL_GROUND:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      // manipulating 2 game pieces
-      case EJECTING:
-        switch (currentRobotState) {
-          case NONE:
-          case HAS_ALGAE:
-          case HAS_CORAL:
-          case HAS_CORAL_AND_ALGAE:
-          case PREP_ALGAE_NET:
-          case PREP_ALGAE_NET_WITH_CORAL:
-          case PREP_ALGAE_PROCESSOR:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_ALGAE_ZERO:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case SCORING_ALGAE_WITH_CORAL:
-        switch (currentRobotState) {
-          case PREP_ALGAE_NET_WITH_CORAL:
-          case PREP_ALGAE_PROCESSOR_WITH_CORAL:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case SCORING_CORAL_WITH_ALGAE:
-        switch (currentRobotState) {
-          case PREP_CORAL_L2_WITH_ALGAE:
-          case PREP_CORAL_L3_WITH_ALGAE:
-          case PREP_CORAL_L4_WITH_ALGAE:
-          case PREP_CORAL_ZERO_WITH_ALGAE:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case CLEAN_HIGH_WITH_CORAL:
-        switch (currentRobotState) {
-          case CLEAN_LOW_WITH_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-          case HAS_CORAL:
-          case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case CLEAN_LOW_WITH_CORAL:
-        switch (currentRobotState) {
-          case HAS_CORAL:
-          case PREP_CORAL_L2:
-          case PREP_CORAL_L3:
-          case PREP_CORAL_L4:
-          case CLEAN_HIGH_WITH_CORAL:
-          case INTAKE_ALGAE_GROUND_WITH_CORAL:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
-      case INTAKE_CORAL_GROUND:
-        switch (currentRobotState) {
-          case NONE:
-          case INTAKE_CORAL_STATION:
-            currentRobotState = desiredState;
-            return;
-        }
-        break;
+    Set<RobotState> allowed = allowedTransitions.get(desiredState);
+    if (allowed != null && allowed.contains(currentRobotState)) {
+      currentRobotState = desiredState;
     }
-    return;
   }
-
+  static {
+    allowedTransitions.put(RobotState.NONE, EnumSet.of(
+      RobotState.PREP_CLIMB, RobotState.SCORING_CORAL, RobotState.SCORING_ALGAE,
+      RobotState.INTAKE_CORAL_GROUND, RobotState.INTAKE_ALGAE_GROUND, RobotState.INTAKE_CORAL_STATION,
+      RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW, RobotState.EJECTING, RobotState.INTAKE_CORAL_L1,
+      RobotState.SCORING_CORAL_L1
+    ));
+    allowedTransitions.put(RobotState.PREP_CLIMB, EnumSet.of(
+      RobotState.NONE, RobotState.HAS_CORAL, RobotState.HAS_ALGAE, RobotState.HAS_CORAL_AND_ALGAE
+    ));
+    allowedTransitions.put(RobotState.CLIMBING, EnumSet.of(
+      RobotState.PREP_CLIMB
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_ZERO, EnumSet.of(
+      RobotState.HAS_CORAL, RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L1, EnumSet.of(
+      RobotState.INTAKE_CORAL_L1
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L2, EnumSet.of(
+      RobotState.HAS_CORAL, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4, RobotState.PREP_CORAL_ZERO
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L3, EnumSet.of(
+      RobotState.HAS_CORAL, RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L4, RobotState.PREP_CORAL_ZERO
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L4, EnumSet.of(
+      RobotState.HAS_CORAL, RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_ZERO
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L2_WITH_ALGAE, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_CORAL_L3_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE,
+      RobotState.PREP_CORAL_ZERO_WITH_ALGAE, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_ALGAE_NET_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L3_WITH_ALGAE, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_CORAL_L2_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE,
+      RobotState.PREP_CORAL_ZERO_WITH_ALGAE, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_ALGAE_NET_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_L4_WITH_ALGAE, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_CORAL_L2_WITH_ALGAE, RobotState.PREP_CORAL_L3_WITH_ALGAE,
+      RobotState.PREP_CORAL_ZERO_WITH_ALGAE, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_ALGAE_NET_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.PREP_CORAL_ZERO_WITH_ALGAE, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_CORAL_L2_WITH_ALGAE, RobotState.PREP_CORAL_L3_WITH_ALGAE,
+      RobotState.PREP_CORAL_L4_WITH_ALGAE, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_ALGAE_NET_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.PREP_ALGAE_NET, EnumSet.of(
+      RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_PROCESSOR, RobotState.PREP_ALGAE_ZERO
+    ));
+    allowedTransitions.put(RobotState.PREP_ALGAE_PROCESSOR, EnumSet.of(
+      RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_ZERO, RobotState.PREP_ALGAE_NET
+    ));
+    allowedTransitions.put(RobotState.PREP_ALGAE_ZERO, EnumSet.of(
+      RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_NET, RobotState.PREP_ALGAE_PROCESSOR
+    ));
+    allowedTransitions.put(RobotState.PREP_ALGAE_NET_WITH_CORAL, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_CORAL_L2_WITH_ALGAE,
+      RobotState.PREP_CORAL_L3_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE, RobotState.PREP_CORAL_ZERO_WITH_ALGAE
+    ));
+    allowedTransitions.put(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, EnumSet.of(
+      RobotState.HAS_CORAL_AND_ALGAE, RobotState.PREP_ALGAE_NET_WITH_CORAL, RobotState.PREP_CORAL_L2_WITH_ALGAE,
+      RobotState.PREP_CORAL_L3_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE, RobotState.PREP_CORAL_ZERO_WITH_ALGAE
+    ));
+    allowedTransitions.put(RobotState.HAS_CORAL, EnumSet.of(
+      RobotState.INTAKE_CORAL_GROUND, RobotState.INTAKE_CORAL_STATION, RobotState.SCORING_ALGAE_WITH_CORAL,
+      RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.HAS_ALGAE, EnumSet.of(
+      RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW, RobotState.INTAKE_ALGAE_GROUND, RobotState.SCORING_CORAL_WITH_ALGAE,
+      RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE, RobotState.INTAKE_CORAL_STATION_WITH_ALGAE
+    ));
+    allowedTransitions.put(RobotState.HAS_CORAL_AND_ALGAE, EnumSet.of(
+      RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL, RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE,
+      RobotState.INTAKE_CORAL_STATION_WITH_ALGAE, RobotState.CLEAN_HIGH_WITH_CORAL, RobotState.CLEAN_LOW_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.SCORING_CORAL, EnumSet.of(
+      RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4
+    ));
+    allowedTransitions.put(RobotState.SCORING_ALGAE, EnumSet.of(
+      RobotState.PREP_ALGAE_NET, RobotState.PREP_ALGAE_PROCESSOR, RobotState.PREP_ALGAE_ZERO
+    ));
+    allowedTransitions.put(RobotState.SCORING_CORAL_L1, EnumSet.of(
+      RobotState.PREP_CORAL_L1
+    ));
+    allowedTransitions.put(RobotState.CLEAN_HIGH, EnumSet.of(
+      RobotState.CLEAN_LOW, RobotState.INTAKE_ALGAE_GROUND, RobotState.NONE
+    ));
+    allowedTransitions.put(RobotState.CLEAN_LOW, EnumSet.of(
+      RobotState.NONE, RobotState.INTAKE_ALGAE_GROUND, RobotState.CLEAN_HIGH
+    ));
+    allowedTransitions.put(RobotState.INTAKE_CORAL_STATION, EnumSet.of(
+      RobotState.NONE, RobotState.INTAKE_CORAL_GROUND
+    ));
+    allowedTransitions.put(RobotState.INTAKE_ALGAE_GROUND, EnumSet.of(
+      RobotState.NONE, RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW
+    ));
+    allowedTransitions.put(RobotState.INTAKE_CORAL_L1, EnumSet.of(
+      RobotState.NONE, RobotState.INTAKE_CORAL_STATION, RobotState.INTAKE_CORAL_GROUND
+    ));
+    allowedTransitions.put(RobotState.EJECTING, EnumSet.of(
+      RobotState.NONE, RobotState.HAS_ALGAE, RobotState.HAS_CORAL, RobotState.HAS_CORAL_AND_ALGAE,
+      RobotState.PREP_ALGAE_NET, RobotState.PREP_ALGAE_NET_WITH_CORAL, RobotState.PREP_ALGAE_PROCESSOR,
+      RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_ALGAE_ZERO, RobotState.PREP_CORAL_ZERO_WITH_ALGAE,
+      RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4,
+      RobotState.PREP_CORAL_L2_WITH_ALGAE, RobotState.PREP_CORAL_L3_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE,
+      RobotState.PREP_CORAL_ZERO
+    ));
+    allowedTransitions.put(RobotState.SCORING_ALGAE_WITH_CORAL, EnumSet.of(
+      RobotState.PREP_ALGAE_NET_WITH_CORAL, RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL, RobotState.PREP_CORAL_ZERO_WITH_ALGAE
+    ));
+    allowedTransitions.put(RobotState.SCORING_CORAL_WITH_ALGAE, EnumSet.of(
+      RobotState.PREP_CORAL_L2_WITH_ALGAE, RobotState.PREP_CORAL_L3_WITH_ALGAE, RobotState.PREP_CORAL_L4_WITH_ALGAE,
+      RobotState.PREP_CORAL_ZERO_WITH_ALGAE
+    ));
+    allowedTransitions.put(RobotState.CLEAN_HIGH_WITH_CORAL, EnumSet.of(
+      RobotState.CLEAN_LOW_WITH_CORAL, RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4,
+      RobotState.HAS_CORAL, RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.CLEAN_LOW_WITH_CORAL, EnumSet.of(
+      RobotState.HAS_CORAL, RobotState.PREP_CORAL_L2, RobotState.PREP_CORAL_L3, RobotState.PREP_CORAL_L4,
+      RobotState.CLEAN_HIGH_WITH_CORAL, RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL
+    ));
+    allowedTransitions.put(RobotState.INTAKE_CORAL_GROUND, EnumSet.of(
+      RobotState.NONE, RobotState.INTAKE_CORAL_STATION
+    ));
+    allowedTransitions.put(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE, EnumSet.noneOf(RobotState.class));
+    allowedTransitions.put(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL, EnumSet.noneOf(RobotState.class));
+    allowedTransitions.put(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE, EnumSet.noneOf(RobotState.class));
+  }
   public enum RobotState {
     NONE,
     // climbing states
@@ -472,8 +240,4 @@ public class StateMachine extends SubsystemBase {
 
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }
