@@ -18,7 +18,7 @@ import frc.robot.commands.driver_states.PoseDriving;
 
 @Logged
 public class DriverStateMachine extends SubsystemBase {
-  /** Creates a () -> new DriverStateMachine. */
+  /** Creates a new DriverStateMachine. */
   public static DriverState currentDriverState = DriverState.MANUAL;
 
   @NotLogged
