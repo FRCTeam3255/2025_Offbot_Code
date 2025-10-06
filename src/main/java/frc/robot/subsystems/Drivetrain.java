@@ -145,7 +145,8 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lockY) {
       automatedDTVelocity.vyMetersPerSecond = manualVelocities.y;
     }
-    drive(automatedDTVelocity, isOpenLoop);
+    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    drive(automatedDTVelocity, isOpenLoop = false);
   }
 
   public void rotationalAlign(Pose2d desiredTarget, SwerveVelocity velocities, boolean isOpenLoop) {

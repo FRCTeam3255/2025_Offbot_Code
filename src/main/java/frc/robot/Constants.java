@@ -211,7 +211,7 @@ public final class Constants {
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
       public static final ProfiledPIDController ROTATION_CONTROLLER = new ProfiledPIDController(
-          3, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+          2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
       public static final Angle AT_ROTATION_TOLERANCE = Units.Degrees.of(1);
 
@@ -468,7 +468,6 @@ public final class Constants {
     public static final Distance ELEVATOR_CORAL_L3_HEIGHT = Units.Inches.of(20);
     public static final Distance ELEVATOR_CORAL_L4_HEIGHT = Units.Inches.of(48);
     public static final Distance ELEVATOR_CLIMBING_HEIGHT = Units.Inches.of(5);
-
 
     static {
 
