@@ -70,12 +70,11 @@ public class PoseDriving extends Command {
   @Override
   public void end(boolean interrupted) {
     subDrivetrain.neutralDriveOutputs();
-    System.out.println("Ended PoseDriving");
   }
 
   @Override
   public boolean isFinished() {
-    return false;// subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
-                 // DriverStation.isAutonomous();
+    return subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
+        subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
   }
 }

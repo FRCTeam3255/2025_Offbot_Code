@@ -13,7 +13,6 @@ import com.frcteam3255.components.swerve.SN_SwerveModule;
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -79,22 +78,14 @@ public class Drivetrain extends SN_SuperSwerve {
         Robot.isSimulation());
   }
 
-  private final PIDController xController = new PIDController(10.0, 0.0, 0.0);
-  private final PIDController yController = new PIDController(10.0, 0.0, 0.0);
-  private final PIDController headingController = new PIDController(7.5, 0.0, 0.0);
-
   public void followTrajectory(SwerveSample sample) {
     // Get the current pose of the robot
-    Pose2d pose = getPose();
-
-    // Generate the next speeds for the robot
-    ChassisSpeeds speeds = new ChassisSpeeds(
-        sample.vx + xController.calculate(pose.getX(), sample.x),
-        sample.vy + yController.calculate(pose.getY(), sample.y),
-        sample.omega + headingController.calculate(pose.getRotation().getRadians(), sample.heading));
+    Pose2d desiredTarget = sample.getPose();
+    ChassisSpeeds automatedDTVelocity = teleopAutoDriveController.calculate(getPose(), desiredTarget, 0,
+        desiredTarget.getRotation());
 
     // Apply the generated speeds
-    driveAutonomous(speeds);
+    drive(automatedDTVelocity, true);
   }
 
   @Override
@@ -150,9 +141,17 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lockY) {
       automatedDTVelocity.vyMetersPerSecond = manualVelocities.vyMetersPerSecond;
     }
-    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    automatedDTVelocity.omegaRadiansPerSecond = automatedDTVelocity.omegaRadiansPerSecond;
     drive(automatedDTVelocity, isOpenLoop);
   }
+
+  // // TODO:
+  // public void drive(ChassisSpeeds chassisSpeeds, boolean isOpenLoop) {
+  // // ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, getRotation());
+  // SwerveModuleState[] desiredModuleStates = swerveKinematics
+  // .toSwerveModuleStates(chassisSpeeds);
+  // setModuleStates(desiredModuleStates, isOpenLoop);
+  // }
 
   public void rotationalAlign(Pose2d desiredTarget, ChassisSpeeds velocities, boolean isOpenLoop) {
     // Rotational-only auto-align

@@ -234,12 +234,9 @@ public class RobotContainer {
         autoFactory.resetOdometry("top_ji"),
         Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
         runPath("top_ji"),
-        // new DeferredCommand(() -> autoFactory.trajectoryCmd("top_ji"),
-        // Set.of(subDriverStateMachine)),
-        REEF_AUTO_DRIVING_RIGHT);
-    // new DeferredCommand(() -> autoFactory.trajectoryCmd("ji_cs"),
-    // Set.of(subDriverStateMachine)),
-    // CORAL_STATION_AUTO_DRIVING_CLOSE);
+        REEF_AUTO_DRIVING_RIGHT,
+        runPath("ji_cs"),
+        CORAL_STATION_AUTO_DRIVING_CLOSE);
   }
 
   Command runPath(String pathName) {
