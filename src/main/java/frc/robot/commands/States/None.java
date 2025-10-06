@@ -28,6 +28,7 @@ public class None extends Command {
   public void initialize() {
     globalRotors.setAlgaeIntakeMotorSpeed(0);
     globalRotors.setCoralIntakeMotorSpeed(0);
+    globalRotors.setClimberMotorPercentOutput(0);
     globalStateMachine.setRobotState(RobotState.NONE);
   }
 
