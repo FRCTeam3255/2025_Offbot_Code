@@ -78,6 +78,7 @@ public class StateMachine extends SubsystemBase {
           case CLEAN_LOW:
           case EJECTING:
           case INTAKE_CORAL_L1:
+          case SCORING_CORAL_L1:
           case CLIMBING:
             return new None(subStateMachine, subMotion, subRotors);
         }
