@@ -27,7 +27,7 @@ public class Field {
   public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
 
   private static class FieldElements {
-    private static final Pose2d REEF_CENTER = new Pose2d(4.5, 4.0, null);
+    private static final Pose2d REEF_CENTER = new Pose2d(4.5, 4.0, Rotation2d.kZero);
     // Branch Poses
     private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
     private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
