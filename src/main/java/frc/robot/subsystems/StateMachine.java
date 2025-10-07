@@ -79,6 +79,7 @@ public class StateMachine extends SubsystemBase {
           case EJECTING:
           case INTAKE_CORAL_L1:
           case SCORING_CORAL_L1:
+          case CLIMBING:
             return new None(subStateMachine, subMotion, subRotors);
         }
 
@@ -92,6 +93,7 @@ public class StateMachine extends SubsystemBase {
           case HAS_CORAL:
           case HAS_ALGAE:
           case HAS_CORAL_AND_ALGAE:
+          case CLIMBING:
             return new PrepClimb(subStateMachine, subMotion, subRotors);
 
         }
