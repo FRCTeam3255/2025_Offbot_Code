@@ -30,7 +30,7 @@ public class RobotContainer {
   private final Motion subMotion = new Motion();
   private final LED subLED = new LED();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
-  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
+  private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain, subStateMachine);
   private final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
   private final Vision subVision = new Vision();
 
@@ -50,6 +50,9 @@ public class RobotContainer {
           || subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
+  private final Trigger isInPrepL2States = new Trigger(
+      () -> subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2
+          || subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2_WITH_ALGAE);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
