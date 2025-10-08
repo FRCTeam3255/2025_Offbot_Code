@@ -42,55 +42,19 @@ public class Field {
     private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
     private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
 
-    // Branches poses for scoring l2 backwards
-    private static final Pose2d REEF_A_L2_BACKWARDS = REEF_A
-        .transformBy(new Transform2d(Units.Inches.of(-13),
-            Units.Inches.of(0),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_B_L2_BACKWARDS = REEF_B
-        .transformBy(new Transform2d(Units.Inches.of(-13),
-            Units.Inches.of(0),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_C_L2_BACKWARDS = REEF_C
-        .transformBy(new Transform2d(Units.Inches.of(-13 / 2),
-            Units.Inches.of(-(13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_D_L2_BACKWARDS = REEF_D
-        .transformBy(new Transform2d(Units.Inches.of(-13 / 2),
-            Units.Inches.of(-(13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_E_L2_BACKWARDS = REEF_E
-        .transformBy(new Transform2d(Units.Inches.of(13 / 2),
-            Units.Inches.of(-(13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_F_L2_BACKWARDS = REEF_F
-        .transformBy(new Transform2d(Units.Inches.of(13 / 2),
-            Units.Inches.of(-(13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_G_L2_BACKWARDS = REEF_G
-        .transformBy(new Transform2d(Units.Inches.of(13),
-            Units.Inches.of(0),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_H_L2_BACKWARDS = REEF_H
-        .transformBy(new Transform2d(Units.Inches.of(13),
-            Units.Inches.of(0),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_I_L2_BACKWARDS = REEF_I
-        .transformBy(new Transform2d(Units.Inches.of(13 / 2),
-            Units.Inches.of((13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_J_L2_BACKWARDS = REEF_J
-        .transformBy(new Transform2d(Units.Inches.of(13 / 2),
-            Units.Inches.of((13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_K_L2_BACKWARDS = REEF_K
-        .transformBy(new Transform2d(Units.Inches.of(-13 / 2),
-            Units.Inches.of((13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
-    private static final Pose2d REEF_L_L2_BACKWARDS = REEF_L
-        .transformBy(new Transform2d(Units.Inches.of(-13 / 2),
-            Units.Inches.of((13 / 2) * Math.sqrt(3)),
-            Rotation2d.kZero));
+    // L2 Backwards
+    private static final Pose2d REEF_A_L2_BACKWARDS = new Pose2d(2.848, 4.189, Rotation2d.kZero);
+    private static final Pose2d REEF_B_L2_BACKWARDS = new Pose2d(2.848, 3.863, Rotation2d.kZero);
+    private static final Pose2d REEF_C_L2_BACKWARDS = new Pose2d(3.522, 2.697, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_D_L2_BACKWARDS = new Pose2d(3.801, 2.543, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_E_L2_BACKWARDS = new Pose2d(5.157, 2.543, Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_F_L2_BACKWARDS = new Pose2d(5.446, 2.697, Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_G_L2_BACKWARDS = new Pose2d(6.110, 3.863, Rotation2d.k180deg);
+    private static final Pose2d REEF_H_L2_BACKWARDS = new Pose2d(6.110, 4.189, Rotation2d.k180deg);
+    private static final Pose2d REEF_I_L2_BACKWARDS = new Pose2d(5.456, 5.343, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_J_L2_BACKWARDS = new Pose2d(5.157, 5.497, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_K_L2_BACKWARDS = new Pose2d(3.820, 5.516, Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_L_L2_BACKWARDS = new Pose2d(3.541, 5.343, Rotation2d.fromDegrees(-60));
 
     // Net Poses
     private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
