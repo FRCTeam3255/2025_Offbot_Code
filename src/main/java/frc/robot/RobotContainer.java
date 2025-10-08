@@ -229,17 +229,6 @@ public class RobotContainer {
         true, // If alliance flipping should be enabled
         subDriverStateMachine // The drive subsystem
     );
-    autoSequence = Commands.sequence();
-    // // Setup
-    // autoFactory.resetOdometry("top_ji"),
-    // Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)),
-    // // Coral 1
-    // runPath("top_ji"),
-    // REEF_AUTO_DRIVING_RIGHT.alongWith(TRY_PREP_CORAL_L4),
-    // TRY_SCORING_CORAL,
-    // TRY_NONE,
-    // runPath("ji_cs"),
-    // CORAL_STATION_AUTO_DRIVING_CLOSE.alongWith(TRY_INTAKE_CORAL_STATION),
 
     // // Coral 2
     // runPath("cs_lk"),
@@ -248,6 +237,45 @@ public class RobotContainer {
     // TRY_NONE,
     // runPath("lk_cs"),
     // CORAL_STATION_AUTO_DRIVING_CLOSE.alongWith(TRY_INTAKE_CORAL_STATION));
+    // autoSequence = Commands.sequence(
+    // autoFactory.resetOdometry("top_ji").asProxy(),
+    // Commands.runOnce(() ->
+    // subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
+    // // Coral 1
+    // runPath("top_ji").asProxy(),
+    // REEF_AUTO_DRIVING_RIGHT.asProxy().alongWith(TRY_PREP_CORAL_L4.asProxy().withTimeout(1)),
+    // TRY_SCORING_CORAL.asProxy().withTimeout(1),
+    // TRY_NONE.asProxy().withTimeout(1),
+    // runPath("ji_cs").asProxy(),
+    // CORAL_STATION_AUTO_DRIVING_CLOSE.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy().withTimeout(1)),
+    // // Coral 2
+    // Commands.runOnce(() ->
+    // subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
+    // runPath("cs_jk").asProxy(),
+    // REEF_AUTO_DRIVING_RIGHT.asProxy().alongWith(TRY_PREP_CORAL_L4.asProxy().withTimeout(1)),
+    // TRY_SCORING_CORAL.asProxy().withTimeout(1),
+    // TRY_NONE.asProxy().withTimeout(1),
+    // runPath("jk_cs").asProxy(),
+    // CORAL_STATION_AUTO_DRIVING_CLOSE.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy().withTimeout(1)));
+
+    autoSequence = Commands.sequence(
+        autoFactory.resetOdometry("top_ji").asProxy(),
+        ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT, TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_RIGHT, TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4));
+
+  }
+
+  Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
+    return Commands.sequence(
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
+        runPath(startPath).asProxy(),
+        reef_auto_drive_branch.asProxy().alongWith(try_prep_coral_l.asProxy()).withTimeout(3),
+        TRY_SCORING_CORAL.asProxy().withTimeout(1),
+        TRY_NONE.asProxy().withTimeout(0.1),
+        runPath(endPath).asProxy(),
+        CORAL_STATION_AUTO_DRIVING_FAR.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(3));
   }
 
   Command runPath(String pathName) {
