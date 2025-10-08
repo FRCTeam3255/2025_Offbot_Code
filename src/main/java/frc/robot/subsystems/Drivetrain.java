@@ -141,7 +141,7 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lockY) {
       automatedDTVelocity.vyMetersPerSecond = manualVelocities.vyMetersPerSecond;
     }
-    automatedDTVelocity.omegaRadiansPerSecond = automatedDTVelocity.omegaRadiansPerSecond;
+    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
     drive(automatedDTVelocity, isOpenLoop);
   }
 
