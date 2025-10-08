@@ -53,6 +53,9 @@ public class RobotContainer {
   private final Trigger isInPrepL2States = new Trigger(
       () -> subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2
           || subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2_WITH_ALGAE);
+  private final Trigger isInClimbState = new Trigger(
+      () -> subStateMachine.getRobotState() == RobotState.CLIMBING
+          || subStateMachine.getRobotState() == RobotState.PREP_CLIMB);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -327,6 +330,7 @@ public class RobotContainer {
         .onTrue(TRY_PREP_CORAL_ZERO)
         .onTrue(TRY_PREP_CORAL_ZERO_WITH_ALGAE)
         .onTrue(TRY_PREP_ALGAE_ZERO);
+    conOperator.btn_RightStick.and(isInClimbState).onTrue(TRY_NONE);
 
     conOperator.btn_North
         .onTrue(TRY_PREP_ALGAE_NET)
@@ -366,7 +370,7 @@ public class RobotContainer {
     hasCoralL1Trigger.debounce(0.1)
         .whileTrue(TRY_PREP_CORAL_L1);
 
-    isCageLatchedTrigger
+    isCageLatchedTrigger.debounce(0.4)
         .onTrue(TRY_CLIMBING);
   }
 
