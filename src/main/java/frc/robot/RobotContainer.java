@@ -246,8 +246,8 @@ public class RobotContainer {
             Commands.waitSeconds(0.3).andThen(
                 try_prep_coral_l.asProxy()))
             .withTimeout(2),
-        TRY_SCORING_CORAL.asProxy().withTimeout(0.5),
-        TRY_NONE.asProxy().withTimeout(0.1),
+        TRY_SCORING_CORAL.asProxy().withTimeout(0.6),
+        TRY_NONE.asProxy().withTimeout(0.05),
         runPath(endPath).asProxy(),
         CORAL_STATION_AUTO_DRIVING_FAR.asProxy().withDeadline(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(5));
   }
