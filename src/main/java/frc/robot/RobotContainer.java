@@ -242,11 +242,11 @@ public class RobotContainer {
     return Commands.sequence(
         Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
         runPath(startPath).asProxy(),
-        reef_auto_drive_branch.asProxy().alongWith(try_prep_coral_l.asProxy()).withTimeout(3),
-        TRY_SCORING_CORAL.asProxy().withTimeout(1),
+        reef_auto_drive_branch.asProxy().alongWith(try_prep_coral_l.asProxy()).withTimeout(2),
+        TRY_SCORING_CORAL.asProxy().withTimeout(0.5),
         TRY_NONE.asProxy().withTimeout(0.1),
         runPath(endPath).asProxy(),
-        CORAL_STATION_AUTO_DRIVING_FAR.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(10));
+        CORAL_STATION_AUTO_DRIVING_FAR.asProxy().withDeadline(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(5));
   }
 
   Command runPath(String pathName) {
