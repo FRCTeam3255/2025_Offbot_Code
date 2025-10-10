@@ -180,7 +180,7 @@ public class RobotContainer {
 
     subDrivetrain
         .setDefaultCommand(new DriveManual(
-            subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper::getAsBoolean));
+            subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper));
 
     configDriverBindings();
     configOperatorBindings();
