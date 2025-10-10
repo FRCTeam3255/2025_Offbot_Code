@@ -204,12 +204,12 @@ public final class Constants {
       public static final LinearVelocity MIN_DRIVER_OVERRIDE = constDrivetrain.REAL_DRIVE_SPEED.div(10);
 
       public static final PIDController POSE_TRANS_CONTROLLER = new PIDController(
-          2,
+          3,
           0,
           0);
 
       public static final PIDController PATH_TRANS_CONTROLLER = new PIDController(
-          3,
+          2,
           0,
           0);
 
