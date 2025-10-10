@@ -7,11 +7,14 @@ package frc.robot;
 import com.frcteam3255.joystick.SN_XboxController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
+import frc.robot.Constants.constMotion;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.*;
 import frc.robot.commands.driver_states.DriveManual;
@@ -178,9 +181,15 @@ public class RobotContainer {
       () -> subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
 
+  Command zeroSubsystems = new ParallelCommandGroup(
+      new ZeroLift(subMotion).withTimeout(constMotion.ZEROING_TIMEOUT.in(Units.Seconds)),
+      new ZeroPivot(subMotion).withTimeout(constMotion.ZEROING_TIMEOUT.in(Units.Seconds)),
+      new ZeroWrist(subMotion).withTimeout(constMotion.ZEROING_TIMEOUT.in(Units.Seconds)))
+      .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).withName("ZeroSubsystems");
+
   public RobotContainer() {
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
-
+    zeroSubsystems.addRequirements(subStateMachine);
     subDrivetrain
         .setDefaultCommand(new DriveManual(
             subDrivetrain, subDriverStateMachine, conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX));
@@ -262,6 +271,9 @@ public class RobotContainer {
     isInProcessorAutoDriveState
         .whileTrue(TRY_PREP_ALGAE_PROCESSOR)
         .whileTrue(TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL);
+
+    conDriver.btn_A
+        .onTrue(zeroSubsystems);
   }
 
   public Command getAutonomousCommand() {
