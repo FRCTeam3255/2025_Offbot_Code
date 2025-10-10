@@ -360,6 +360,8 @@ public final class Constants {
 
     public static final Angle PIVOT_DANGER_ANGLE = Units.Degrees.of(25);
 
+    public static final Distance HEIGHT_DIVIDER = Units.Inches.of(4.3);
+    public static final Distance LIFT_EXTENDED_POSITION = Units.Inches.of(20);
   }
 
   public static class constRotors {

@@ -25,9 +25,9 @@ public class RobotContainer {
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
-  private final Drivetrain subDrivetrain = new Drivetrain();
   private final Rotors subRotors = new Rotors();
   private final Motion subMotion = new Motion();
+  private final Drivetrain subDrivetrain = new Drivetrain(subMotion);
   private final LED subLED = new LED();
   private final StateMachine subStateMachine = new StateMachine(subDrivetrain, subRotors, subMotion);
   private final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);

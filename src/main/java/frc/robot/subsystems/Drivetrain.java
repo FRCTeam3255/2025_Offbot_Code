@@ -25,9 +25,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.constDrivetrain;
+import frc.robot.Constants.constMotion;
 import frc.robot.Constants.constVision;
 import frc.robot.Robot;
 import frc.robot.RobotMap.mapDrivetrain;
+import frc.robot.subsystems.*;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
@@ -63,7 +65,9 @@ public class Drivetrain extends SN_SuperSwerve {
     }
   }
 
-  public Drivetrain() {
+  Motion subMotion;
+
+  public Drivetrain(Motion subMotion) {
     super(
         constDrivetrain.SWERVE_CONSTANTS,
         modules,
@@ -90,6 +94,7 @@ public class Drivetrain extends SN_SuperSwerve {
         constDrivetrain.AUTO.ROBOT_CONFIG,
         () -> isRedAlliance(),
         Robot.isSimulation());
+    this.subMotion = subMotion;
   }
 
   @Override
@@ -112,12 +117,19 @@ public class Drivetrain extends SN_SuperSwerve {
   public SwerveVelocity calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
       DoubleSupplier rotationAxisSupplier) {
     boolean isRed = isRedAlliance();
+    boolean isLiftExtended = subMotion.getLiftPosition().in(Units.Meters) > constMotion.LIFT_EXTENDED_POSITION
+        .in(Units.Meters);
     double redAllianceMultiplier = isRed ? -1 : 1;
+    double speedMultiplier = isLiftExtended
+        ? 0.1 / subMotion.getLiftPosition().in(Units.Meters)
+        : 1;
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        * speedMultiplier;
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier
+        * speedMultiplier;
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
