@@ -10,6 +10,7 @@ import java.util.function.DoubleSupplier;
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
 import com.frcteam3255.components.swerve.SN_SwerveModule;
 
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -48,21 +49,6 @@ public class Drivetrain extends SN_SuperSwerve {
           mapDrivetrain.CAN_BUS_NAME),
   };
 
-  /**
-   * Class to hold calculated velocity results
-   */
-  public static class SwerveVelocity {
-    public final double x;
-    public final double y;
-    public final double rotation;
-
-    public SwerveVelocity(double xVelocity, double yVelocity, double rotationVelocity) {
-      this.x = xVelocity;
-      this.y = yVelocity;
-      this.rotation = rotationVelocity;
-    }
-  }
-
   public Drivetrain() {
     super(
         constDrivetrain.SWERVE_CONSTANTS,
@@ -85,11 +71,25 @@ public class Drivetrain extends SN_SuperSwerve {
             constVision.STD_DEVS_HEADING),
         constDrivetrain.AUTO.AUTO_DRIVE_PID,
         constDrivetrain.AUTO.AUTO_STEER_PID,
-        constDrivetrain.TELEOP_AUTO_ALIGN.TELEOP_AUTO_ALIGN_CONTROLLER,
+        constDrivetrain.AUTO_ALIGN.POSE_AUTO_ALIGN_CONTROLLER,
         constDrivetrain.TURN_SPEED,
         constDrivetrain.AUTO.ROBOT_CONFIG,
         () -> isRedAlliance(),
         Robot.isSimulation());
+  }
+
+  public void followTrajectory(SwerveSample sample) {
+    // Get the current pose of the robot
+    Pose2d desiredTarget = sample.getPose();
+    ChassisSpeeds automatedDTVelocity = constDrivetrain.AUTO_ALIGN.PATH_AUTO_ALIGN_CONTROLLER.calculate(getPose(),
+        desiredTarget, 0,
+        desiredTarget.getRotation());
+
+    // Apply the generated speeds
+    if (constDrivetrain.INVERT_ROTATION) {
+      automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    }
+    drive(automatedDTVelocity, true);
   }
 
   @Override
@@ -107,9 +107,9 @@ public class Drivetrain extends SN_SuperSwerve {
    * @param xAxisSupplier        X-axis joystick input supplier
    * @param yAxisSupplier        Y-axis joystick input supplier
    * @param rotationAxisSupplier Rotation joystick input supplier
-   * @return VelocityResult containing calculated velocities
+   * @return ChassisSpeeds containing calculated velocities
    */
-  public SwerveVelocity calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
+  public ChassisSpeeds calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
       DoubleSupplier rotationAxisSupplier) {
     boolean isRed = isRedAlliance();
     double redAllianceMultiplier = isRed ? -1 : 1;
@@ -121,7 +121,7 @@ public class Drivetrain extends SN_SuperSwerve {
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
-    return new SwerveVelocity(xVelocity, yVelocity, rotationVelocity);
+    return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }
 
   public static boolean isRedAlliance() {
@@ -130,7 +130,7 @@ public class Drivetrain extends SN_SuperSwerve {
 
   public void autoAlign(
       Pose2d desiredTarget,
-      SwerveVelocity manualVelocities,
+      ChassisSpeeds manualVelocities,
       boolean isOpenLoop,
       boolean lockX,
       boolean lockY) {
@@ -140,26 +140,29 @@ public class Drivetrain extends SN_SuperSwerve {
         desiredTarget.getRotation());
 
     if (lockX) {
-      automatedDTVelocity.vxMetersPerSecond = manualVelocities.x;
+      automatedDTVelocity.vxMetersPerSecond = manualVelocities.vxMetersPerSecond;
     }
     if (lockY) {
-      automatedDTVelocity.vyMetersPerSecond = manualVelocities.y;
+      automatedDTVelocity.vyMetersPerSecond = manualVelocities.vyMetersPerSecond;
     }
-    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
-    drive(automatedDTVelocity, isOpenLoop = false);
+    if (constDrivetrain.INVERT_ROTATION) {
+      automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    }
+    drive(automatedDTVelocity, isOpenLoop);
   }
 
-  public void rotationalAlign(Pose2d desiredTarget, SwerveVelocity velocities, boolean isOpenLoop) {
+  // // TODO:
+  // public void drive(ChassisSpeeds chassisSpeeds, boolean isOpenLoop) {
+  // // ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, getRotation());
+  // SwerveModuleState[] desiredModuleStates = swerveKinematics
+  // .toSwerveModuleStates(chassisSpeeds);
+  // setModuleStates(desiredModuleStates, isOpenLoop);
+  // }
+
+  public void rotationalAlign(Pose2d desiredTarget, ChassisSpeeds velocities, boolean isOpenLoop) {
     // Rotational-only auto-align
-    drive(new Translation2d(velocities.x, velocities.y),
+    drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
-  }
-
-  public void drive(SwerveVelocity velocities, boolean isOpenLoop) {
-    drive(
-        new Translation2d(velocities.x, velocities.y),
-        velocities.rotation,
-        isOpenLoop);
   }
 
   public Pose2d getClosestPose(List<Pose2d> poses) {

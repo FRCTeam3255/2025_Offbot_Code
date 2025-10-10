@@ -42,8 +42,8 @@ public class DriveManual extends Command {
     subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
 
     subDrivetrain.drive(
-        new Translation2d(velocities.x, velocities.y),
-        velocities.rotation,
+        new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
+        velocities.omegaRadiansPerSecond,
         isOpenLoop);
   }
 
