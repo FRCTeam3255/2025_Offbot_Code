@@ -19,14 +19,14 @@ public class PoseDriving extends Command {
   PoseDriveGroup poseGroup;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup, BooleanSupplier slowMode) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
-    this.slowMode = slowMode;
     this.poseGroup = poseGroup;
+    this.slowMode = slowMode;
     addRequirements(this.subDrivetrain, this.subDriverStateMachine);
   }
 
