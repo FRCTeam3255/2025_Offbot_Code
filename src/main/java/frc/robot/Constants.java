@@ -385,6 +385,7 @@ public final class Constants {
       ALGAE_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLowerTime = 0.5;
 
       // coral intake motor config
+
       CORAL_INTAKE_CONFIG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       CORAL_INTAKE_CONFIG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
       CORAL_INTAKE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = false;
@@ -398,7 +399,7 @@ public final class Constants {
       CORAL_INTAKE_SENSOR_CONFIG.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz;
       CORAL_INTAKE_SENSOR_CONFIG.ProximityParams.ProximityThreshold = Units.Inches.of(3.95).in(Units.Meters);
     }
-    public static final Current COLLECTOR_HAS_CAGE_CURRENT = Units.Amps.of(999);// Todo give actual value
+    public static final Current COLLECTOR_HAS_CAGE_CURRENT = Units.Amps.of(30);
     public static final Current ALGAE_INTAKE_HAS_GP_CURRENT = Units.Amps.of(15);
     public static final AngularVelocity ALGAE_INTAKE_HAS_GP_VELOCITY = Units.RotationsPerSecond.of(2102 / 60);
 
@@ -577,7 +578,7 @@ public final class Constants {
 
       PREP_CLIMB.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
       PREP_CLIMB.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CLIMB.pivotAngle = Degrees.of(109.4); // TODO: Replace with actual angle
+      PREP_CLIMB.pivotAngle = Degrees.of(108.4); // TODO: Replace with actual angle
 
       NONE.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       NONE.liftHeight = Inches.of(0); // TODO: Replace with actual height
@@ -595,12 +596,12 @@ public final class Constants {
 
       PREP_PROCESSOR.wristAngle = Degrees.of(-2); // TODO: Replace with actual angle
       PREP_PROCESSOR.liftHeight = Inches.of(4); // TODO: Replace with actual height
-      PREP_PROCESSOR.pivotAngle = Degrees.of(12); // TODO: Replace with actual angle
+      PREP_PROCESSOR.pivotAngle = Degrees.of(14); // TODO: Replace with actual angle
       PREP_PROCESSOR.pivotSlot = 1;
       PREP_PROCESSOR.wristSlot = 0;
       PREP_PROCESSOR.liftSlot = 0;
 
-      CLIMBED.wristAngle = Degrees.of(50); // TODO: Replace with actual angle
+      CLIMBED.wristAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLIMBED.liftHeight = Inches.of(0); // TODO: Replace with actual height
       CLIMBED.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       CLIMBED.pivotSlot = 1;
@@ -625,7 +626,7 @@ public final class Constants {
     public static final double INTAKE_ALGAE_SPEED = 1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_NET_SPEED = -1; // TODO: Replace with actual speed
     public static final double SCORE_ALGAE_PROCESSOR_SPEED = -1; // TODO: Replace with actual speed
-    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = -1;
+    public static final double CLIMBER_MOTOR_PERCENT_OUTPUT = -0.5;
     public static final double CLEAN_ALGAE_SPEED = 1;
     public static final double INTAKE_L1_SPEED = -1;
     public static final double INDEX_L1_SPEED = 0.2;
