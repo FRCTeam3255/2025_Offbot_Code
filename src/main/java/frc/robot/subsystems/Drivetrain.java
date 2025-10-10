@@ -83,9 +83,10 @@ public class Drivetrain extends SN_SuperSwerve {
     Pose2d desiredTarget = sample.getPose();
     ChassisSpeeds automatedDTVelocity = constDrivetrain.AUTO_ALIGN.PATH_AUTO_ALIGN_CONTROLLER.calculate(getPose(),
         desiredTarget, 0,
-        desiredTarget.getRotation().unaryMinus());
+        desiredTarget.getRotation());
 
     // Apply the generated speeds
+    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
     drive(automatedDTVelocity, true);
   }
 
