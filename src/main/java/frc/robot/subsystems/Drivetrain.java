@@ -71,7 +71,7 @@ public class Drivetrain extends SN_SuperSwerve {
             constVision.STD_DEVS_HEADING),
         constDrivetrain.AUTO.AUTO_DRIVE_PID,
         constDrivetrain.AUTO.AUTO_STEER_PID,
-        constDrivetrain.TELEOP_AUTO_ALIGN.TELEOP_AUTO_ALIGN_CONTROLLER,
+        constDrivetrain.AUTO_ALIGN.POSE_AUTO_ALIGN_CONTROLLER,
         constDrivetrain.TURN_SPEED,
         constDrivetrain.AUTO.ROBOT_CONFIG,
         () -> isRedAlliance(),
@@ -81,7 +81,8 @@ public class Drivetrain extends SN_SuperSwerve {
   public void followTrajectory(SwerveSample sample) {
     // Get the current pose of the robot
     Pose2d desiredTarget = sample.getPose();
-    ChassisSpeeds automatedDTVelocity = teleopAutoDriveController.calculate(getPose(), desiredTarget, 0,
+    ChassisSpeeds automatedDTVelocity = constDrivetrain.AUTO_ALIGN.PATH_AUTO_ALIGN_CONTROLLER.calculate(getPose(),
+        desiredTarget, 0,
         desiredTarget.getRotation());
 
     // Apply the generated speeds

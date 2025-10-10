@@ -14,6 +14,7 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
@@ -70,141 +71,140 @@ public class RobotContainer {
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
 
-  Command TRY_NONE = Commands.defer(
-      subStateMachine.tryState(RobotState.NONE), Set.of(subStateMachine));
-  Command TRY_CLIMBING = Commands.defer(
-      subStateMachine.tryState(RobotState.CLIMBING), Set.of(subStateMachine));
-  Command TRY_PREP_CLIMB = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CLIMB), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_ZERO = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_ZERO), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L1 = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L1), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L2 = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L2), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L3 = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L3), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L4 = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L4), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L2_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L3_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L3_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_L4_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_PREP_CORAL_ZERO_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_PREP_ALGAE_NET = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_ALGAE_NET), Set.of(subStateMachine));
-  Command TRY_PREP_ALGAE_PROCESSOR = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR), Set.of(subStateMachine));
-  Command TRY_PREP_ALGAE_ZERO = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_ALGAE_ZERO), Set.of(subStateMachine));
-  Command TRY_PREP_ALGAE_NET_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_ALGAE_NET_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_HAS_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.HAS_CORAL), Set.of(subStateMachine));
-  Command TRY_HAS_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.HAS_ALGAE), Set.of(subStateMachine));
-  Command TRY_HAS_CORAL_AND_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE), Set.of(subStateMachine));
-  Command TRY_SCORING_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.SCORING_CORAL), Set.of(subStateMachine));
-  Command TRY_SCORING_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.SCORING_ALGAE), Set.of(subStateMachine));
-  Command TRY_SCORING_CORAL_L1 = Commands.defer(
-      subStateMachine.tryState(RobotState.SCORING_CORAL_L1), Set.of(subStateMachine));
-  Command TRY_CLEAN_HIGH = Commands.defer(
-      subStateMachine.tryState(RobotState.CLEAN_HIGH), Set.of(subStateMachine));
-  Command TRY_CLEAN_LOW = Commands.defer(
-      subStateMachine.tryState(RobotState.CLEAN_LOW), Set.of(subStateMachine));
-  Command TRY_INTAKE_CORAL_STATION = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION), Set.of(subStateMachine));
-  Command TRY_INTAKE_ALGAE_GROUND = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND), Set.of(subStateMachine));
-  Command TRY_EJECTING = Commands.defer(
-      subStateMachine.tryState(RobotState.EJECTING), Set.of(subStateMachine));
-  Command TRY_SCORING_ALGAE_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.SCORING_ALGAE_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_SCORING_CORAL_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.SCORING_CORAL_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_CLEAN_HIGH_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.CLEAN_HIGH_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_CLEAN_LOW_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.CLEAN_LOW_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_INTAKE_CORAL_GROUND = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND), Set.of(subStateMachine));
-  Command TRY_INTAKE_CORAL_GROUND_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_INTAKE_ALGAE_GROUND_WITH_CORAL = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL), Set.of(subStateMachine));
-  Command TRY_INTAKE_CORAL_STATION_WITH_ALGAE = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE), Set.of(subStateMachine));
-  Command TRY_INTAKE_CORAL_L1 = Commands.defer(
-      subStateMachine.tryState(RobotState.INTAKE_CORAL_L1), Set.of(subStateMachine));
+  Command TRY_NONE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.NONE));
+  Command TRY_CLIMBING = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.CLIMBING));
+  Command TRY_PREP_CLIMB = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CLIMB));
+  Command TRY_PREP_CORAL_ZERO = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO));
+  Command TRY_PREP_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
+  Command TRY_PREP_CORAL_L2 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2));
+  Command TRY_PREP_CORAL_L3 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3));
+  Command TRY_PREP_CORAL_L4 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4));
+  Command TRY_PREP_CORAL_L2_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L2_WITH_ALGAE));
+  Command TRY_PREP_CORAL_L3_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L3_WITH_ALGAE));
+  Command TRY_PREP_CORAL_L4_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_L4_WITH_ALGAE));
+  Command TRY_PREP_CORAL_ZERO_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE));
+  Command TRY_PREP_ALGAE_NET = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_NET));
+  Command TRY_PREP_ALGAE_PROCESSOR = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR));
+  Command TRY_PREP_ALGAE_ZERO = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_ZERO));
+  Command TRY_PREP_ALGAE_NET_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_NET_WITH_CORAL));
+  Command TRY_PREP_ALGAE_PROCESSOR_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.PREP_ALGAE_PROCESSOR_WITH_CORAL));
+  Command TRY_HAS_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.HAS_CORAL));
+  Command TRY_HAS_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.HAS_ALGAE));
+  Command TRY_HAS_CORAL_AND_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE));
+  Command TRY_SCORING_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL));
+  Command TRY_SCORING_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_ALGAE));
+  Command TRY_SCORING_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_L1));
+  Command TRY_CLEAN_HIGH = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.CLEAN_HIGH));
+  Command TRY_CLEAN_LOW = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.CLEAN_LOW));
+  Command TRY_INTAKE_CORAL_STATION = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION));
+  Command TRY_INTAKE_ALGAE_GROUND = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND));
+  Command TRY_EJECTING = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.EJECTING));
+  Command TRY_SCORING_ALGAE_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_ALGAE_WITH_CORAL));
+  Command TRY_SCORING_CORAL_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.SCORING_CORAL_WITH_ALGAE));
+  Command TRY_CLEAN_HIGH_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.CLEAN_HIGH_WITH_CORAL));
+  Command TRY_CLEAN_LOW_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.CLEAN_LOW_WITH_CORAL));
+  Command TRY_INTAKE_CORAL_GROUND = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND));
+  Command TRY_INTAKE_CORAL_GROUND_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE));
+  Command TRY_INTAKE_ALGAE_GROUND_WITH_CORAL = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL));
+  Command TRY_INTAKE_CORAL_STATION_WITH_ALGAE = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_STATION_WITH_ALGAE));
+  Command TRY_INTAKE_CORAL_L1 = Commands.deferredProxy(
+      () -> subStateMachine.tryState(RobotState.INTAKE_CORAL_L1));
   Command HAS_CORAL_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_CORAL)
-      .get().alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE).get()));
+      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
   Command HAS_ALGAE_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.HAS_ALGAE)
-      .get().alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE).get()));
-  Command HAS_CORAL_L1_OVERRIDE = Commands.defer(
-      subStateMachine.tryState(RobotState.PREP_CORAL_L1), Set.of(subStateMachine));
+      .alongWith(subStateMachine.tryState(RobotState.HAS_CORAL_AND_ALGAE)));
+  Command HAS_CORAL_L1_OVERRIDE = Commands.deferredProxy(() -> subStateMachine.tryState(RobotState.PREP_CORAL_L1));
 
   // --- Driver State Commands ---
-  Command MANUAL = Commands.defer(
+  Command MANUAL = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
           conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command REEF_ROTATION_SNAPPING = Commands.defer(
+  Command REEF_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command CORAL_STATION_ROTATION_SNAPPING = Commands.defer(
+  Command CORAL_STATION_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command REEF_AUTO_DRIVING_LEFT = Commands.defer(
+  Command REEF_AUTO_DRIVING_LEFT = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command REEF_AUTO_DRIVING_RIGHT = Commands.defer(
+  Command REEF_AUTO_DRIVING_RIGHT = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command CORAL_STATION_AUTO_DRIVING_FAR = Commands.defer(
+  Command CORAL_STATION_AUTO_DRIVING_FAR = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command CORAL_STATION_AUTO_DRIVING_CLOSE = Commands.defer(
+  Command CORAL_STATION_AUTO_DRIVING_CLOSE = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command PROCESSOR_ROTATION_SNAPPING = Commands.defer(
+  Command PROCESSOR_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command PROCESSOR_AUTO_DRIVING = Commands.defer(
+  Command PROCESSOR_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command NET_ROTATION_SNAPPING = Commands.defer(
+  Command NET_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command NET_AUTO_DRIVING = Commands.defer(
+  Command NET_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_AUTO_DRIVING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command ALGAE_ROTATION_SNAPPING = Commands.defer(
+  Command ALGAE_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command ALGAE_AUTO_DRIVING = Commands.defer(
+  Command ALGAE_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_AUTO_DRIVING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
-  Command CAGE_ROTATION_SNAPPING = Commands.defer(
+  Command CAGE_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
@@ -229,35 +229,6 @@ public class RobotContainer {
         true, // If alliance flipping should be enabled
         subDriverStateMachine // The drive subsystem
     );
-
-    // // Coral 2
-    // runPath("cs_lk"),
-    // REEF_AUTO_DRIVING_RIGHT.alongWith(TRY_PREP_CORAL_L4),
-    // TRY_SCORING_CORAL,
-    // TRY_NONE,
-    // runPath("lk_cs"),
-    // CORAL_STATION_AUTO_DRIVING_CLOSE.alongWith(TRY_INTAKE_CORAL_STATION));
-    // autoSequence = Commands.sequence(
-    // autoFactory.resetOdometry("top_ji").asProxy(),
-    // Commands.runOnce(() ->
-    // subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
-    // // Coral 1
-    // runPath("top_ji").asProxy(),
-    // REEF_AUTO_DRIVING_RIGHT.asProxy().alongWith(TRY_PREP_CORAL_L4.asProxy().withTimeout(1)),
-    // TRY_SCORING_CORAL.asProxy().withTimeout(1),
-    // TRY_NONE.asProxy().withTimeout(1),
-    // runPath("ji_cs").asProxy(),
-    // CORAL_STATION_AUTO_DRIVING_CLOSE.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy().withTimeout(1)),
-    // // Coral 2
-    // Commands.runOnce(() ->
-    // subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
-    // runPath("cs_jk").asProxy(),
-    // REEF_AUTO_DRIVING_RIGHT.asProxy().alongWith(TRY_PREP_CORAL_L4.asProxy().withTimeout(1)),
-    // TRY_SCORING_CORAL.asProxy().withTimeout(1),
-    // TRY_NONE.asProxy().withTimeout(1),
-    // runPath("jk_cs").asProxy(),
-    // CORAL_STATION_AUTO_DRIVING_CLOSE.asProxy().alongWith(TRY_INTAKE_CORAL_STATION.asProxy().withTimeout(1)));
-
     autoSequence = Commands.sequence(
         autoFactory.resetOdometry("top_ji").asProxy(),
         ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT, TRY_PREP_CORAL_L4),

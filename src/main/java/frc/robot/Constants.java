@@ -200,13 +200,19 @@ public final class Constants {
           MODULE_OFFSETS);
     }
 
-    public static class TELEOP_AUTO_ALIGN {
+    public static class AUTO_ALIGN {
       public static final LinearVelocity MIN_DRIVER_OVERRIDE = constDrivetrain.REAL_DRIVE_SPEED.div(10);
 
-      public static final PIDController TRANS_CONTROLLER = new PIDController(
-          4,
+      public static final PIDController POSE_TRANS_CONTROLLER = new PIDController(
+          2,
           0,
           0);
+
+      public static final PIDController PATH_TRANS_CONTROLLER = new PIDController(
+          3,
+          0,
+          0);
+
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
       public static final ProfiledPIDController ROTATION_CONTROLLER = new ProfiledPIDController(
@@ -215,16 +221,22 @@ public final class Constants {
       public static final Angle AT_ROTATION_TOLERANCE = Units.Degrees.of(1);
 
       static {
-        TRANS_CONTROLLER.setTolerance(AT_POINT_TOLERANCE.in(Units.Meters));
+        POSE_TRANS_CONTROLLER.setTolerance(AT_POINT_TOLERANCE.in(Units.Meters));
 
         ROTATION_CONTROLLER.enableContinuousInput(0, 360);
         ROTATION_CONTROLLER.setTolerance(AT_ROTATION_TOLERANCE.in(Units.Degrees));
       }
 
-      public static HolonomicDriveController TELEOP_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
-          TRANS_CONTROLLER,
-          TRANS_CONTROLLER,
+      public static HolonomicDriveController POSE_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
+          POSE_TRANS_CONTROLLER,
+          POSE_TRANS_CONTROLLER,
           ROTATION_CONTROLLER);
+
+      public static HolonomicDriveController PATH_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
+          PATH_TRANS_CONTROLLER,
+          PATH_TRANS_CONTROLLER,
+          ROTATION_CONTROLLER);
+
     }
   }
 
@@ -650,8 +662,8 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
-    public Distance distanceTolerance = Units.Inches.of(1);
-    public Angle rotationTolerance = Units.Degrees.of(1);
+    public Distance distanceTolerance = Units.Inches.of(3);
+    public Angle rotationTolerance = Units.Degrees.of(3);
   }
 
   public static class constPoseDrive {

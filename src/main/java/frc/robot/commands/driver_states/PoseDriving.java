@@ -2,6 +2,7 @@ package frc.robot.commands.driver_states;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -10,12 +11,14 @@ import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 
+@Logged
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
+  private boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
@@ -74,7 +77,8 @@ public class PoseDriving extends Command {
 
   @Override
   public boolean isFinished() {
-    return subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
+    isPoseAligned = subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
         subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
+    return isPoseAligned;
   }
 }
