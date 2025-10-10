@@ -11,6 +11,7 @@ import com.frcteam3255.joystick.SN_XboxController;
 import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -37,10 +38,12 @@ import frc.robot.subsystems.Vision;
 
 @Logged
 public class RobotContainer {
+
+
   @NotLogged
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  private final AutoFactory autoFactory;
+  private AutoFactory autoFactory;
 
   private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
   private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
@@ -209,9 +212,12 @@ public class RobotContainer {
           conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
       Set.of(subDriverStateMachine));
 
-  private Command autoSequence;
+  private Command nonProcSide4Coral;
+  private Command procSide4Coral;
+  private Command mid1Coral;
 
   public RobotContainer() {
+    RobotController.setBrownoutVoltage(5.5);
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
     subDriverStateMachine
@@ -219,9 +225,12 @@ public class RobotContainer {
 
     configDriverBindings();
     configOperatorBindings();
+    configAutos();
 
     subDrivetrain.resetModulesToAbsolute();
+  }
 
+  public void configAutos() {
     autoFactory = new AutoFactory(
         subDrivetrain::getPose, // A function that returns the current robot pose
         subDrivetrain::resetPoseToPose, // A function that resets the current robot pose to the provided Pose2d
@@ -229,13 +238,34 @@ public class RobotContainer {
         true, // If alliance flipping should be enabled
         subDriverStateMachine // The drive subsystem
     );
-    autoSequence = Commands.sequence(
-        autoFactory.resetOdometry("top_ji").asProxy(),
-        ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT, TRY_PREP_CORAL_L4),
-        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_RIGHT, TRY_PREP_CORAL_L4),
-        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
-        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4));
 
+    nonProcSide4Coral = Commands.sequence(
+        autoFactory.resetOdometry("top_ji").asProxy(),
+        ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT,
+            TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_RIGHT,
+            TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT,
+            TRY_PREP_CORAL_L4));
+
+    procSide4Coral = Commands.sequence(autoFactory.resetOdometry("proc_ef").asProxy(),
+
+        ScoreAndCollect("proc_ef", "ef_cs", REEF_AUTO_DRIVING_RIGHT,
+            TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_RIGHT,
+            TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
+        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT,
+            TRY_PREP_CORAL_L4));
+
+    mid1Coral = Commands.sequence(
+        autoFactory.resetOdometry("mid_gh").asProxy(),
+        Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4));
+
+    autoChooser.setDefaultOption("4 Coral - Processor Side", procSide4Coral);
+    autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
+    autoChooser.addOption("1 Coral - Mid", mid1Coral);
   }
 
   Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
@@ -250,6 +280,35 @@ public class RobotContainer {
         TRY_NONE.asProxy().withTimeout(0.1),
         runPath(endPath).asProxy(),
         CORAL_STATION_AUTO_DRIVING_FAR.asProxy().withDeadline(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(5));
+  }
+
+  Command Score(String startPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
+    return Commands.sequence(
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_CORAL)).asProxy(),
+        runPath(startPath).asProxy(),
+        reef_auto_drive_branch.asProxy().alongWith(
+            Commands.waitSeconds(0.3).andThen(
+                try_prep_coral_l.asProxy()))
+            .withTimeout(2),
+        TRY_SCORING_CORAL.asProxy().withTimeout(0.5),
+        TRY_NONE.asProxy().withTimeout(0.1));
+  }
+
+  Command CleanAndScore(String startPath, String endPath, Command try_clean_lv) {
+    return Commands.sequence(
+      runPath(startPath).asProxy(), 
+      ALGAE_AUTO_DRIVING.asProxy().withDeadline(
+        try_clean_lv.asProxy()
+      ).withTimeout(4),
+      runPath(endPath).asProxy(), 
+      NET_AUTO_DRIVING.asProxy().alongWith(
+        Commands.waitSeconds(0.3).andThen(
+          TRY_PREP_ALGAE_NET.asProxy()
+        ).withTimeout(3)
+      ), 
+      TRY_SCORING_ALGAE.asProxy().withTimeout(1), 
+      TRY_NONE.asProxy().withTimeout(0.05)
+    );
   }
 
   Command runPath(String pathName) {
@@ -331,7 +390,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoSequence;
+    return autoChooser.getSelected();
 
   }
 
