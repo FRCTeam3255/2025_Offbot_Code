@@ -86,7 +86,9 @@ public class Drivetrain extends SN_SuperSwerve {
         desiredTarget.getRotation());
 
     // Apply the generated speeds
-    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    if (constDrivetrain.INVERT_ROTATION) {
+      automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    }
     drive(automatedDTVelocity, true);
   }
 
@@ -143,7 +145,9 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lockY) {
       automatedDTVelocity.vyMetersPerSecond = manualVelocities.vyMetersPerSecond;
     }
-    automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    if (constDrivetrain.INVERT_ROTATION) {
+      automatedDTVelocity.omegaRadiansPerSecond = -automatedDTVelocity.omegaRadiansPerSecond;
+    }
     drive(automatedDTVelocity, isOpenLoop);
   }
 

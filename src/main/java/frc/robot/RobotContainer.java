@@ -13,6 +13,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
@@ -38,7 +39,6 @@ import frc.robot.subsystems.Vision;
 
 @Logged
 public class RobotContainer {
-
 
   @NotLogged
   SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -215,6 +215,7 @@ public class RobotContainer {
   private Command nonProcSide4Coral;
   private Command procSide4Coral;
   private Command mid1Coral;
+  private Command midAlgae;
 
   public RobotContainer() {
     RobotController.setBrownoutVoltage(5.5);
@@ -249,23 +250,31 @@ public class RobotContainer {
         ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT,
             TRY_PREP_CORAL_L4));
 
-    procSide4Coral = Commands.sequence(autoFactory.resetOdometry("proc_ef").asProxy(),
-
+    procSide4Coral = Commands.sequence(
+        autoFactory.resetOdometry("proc_ef").asProxy(),
         ScoreAndCollect("proc_ef", "ef_cs", REEF_AUTO_DRIVING_RIGHT,
             TRY_PREP_CORAL_L4),
         ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_RIGHT,
             TRY_PREP_CORAL_L4),
         ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
-        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT,
+        ScoreAndCollect("proc_cs_ab", "ab_proc_cs", REEF_AUTO_DRIVING_LEFT,
             TRY_PREP_CORAL_L4));
 
     mid1Coral = Commands.sequence(
         autoFactory.resetOdometry("mid_gh").asProxy(),
         Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4));
 
+    midAlgae = Commands.sequence(
+        autoFactory.resetOdometry("mid_gh").asProxy(),
+        Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
+        CleanAndScore("gh", "gh_net", TRY_CLEAN_LOW));
+
     autoChooser.setDefaultOption("4 Coral - Processor Side", procSide4Coral);
     autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
     autoChooser.addOption("1 Coral - Mid", mid1Coral);
+    autoChooser.addOption("1 Algae - Mid", midAlgae);
+
+    SmartDashboard.putData(autoChooser);
   }
 
   Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
@@ -296,19 +305,18 @@ public class RobotContainer {
 
   Command CleanAndScore(String startPath, String endPath, Command try_clean_lv) {
     return Commands.sequence(
-      runPath(startPath).asProxy(), 
-      ALGAE_AUTO_DRIVING.asProxy().withDeadline(
-        try_clean_lv.asProxy()
-      ).withTimeout(4),
-      runPath(endPath).asProxy(), 
-      NET_AUTO_DRIVING.asProxy().alongWith(
-        Commands.waitSeconds(0.3).andThen(
-          TRY_PREP_ALGAE_NET.asProxy()
-        ).withTimeout(3)
-      ), 
-      TRY_SCORING_ALGAE.asProxy().withTimeout(1), 
-      TRY_NONE.asProxy().withTimeout(0.05)
-    );
+        runPath(startPath).asProxy(),
+        ALGAE_AUTO_DRIVING.asProxy().withDeadline(
+            try_clean_lv.asProxy()).withTimeout(4),
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_ALGAE)).asProxy(),
+        runPath(endPath).asProxy(),
+        NET_AUTO_DRIVING.asProxy().alongWith(
+            Commands.waitSeconds(0.3).andThen(
+                TRY_PREP_ALGAE_NET.asProxy()))
+            .withTimeout(3),
+        TRY_SCORING_ALGAE.asProxy().withTimeout(1),
+        TRY_NONE.asProxy().withTimeout(0.05));
+
   }
 
   Command runPath(String pathName) {

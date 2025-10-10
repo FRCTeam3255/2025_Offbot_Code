@@ -141,6 +141,8 @@ public final class Constants {
     // Rotational speed (degrees per second) while manually driving
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
 
+    public static final boolean INVERT_ROTATION = true;
+
     // -- Motor Configurations --
     static {
       // This PID is implemented on each module, not the Drivetrain subsystem.
