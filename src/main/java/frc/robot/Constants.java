@@ -215,27 +215,32 @@ public final class Constants {
 
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
-      public static final ProfiledPIDController ROTATION_CONTROLLER = new ProfiledPIDController(
+      public static final ProfiledPIDController POSE_ROTATION_CONTROLLER = new ProfiledPIDController(
           2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
+
+      public static final ProfiledPIDController PATH_ROTATION_CONTROLLER = new ProfiledPIDController(
+          1, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+              Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
+
       public static final Angle AT_ROTATION_TOLERANCE = Units.Degrees.of(1);
 
       static {
         POSE_TRANS_CONTROLLER.setTolerance(AT_POINT_TOLERANCE.in(Units.Meters));
 
-        ROTATION_CONTROLLER.enableContinuousInput(0, 360);
-        ROTATION_CONTROLLER.setTolerance(AT_ROTATION_TOLERANCE.in(Units.Degrees));
+        POSE_ROTATION_CONTROLLER.enableContinuousInput(0, 360);
+        POSE_ROTATION_CONTROLLER.setTolerance(AT_ROTATION_TOLERANCE.in(Units.Degrees));
       }
 
       public static HolonomicDriveController POSE_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
           POSE_TRANS_CONTROLLER,
           POSE_TRANS_CONTROLLER,
-          ROTATION_CONTROLLER);
+          POSE_ROTATION_CONTROLLER);
 
       public static HolonomicDriveController PATH_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
           PATH_TRANS_CONTROLLER,
           PATH_TRANS_CONTROLLER,
-          ROTATION_CONTROLLER);
+          PATH_ROTATION_CONTROLLER);
 
     }
   }
@@ -662,8 +667,8 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
-    public Distance distanceTolerance = Units.Inches.of(3);
-    public Angle rotationTolerance = Units.Degrees.of(3);
+    public Distance distanceTolerance = Units.Inches.of(1);
+    public Angle rotationTolerance = Units.Degrees.of(2);
   }
 
   public static class constPoseDrive {
