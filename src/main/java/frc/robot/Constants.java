@@ -12,10 +12,9 @@ import static edu.wpi.first.units.Units.Rotations;
 import java.util.List;
 import java.util.Optional;
 
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 // import com.ctre.phoenix6.configs.CANdleConfiguration;
 // import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -29,6 +28,7 @@ import com.frcteam3255.components.swerve.SN_SwerveConstants;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -141,6 +141,8 @@ public final class Constants {
     // Rotational speed (degrees per second) while manually driving
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
 
+    public static final boolean INVERT_ROTATION = true;
+
     // -- Motor Configurations --
     static {
       // This PID is implemented on each module, not the Drivetrain subsystem.
@@ -200,31 +202,48 @@ public final class Constants {
           MODULE_OFFSETS);
     }
 
-    public static class TELEOP_AUTO_ALIGN {
+    public static class AUTO_ALIGN {
       public static final LinearVelocity MIN_DRIVER_OVERRIDE = constDrivetrain.REAL_DRIVE_SPEED.div(10);
 
-      public static final PIDController TRANS_CONTROLLER = new PIDController(
-          4,
+      public static final PIDController POSE_TRANS_CONTROLLER = new PIDController(
+          3,
           0,
           0);
+
+      public static final PIDController PATH_TRANS_CONTROLLER = new PIDController(
+          5,
+          0,
+          0);
+
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
-      public static final ProfiledPIDController ROTATION_CONTROLLER = new ProfiledPIDController(
+      public static final ProfiledPIDController POSE_ROTATION_CONTROLLER = new ProfiledPIDController(
           2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
+
+      public static final ProfiledPIDController PATH_ROTATION_CONTROLLER = new ProfiledPIDController(
+          1, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+              Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
+
       public static final Angle AT_ROTATION_TOLERANCE = Units.Degrees.of(1);
 
       static {
-        TRANS_CONTROLLER.setTolerance(AT_POINT_TOLERANCE.in(Units.Meters));
+        POSE_TRANS_CONTROLLER.setTolerance(AT_POINT_TOLERANCE.in(Units.Meters));
 
-        ROTATION_CONTROLLER.enableContinuousInput(0, 360);
-        ROTATION_CONTROLLER.setTolerance(AT_ROTATION_TOLERANCE.in(Units.Degrees));
+        POSE_ROTATION_CONTROLLER.enableContinuousInput(0, 360);
+        POSE_ROTATION_CONTROLLER.setTolerance(AT_ROTATION_TOLERANCE.in(Units.Degrees));
       }
 
-      public static HolonomicDriveController TELEOP_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
-          TRANS_CONTROLLER,
-          TRANS_CONTROLLER,
-          ROTATION_CONTROLLER);
+      public static HolonomicDriveController POSE_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
+          POSE_TRANS_CONTROLLER,
+          POSE_TRANS_CONTROLLER,
+          POSE_ROTATION_CONTROLLER);
+
+      public static HolonomicDriveController PATH_AUTO_ALIGN_CONTROLLER = new HolonomicDriveController(
+          PATH_TRANS_CONTROLLER,
+          PATH_TRANS_CONTROLLER,
+          PATH_ROTATION_CONTROLLER);
+
     }
   }
 
@@ -428,9 +447,9 @@ public final class Constants {
     public Angle wristAngle;
     public Distance liftHeight;
     public Angle pivotAngle;
-    public Distance liftTolerance;
-    public Angle pivotTolerance;
-    public Angle wristTolerance;
+    public Distance liftTolerance = Inches.of(1);
+    public Angle pivotTolerance = Degrees.of(1);
+    public Angle wristTolerance = Degrees.of(1);
     public int wristSlot = 0;
     public int pivotSlot = 0;
     public int liftSlot = 0;
@@ -651,6 +670,8 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
+    public Distance distanceTolerance = Units.Inches.of(1);
+    public Angle rotationTolerance = Units.Degrees.of(2);
   }
 
   public static class constPoseDrive {
