@@ -1,5 +1,6 @@
 package frc.robot.commands.driver_states;
 
+import java.lang.Thread.State;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -9,22 +10,28 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
+import frc.robot.Constants.constField;
+import frc.robot.Field;
+import frc.robot.Field.FieldElementGroups;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.StateMachine;
 
 @Logged
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
   DriverStateMachine subDriverStateMachine;
+  StateMachine subStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
   private boolean isPoseAligned = false;
 
-  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
+  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
   DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
+    this.subStateMachine = subStateMachine;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
@@ -50,8 +57,23 @@ public class PoseDriving extends Command {
 
     boolean backwardsAllowed = poseGroup.backwardsAllowed;
 
-    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup) && backwardsAllowed) {
+    boolean isInPrepL2States = subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2
+        || subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2_WITH_ALGAE;
+
+    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
+        && backwardsAllowed
+        && !isInPrepL2States) {
       closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
+      velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
+      velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
+    } else if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
+        && backwardsAllowed
+        && isInPrepL2States) {
+      if (poseGroup.targetPoseGroup.equals(FieldElementGroups.LEFT_REEF_POSES.getAll())) {
+        closestPose = subDrivetrain.getPose().nearest(FieldElementGroups.LEFT_REEF_L2_BACKWARDS_POSES.getAll());
+      } else if (poseGroup.targetPoseGroup.equals(FieldElementGroups.RIGHT_REEF_POSES.getAll())) {
+        closestPose = subDrivetrain.getPose().nearest(FieldElementGroups.RIGHT_REEF_L2_BACKWARDS_POSES.getAll());
+      }
       velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
       velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
     }

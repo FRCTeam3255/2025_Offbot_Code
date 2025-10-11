@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -26,6 +27,7 @@ public class Field {
   public static final Distance NET_AUTO_DRIVE_MAX_DISTANCE = Units.Meters.of(3);
 
   private static class FieldElements {
+    private static final Pose2d REEF_CENTER = new Pose2d(4.5, 4.0, Rotation2d.kZero);
     // Branch Poses
     private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
     private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
@@ -39,6 +41,20 @@ public class Field {
     private static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
     private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
     private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+
+    // L2 Backwards
+    private static final Pose2d REEF_A_L2_BACKWARDS = new Pose2d(2.848, 4.189, Rotation2d.k180deg);
+    private static final Pose2d REEF_B_L2_BACKWARDS = new Pose2d(2.848, 3.863, Rotation2d.k180deg);
+    private static final Pose2d REEF_C_L2_BACKWARDS = new Pose2d(3.522, 2.697, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_D_L2_BACKWARDS = new Pose2d(3.801, 2.543, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_E_L2_BACKWARDS = new Pose2d(5.157, 2.543, Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_F_L2_BACKWARDS = new Pose2d(5.446, 2.697, Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_G_L2_BACKWARDS = new Pose2d(6.110, 3.863, Rotation2d.kZero);
+    private static final Pose2d REEF_H_L2_BACKWARDS = new Pose2d(6.110, 4.189, Rotation2d.kZero);
+    private static final Pose2d REEF_I_L2_BACKWARDS = new Pose2d(5.456, 5.343, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_J_L2_BACKWARDS = new Pose2d(5.157, 5.497, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_K_L2_BACKWARDS = new Pose2d(3.820, 5.516, Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_L_L2_BACKWARDS = new Pose2d(3.541, 5.343, Rotation2d.fromDegrees(120));
 
     // Net Poses
     private static final Pose2d CENTER_LINE = new Pose2d(Units.Meters.of(8.850), Units.Meters.of(6.174),
@@ -94,6 +110,22 @@ public class Field {
         FieldElements.REEF_G,
         FieldElements.REEF_I,
         FieldElements.REEF_L);
+
+    public static final Pose2dAllianceSet LEFT_REEF_L2_BACKWARDS_POSES = Pose2dAllianceSet.of(
+        FieldElements.REEF_A_L2_BACKWARDS,
+        FieldElements.REEF_C_L2_BACKWARDS,
+        FieldElements.REEF_F_L2_BACKWARDS,
+        FieldElements.REEF_H_L2_BACKWARDS,
+        FieldElements.REEF_J_L2_BACKWARDS,
+        FieldElements.REEF_K_L2_BACKWARDS);
+
+    public static final Pose2dAllianceSet RIGHT_REEF_L2_BACKWARDS_POSES = Pose2dAllianceSet.of(
+        FieldElements.REEF_B_L2_BACKWARDS,
+        FieldElements.REEF_D_L2_BACKWARDS,
+        FieldElements.REEF_E_L2_BACKWARDS,
+        FieldElements.REEF_G_L2_BACKWARDS,
+        FieldElements.REEF_I_L2_BACKWARDS,
+        FieldElements.REEF_L_L2_BACKWARDS);
 
     public static final Pose2dAllianceSet REEF_POSES = Pose2dAllianceSet.concat(
         LEFT_REEF_POSES,

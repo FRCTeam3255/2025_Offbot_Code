@@ -553,9 +553,9 @@ public final class Constants {
       PREP_CORAL_L4_FORWARDS.liftHeight = Inches.of(54); // TODO: Replace with actual height
       PREP_CORAL_L4_FORWARDS.pivotAngle = Degrees.of(75);
 
-      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-125);
+      PREP_CORAL_L2_BACKWARDS.wristAngle = Degrees.of(-110);
       PREP_CORAL_L2_BACKWARDS.liftHeight = Inches.of(0); // TODO: Replace with actual height
-      PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(87.64);
+      PREP_CORAL_L2_BACKWARDS.pivotAngle = Degrees.of(110.0);
       PREP_CORAL_L2_BACKWARDS.liftTolerance = Inches.of(5); // TODO: tune tolerances
       PREP_CORAL_L2_BACKWARDS.pivotTolerance = Degrees.of(5); // TODO: tune tolerances
       PREP_CORAL_L2_BACKWARDS.wristTolerance = Degrees.of(5); // TODO: tune tolerances
