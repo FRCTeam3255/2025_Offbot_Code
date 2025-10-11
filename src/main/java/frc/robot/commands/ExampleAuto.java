@@ -80,9 +80,9 @@ public class ExampleAuto extends SequentialCommandGroup {
                 false, false))
         .repeatedly().asProxy()
         .until(() -> subDrivetrain.isAtPosition(desiredTarget,
-            constDrivetrain.TELEOP_AUTO_ALIGN.AT_POINT_TOLERANCE)
+            constDrivetrain.AUTO_ALIGN.AT_POINT_TOLERANCE)
             && subDrivetrain.isAtRotation(desiredTarget.getRotation(),
-                constDrivetrain.TELEOP_AUTO_ALIGN.AT_ROTATION_TOLERANCE));
+                constDrivetrain.AUTO_ALIGN.AT_ROTATION_TOLERANCE));
   }
 
   Command rotationalAlign(Rotation2d desiredTarget) {
@@ -92,6 +92,6 @@ public class ExampleAuto extends SequentialCommandGroup {
                 MetersPerSecond.zero(), MetersPerSecond.zero(), true))
         .repeatedly().asProxy()
         .until(
-            () -> subDrivetrain.isAtRotation(desiredTarget, constDrivetrain.TELEOP_AUTO_ALIGN.AT_ROTATION_TOLERANCE));
+            () -> subDrivetrain.isAtRotation(desiredTarget, constDrivetrain.AUTO_ALIGN.AT_ROTATION_TOLERANCE));
   }
 }

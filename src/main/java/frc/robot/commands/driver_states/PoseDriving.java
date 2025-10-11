@@ -3,20 +3,24 @@ package frc.robot.commands.driver_states;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.SwerveVelocity;
 
+@Logged
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
   DriverStateMachine subDriverStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
+  Pose2d closestPose;
+  private boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
   DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
@@ -27,7 +31,7 @@ public class PoseDriving extends Command {
     this.rotationAxis = rotationAxis;
     this.poseGroup = poseGroup;
     this.slowMode = slowMode;
-    addRequirements(this.subDrivetrain, this.subDriverStateMachine);
+    addRequirements(this.subDriverStateMachine);
   }
 
   @Override
@@ -36,9 +40,9 @@ public class PoseDriving extends Command {
 
   @Override
   public void execute() {
-    Pose2d closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+    closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    SwerveVelocity velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
+    ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
@@ -48,7 +52,8 @@ public class PoseDriving extends Command {
 
     if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup) && backwardsAllowed) {
       closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
-      velocities = new SwerveVelocity(-velocities.x, -velocities.y, velocities.rotation);
+      velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
+      velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
     }
 
     if (isInAutoDriveZone) {
@@ -75,6 +80,8 @@ public class PoseDriving extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    isPoseAligned = subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
+        subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
+    return isPoseAligned;
   }
 }

@@ -96,10 +96,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousExit() {
+    m_robotContainer.manualZeroLift.cancel();
+    m_robotContainer.manualZeroPivot.cancel();
+    m_robotContainer.manualZeroWrist.cancel();
+    m_robotContainer.startingCofig.cancel();
   }
 
   @Override
   public void teleopInit() {
+    m_robotContainer.manualZeroLift.cancel();
+    m_robotContainer.manualZeroPivot.cancel();
+    m_robotContainer.manualZeroWrist.cancel();
+    m_robotContainer.startingCofig.cancel();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
