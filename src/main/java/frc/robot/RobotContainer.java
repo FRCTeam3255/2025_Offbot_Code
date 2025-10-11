@@ -160,59 +160,59 @@ public class RobotContainer {
   // --- Driver State Commands ---
   Command MANUAL = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
-          conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command REEF_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command CORAL_STATION_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command REEF_AUTO_DRIVING_LEFT = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command REEF_AUTO_DRIVING_RIGHT = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command CORAL_STATION_AUTO_DRIVING_FAR = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command CORAL_STATION_AUTO_DRIVING_CLOSE = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command PROCESSOR_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command PROCESSOR_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command NET_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command NET_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command ALGAE_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command ALGAE_AUTO_DRIVING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
   Command CAGE_ROTATION_SNAPPING = new DeferredCommand(
       subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX),
+          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
       Set.of(subDriverStateMachine));
 
   private Command nonProcSide4Coral;

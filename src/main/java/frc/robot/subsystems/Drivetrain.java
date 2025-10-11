@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.frcteam3255.components.swerve.SN_SuperSwerve;
@@ -110,14 +111,15 @@ public class Drivetrain extends SN_SuperSwerve {
    * @return ChassisSpeeds containing calculated velocities
    */
   public ChassisSpeeds calculateVelocitiesFromInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
-      DoubleSupplier rotationAxisSupplier) {
+      DoubleSupplier rotationAxisSupplier, BooleanSupplier slowMode) {
     boolean isRed = isRedAlliance();
     double redAllianceMultiplier = isRed ? -1 : 1;
+    double slowModeMultiplier = slowMode.getAsBoolean() ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1.0;
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier * slowModeMultiplier;
     double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
-        * redAllianceMultiplier;
+        * redAllianceMultiplier * slowModeMultiplier;
     double rotationVelocity = rotationAxisSupplier.getAsDouble()
         * constDrivetrain.TURN_SPEED.in(Units.RadiansPerSecond);
 
