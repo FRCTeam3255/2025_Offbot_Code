@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.startingCofig.cancel();
 
     Elastic.selectTab("Teleoperated");
+    
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -129,8 +130,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    Elastic.selectTab("Teleoperated");
-  
     CommandScheduler.getInstance().cancelAll();
   }
 
