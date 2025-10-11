@@ -1,6 +1,7 @@
 package frc.robot.commands.driver_states;
 
 import java.lang.Thread.State;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.epilogue.Logged;
@@ -22,12 +23,13 @@ public class PoseDriving extends Command {
   DriverStateMachine subDriverStateMachine;
   StateMachine subStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
+  BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
   private boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, PoseDriveGroup poseGroup) {
+  DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
     this.subStateMachine = subStateMachine;
     this.subDriverStateMachine = subDriverStateMachine;
@@ -35,6 +37,7 @@ public class PoseDriving extends Command {
     this.yAxis = yAxis;
     this.rotationAxis = rotationAxis;
     this.poseGroup = poseGroup;
+    this.slowMode = slowMode;
     addRequirements(this.subDriverStateMachine);
   }
 
@@ -46,7 +49,7 @@ public class PoseDriving extends Command {
   public void execute() {
     closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
 
-    ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis);
+    ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
     boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
