@@ -322,8 +322,8 @@ public class RobotContainer {
         NET_AUTO_DRIVING.asProxy().alongWith(
             Commands.waitSeconds(0.3).andThen(
                 TRY_PREP_ALGAE_NET.asProxy()))
-            .withTimeout(3),
-        TRY_SCORING_ALGAE.asProxy().withTimeout(1),
+            .withTimeout(2),
+        TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
         TRY_NONE.asProxy().withTimeout(0.05));
 
   }
