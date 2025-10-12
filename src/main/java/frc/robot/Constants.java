@@ -212,7 +212,7 @@ public final class Constants {
           0);
 
       public static final PIDController PATH_TRANS_CONTROLLER = new PIDController(
-          5,
+          3,
           0,
           0);
 
