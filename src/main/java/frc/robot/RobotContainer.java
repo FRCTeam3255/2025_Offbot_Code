@@ -273,7 +273,10 @@ public class RobotContainer {
     midAlgae = Commands.sequence(
         autoFactory.resetOdometry("mid_gh").asProxy(),
         Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
-        CleanAndScore("gh", "gh_net", TRY_CLEAN_LOW));
+        CleanAndScore("gh", "gh_net", TRY_CLEAN_LOW),
+        CleanAndScore("net_ji", "ji_net", TRY_CLEAN_HIGH),
+        CleanAndScore("net_ef", "ef_net", TRY_CLEAN_HIGH),
+        runPath("net_off_startingline").asProxy()); // FORGOT TO DO AS PROXY ON RUNPATH
 
     autoChooser.setDefaultOption("4 Coral - Processor Side", procSide4Coral);
     autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
@@ -294,7 +297,7 @@ public class RobotContainer {
         TRY_SCORING_CORAL.asProxy().withTimeout(0.6),
         TRY_NONE.asProxy().withTimeout(0.05),
         runPath(endPath).asProxy(),
-        CORAL_STATION_AUTO_DRIVING_FAR.asProxy().withDeadline(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(5));
+        CORAL_STATION_AUTO_DRIVING_FAR.asProxy().withDeadline(TRY_INTAKE_CORAL_STATION.asProxy()).withTimeout(10));
   }
 
   Command Score(String startPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
@@ -319,8 +322,8 @@ public class RobotContainer {
         NET_AUTO_DRIVING.asProxy().alongWith(
             Commands.waitSeconds(0.3).andThen(
                 TRY_PREP_ALGAE_NET.asProxy()))
-            .withTimeout(3),
-        TRY_SCORING_ALGAE.asProxy().withTimeout(1),
+            .withTimeout(2),
+        TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
         TRY_NONE.asProxy().withTimeout(0.05));
 
   }
