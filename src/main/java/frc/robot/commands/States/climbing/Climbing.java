@@ -7,6 +7,7 @@ package frc.robot.commands.States.climbing;
 import frc.robot.subsystems.Rotors;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
+import frc.robot.Elastic;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.StateMachine.RobotState;
@@ -29,6 +30,8 @@ public class Climbing extends Command {
   @Override
   public void initialize() {
     globalStateMachine.setRobotState(RobotState.CLIMBING);
+    Elastic.selectTab("Climbing");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
