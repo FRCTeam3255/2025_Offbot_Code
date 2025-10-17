@@ -839,10 +839,10 @@ public final class Constants {
     public static class LIMELIGHT_BACK {
       public static final Distance LL_FORWARD = Units.Meters.of(0.3429);
       public static final Distance LL_RIGHT = Units.Meters.of(0);
-      public static final Distance LL_UP = Units.Meters.of(0.2921);
+      public static final Distance LL_UP = Units.Meters.of(0.3175);
 
       public static final Angle LL_ROLL = Units.Degrees.of(0);
-      public static final Angle LL_PITCH = Units.Degrees.of(-20);
+      public static final Angle LL_PITCH = Units.Degrees.of(-30);
       public static final Angle LL_YAW = Units.Degrees.of(0);
     }
   }
