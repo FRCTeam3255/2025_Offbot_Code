@@ -142,7 +142,7 @@ public final class Constants {
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
     public static final double SLOW_MODE_MULTIPLIER = 0.5;
 
-    public static final boolean INVERT_ROTATION = true;
+    public static final boolean INVERT_ROTATION = !Robot.isSimulation();
 
     // -- Motor Configurations --
     static {
