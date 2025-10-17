@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 // import com.ctre.phoenix6.configs.CANdleConfiguration;
@@ -852,6 +853,46 @@ public final class Constants {
     static {
       LED_CONFIG.brightnessScalar = 1;
     }
+    // LED strip😎
+    public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation();
+    public static final int[] PREP_CLIMB = { 0, 0, 0 };
+    public static final int[] CLIMB = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_ZERO = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L1 = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L2 = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L3 = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L4 = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L2_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L3_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_L4_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] PREP_CORAL_ZERO_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] PREP_ALGAE_NET = { 0, 0, 0 };
+    public static final int[] PREP_ALGAE_PROCESSOR = { 0, 0, 0 };
+    public static final int[] PREP_ALGAE_ZERO = { 0, 0, 0 };
+    public static final int[] PREP_ALGAE_NET_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] PREP_ALGAE_PROCESSOR_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] HAS_CORAL = { 0, 0, 0 };
+    public static final int[] HAS_ALGAE = { 0, 0, 0 };
+    public static final int[] HAS_CORAL_AND_ALGAE = { 0, 0, 0 };
+    public static final int[] SCORING_CORAL = { 0, 0, 0 };
+    public static final int[] SCORING_ALGAE = { 0, 0, 0 };
+    public static final int[] SCORING_CORAL_L1 = { 0, 0, 0 };
+    public static final int[] CLEAN_HIGH = { 0, 0, 0 };
+    public static final int[] CLEAN_LOW = { 0, 0, 0 };
+    public static final int[] INTAKE_CORAL_STATION = { 0, 0, 0 };
+    public static final int[] INTAKE_ALGAE_GROUND = { 0, 0, 0 };
+    public static final int[] INTAKE_CORAL_L1 = { 0, 0, 0 };
+    public static final int[] EJECTING = { 0, 0, 0 };
+    public static final int[] SCORING_ALGAE_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] SCORING_CORAL_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] CLEAN_HIGH_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] CLEAN_LOW_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] INTAKE_CORAL_GROUND = { 0, 0, 0 };
+    public static final int[] INTAKE_CORAL_GROUND_WITH_ALGAE = { 0, 0, 0 };
+    public static final int[] INTAKE_ALGAE_GROUND_WITH_CORAL = { 0, 0, 0 };
+    public static final int[] INTAKE_CORAL_STATION_WITH_ALGAE = { 0, 0, 0 };
+
+    // little baby candle👶
     public static final int[] IS_NOT_AT_STARTING_CONFIG = { 0, 0, 255 };// blue
     public static final int[] IS_AT_STARTING_CONFIG = { 0, 255, 0 };// green
     public static final int[] PIVOT_ZERO_FAILED = { 0, 0, 255 }; // blue
