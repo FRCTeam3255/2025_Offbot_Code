@@ -34,6 +34,8 @@ public class StateMachine extends SubsystemBase {
   Rotors subRotors;
   @NotLogged
   StateMachine subStateMachine = this;
+  @NotLogged
+  LED subLED;
 
   /** Creates a new StateMachine. */
   public StateMachine(Drivetrain subDrivetrain, Rotors subIntake,
@@ -80,7 +82,7 @@ public class StateMachine extends SubsystemBase {
           case INTAKE_CORAL_L1:
           case SCORING_CORAL_L1:
           case CLIMBING:
-            return new None(subStateMachine, subMotion, subRotors);
+            return new None(subStateMachine, subMotion, subRotors, subLED);
         }
 
         break;
