@@ -36,11 +36,11 @@ import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
-  PoseDriveGroup poseGroup;
+  public PoseDriveGroup lastDesiredPoseGroup;
+  private Pose2d lastDesiredTarget;
 
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
-  private Pose2d lastDesiredTarget;
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {
       new SN_SwerveModule(0, mapDrivetrain.FRONT_LEFT_DRIVE_CAN, mapDrivetrain.FRONT_LEFT_STEER_CAN,
           mapDrivetrain.FRONT_LEFT_ABSOLUTE_ENCODER_CAN, constDrivetrain.FRONT_LEFT_ABS_ENCODER_OFFSET,
@@ -171,6 +171,7 @@ public class Drivetrain extends SN_SuperSwerve {
 
   public void rotationalAlign(Pose2d desiredTarget, ChassisSpeeds velocities, boolean isOpenLoop) {
     // Rotational-only auto-align
+    lastDesiredTarget = desiredTarget;
     drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
   }
@@ -218,7 +219,8 @@ public class Drivetrain extends SN_SuperSwerve {
     if (lastDesiredTarget == null) {
       return false;
     }
-    return isAtPosition(lastDesiredTarget, poseGroup.distanceTolerance) && isAtRotation(lastDesiredTarget.getRotation(), getRotationMeasure());
+    return isAtPosition(lastDesiredTarget, lastDesiredPoseGroup.distanceTolerance)
+        && isAtRotation(lastDesiredTarget.getRotation(), lastDesiredPoseGroup.rotationTolerance);
   }
 
   @Override

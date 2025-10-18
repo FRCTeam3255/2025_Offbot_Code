@@ -65,11 +65,11 @@ public class RobotContainer {
   public Command manualZeroWrist = new ManualZeroWrist(subMotion, subLED).ignoringDisable(true);
   public Command startingCofig = new StartingConfig(subMotion, subLED).ignoringDisable(true);
 
-  private final BooleanSupplier isReadyToScoreReef = () -> (subDrivetrain.atLastDesiredFieldPosition()
-      && subMotion.atLastDesiredMechPosition());
-  private final BooleanSupplier isReadyToScoreNet = () -> (subDrivetrain.atLastDesiredFieldPosition());
-  private final Trigger isReadyToScoreReefLEDs = new Trigger(isReadyToScoreReef);
-  private final Trigger isReadyToScoreNetLEDs = new Trigger(isReadyToScoreNet);
+  // private final BooleanSupplier isReadyToScoreReef = ;
+  // private final BooleanSupplier isReadyToScoreNet = ;
+  private final Trigger isReadyToScoreReefLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
+      && subMotion.atLastDesiredMechPosition()));
+  private final Trigger isReadyToScoreNetLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
@@ -241,6 +241,7 @@ public class RobotContainer {
     configDriverBindings();
     configOperatorBindings();
     configAutos();
+    configLEDs();
 
     subDrivetrain.resetModulesToAbsolute();
   }
@@ -519,12 +520,14 @@ public class RobotContainer {
         .onTrue(TRY_CLIMBING);
   }
 
-  public void LEDContols() {
+  public void configLEDs() {
     isReadyToScoreReefLEDs
         .whileTrue(Commands.runOnce(() -> subLED.setLED(
-            constLED.READY_TO_SHOOT_ANIMATION, 0)))
+            constLED.READY_TO_SHOOT_ANIMATION, 
+            0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(()-> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0))).onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, \[]0)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {

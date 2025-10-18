@@ -33,7 +33,7 @@ public class None extends Command {
     globalRotors.setCoralIntakeMotorSpeed(0);
     globalRotors.setClimberMotorPercentOutput(0);
     globalStateMachine.setRobotState(RobotState.NONE);
-    globalLED.setLED(constLED.NONE_ANIMATION, 0);
+    // globalLED.setLED(constLED.NONE_ANIMATION, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

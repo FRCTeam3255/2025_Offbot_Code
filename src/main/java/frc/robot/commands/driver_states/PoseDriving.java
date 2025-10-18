@@ -29,7 +29,8 @@ public class PoseDriving extends Command {
   public boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
-  DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode,
+      PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
     this.subStateMachine = subStateMachine;
     this.subDriverStateMachine = subDriverStateMachine;
@@ -48,6 +49,7 @@ public class PoseDriving extends Command {
   @Override
   public void execute() {
     closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+    subDrivetrain.lastDesiredPoseGroup = poseGroup;
 
     ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
 
