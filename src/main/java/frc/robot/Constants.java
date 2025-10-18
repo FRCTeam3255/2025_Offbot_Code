@@ -15,6 +15,7 @@ import java.util.Optional;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 // import com.ctre.phoenix6.configs.CANdleConfiguration;
@@ -56,6 +57,7 @@ import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
+    public static final double OPERATOR_RUMBLE = 0.5;
     public static final double DRIVER_LEFT_STICK_DEADBAND = 0.05;
     public static final boolean SILENCE_JOYSTICK_WARNINGS = true;
   }
@@ -855,8 +857,8 @@ public final class Constants {
       LED_CONFIG.brightnessScalar = 1;
     }
     // LED strip😎
-    public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation();
-    public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 255, 0);
+    public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation(MAX_VOLTAGE, MAX_VOLTAGE, 0);
+    public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 255, 0, 0, 1, 192);
     public static final int[] PREP_CLIMB = { 0, 0, 0 };
     public static final int[] CLIMB = { 0, 0, 0 };
     public static final int[] PREP_CORAL_ZERO = { 0, 0, 0 };
