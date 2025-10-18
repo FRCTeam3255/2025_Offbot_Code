@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotors;
 import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.Elastic;
 import frc.robot.subsystems.Motion;
 import frc.robot.subsystems.Rotors;
 import frc.robot.subsystems.StateMachine;
@@ -35,6 +36,9 @@ public class PrepClimb extends Command {
                                                                                                // still
                                                                                                // needed
     globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
+
+    Elastic.selectTab("Climbing");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

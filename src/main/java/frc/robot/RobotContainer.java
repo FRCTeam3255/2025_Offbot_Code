@@ -5,12 +5,14 @@
 package frc.robot;
 
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import com.frcteam3255.joystick.SN_XboxController;
 
 import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
+import frc.robot.Constants.constLED;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.AddVisionMeasurement;
 import frc.robot.commands.Zeroing.ManualZeroLift;
@@ -62,6 +65,11 @@ public class RobotContainer {
   public Command manualZeroWrist = new ManualZeroWrist(subMotion, subLED).ignoringDisable(true);
   public Command startingCofig = new StartingConfig(subMotion, subLED).ignoringDisable(true);
 
+  // private final BooleanSupplier isReadyToScoreReef = ;
+  // private final BooleanSupplier isReadyToScoreNet = ;
+  private final Trigger isReadyToScoreReefLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
+      && subMotion.atLastDesiredMechPosition()));
+  private final Trigger isReadyToScoreNetLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
@@ -233,6 +241,7 @@ public class RobotContainer {
     configDriverBindings();
     configOperatorBindings();
     configAutos();
+    configLEDs();
 
     subDrivetrain.resetModulesToAbsolute();
   }
@@ -509,6 +518,16 @@ public class RobotContainer {
 
     isCageLatchedTrigger.debounce(0.4)
         .onTrue(TRY_CLIMBING);
+  }
+
+  public void configLEDs() {
+    isReadyToScoreReefLEDs
+        .whileTrue(Commands.runOnce(() -> subLED.setLED(
+            constLED.READY_TO_SHOOT_ANIMATION, 
+            0)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
