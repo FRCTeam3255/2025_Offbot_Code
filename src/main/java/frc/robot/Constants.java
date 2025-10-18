@@ -146,7 +146,7 @@ public final class Constants {
     public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
     public static final double SLOW_MODE_MULTIPLIER = 0.5;
 
-    public static final boolean INVERT_ROTATION = true;
+    public static final boolean INVERT_ROTATION = !Robot.isSimulation();
 
     // -- Motor Configurations --
     static {
@@ -675,8 +675,8 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
-    public Distance distanceTolerance = Units.Inches.of(1);
-    public Angle rotationTolerance = Units.Degrees.of(2);
+    public Distance distanceTolerance = Units.Inches.of(0.5);
+    public Angle rotationTolerance = Units.Degrees.of(0.5);
   }
 
   public static class constPoseDrive {

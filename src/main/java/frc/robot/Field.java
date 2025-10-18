@@ -29,18 +29,18 @@ public class Field {
   private static class FieldElements {
     private static final Pose2d REEF_CENTER = new Pose2d(4.5, 4.0, Rotation2d.kZero);
     // Branch Poses
-    private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
-    private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
-    private static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
-    private static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
-    private static final Pose2d REEF_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
-    private static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
-    private static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
-    private static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
-    private static final Pose2d REEF_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
-    private static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
-    private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
-    private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_A = new Pose2d(3.206, 4.189, Rotation2d.kZero);
+    private static final Pose2d REEF_B = new Pose2d(3.206, 3.863, Rotation2d.kZero);
+    private static final Pose2d REEF_C = new Pose2d(3.715, 3.005, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_D = new Pose2d(3.983, 2.846, Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_E = new Pose2d(4.971, 2.847, Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_F = new Pose2d(5.275, 3.017, Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_G = new Pose2d(5.775, 3.858, Rotation2d.k180deg);
+    private static final Pose2d REEF_H = new Pose2d(5.775, 4.199, Rotation2d.k180deg);
+    private static final Pose2d REEF_I = new Pose2d(5.263, 5.041, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_J = new Pose2d(5.007, 5.187, Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_K = new Pose2d(3.995, 5.211, Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_L = new Pose2d(3.712, 5.046, Rotation2d.fromDegrees(-60));
 
     // L2 Backwards
     private static final Pose2d REEF_A_L2_BACKWARDS = new Pose2d(2.848, 4.189, Rotation2d.k180deg);
@@ -65,12 +65,25 @@ public class Field {
         Rotation2d.fromDegrees(180));
 
     // algae poses
-    private static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
-    private static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
-    private static final Pose2d ALGAE_EF = REEF_E.interpolate(REEF_F, 0.5);
-    private static final Pose2d ALGAE_GH = REEF_G.interpolate(REEF_H, 0.5);
-    private static final Pose2d ALGAE_IJ = REEF_I.interpolate(REEF_J, 0.5);
-    private static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
+    private static final Pose2d ALGAE_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
+    private static final Pose2d ALGAE_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
+    private static final Pose2d ALGAE_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
+    private static final Pose2d ALGAE_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
+    private static final Pose2d ALGAE_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
+    private static final Pose2d ALGAE_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
+    private static final Pose2d ALGAE_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
+    private static final Pose2d ALGAE_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
+    private static final Pose2d ALGAE_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
+    private static final Pose2d ALGAE_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
+    private static final Pose2d ALGAE_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
+    private static final Pose2d ALGAE_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+
+    private static final Pose2d ALGAE_AB = ALGAE_A.interpolate(ALGAE_B, 0.5);
+    private static final Pose2d ALGAE_CD = ALGAE_C.interpolate(ALGAE_D, 0.5);
+    private static final Pose2d ALGAE_EF = ALGAE_E.interpolate(ALGAE_F, 0.5);
+    private static final Pose2d ALGAE_GH = ALGAE_G.interpolate(ALGAE_H, 0.5);
+    private static final Pose2d ALGAE_IJ = ALGAE_I.interpolate(ALGAE_J, 0.5);
+    private static final Pose2d ALGAE_KL = ALGAE_K.interpolate(ALGAE_L, 0.5);
 
     // Coral Station
     private static final Pose2d LEFT_CORAL_STATION_FAR = new Pose2d(1.64, 7.33, Rotation2d.fromDegrees(125));
