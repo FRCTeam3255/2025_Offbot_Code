@@ -526,7 +526,7 @@ public class RobotContainer {
             constLED.READY_TO_SHOOT_ANIMATION, 
             0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, \[]0)))
+    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
