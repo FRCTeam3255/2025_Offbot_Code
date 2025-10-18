@@ -26,7 +26,7 @@ public class PoseDriving extends Command {
   BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
-  private boolean isPoseAligned = false;
+  public boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
   DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {

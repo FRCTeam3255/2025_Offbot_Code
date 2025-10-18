@@ -21,20 +21,26 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.Constants.constDrivetrain;
+import frc.robot.Constants.constField;
 import frc.robot.Constants.constVision;
 import frc.robot.Robot;
 import frc.robot.RobotMap.mapDrivetrain;
 
 @Logged
 public class Drivetrain extends SN_SuperSwerve {
+  PoseDriveGroup poseGroup;
+
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
+  private Pose2d lastDesiredTarget;
   private static SN_SwerveModule[] modules = new SN_SwerveModule[] {
       new SN_SwerveModule(0, mapDrivetrain.FRONT_LEFT_DRIVE_CAN, mapDrivetrain.FRONT_LEFT_STEER_CAN,
           mapDrivetrain.FRONT_LEFT_ABSOLUTE_ENCODER_CAN, constDrivetrain.FRONT_LEFT_ABS_ENCODER_OFFSET,
@@ -137,6 +143,8 @@ public class Drivetrain extends SN_SuperSwerve {
       boolean lockX,
       boolean lockY) {
 
+    lastDesiredTarget = desiredTarget;
+
     // Full auto-align
     ChassisSpeeds automatedDTVelocity = teleopAutoDriveController.calculate(getPose(), desiredTarget, 0,
         desiredTarget.getRotation());
@@ -204,6 +212,13 @@ public class Drivetrain extends SN_SuperSwerve {
     Distance distanceFromPose = Units.Meters
         .of(getRobotPose().getTranslation().getDistance(target.getTranslation()));
     return distanceFromPose.lt(autoDriveMaxDistance);
+  }
+
+  public boolean atLastDesiredFieldPosition() {
+    if (lastDesiredTarget == null) {
+      return false;
+    }
+    return isAtPosition(lastDesiredTarget, poseGroup.distanceTolerance) && isAtRotation(lastDesiredTarget.getRotation(), getRotationMeasure());
   }
 
   @Override
