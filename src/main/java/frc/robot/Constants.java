@@ -57,7 +57,7 @@ import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
-    public static final double OPERATOR_RUMBLE = 0.5;
+    public static final double OPERATOR_RUMBLE = 0.3;
     public static final double DRIVER_LEFT_STICK_DEADBAND = 0.05;
     public static final boolean SILENCE_JOYSTICK_WARNINGS = true;
   }

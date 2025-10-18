@@ -523,7 +523,7 @@ public class RobotContainer {
 
   public void configFeedback() {
     isReadyToScoreReefFeedback
-        .whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble,constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
