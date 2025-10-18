@@ -6,6 +6,7 @@ package frc.robot.commands.States;
 
 import frc.robot.subsystems.StateMachine.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constLED;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.subsystems.*;
 
@@ -13,12 +14,14 @@ import frc.robot.subsystems.*;
 public class None extends Command {
   Motion globalMotion;
   Rotors globalRotors;
+  LED globalLED;
   StateMachine globalStateMachine;
 
-  public None(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
+  public None(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, LED subLED) {
     // Use addRequirements() here to declare subsystem dependencies.
     globalMotion = subMotion;
     globalRotors = subRotors;
+    globalLED = subLED;
     this.globalStateMachine = globalStateMachine;
     addRequirements(globalStateMachine);
   }
@@ -30,6 +33,7 @@ public class None extends Command {
     globalRotors.setCoralIntakeMotorSpeed(0);
     globalRotors.setClimberMotorPercentOutput(0);
     globalStateMachine.setRobotState(RobotState.NONE);
+    // globalLED.setLED(constLED.NONE_ANIMATION, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
