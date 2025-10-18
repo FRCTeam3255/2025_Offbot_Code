@@ -13,6 +13,7 @@ import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -67,9 +68,9 @@ public class RobotContainer {
 
   // private final BooleanSupplier isReadyToScoreReef = ;
   // private final BooleanSupplier isReadyToScoreNet = ;
-  private final Trigger isReadyToScoreReefLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
+  private final Trigger isReadyToScoreReefFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
       && subMotion.atLastDesiredMechPosition()));
-  private final Trigger isReadyToScoreNetLEDs = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
+  private final Trigger isReadyToScoreNetFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
@@ -241,7 +242,7 @@ public class RobotContainer {
     configDriverBindings();
     configOperatorBindings();
     configAutos();
-    configLEDs();
+    configFeedback();
 
     subDrivetrain.resetModulesToAbsolute();
   }
@@ -520,13 +521,16 @@ public class RobotContainer {
         .onTrue(TRY_CLIMBING);
   }
 
-  public void configLEDs() {
-    isReadyToScoreReefLEDs
-        .whileTrue(Commands.runOnce(() -> subLED.setLED(
-            constLED.READY_TO_SHOOT_ANIMATION, 
-            0)))
+  public void configFeedback() {
+    isReadyToScoreReefFeedback
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
+        .whileTrue(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble,constControllers.OPERATOR_RUMBLE)))
+        .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
+    isReadyToScoreNetFeedback
+        .whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
+        .whileTrue(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble,constControllers.OPERATOR_RUMBLE)))
+        .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
