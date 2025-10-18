@@ -67,8 +67,10 @@ public class RobotContainer {
 
   private final BooleanSupplier isReadyToScoreReef = () -> (subDrivetrain.atLastDesiredFieldPosition()
       && subMotion.atLastDesiredMechPosition());
-  private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
+  private final BooleanSupplier isReadyToScoreNet = () -> (subDrivetrain.atLastDesiredFieldPosition());
   private final Trigger isReadyToScoreReefLEDs = new Trigger(isReadyToScoreReef);
+  private final Trigger isReadyToScoreNetLEDs = new Trigger(isReadyToScoreNet);
+  private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger isInCleaningStates = new Trigger(() -> subStateMachine.inCleaningState());
@@ -522,6 +524,7 @@ public class RobotContainer {
         .whileTrue(Commands.runOnce(() -> subLED.setLED(
             constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isReadyToScoreNetLEDs.whileTrue(Commands.runOnce(()-> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0))).onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
