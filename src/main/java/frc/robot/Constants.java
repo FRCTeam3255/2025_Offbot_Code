@@ -671,8 +671,8 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
-    public Distance distanceTolerance = Units.Inches.of(1);
-    public Angle rotationTolerance = Units.Degrees.of(2);
+    public Distance distanceTolerance = Units.Inches.of(0.5);
+    public Angle rotationTolerance = Units.Degrees.of(0.5);
   }
 
   public static class constPoseDrive {

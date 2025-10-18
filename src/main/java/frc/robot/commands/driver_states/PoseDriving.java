@@ -8,10 +8,12 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.Constants.constField;
 import frc.robot.Field;
+import frc.robot.Robot;
 import frc.robot.Field.FieldElementGroups;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
@@ -29,7 +31,8 @@ public class PoseDriving extends Command {
   private boolean isPoseAligned = false;
 
   public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
-  DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode, PoseDriveGroup poseGroup) {
+      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode,
+      PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
     this.subStateMachine = subStateMachine;
     this.subDriverStateMachine = subDriverStateMachine;
@@ -104,6 +107,6 @@ public class PoseDriving extends Command {
   public boolean isFinished() {
     isPoseAligned = subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
         subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
-    return isPoseAligned;
+    return isPoseAligned & DriverStation.isAutonomous();
   }
 }
