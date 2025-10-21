@@ -9,6 +9,7 @@ import java.util.function.BooleanSupplier;
 
 import com.frcteam3255.joystick.SN_XboxController;
 
+import choreo.auto.AutoChooser;
 import choreo.auto.AutoFactory;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
@@ -45,7 +46,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
 
   @NotLogged
-  SendableChooser<Command> autoChooser = new SendableChooser<>();
+  AutoChooser autoChooser = new AutoChooser();
 
   private AutoFactory autoFactory;
 
@@ -288,10 +289,10 @@ public class RobotContainer {
         CleanAndScore("net_ef", "ef_net", TRY_CLEAN_HIGH),
         runPath("net_off_startingline").asProxy()); // FORGOT TO DO AS PROXY ON RUNPATH
 
-    autoChooser.setDefaultOption("4 Coral - Processor Side", procSide4Coral);
-    autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
-    autoChooser.addOption("1 Coral - Mid", mid1Coral);
-    autoChooser.addOption("1 Algae - Mid", midAlgae);
+    autoChooser.addCmd("4 Coral - Processor Side", () -> procSide4Coral);
+    autoChooser.addCmd("4 Coral - Non-Processor Side", () -> nonProcSide4Coral);
+    autoChooser.addCmd("1 Coral - Mid", () -> mid1Coral);
+    autoChooser.addCmd("1 Algae - Mid", () -> midAlgae);
 
     SmartDashboard.putData(autoChooser);
   }
@@ -417,7 +418,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return autoChooser.selectedCommand();
 
   }
 
@@ -524,12 +525,14 @@ public class RobotContainer {
   public void configFeedback() {
     isReadyToScoreReefFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
-        .whileTrue(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble,constControllers.OPERATOR_RUMBLE)))
+        .whileTrue(
+            Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isReadyToScoreNetFeedback
         .whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
-        .whileTrue(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble,constControllers.OPERATOR_RUMBLE)))
+        .whileTrue(
+            Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
