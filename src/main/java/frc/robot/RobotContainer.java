@@ -234,6 +234,18 @@ public class RobotContainer {
     configOperatorBindings();
     configAutos();
 
+    autoChooser.onChange(selectedAuto -> {
+      String pose = "default_pose"; // Initialize with a default value
+      if (selectedAuto == nonProcSide4Coral) {
+        pose = "top_ji";
+      } else if (selectedAuto == procSide4Coral) {
+        pose = "proc_ef";
+      } else if (selectedAuto == mid1Coral || selectedAuto == midAlgae) {
+        pose = "mid_gh";
+      }
+      autoFactory.resetOdometry(pose).ignoringDisable(true).schedule();
+    });
+
     subDrivetrain.resetModulesToAbsolute();
   }
 
@@ -247,7 +259,6 @@ public class RobotContainer {
     );
 
     nonProcSide4Coral = Commands.sequence(
-        autoFactory.resetOdometry("top_ji").asProxy(),
         ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT,
             TRY_PREP_CORAL_L4),
         ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_RIGHT,
@@ -257,7 +268,6 @@ public class RobotContainer {
             TRY_PREP_CORAL_L4));
 
     procSide4Coral = Commands.sequence(
-        autoFactory.resetOdometry("proc_ef").asProxy(),
         ScoreAndCollect("proc_ef", "ef_cs", REEF_AUTO_DRIVING_RIGHT,
             TRY_PREP_CORAL_L4),
         ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_RIGHT,
@@ -267,19 +277,17 @@ public class RobotContainer {
             TRY_PREP_CORAL_L4));
 
     mid1Coral = Commands.sequence(
-        autoFactory.resetOdometry("mid_gh").asProxy(),
         Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4));
 
     midAlgae = Commands.sequence(
-        autoFactory.resetOdometry("mid_gh").asProxy(),
         Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
         CleanAndScore("gh", "gh_net", TRY_CLEAN_LOW),
         CleanAndScore("net_ji", "ji_net", TRY_CLEAN_HIGH),
         CleanAndScore("net_ef", "ef_net", TRY_CLEAN_HIGH),
         runPath("net_off_startingline").asProxy()); // FORGOT TO DO AS PROXY ON RUNPATH
 
-    autoChooser.setDefaultOption("4 Coral - Processor Side", procSide4Coral);
     autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
+    autoChooser.addOption("4 Coral - Processor Side", procSide4Coral);
     autoChooser.addOption("1 Coral - Mid", mid1Coral);
     autoChooser.addOption("1 Algae - Mid", midAlgae);
 
