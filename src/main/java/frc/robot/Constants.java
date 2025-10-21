@@ -667,6 +667,7 @@ public final class Constants {
     public static final double L1_INDEX_SPEED = -0.1;
   }
 
+  
   public static class PoseDriveGroup {
     public Distance minDistanceBeforeDrive;
     public List<Pose2d> targetPoseGroup;
