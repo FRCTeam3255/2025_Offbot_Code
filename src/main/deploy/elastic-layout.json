@@ -212,7 +212,7 @@
             "height": 136.0,
             "type": "ComboBox Chooser",
             "properties": {
-              "topic": "/SmartDashboard/SendableChooser[1]",
+              "topic": "/SmartDashboard/AutoChooser[1]",
               "period": 0.06,
               "sort_options": false
             }
@@ -225,7 +225,7 @@
             "height": 136.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/SmartDashboard/SendableChooser[1]/active",
+              "topic": "/SmartDashboard/AutoChooser[1]/active",
               "period": 0.06,
               "data_type": "string"
             }
