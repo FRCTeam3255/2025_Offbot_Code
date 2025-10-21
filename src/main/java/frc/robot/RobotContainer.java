@@ -337,7 +337,7 @@ public class RobotContainer {
   }
 
   Command runPath(String pathName) {
-    return autoFactory.trajectoryCmd(pathName)
+    return autoFactory.trajectoryCmd(pathName).asProxy()
         .alongWith(Commands.runOnce(() -> subDriverStateMachine.setDriverState(DriverState.CHOREO)));
   }
 
