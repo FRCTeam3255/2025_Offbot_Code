@@ -225,7 +225,7 @@
             "height": 136.0,
             "type": "Large Text Display",
             "properties": {
-              "topic": "/SmartDashboard/AutoChooser[1]/active",
+              "topic": "/SmartDashboard/AutoChooser[0]/active",
               "period": 0.06,
               "data_type": "string"
             }
