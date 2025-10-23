@@ -281,7 +281,7 @@ public class RobotContainer {
 
     midAlgae = Commands.sequence(
         Score("mid_gh", REEF_AUTO_DRIVING_LEFT, TRY_PREP_CORAL_L4),
-        CleanAndScore("gh", "gh_net", TRY_CLEAN_LOW),
+        FirstCleanAndScore("gh_net", TRY_CLEAN_LOW),
         CleanAndScore("net_ji", "ji_net", TRY_CLEAN_HIGH),
         CleanAndScore("net_ef", "ef_net", TRY_CLEAN_HIGH),
         runPath("net_off_startingline").asProxy()); // FORGOT TO DO AS PROXY ON RUNPATH
@@ -289,7 +289,7 @@ public class RobotContainer {
     autoChooser.addOption("4 Coral - Non-Processor Side", nonProcSide4Coral);
     autoChooser.addOption("4 Coral - Processor Side", procSide4Coral);
     autoChooser.addOption("1 Coral - Mid", mid1Coral);
-    autoChooser.addOption("1 Algae - Mid", midAlgae);
+    autoChooser.addOption("3 Algae - Mid", midAlgae);
 
     SmartDashboard.putData(autoChooser);
   }
@@ -333,7 +333,20 @@ public class RobotContainer {
             .withTimeout(2),
         TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
         TRY_NONE.asProxy().withTimeout(0.05));
-
+  }
+  
+  Command FirstCleanAndScore(String endPath, Command try_clean_lv) {
+    return Commands.sequence(
+        ALGAE_AUTO_DRIVING.asProxy().withDeadline(
+            try_clean_lv.asProxy()).withTimeout(4),
+        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_ALGAE)).asProxy(),
+        runPath(endPath).asProxy(),
+        NET_AUTO_DRIVING.asProxy().alongWith(
+            Commands.waitSeconds(0.3).andThen(
+                TRY_PREP_ALGAE_NET.asProxy()))
+            .withTimeout(2),
+        TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
+        TRY_NONE.asProxy().withTimeout(0.05));
   }
 
   Command runPath(String pathName) {
@@ -418,7 +431,6 @@ public class RobotContainer {
     return autoChooser.getSelected();
 
   }
-
   private void configOperatorBindings() {
     // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
