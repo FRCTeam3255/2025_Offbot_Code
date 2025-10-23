@@ -671,7 +671,7 @@ public final class Constants {
     public boolean lockX;
     public boolean lockY;
     public boolean backwardsAllowed;
-    public Distance distanceTolerance = Units.Inches.of(1);
+    public Distance distanceTolerance = Units.Inches.of(.5);
     public Angle rotationTolerance = Units.Degrees.of(2);
   }
 
