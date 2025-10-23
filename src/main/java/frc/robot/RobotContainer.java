@@ -293,7 +293,7 @@ public class RobotContainer {
     autoChooser.addCmd("1 Coral - Mid", () -> mid1Coral);
     autoChooser.addCmd("1 Algae - Mid", () -> midAlgae);
 
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("AutoChooser", autoChooser);
   }
 
   Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
