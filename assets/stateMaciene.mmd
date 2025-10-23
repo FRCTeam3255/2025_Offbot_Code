@@ -1,0 +1,139 @@
+stateDiagram-v2
+    direction TB
+
+    [*] --> NONE
+
+    state "Holding States" as holding_states {
+        HAS_CORAL
+        HAS_ALGAE
+        HAS_CORAL_AND_ALGAE
+    }
+
+    state "Prep Coral Only" as prep_coral_only {
+        PREP_CORAL_ZERO
+        PREP_CORAL_L1
+        PREP_CORAL_L2
+        PREP_CORAL_L3
+        PREP_CORAL_L4
+    }
+
+    state "Prep Algae Only" as prep_algae_only {
+        PREP_ALGAE_ZERO
+        PREP_ALGAE_NET
+        PREP_ALGAE_PROCESSOR
+    }
+
+    state "Prep Coral with Algae" as prep_coral_with_algae {
+        PREP_CORAL_ZERO_WITH_ALGAE
+        PREP_CORAL_L2_WITH_ALGAE
+        PREP_CORAL_L3_WITH_ALGAE
+        PREP_CORAL_L4_WITH_ALGAE
+    }
+
+    state "Prep Algae with Coral" as prep_algae_with_coral {
+        PREP_ALGAE_NET_WITH_CORAL
+        PREP_ALGAE_PROCESSOR_WITH_CORAL
+    }
+
+    state "Scoring States" as scoring_states {
+        SCORING_CORAL
+        SCORING_ALGAE
+        SCORING_ALGAE_WITH_CORAL
+        SCORING_CORAL_WITH_ALGAE
+    }
+
+    state "Intaking States" as intaking_states {
+        state "Intaking Coral" as intaking_coral {
+            INTAKE_CORAL_STATION
+            INTAKE_CORAL_L1
+            INTAKE_CORAL_GROUND
+        }
+        state "Intaking Algae" as intaking_algae {
+            INTAKE_ALGAE_GROUND
+            CLEAN_HIGH
+            CLEAN_LOW
+        }
+        state "Intaking Algae W Coral" as intaking_algae_with_coral {
+            INTAKE_ALGAE_GROUND_WITH_CORAL
+            CLEAN_HIGH_WITH_CORAL
+            CLEAN_LOW_WITH_CORAL
+        }
+        state "Intaking Coral W Algae" as intaking_coral_with_algae {
+            INTAKE_CORAL_GROUND_WITH_ALGAE
+            INTAKE_CORAL_STATION_WITH_ALGAE
+        }
+    }
+
+    state "Climbing States" as climbing_states {
+        PREP_CLIMB
+        CLIMBING
+    }
+
+    state "Ejecting State" as ejecting_state {
+        EJECTING
+    }
+
+    %% Initial transitions from NONE
+    NONE --> intaking_coral : INTAKE_CORAL_GROUND,\nINTAKE_CORAL_STATION,\nINTAKE_CORAL_L1
+    NONE --> intaking_algae : INTAKE_ALGAE_GROUND,\nCLEAN_HIGH,\nCLEAN_LOW
+    NONE --> ejecting_state
+
+    %% Ejecting transitions
+    ejecting_state --> NONE
+    ejecting_state --> holding_states
+
+    %% Intaking to Holding transitions
+    intaking_coral --> HAS_CORAL
+    intaking_algae --> HAS_ALGAE
+    intaking_algae_with_coral --> HAS_CORAL_AND_ALGAE
+    intaking_coral_with_algae --> HAS_CORAL_AND_ALGAE
+
+    %% Holding to Prep transitions
+    HAS_CORAL --> prep_coral_only
+    HAS_ALGAE --> prep_algae_only
+    HAS_CORAL_AND_ALGAE --> prep_coral_with_algae
+    HAS_CORAL_AND_ALGAE --> prep_algae_with_coral
+    
+    %% Holding to other states
+    holding_states --> climbing_states
+    holding_states --> ejecting_state
+    holding_states --> intaking_states
+
+    %% Prep to Scoring transitions
+    prep_coral_only --> SCORING_CORAL
+    prep_algae_only --> SCORING_ALGAE
+    prep_coral_with_algae --> SCORING_CORAL_WITH_ALGAE
+    prep_algae_with_coral --> SCORING_ALGAE_WITH_CORAL
+
+    %% Scoring back to Holding
+    scoring_states --> holding_states
+
+    %% Internal prep state transitions (cyclic)
+    prep_coral_only --> prep_coral_only
+    prep_coral_with_algae --> prep_coral_with_algae
+    prep_algae_only --> prep_algae_only
+    prep_algae_with_coral --> prep_algae_with_coral
+
+    %% Intaking internal transitions
+    intaking_algae --> intaking_algae
+    intaking_algae_with_coral --> intaking_algae_with_coral
+    intaking_coral --> intaking_coral
+    intaking_coral_with_algae --> intaking_coral_with_algae
+
+    %% Climbing transitions
+    climbing_states --> CLIMBING
+    CLIMBING --> [*]
+
+    %% Prep to Eject transitions
+    prep_coral_only --> ejecting_state
+    prep_coral_with_algae --> ejecting_state
+    prep_algae_only --> ejecting_state
+    prep_algae_with_coral --> ejecting_state
+
+    %% Direct transitions between specific states (based on Java logic)
+    CLEAN_HIGH --> CLEAN_LOW
+    CLEAN_LOW --> CLEAN_HIGH
+    CLEAN_HIGH_WITH_CORAL --> CLEAN_LOW_WITH_CORAL
+    CLEAN_LOW_WITH_CORAL --> CLEAN_HIGH_WITH_CORAL
+    INTAKE_CORAL_STATION --> INTAKE_CORAL_GROUND
+    INTAKE_CORAL_GROUND --> INTAKE_CORAL_STATION
