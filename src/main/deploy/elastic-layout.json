@@ -212,7 +212,7 @@
             "height": 136.0,
             "type": "ComboBox Chooser",
             "properties": {
-              "topic": "/SmartDashboard/AutoChooser[0]",
+              "topic": "/SmartDashboard/AutoChooser",
               "period": 0.06,
               "sort_options": false
             }
