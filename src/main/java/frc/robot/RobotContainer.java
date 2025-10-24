@@ -330,8 +330,8 @@ public class RobotContainer {
         NET_AUTO_DRIVING.asProxy().alongWith(
             Commands.waitSeconds(0.3).andThen(
                 TRY_PREP_ALGAE_NET.asProxy()))
-            .withTimeout(2),
-        TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
+            .withTimeout(1.5),
+        TRY_SCORING_ALGAE.asProxy().withTimeout(0.5),
         TRY_NONE.asProxy().withTimeout(0.05));
   }
   
@@ -345,8 +345,8 @@ public class RobotContainer {
       NET_AUTO_DRIVING.asProxy().alongWith(
         Commands.waitSeconds(0.3).andThen(
           TRY_PREP_ALGAE_NET.asProxy()))
-        .withTimeout(2),
-      TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
+        .withTimeout(1.5),
+      TRY_SCORING_ALGAE.asProxy().withTimeout(0.5),
       TRY_NONE.asProxy().withTimeout(0.05));
   }
 

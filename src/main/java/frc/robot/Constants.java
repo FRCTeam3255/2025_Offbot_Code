@@ -546,7 +546,7 @@ public final class Constants {
       PREP_CORAL_L2_FORWARDS.pivotAngle = Degrees.of(45.56);
 
       PREP_CORAL_L3_FORWARDS.wristAngle = Degrees.of(-100);
-      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(20); // TODO: Replace with actual height
+      PREP_CORAL_L3_FORWARDS.liftHeight = Inches.of(19); // TODO: Replace with actual height
       PREP_CORAL_L3_FORWARDS.pivotAngle = Degrees.of(61);
 
       PREP_CORAL_L4_FORWARDS.wristAngle = Degrees.of(-35);
