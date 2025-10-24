@@ -337,16 +337,17 @@ public class RobotContainer {
   
   Command FirstCleanAndScore(String endPath, Command try_clean_lv) {
     return Commands.sequence(
+      ALGAE_AUTO_DRIVING.asProxy().withTimeout(0.7).andThen(
         ALGAE_AUTO_DRIVING.asProxy().withDeadline(
-            try_clean_lv.asProxy()).withTimeout(4),
-        Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_ALGAE)).asProxy(),
-        runPath(endPath).asProxy(),
-        NET_AUTO_DRIVING.asProxy().alongWith(
-            Commands.waitSeconds(0.3).andThen(
-                TRY_PREP_ALGAE_NET.asProxy()))
-            .withTimeout(2),
-        TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
-        TRY_NONE.asProxy().withTimeout(0.05));
+          try_clean_lv.asProxy().withTimeout(4))),
+      Commands.runOnce(() -> subStateMachine.setRobotState(RobotState.HAS_ALGAE)).asProxy(),
+      runPath(endPath).asProxy(),
+      NET_AUTO_DRIVING.asProxy().alongWith(
+        Commands.waitSeconds(0.3).andThen(
+          TRY_PREP_ALGAE_NET.asProxy()))
+        .withTimeout(2),
+      TRY_SCORING_ALGAE.asProxy().withTimeout(0.75),
+      TRY_NONE.asProxy().withTimeout(0.05));
   }
 
   Command runPath(String pathName) {

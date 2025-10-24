@@ -117,11 +117,11 @@ public class Field {
     // private static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
 
     // Coral Station
-    private static final Pose2d LEFT_CORAL_STATION_FAR = new Pose2d(1.5449692010879517, 7.396552085876465,
+    private static final Pose2d LEFT_CORAL_STATION_FAR = new Pose2d(1.5795878171920776 , 7.378190517425537 ,
         Rotation2d.fromDegrees(125));
-    private static final Pose2d LEFT_CORAL_STATION_NEAR = new Pose2d(0.71, 6.68, Rotation2d.fromDegrees(125));
-    private static final Pose2d RIGHT_CORAL_STATION_FAR = new Pose2d(1.61, 0.70, Rotation2d.fromDegrees(-125));
-    private static final Pose2d RIGHT_CORAL_STATION_NEAR = new Pose2d(0.64, 1.37, Rotation2d.fromDegrees(-125));
+    private static final Pose2d LEFT_CORAL_STATION_NEAR = new Pose2d(0.7105790972709656 , 6.752768039703369 , Rotation2d.fromDegrees(125));
+    private static final Pose2d RIGHT_CORAL_STATION_FAR = new Pose2d(1.545912265777588 , 0.6680838465690613 , Rotation2d.fromDegrees(-125));
+    private static final Pose2d RIGHT_CORAL_STATION_NEAR = new Pose2d(0.6772652864456177 , 1.297790765762329 , Rotation2d.fromDegrees(-125));
 
     // Processor
     private static final Pose2d PROCESSOR = new Pose2d(5.6, 0.896, Rotation2d.fromDegrees(-90));
