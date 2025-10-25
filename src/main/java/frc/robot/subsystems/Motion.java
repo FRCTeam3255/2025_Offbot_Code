@@ -45,6 +45,7 @@ public class Motion extends SubsystemBase {
   public boolean hasPivotZeroed = false;
   public boolean hasWristZeroed = false;
   public boolean hasSetStartingConfig = false;
+  private MechanismPositionGroup lastDesiredPosition;
 
   public Motion() {
     leftLiftMotorFollower = new TalonFX(mapMotion.LEFT_LIFT_CAN);
@@ -87,6 +88,7 @@ public class Motion extends SubsystemBase {
   }
 
   public void setAllPosition(MechanismPositionGroup positionGroup) {
+    lastDesiredPosition = positionGroup;
     if (isWristInDanger() == true) {
       setWristPivotAngle(constMotion.WRIST_DANGER_ANGLE, positionGroup.wristSlot);
     } else {
@@ -207,6 +209,13 @@ public class Motion extends SubsystemBase {
         getPivotAngle().compareTo(positionGroup.pivotAngle.plus(positionGroup.pivotTolerance)) < 0 &&
         getWristAngle().compareTo(positionGroup.wristAngle.minus(positionGroup.wristTolerance)) > 0 &&
         getWristAngle().compareTo(positionGroup.wristAngle.plus(positionGroup.wristTolerance)) < 0);
+  }
+
+  public boolean atLastDesiredMechPosition() {
+    if (lastDesiredPosition == null) {
+      return false;
+    }
+    return arePositionsAtSetPoint(lastDesiredPosition);
   }
 
   @Override

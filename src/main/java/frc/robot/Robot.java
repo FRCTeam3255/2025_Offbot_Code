@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    Elastic.selectTab("Disabled");
     bothSubsystemsZeroed = m_robotContainer.allZeroed();
   }
 
@@ -82,6 +83,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    Elastic.selectTab("Autonomous");
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     bothSubsystemsZeroed = m_robotContainer.allZeroed();
 
@@ -108,6 +111,10 @@ public class Robot extends TimedRobot {
     m_robotContainer.manualZeroPivot.cancel();
     m_robotContainer.manualZeroWrist.cancel();
     m_robotContainer.startingCofig.cancel();
+
+    Elastic.selectTab("Teleoperated");
+    
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
