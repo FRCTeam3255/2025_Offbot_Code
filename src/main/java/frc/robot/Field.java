@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -29,18 +28,43 @@ public class Field {
   private static class FieldElements {
     private static final Pose2d REEF_CENTER = new Pose2d(4.5, 4.0, Rotation2d.kZero);
     // Branch Poses
-    private static final Pose2d REEF_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
-    private static final Pose2d REEF_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
-    private static final Pose2d REEF_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
-    private static final Pose2d REEF_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
-    private static final Pose2d REEF_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
-    private static final Pose2d REEF_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
-    private static final Pose2d REEF_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
-    private static final Pose2d REEF_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
-    private static final Pose2d REEF_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
-    private static final Pose2d REEF_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
-    private static final Pose2d REEF_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
-    private static final Pose2d REEF_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+    // private static final Pose2d REEF_A = new Pose2d(3.171, 4.189,
+    // Rotation2d.kZero);
+    // private static final Pose2d REEF_B = new Pose2d(3.171, 3.863,
+    // Rotation2d.kZero);
+    // private static final Pose2d REEF_C = new Pose2d(3.688, 2.968,
+    // Rotation2d.fromDegrees(60));
+    // private static final Pose2d REEF_D = new Pose2d(3.975, 2.803,
+    // Rotation2d.fromDegrees(60));
+    // private static final Pose2d REEF_E = new Pose2d(5.001, 2.804,
+    // Rotation2d.fromDegrees(120));
+    // private static final Pose2d REEF_F = new Pose2d(5.285, 2.964,
+    // Rotation2d.fromDegrees(120));
+    // private static final Pose2d REEF_G = new Pose2d(5.805, 3.863,
+    // Rotation2d.k180deg);
+    // private static final Pose2d REEF_H = new Pose2d(5.805, 4.189,
+    // Rotation2d.k180deg);
+    // private static final Pose2d REEF_I = new Pose2d(5.288, 5.083,
+    // Rotation2d.fromDegrees(-120));
+    // private static final Pose2d REEF_J = new Pose2d(5.002, 5.248,
+    // Rotation2d.fromDegrees(-120));
+    // private static final Pose2d REEF_K = new Pose2d(3.972, 5.247,
+    // Rotation2d.fromDegrees(-60));
+    // private static final Pose2d REEF_L = new Pose2d(3.693, 5.079,
+    // Rotation2d.fromDegrees(-60));
+
+    private static final Pose2d REEF_A = new Pose2d(3.1793227195739746  , 4.190391540527344  , Rotation2d.kZero);
+    private static final Pose2d REEF_B = new Pose2d(3.1793227195739746  , 3.859665632247925  , Rotation2d.kZero);
+    private static final Pose2d REEF_C = new Pose2d(3.690809488296509  , 2.9746057987213135  , Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_D = new Pose2d(3.9746711254119873 , 2.8099122047424316  , Rotation2d.fromDegrees(60));
+    private static final Pose2d REEF_E = new Pose2d(5.000613689422607  , 2.8110105991363525  , Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_F = new Pose2d(5.2899651527404785  , 2.9782919883728027  , Rotation2d.fromDegrees(120));
+    private static final Pose2d REEF_G = new Pose2d(5.798591136932373  , 3.857649564743042 , Rotation2d.k180deg);
+    private static final Pose2d REEF_H = new Pose2d(5.798591136932373  , 4.1899518966674805  , Rotation2d.k180deg);
+    private static final Pose2d REEF_I = new Pose2d(5.291268825531006  , 5.072429180145264  , Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_J = new Pose2d(5.00312614440918  , 5.239398956298828  , Rotation2d.fromDegrees(-120));
+    private static final Pose2d REEF_K = new Pose2d(3.9745900630950928  , 5.243215560913086  , Rotation2d.fromDegrees(-60));
+    private static final Pose2d REEF_L = new Pose2d(3.692172050476074  , 5.0762457847595215  , Rotation2d.fromDegrees(-60));
 
     // L2 Backwards
     private static final Pose2d REEF_A_L2_BACKWARDS = new Pose2d(2.848, 4.189, Rotation2d.k180deg);
@@ -65,18 +89,39 @@ public class Field {
         Rotation2d.fromDegrees(180));
 
     // algae poses
-    private static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
-    private static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
-    private static final Pose2d ALGAE_EF = REEF_E.interpolate(REEF_F, 0.5);
-    private static final Pose2d ALGAE_GH = REEF_G.interpolate(REEF_H, 0.5);
-    private static final Pose2d ALGAE_IJ = REEF_I.interpolate(REEF_J, 0.5);
-    private static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
+    private static final Pose2d ALGAE_A = new Pose2d(3.171, 4.189, Rotation2d.kZero);
+    private static final Pose2d ALGAE_B = new Pose2d(3.171, 3.863, Rotation2d.kZero);
+    private static final Pose2d ALGAE_C = new Pose2d(3.688, 2.968, Rotation2d.fromDegrees(60));
+    private static final Pose2d ALGAE_D = new Pose2d(3.975, 2.803, Rotation2d.fromDegrees(60));
+    private static final Pose2d ALGAE_E = new Pose2d(5.001, 2.804, Rotation2d.fromDegrees(120));
+    private static final Pose2d ALGAE_F = new Pose2d(5.285, 2.964, Rotation2d.fromDegrees(120));
+    private static final Pose2d ALGAE_G = new Pose2d(5.805, 3.863, Rotation2d.k180deg);
+    private static final Pose2d ALGAE_H = new Pose2d(5.805, 4.189, Rotation2d.k180deg);
+    private static final Pose2d ALGAE_I = new Pose2d(5.288, 5.083, Rotation2d.fromDegrees(-120));
+    private static final Pose2d ALGAE_J = new Pose2d(5.002, 5.248, Rotation2d.fromDegrees(-120));
+    private static final Pose2d ALGAE_K = new Pose2d(3.972, 5.247, Rotation2d.fromDegrees(-60));
+    private static final Pose2d ALGAE_L = new Pose2d(3.693, 5.079, Rotation2d.fromDegrees(-60));
+
+    private static final Pose2d ALGAE_AB = ALGAE_A.interpolate(ALGAE_B, 0.5);
+    private static final Pose2d ALGAE_CD = ALGAE_C.interpolate(ALGAE_D, 0.5);
+    private static final Pose2d ALGAE_EF = ALGAE_E.interpolate(ALGAE_F, 0.5);
+    private static final Pose2d ALGAE_GH = ALGAE_G.interpolate(ALGAE_H, 0.5);
+    private static final Pose2d ALGAE_IJ = ALGAE_I.interpolate(ALGAE_J, 0.5);
+    private static final Pose2d ALGAE_KL = ALGAE_K.interpolate(ALGAE_L, 0.5);
+
+    // private static final Pose2d ALGAE_AB = REEF_A.interpolate(REEF_B, 0.5);
+    // private static final Pose2d ALGAE_CD = REEF_C.interpolate(REEF_D, 0.5);
+    // private static final Pose2d ALGAE_EF = REEF_E.interpolate(REEF_F, 0.5);
+    // private static final Pose2d ALGAE_GH = REEF_G.interpolate(REEF_H, 0.5);
+    // private static final Pose2d ALGAE_IJ = REEF_I.interpolate(REEF_J, 0.5);
+    // private static final Pose2d ALGAE_KL = REEF_K.interpolate(REEF_L, 0.5);
 
     // Coral Station
-    private static final Pose2d LEFT_CORAL_STATION_FAR = new Pose2d(1.64, 7.33, Rotation2d.fromDegrees(125));
-    private static final Pose2d LEFT_CORAL_STATION_NEAR = new Pose2d(0.71, 6.68, Rotation2d.fromDegrees(125));
-    private static final Pose2d RIGHT_CORAL_STATION_FAR = new Pose2d(1.61, 0.70, Rotation2d.fromDegrees(-125));
-    private static final Pose2d RIGHT_CORAL_STATION_NEAR = new Pose2d(0.64, 1.37, Rotation2d.fromDegrees(-125));
+    private static final Pose2d LEFT_CORAL_STATION_FAR = new Pose2d(1.5795878171920776 , 7.378190517425537 ,
+        Rotation2d.fromDegrees(125));
+    private static final Pose2d LEFT_CORAL_STATION_NEAR = new Pose2d(0.7105790972709656 , 6.752768039703369 , Rotation2d.fromDegrees(125));
+    private static final Pose2d RIGHT_CORAL_STATION_FAR = new Pose2d(1.545912265777588 , 0.6680838465690613 , Rotation2d.fromDegrees(-125));
+    private static final Pose2d RIGHT_CORAL_STATION_NEAR = new Pose2d(0.6772652864456177 , 1.297790765762329 , Rotation2d.fromDegrees(-125));
 
     // Processor
     private static final Pose2d PROCESSOR = new Pose2d(5.6, 0.896, Rotation2d.fromDegrees(-90));
