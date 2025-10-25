@@ -523,7 +523,7 @@ public final class Constants {
       INTAKE_ALGAE_GROUND.pivotSlot = 1;
       INTAKE_ALGAE_GROUND.wristSlot = 1;
 
-      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-7 ); // TODO: Replace with actual angle
+      INTAKE_CORAL_GROUND.wristAngle = Degrees.of(-5); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_CORAL_GROUND.pivotAngle = Degrees.of(0); // TODO: Replace with actual angle
       INTAKE_CORAL_GROUND.pivotSlot = 1;
@@ -667,7 +667,6 @@ public final class Constants {
     public static final double L1_INDEX_SPEED = -0.1;
   }
 
-  
   public static class PoseDriveGroup {
     public Distance minDistanceBeforeDrive;
     public List<Pose2d> targetPoseGroup;
