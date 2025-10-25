@@ -511,11 +511,11 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(23);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(95.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(13.9);
-      INTAKE_CORAL_STATION.liftHeight = Inches.of(5.5);// huxly said 6.958
-      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(65.0);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(26.54);
+      INTAKE_CORAL_STATION.liftHeight = Inches.of(8.84);// huxly said 6.958
+      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(61.25);
 
-      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(55); // TODO: Replace with actual angle
+      INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(57); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
       INTAKE_ALGAE_GROUND.pivotAngle = Degrees.of(21); // TODO: Replace with actual
       INTAKE_ALGAE_GROUND.pivotTolerance = Degrees.of(3);
@@ -667,7 +667,6 @@ public final class Constants {
     public static final double L1_INDEX_SPEED = -0.1;
   }
 
-  
   public static class PoseDriveGroup {
     public Distance minDistanceBeforeDrive;
     public List<Pose2d> targetPoseGroup;
