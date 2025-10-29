@@ -89,6 +89,10 @@ public class RobotContainer {
   private final Trigger isInClimbState = new Trigger(
       () -> subStateMachine.getRobotState() == RobotState.CLIMBING
           || subStateMachine.getRobotState() == RobotState.PREP_CLIMB);
+  private final Trigger isInReefAutoDriveLeft = new Trigger(
+    () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
+  private final Trigger isInReefAutoDriveRight = new Trigger(
+    () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -556,6 +560,18 @@ public class RobotContainer {
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isInCSAutoDriveState
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isInProcessorAutoDriveState
+      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isInReefAutoDriveLeft
+      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isInReefAutoDriveRight
+      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
