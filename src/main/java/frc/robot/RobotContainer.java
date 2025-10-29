@@ -564,14 +564,14 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInProcessorAutoDriveState
-      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
-      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveLeft
-      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
-      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveRight
-      .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
-      .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
