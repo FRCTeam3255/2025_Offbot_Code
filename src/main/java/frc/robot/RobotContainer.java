@@ -561,16 +561,16 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInCSAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInProcessorAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveLeft
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveRight
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANAMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
