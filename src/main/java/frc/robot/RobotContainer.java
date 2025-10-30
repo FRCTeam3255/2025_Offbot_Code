@@ -72,6 +72,8 @@ public class RobotContainer {
   private final Trigger isReadyToScoreReefFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
       && subMotion.atLastDesiredMechPosition()));
   private final Trigger isReadyToScoreNetFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
+  private final Trigger isAttemptingAlignFeedback = new Trigger(
+      () -> (subMotion.atLastDesiredMechPosition() && !subDrivetrain.atLastDesiredFieldPosition()));
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
@@ -447,6 +449,7 @@ public class RobotContainer {
     return autoChooser.getSelected();
 
   }
+
   private void configOperatorBindings() {
     // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
@@ -552,26 +555,32 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
+            .whileTrue(
+            Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, constControllers.DRIVER_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isReadyToScoreNetFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInCSAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInProcessorAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInReefAutoDriveLeft
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInReefAutoDriveRight
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
+    isAttemptingAlignFeedback
+        .whileTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION, 0)))
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
+
+    // isInCSAutoDriveState
+    // .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+    // .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    // isInProcessorAutoDriveState
+    // .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+    // .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    // isInReefAutoDriveLeft
+    // .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+    // .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    // isInReefAutoDriveRight
+    // .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+    // .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
