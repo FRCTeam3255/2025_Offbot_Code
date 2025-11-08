@@ -566,22 +566,22 @@ public class RobotContainer {
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isInCSAutoDriveState
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isInProcessorAutoDriveState
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isInReefAutoDriveLeft
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isInReefAutoDriveRight
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
     isInNetAutoDriveState
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)));
   }
 
   public boolean allZeroed() {
