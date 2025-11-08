@@ -97,6 +97,8 @@ public class RobotContainer {
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
   private final Trigger isInReefAutoDriveRight = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
+  private final Trigger isDrivingManualFeedback = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.MANUAL);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -567,14 +569,12 @@ public class RobotContainer {
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    new Trigger(
-        () -> isInCSAutoDriveState.getAsBoolean()
-            || isInProcessorAutoDriveState.getAsBoolean()
-            || isInReefAutoDriveLeft.getAsBoolean()
-            || isInReefAutoDriveRight.getAsBoolean()
-            || isInNetAutoDriveState.getAsBoolean())
+    isAttemptingAlignFeedback 
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)));
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isDrivingManualFeedback
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
   public boolean allZeroed() {
