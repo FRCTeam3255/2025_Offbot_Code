@@ -562,14 +562,14 @@ public class RobotContainer {
         .whileTrue(
             Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, constControllers.DRIVER_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isReadyToScoreNetFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isAttemptingAlignFeedback 
+    isAttemptingAlignFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isDrivingManualFeedback
