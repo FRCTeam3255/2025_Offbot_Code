@@ -567,19 +567,12 @@ public class RobotContainer {
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInCSAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInProcessorAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInReefAutoDriveLeft
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInReefAutoDriveRight
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isInNetAutoDriveState
+    new Trigger(
+        () -> isInCSAutoDriveState.getAsBoolean()
+            || isInProcessorAutoDriveState.getAsBoolean()
+            || isInReefAutoDriveLeft.getAsBoolean()
+            || isInReefAutoDriveRight.getAsBoolean()
+            || isInNetAutoDriveState.getAsBoolean())
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
