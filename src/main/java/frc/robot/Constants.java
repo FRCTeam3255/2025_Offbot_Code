@@ -57,7 +57,8 @@ import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
-    public static final double OPERATOR_RUMBLE = 0.3;
+    public static final double OPERATOR_RUMBLE = 1;
+    public static final double DRIVER_RUMBLE = .3;
     public static final double DRIVER_LEFT_STICK_DEADBAND = 0.05;
     public static final boolean SILENCE_JOYSTICK_WARNINGS = true;
   }
@@ -511,9 +512,9 @@ public final class Constants {
       CLEAN_HIGH_BACKWARDS.liftHeight = Inches.of(23);
       CLEAN_HIGH_BACKWARDS.pivotAngle = Degrees.of(95.16);
 
-      INTAKE_CORAL_STATION.wristAngle = Degrees.of(26.54);
-      INTAKE_CORAL_STATION.liftHeight = Inches.of(8.84);// huxly said 6.958
-      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(61.25);
+      INTAKE_CORAL_STATION.wristAngle = Degrees.of(20.22);
+      INTAKE_CORAL_STATION.liftHeight = Inches.of(7.17);// huxly said 6.958
+      INTAKE_CORAL_STATION.pivotAngle = Degrees.of(63.125);
 
       INTAKE_ALGAE_GROUND.wristAngle = Degrees.of(57); // TODO: Replace with actual angle
       INTAKE_ALGAE_GROUND.liftHeight = Inches.of(4); // TODO: Replace with actual height
@@ -857,6 +858,7 @@ public final class Constants {
       LED_CONFIG.brightnessScalar = 1;
     }
     // LED strip😎
+    public static final int[] NONE_COLOR = { 0, 0, 255 };
     public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation(MAX_VOLTAGE, MAX_VOLTAGE, 0);
     public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 255, 0, 0, .5, 192);
     public static final int[] ALIGNING_ANIMATION = { 255, 255, 0 };
