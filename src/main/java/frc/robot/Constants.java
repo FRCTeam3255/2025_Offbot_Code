@@ -860,8 +860,8 @@ public final class Constants {
     // LED strip😎
     public static final int[] NONE_COLOR = { 0, 0, 255 };
     public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation(MAX_VOLTAGE, MAX_VOLTAGE, 0);
-    public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 255, 0, 0, .5, 192);
-    public static final int[] ALIGNING_ANIMATION = { 255, 255, 0 };
+    public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 0, 255, 0, .5, 192);
+    public static final int[] ALIGNING = { 255, 0, 0 };
     public static final int[] PREP_CLIMB = { 0, 0, 0 };
     public static final int[] CLIMB = { 0, 0, 0 };
     public static final int[] PREP_CORAL_ZERO = { 0, 0, 0 };

@@ -83,6 +83,8 @@ public class RobotContainer {
   private final Trigger isInCSAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR
           || subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+  private final Trigger isInNetAutoDriveState = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.NET_AUTO_DRIVING);
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
   private final Trigger isInPrepL2States = new Trigger(
@@ -555,7 +557,7 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
-            .whileTrue(
+        .whileTrue(
             Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, constControllers.DRIVER_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
@@ -566,16 +568,19 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInCSAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInProcessorAutoDriveState
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveLeft
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isInReefAutoDriveRight
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING_ANIMATION)))
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
+        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+    isInNetAutoDriveState
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
   }
 
