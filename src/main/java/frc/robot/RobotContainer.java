@@ -95,10 +95,6 @@ public class RobotContainer {
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
   private final Trigger isInReefAutoDriveRight = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
-  private final Trigger isInReefAutoDriveLeft = new Trigger(
-      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
-  private final Trigger isInReefAutoDriveRight = new Trigger(
-      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
