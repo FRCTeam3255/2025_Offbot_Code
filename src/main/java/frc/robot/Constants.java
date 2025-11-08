@@ -858,7 +858,7 @@ public final class Constants {
       LED_CONFIG.brightnessScalar = 1;
     }
     // LED strip😎
-    public static final int[] NONE_COLOR = { 0, 0, 255 };
+    public static final int[] NONE_COLOR = { 255, 255, 255 };
     public static final RainbowAnimation NONE_ANIMATION = new RainbowAnimation(MAX_VOLTAGE, MAX_VOLTAGE, 0);
     public static final StrobeAnimation READY_TO_SHOOT_ANIMATION = new StrobeAnimation(0, 0, 255, 0, .5, 192);
     public static final int[] ALIGNING = { 255, 0, 0 };
