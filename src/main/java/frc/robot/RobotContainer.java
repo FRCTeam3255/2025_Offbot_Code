@@ -97,8 +97,9 @@ public class RobotContainer {
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
   private final Trigger isInReefAutoDriveRight = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
-  private final Trigger isDrivingManualFeedback = new Trigger(
-      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.MANUAL);
+  private final Trigger isInAutoDrive = new Trigger(
+      isInReefAutoDriveLeft.or(isInReefAutoDriveRight).or(isInCSAutoDriveState)
+          .or(isInNetAutoDriveState).or(isInProcessorAutoDriveState));
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -562,19 +563,17 @@ public class RobotContainer {
         .whileTrue(
             Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, constControllers.DRIVER_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
+        .onFalse(Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isReadyToScoreNetFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isAttemptingAlignFeedback
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
+      isInAutoDrive
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
-    isDrivingManualFeedback
-        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
   }
 
   public boolean allZeroed() {
