@@ -72,6 +72,8 @@ public class RobotContainer {
   private final Trigger isReadyToScoreReefFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()
       && subMotion.atLastDesiredMechPosition()));
   private final Trigger isReadyToScoreNetFeedback = new Trigger(() -> (subDrivetrain.atLastDesiredFieldPosition()));
+  private final Trigger isAttemptingAlignFeedback = new Trigger(
+      () -> (subMotion.atLastDesiredMechPosition() && !subDrivetrain.atLastDesiredFieldPosition()));
   private final Trigger hasCoralTrigger = new Trigger(() -> subRotors.hasCoral() && !subRotors.hasAlgae());
   private final Trigger hasAlgaeTrigger = new Trigger(() -> !subRotors.hasCoral() && subRotors.hasAlgae());
   private final Trigger hasBothTrigger = new Trigger(() -> subRotors.hasCoral() && subRotors.hasAlgae());
@@ -81,6 +83,8 @@ public class RobotContainer {
   private final Trigger isInCSAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR
           || subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+  private final Trigger isInNetAutoDriveState = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.NET_AUTO_DRIVING);
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
   private final Trigger isInPrepL2States = new Trigger(
@@ -89,6 +93,13 @@ public class RobotContainer {
   private final Trigger isInClimbState = new Trigger(
       () -> subStateMachine.getRobotState() == RobotState.CLIMBING
           || subStateMachine.getRobotState() == RobotState.PREP_CLIMB);
+  private final Trigger isInReefAutoDriveLeft = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT);
+  private final Trigger isInReefAutoDriveRight = new Trigger(
+      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT);
+  private final Trigger isInAutoDrive = new Trigger(
+      isInReefAutoDriveLeft.or(isInReefAutoDriveRight).or(isInCSAutoDriveState)
+          .or(isInNetAutoDriveState).or(isInProcessorAutoDriveState));
 
   Command TRY_NONE = Commands.deferredProxy(
       () -> subStateMachine.tryState(RobotState.NONE));
@@ -443,6 +454,7 @@ public class RobotContainer {
     return autoChooser.getSelected();
 
   }
+
   private void configOperatorBindings() {
     // Add operator bindings here if needed
     conOperator.btn_LeftTrigger
@@ -548,14 +560,20 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
+        .whileTrue(
+            Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, constControllers.DRIVER_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
+        .onFalse(Commands.runOnce(() -> conDriver.setRumble(RumbleType.kBothRumble, 0)))
         .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
     isReadyToScoreNetFeedback
         .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.READY_TO_SHOOT_ANIMATION, 0)))
         .whileTrue(
             Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, constControllers.OPERATOR_RUMBLE)))
         .onFalse(Commands.runOnce(() -> conOperator.setRumble(RumbleType.kBothRumble, 0)))
-        .onFalse(Commands.runOnce(() -> subLED.clearAnimation()));
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
+      isInAutoDrive
+        .onTrue(Commands.runOnce(() -> subLED.setLED(constLED.ALIGNING)))
+        .onFalse(Commands.runOnce(() -> subLED.setLED(constLED.NONE_COLOR)));
   }
 
   public boolean allZeroed() {
