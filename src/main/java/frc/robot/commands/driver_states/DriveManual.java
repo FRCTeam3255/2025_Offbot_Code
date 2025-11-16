@@ -18,9 +18,9 @@ public class DriveManual extends Command {
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
   BooleanSupplier slowMode;
-  
+
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-    DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
+      DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
@@ -48,6 +48,8 @@ public class DriveManual extends Command {
         new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         velocities.omegaRadiansPerSecond,
         isOpenLoop);
+
+    subDrivetrain.rotate(subDrivetrain.getManualDriveRotation(rotationAxis), , isOpenLoop);
   }
 
   @Override

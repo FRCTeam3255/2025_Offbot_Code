@@ -176,6 +176,17 @@ public class Drivetrain extends SN_SuperSwerve {
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
   }
 
+  public void rotate(Angle desiredAngle, ChassisSpeeds velocities, boolean isOpenLoop) {
+    drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
+        getVelocityToRotate(new Rotation2d(desiredAngle)).in(Units.RadiansPerSecond), isOpenLoop);
+  }
+
+  public Angle getManualDriveRotation(DoubleSupplier rotationAxis) {
+    double rightStickX = rotationAxis.getAsDouble();
+    double rightStickY = -rotationAxis.getAsDouble();
+    return Units.Radians.of(Math.atan2(rightStickY, rightStickX));
+  }
+
   public Pose2d getClosestPose(List<Pose2d> poses) {
     Pose2d currentPose = getPose();
     Pose2d desiredPose = currentPose.nearest(poses);
