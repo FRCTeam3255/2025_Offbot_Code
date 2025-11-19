@@ -133,6 +133,20 @@ public class Drivetrain extends SN_SuperSwerve {
     return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }
 
+  /**
+   * Calculates drive velocities from joystick inputs, including manual rotation logic.
+   * <p>
+   * Uses the left joystick for translation (X and Y axes) and the right joystick for manual rotation.
+   * If the right joystick is pushed to the edge (magnitude between 0.95 and 1.05), the robot rotates to the angle
+   * indicated by the joystick direction. Otherwise, no rotation is commanded.
+   *
+   * @param xAxisSupplier        X-axis joystick input supplier (translation)
+   * @param yAxisSupplier        Y-axis joystick input supplier (translation)
+   * @param rotationXAxis        Right joystick X-axis input supplier (rotation direction)
+   * @param rotationYAxis        Right joystick Y-axis input supplier (rotation direction)
+   * @param slowMode             Supplier indicating whether slow mode is active
+   * @return ChassisSpeeds containing calculated velocities for translation and rotation
+   */
   public ChassisSpeeds calculateVelocitiesFromManualInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
       DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis,
       BooleanSupplier slowMode) {
