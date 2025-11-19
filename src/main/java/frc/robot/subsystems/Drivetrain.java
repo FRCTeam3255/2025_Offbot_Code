@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.Unit;
@@ -132,6 +133,29 @@ public class Drivetrain extends SN_SuperSwerve {
     return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }
 
+  public ChassisSpeeds calculateVelocitiesFromManualInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
+      DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis,
+      BooleanSupplier slowMode) {
+    boolean isRed = isRedAlliance();
+    double redAllianceMultiplier = isRed ? -1 : 1;
+    double invertMultiplier = constDrivetrain.INVERT_ROTATION ? -1 : 1;
+    double slowModeMultiplier = slowMode.getAsBoolean() ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1.0;
+
+    double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier * slowModeMultiplier;
+    double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier * slowModeMultiplier;
+
+    double rightStickX = rotationXAxis.getAsDouble();
+    double rightStickY = rotationYAxis.getAsDouble();
+
+    double manualDriveRotation = Math.atan2(rightStickY, rightStickX) - Math.PI / 2;
+    double rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
+        .in(Units.RadiansPerSecond) * invertMultiplier;
+
+    return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
+  }
+
   public static boolean isRedAlliance() {
     return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red;
   }
@@ -176,16 +200,37 @@ public class Drivetrain extends SN_SuperSwerve {
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
   }
 
-  public void rotate(Angle desiredAngle, ChassisSpeeds velocities, boolean isOpenLoop) {
-    drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
-        getVelocityToRotate(new Rotation2d(desiredAngle)).in(Units.RadiansPerSecond), isOpenLoop);
+  public void drive(Translation2d translation, double rotation, boolean isOpenLoop) {
+    ChassisSpeeds chassisSpeeds;
+
+    if (isFieldRelative) {
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          translation.getX(),
+          translation.getY(),
+          rotation,
+          getRotation());
+    } else {
+      chassisSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    }
+
+    SwerveModuleState[] desiredModuleStates = swerveKinematics
+        .toSwerveModuleStates(ChassisSpeeds.discretize(chassisSpeeds, timeFromLastUpdate));
+    setModuleStates(desiredModuleStates, isOpenLoop);
   }
 
-  public Angle getManualDriveRotation(DoubleSupplier rotationAxis) {
-    double rightStickX = rotationAxis.getAsDouble();
-    double rightStickY = -rotationAxis.getAsDouble();
-    return Units.Radians.of(Math.atan2(rightStickY, rightStickX));
-  }
+  // public void rotate(Angle desiredAngle, ChassisSpeeds velocities, boolean
+  // isOpenLoop) {
+  // drive(new Translation2d(velocities.vxMetersPerSecond,
+  // velocities.vyMetersPerSecond),
+  // getVelocityToRotate(new Rotation2d(desiredAngle)).in(Units.RadiansPerSecond),
+  // isOpenLoop);
+  // }
+
+  // public Angle getManualDriveRotation(DoubleSupplier rotationAxis) {
+  // double rightStickX = rotationAxis.getAsDouble();
+  // double rightStickY = -rotationAxis.getAsDouble();
+  // return Units.Radians.of(Math.atan2(rightStickY, rightStickX));
+  // }
 
   public Pose2d getClosestPose(List<Pose2d> poses) {
     Pose2d currentPose = getPose();

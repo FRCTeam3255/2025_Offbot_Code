@@ -63,7 +63,8 @@ public class DriverStateMachine extends SubsystemBase {
   }
 
   public Supplier<Command> tryState(DriverState desiredState, DoubleSupplier xAxis,
-      DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
+      DoubleSupplier yAxis, DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis,
+      BooleanSupplier slowMode) {
     switch (desiredState) {
       case MANUAL:
         switch (currentDriverState) {
@@ -81,7 +82,8 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new DriveManual(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationAxis, slowMode);
+            return () -> new DriveManual(subDrivetrain, subDriverStateMachine, xAxis, yAxis, rotationXAxis,
+                rotationYAxis, slowMode);
         }
 
         break;
@@ -101,7 +103,8 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
                 slowMode, constPoseDrive.CORAL_REEF_LEFT);
         }
         break;
@@ -121,8 +124,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.CORAL_REEF_RIGHT);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.CORAL_REEF_RIGHT);
         }
         break;
 
@@ -142,8 +146,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.CORAL_STATION_FAR);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.CORAL_STATION_FAR);
         }
         break;
 
@@ -163,8 +168,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.CORAL_STATION_CLOSE);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.CORAL_STATION_CLOSE);
         }
         break;
 
@@ -184,8 +190,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.PROCESSOR);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.PROCESSOR);
         }
         break;
 
@@ -205,8 +212,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.PROCESSOR);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.PROCESSOR);
         }
         break;
 
@@ -226,8 +234,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.NET);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.NET);
         }
         break;
       case NET_AUTO_DRIVING:
@@ -246,8 +255,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.NET);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.NET);
         }
         break;
       case ALGAE_ROTATION_SNAPPING:
@@ -266,8 +276,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.ALGAE_REEF);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.ALGAE_REEF);
         }
         break;
       case ALGAE_AUTO_DRIVING:
@@ -286,8 +297,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.ALGAE_REEF);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.ALGAE_REEF);
         }
         break;
       case CAGE_ROTATION_SNAPPING:
@@ -306,8 +318,9 @@ public class DriverStateMachine extends SubsystemBase {
           case ALGAE_ROTATION_SNAPPING:
           case ALGAE_AUTO_DRIVING:
           case CAGE_ROTATION_SNAPPING:
-            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis, rotationAxis,
-            slowMode, constPoseDrive.CAGE);
+            return () -> new PoseDriving(subDrivetrain, subDriverStateMachine, subStateMachine, xAxis, yAxis,
+                rotationXAxis,
+                slowMode, constPoseDrive.CAGE);
         }
         break;
 
