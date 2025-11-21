@@ -134,25 +134,30 @@ public class Drivetrain extends SN_SuperSwerve {
   }
 
   /**
-   * Calculates drive velocities from joystick inputs, including manual rotation logic.
+   * Calculates drive velocities from joystick inputs, including manual rotation
+   * logic.
    * <p>
-   * Uses the left joystick for translation (X and Y axes) and the right joystick for manual rotation.
-   * If the right joystick is pushed to the edge (magnitude between 0.95 and 1.05), the robot rotates to the angle
+   * Uses the left joystick for translation (X and Y axes) and the right joystick
+   * for manual rotation.
+   * If the right joystick is pushed to the edge (magnitude between 0.95 and
+   * 1.05), the robot rotates to the angle
    * indicated by the joystick direction. Otherwise, no rotation is commanded.
    *
-   * @param xAxisSupplier        X-axis joystick input supplier (translation)
-   * @param yAxisSupplier        Y-axis joystick input supplier (translation)
-   * @param rotationXAxis        Right joystick X-axis input supplier (rotation direction)
-   * @param rotationYAxis        Right joystick Y-axis input supplier (rotation direction)
-   * @param slowMode             Supplier indicating whether slow mode is active
-   * @return ChassisSpeeds containing calculated velocities for translation and rotation
+   * @param xAxisSupplier X-axis joystick input supplier (translation)
+   * @param yAxisSupplier Y-axis joystick input supplier (translation)
+   * @param rotationXAxis Right joystick X-axis input supplier (rotation
+   *                      direction)
+   * @param rotationYAxis Right joystick Y-axis input supplier (rotation
+   *                      direction)
+   * @param slowMode      Supplier indicating whether slow mode is active
+   * @return ChassisSpeeds containing calculated velocities for translation and
+   *         rotation
    */
   public ChassisSpeeds calculateVelocitiesFromManualInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
       DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis,
       BooleanSupplier slowMode) {
     boolean isRed = isRedAlliance();
     double redAllianceMultiplier = isRed ? -1 : 1;
-    double invertMultiplier = constDrivetrain.INVERT_ROTATION ? -1 : 1;
     double slowModeMultiplier = slowMode.getAsBoolean() ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1.0;
 
     double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
@@ -171,7 +176,7 @@ public class Drivetrain extends SN_SuperSwerve {
         && hypotenuse > 0.95) {
       manualDriveRotation = Math.atan2(rightStickY, rightStickX) - Math.PI / 2;
       rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
-          .in(Units.RadiansPerSecond) * invertMultiplier;
+          .in(Units.RadiansPerSecond);
     }
 
     return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
