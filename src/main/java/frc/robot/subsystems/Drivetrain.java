@@ -39,6 +39,8 @@ import frc.robot.RobotMap.mapDrivetrain;
 public class Drivetrain extends SN_SuperSwerve {
   public PoseDriveGroup lastDesiredPoseGroup;
   private Pose2d lastDesiredTarget;
+  private double rotationVelocity = 0.0;
+  private double manualDriveRotation = 0.0; // Default initialization
 
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
@@ -139,8 +141,8 @@ public class Drivetrain extends SN_SuperSwerve {
    * <p>
    * Uses the left joystick for translation (X and Y axes) and the right joystick
    * for manual rotation.
-   * If the right joystick is pushed to the edge (magnitude between 0.95 and
-   * 1.05), the robot rotates to the angle
+   * If the right joystick is pushed to the edge (magnitude between 0.85 and
+   * 1.15), the robot rotates to the angle
    * indicated by the joystick direction. Otherwise, no rotation is commanded.
    *
    * @param xAxisSupplier X-axis joystick input supplier (translation)
@@ -168,16 +170,14 @@ public class Drivetrain extends SN_SuperSwerve {
     double rightStickX = rotationXAxis.getAsDouble();
     double rightStickY = rotationYAxis.getAsDouble();
 
-    double manualDriveRotation;
-    double rotationVelocity = 0.0;
     double hypotenuse = Math.sqrt(rightStickX * rightStickX + rightStickY * rightStickY);
 
     if (hypotenuse < 1.15
         && hypotenuse > 0.85) {
       manualDriveRotation = Math.atan2(rightStickY, rightStickX) + Math.PI / 2;
-      rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
-          .in(Units.RadiansPerSecond);
     }
+    rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
+        .in(Units.RadiansPerSecond);
 
     return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }

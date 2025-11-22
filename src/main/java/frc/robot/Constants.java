@@ -143,7 +143,7 @@ public final class Constants {
     public static final double MIN_STEER_PERCENT = 0.01;
 
     // Rotational speed (degrees per second) while manually driving
-    public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(360);
+    public static final AngularVelocity TURN_SPEED = Units.DegreesPerSecond.of(720);
     public static final double SLOW_MODE_MULTIPLIER = 0.5;
 
     public static final boolean INVERT_ROTATION = !Robot.isSimulation();
@@ -165,7 +165,7 @@ public final class Constants {
       DRIVE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = false;
       DRIVE_CONFIG.CurrentLimits.SupplyCurrentLimit = DRIVE_CURRENT_LIMIT.in(Units.Amps);
 
-      STEER_CONFIG.Slot0.kP = 10000;
+      STEER_CONFIG.Slot0.kP = 100;
       STEER_CONFIG.Slot0.kI = 0.0;
       STEER_CONFIG.Slot0.kD = 0.14414076246334312;
 
@@ -223,7 +223,7 @@ public final class Constants {
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
       public static final ProfiledPIDController POSE_ROTATION_CONTROLLER = new ProfiledPIDController(
-          2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+          10, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
 
       public static final ProfiledPIDController PATH_ROTATION_CONTROLLER = new ProfiledPIDController(
