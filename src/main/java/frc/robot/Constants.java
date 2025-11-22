@@ -165,7 +165,7 @@ public final class Constants {
       DRIVE_CONFIG.CurrentLimits.SupplyCurrentLimitEnable = false;
       DRIVE_CONFIG.CurrentLimits.SupplyCurrentLimit = DRIVE_CURRENT_LIMIT.in(Units.Amps);
 
-      STEER_CONFIG.Slot0.kP = 100;
+      STEER_CONFIG.Slot0.kP = 10000;
       STEER_CONFIG.Slot0.kI = 0.0;
       STEER_CONFIG.Slot0.kD = 0.14414076246334312;
 
@@ -248,7 +248,6 @@ public final class Constants {
           PATH_TRANS_CONTROLLER,
           PATH_TRANS_CONTROLLER,
           PATH_ROTATION_CONTROLLER);
-
     }
   }
 

@@ -172,9 +172,9 @@ public class Drivetrain extends SN_SuperSwerve {
     double rotationVelocity = 0.0;
     double hypotenuse = Math.sqrt(rightStickX * rightStickX + rightStickY * rightStickY);
 
-    if (hypotenuse < 1.05
-        && hypotenuse > 0.95) {
-      manualDriveRotation = Math.atan2(rightStickY, rightStickX) - Math.PI / 2;
+    if (hypotenuse < 1.15
+        && hypotenuse > 0.85) {
+      manualDriveRotation = Math.atan2(rightStickY, rightStickX) + Math.PI / 2;
       rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
           .in(Units.RadiansPerSecond);
     }
