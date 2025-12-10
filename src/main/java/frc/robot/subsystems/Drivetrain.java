@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.Unit;
@@ -38,6 +39,8 @@ import frc.robot.RobotMap.mapDrivetrain;
 public class Drivetrain extends SN_SuperSwerve {
   public PoseDriveGroup lastDesiredPoseGroup;
   private Pose2d lastDesiredTarget;
+  private double rotationVelocity = 0.0;
+  private double manualDriveRotation = 0.0; // Default initialization
 
   StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault()
       .getStructTopic("/SmartDashboard/Drivetrain/Robot Pose", Pose2d.struct).publish();
@@ -132,6 +135,53 @@ public class Drivetrain extends SN_SuperSwerve {
     return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
   }
 
+  /**
+   * Calculates drive velocities from joystick inputs, including manual rotation
+   * logic.
+   * <p>
+   * Uses the left joystick for translation (X and Y axes) and the right joystick
+   * for manual rotation.
+   * If the right joystick is pushed to the edge (magnitude between 0.85 and
+   * 1.15), the robot rotates to the angle
+   * indicated by the joystick direction. Otherwise, no rotation is commanded.
+   *
+   * @param xAxisSupplier X-axis joystick input supplier (translation)
+   * @param yAxisSupplier Y-axis joystick input supplier (translation)
+   * @param rotationXAxis Right joystick X-axis input supplier (rotation
+   *                      direction)
+   * @param rotationYAxis Right joystick Y-axis input supplier (rotation
+   *                      direction)
+   * @param slowMode      Supplier indicating whether slow mode is active
+   * @return ChassisSpeeds containing calculated velocities for translation and
+   *         rotation
+   */
+  public ChassisSpeeds calculateVelocitiesFromManualInput(DoubleSupplier xAxisSupplier, DoubleSupplier yAxisSupplier,
+      DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis,
+      BooleanSupplier slowMode) {
+    boolean isRed = isRedAlliance();
+    double redAllianceMultiplier = isRed ? -1 : 1;
+    double slowModeMultiplier = slowMode.getAsBoolean() ? constDrivetrain.SLOW_MODE_MULTIPLIER : 1.0;
+
+    double xVelocity = xAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier * slowModeMultiplier;
+    double yVelocity = -yAxisSupplier.getAsDouble() * constDrivetrain.REAL_DRIVE_SPEED.in(Units.MetersPerSecond)
+        * redAllianceMultiplier * slowModeMultiplier;
+
+    double rightStickX = rotationXAxis.getAsDouble();
+    double rightStickY = rotationYAxis.getAsDouble();
+
+    double hypotenuse = Math.sqrt(rightStickX * rightStickX + rightStickY * rightStickY);
+
+    if (hypotenuse < 1.15
+        && hypotenuse > 0.85) {
+      manualDriveRotation = Math.atan2(rightStickY, rightStickX) + Math.PI / 2;
+    }
+    rotationVelocity = getVelocityToRotate(Rotation2d.fromRadians(manualDriveRotation))
+        .in(Units.RadiansPerSecond);
+
+    return new ChassisSpeeds(xVelocity, yVelocity, rotationVelocity);
+  }
+
   public static boolean isRedAlliance() {
     return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red;
   }
@@ -175,6 +225,38 @@ public class Drivetrain extends SN_SuperSwerve {
     drive(new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         getVelocityToRotate(desiredTarget.getRotation()).in(Units.RadiansPerSecond), isOpenLoop);
   }
+
+  public void drive(Translation2d translation, double rotation, boolean isOpenLoop) {
+    ChassisSpeeds chassisSpeeds;
+
+    if (isFieldRelative) {
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          translation.getX(),
+          translation.getY(),
+          rotation,
+          getRotation());
+    } else {
+      chassisSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    }
+
+    SwerveModuleState[] desiredModuleStates = swerveKinematics
+        .toSwerveModuleStates(ChassisSpeeds.discretize(chassisSpeeds, timeFromLastUpdate));
+    setModuleStates(desiredModuleStates, isOpenLoop);
+  }
+
+  // public void rotate(Angle desiredAngle, ChassisSpeeds velocities, boolean
+  // isOpenLoop) {
+  // drive(new Translation2d(velocities.vxMetersPerSecond,
+  // velocities.vyMetersPerSecond),
+  // getVelocityToRotate(new Rotation2d(desiredAngle)).in(Units.RadiansPerSecond),
+  // isOpenLoop);
+  // }
+
+  // public Angle getManualDriveRotation(DoubleSupplier rotationAxis) {
+  // double rightStickX = rotationAxis.getAsDouble();
+  // double rightStickY = -rotationAxis.getAsDouble();
+  // return Units.Radians.of(Math.atan2(rightStickY, rightStickX));
+  // }
 
   public Pose2d getClosestPose(List<Pose2d> poses) {
     Pose2d currentPose = getPose();

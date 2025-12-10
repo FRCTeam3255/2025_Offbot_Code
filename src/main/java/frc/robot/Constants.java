@@ -223,7 +223,7 @@ public final class Constants {
       public static final Distance AT_POINT_TOLERANCE = Units.Inches.of(0.5);
 
       public static final ProfiledPIDController POSE_ROTATION_CONTROLLER = new ProfiledPIDController(
-          2, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
+          3, 0, 0, new TrapezoidProfile.Constraints(TURN_SPEED.in(Units.DegreesPerSecond),
               Math.pow(TURN_SPEED.in(Units.DegreesPerSecond), 2)));
 
       public static final ProfiledPIDController PATH_ROTATION_CONTROLLER = new ProfiledPIDController(
@@ -248,7 +248,6 @@ public final class Constants {
           PATH_TRANS_CONTROLLER,
           PATH_TRANS_CONTROLLER,
           PATH_ROTATION_CONTROLLER);
-
     }
   }
 

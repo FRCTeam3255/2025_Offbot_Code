@@ -9,24 +9,26 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.constDrivetrain;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveManual extends Command {
   Drivetrain subDrivetrain;
-  DoubleSupplier xAxis, yAxis, rotationAxis;
+  DoubleSupplier xAxis, yAxis, rotationXAxis, rotationYAxis;
   boolean isOpenLoop;
   DriverStateMachine subDriverStateMachine;
   BooleanSupplier slowMode;
-  
+
   public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-    DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
+      DoubleSupplier yAxis, DoubleSupplier rotationXAxis, DoubleSupplier rotationYAxis, BooleanSupplier slowMode) {
     this.subDrivetrain = subDrivetrain;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
     this.slowMode = slowMode;
-    this.rotationAxis = rotationAxis;
+    this.rotationXAxis = rotationXAxis;
+    this.rotationYAxis = rotationYAxis;
 
     isOpenLoop = true;
 
@@ -40,14 +42,19 @@ public class DriveManual extends Command {
 
   @Override
   public void execute() {
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
+    var velocities = subDrivetrain.calculateVelocitiesFromManualInput(xAxis, yAxis, rotationXAxis, rotationYAxis,
+        slowMode);
 
     subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
 
+    if (constDrivetrain.INVERT_ROTATION) {
+      velocities.omegaRadiansPerSecond = -velocities.omegaRadiansPerSecond;
+    }
+
     subDrivetrain.drive(
         new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
-        velocities.omegaRadiansPerSecond,
-        isOpenLoop);
+        velocities.omegaRadiansPerSecond, isOpenLoop);
+
   }
 
   @Override
