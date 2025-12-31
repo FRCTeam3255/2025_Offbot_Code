@@ -4,47 +4,35 @@
 
 package frc.robot.commands.States.prep_algae;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PrepAlgaeZero extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
+public class PrepAlgaeZero extends StateCommand {
 
-  public PrepAlgaeZero(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepAlgaeZero() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(
+        RobotState.NONE,
+        RobotState.INTAKE_ALGAE_GROUND,
+        RobotState.CLEAN_HIGH,
+        RobotState.CLEAN_LOW,
+        RobotState.HAS_ALGAE);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.PREP_ALGAE_ZERO;
+  }
+
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_ZERO);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_ZERO);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.PREP_ALGAE_ZERO);
   }
 }

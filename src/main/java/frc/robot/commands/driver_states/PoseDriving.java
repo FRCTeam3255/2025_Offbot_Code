@@ -1,6 +1,5 @@
 package frc.robot.commands.driver_states;
 
-import java.lang.Thread.State;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -10,29 +9,26 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
-import frc.robot.Constants.constField;
-import frc.robot.Field;
 import frc.robot.Field.FieldElementGroups;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriverStateMachine;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.StateMachine;
+import frc.robot.subsystems.RobotState;
 
 @Logged
 public class PoseDriving extends Command {
   Drivetrain subDrivetrain;
   DriverStateMachine subDriverStateMachine;
-  StateMachine subStateMachine;
   DoubleSupplier xAxis, yAxis, rotationAxis;
   BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
   public boolean isPoseAligned = false;
 
-  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, StateMachine subStateMachine,
+  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
       DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode,
       PoseDriveGroup poseGroup) {
     this.subDrivetrain = subDrivetrain;
-    this.subStateMachine = subStateMachine;
     this.subDriverStateMachine = subDriverStateMachine;
     this.xAxis = xAxis;
     this.yAxis = yAxis;
@@ -59,8 +55,8 @@ public class PoseDriving extends Command {
 
     boolean backwardsAllowed = poseGroup.backwardsAllowed;
 
-    boolean isInPrepL2States = subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2
-        || subStateMachine.getRobotState() == StateMachine.RobotState.PREP_CORAL_L2_WITH_ALGAE;
+    boolean isInPrepL2States = RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2
+        || RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE;
 
     if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
         && backwardsAllowed

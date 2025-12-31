@@ -4,60 +4,38 @@
 
 package frc.robot.commands.States.prep_algae;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PrepNet extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
-  Drivetrain globalDrivetrain;
-  Pose2d closestPoseByRotation;
+public class PrepNet extends StateCommand {
   MechanismPositionGroup prepNet;
 
-  public PrepNet(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepNet() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_PROCESSOR, RobotState.PREP_ALGAE_ZERO);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.PREP_ALGAE_NET;
+  }
+
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(Field.FieldElementGroups.NET_POSES.getAll())) {
+    if (RobotContainer.subDrivetrain.isActionBackwards(Field.FieldElementGroups.NET_POSES.getAll())) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
     } else {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_FORWARDS;
     }
-    globalStateMachine.setRobotState(RobotState.PREP_ALGAE_NET);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    globalMotion.setAllPosition(prepNet);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RobotContainer.subMotion.setAllPosition(prepNet);
   }
 }

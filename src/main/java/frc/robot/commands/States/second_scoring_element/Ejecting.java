@@ -4,48 +4,45 @@
 
 package frc.robot.commands.States.second_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.constRotorsSpeeds;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Ejecting extends Command {
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
+public class Ejecting extends StateCommand {
 
-  public Ejecting(StateMachine globalStateMachine, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
-    addRequirements(globalRotors);
+  public Ejecting() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(
+        RobotState.HAS_CORAL,
+        RobotState.HAS_ALGAE,
+        RobotState.HAS_CORAL_AND_ALGAE);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.EJECTING;
+  }
+
   @Override
   public void initialize() {
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
-    globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
-    globalStateMachine.setRobotState(RobotState.EJECTING);
+    RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
+    RobotContainer.subRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // No continuous execution needed
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setHasCoralOverride(false);
-    globalRotors.setHasAlgaeOverride(false);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RobotContainer.subRotors.setHasCoralOverride(false);
+    RobotContainer.subRotors.setHasAlgaeOverride(false);
   }
 }

@@ -4,50 +4,46 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.*;
+import java.util.Set;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeCoralL1 extends Command {
-  /** Creates a new IntakeCoralL1. */
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
-  Motion globalMotion;
+import frc.robot.Constants.constMechanismPositions;
+import frc.robot.Constants.constRotorsSpeeds;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-  public IntakeCoralL1(StateMachine subStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalStateMachine = subStateMachine;
-    addRequirements(globalStateMachine);
+public class IntakeCoralL1 extends StateCommand {
+
+  public IntakeCoralL1() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.NONE, RobotState.HAS_CORAL);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.INTAKE_CORAL_L1;
+  }
+
   @Override
   public void initialize() {
-    globalStateMachine.setRobotState(StateMachine.RobotState.INTAKE_CORAL_L1);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
-    if (!globalRotors.seeL1Coral()) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
-    } else if (globalRotors.seeL1Coral() && !globalRotors.hasL1Coral()) {
-      globalRotors.indexL1Coral(constRotorsSpeeds.INDEX_L1_SPEED);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_L1);
+    if (!RobotContainer.subRotors.seeL1Coral()) {
+      RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_L1_SPEED);
+    } else if (RobotContainer.subRotors.seeL1Coral() && !RobotContainer.subRotors.hasL1Coral()) {
+      RobotContainer.subRotors.indexL1Coral(constRotorsSpeeds.INDEX_L1_SPEED);
     }
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalRotors.hasL1Coral();
+    return RobotContainer.subRotors.hasL1Coral();
   }
 }

@@ -4,62 +4,45 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Field;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CleanHigh extends Command {
-  StateMachine globalStateMachine;
-  Motion globalMotion;
-  Rotors globalRotors;
-  Pose2d closestPoseByRotation;
-  Drivetrain globalDrivetrain;
+public class CleanHigh extends StateCommand {
   MechanismPositionGroup cleanHigh;
 
-  public CleanHigh(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, Drivetrain subDrivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.globalStateMachine = globalStateMachine;
-    this.globalMotion = subMotion;
-    this.globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    addRequirements(globalStateMachine);
+  public CleanHigh() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.NONE, RobotState.HAS_ALGAE);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.CLEAN_HIGH;
+  }
+
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(Field.FieldElementGroups.ALGAE_POSES.getAll())) {
+    if (RobotContainer.subDrivetrain.isActionBackwards(Field.FieldElementGroups.ALGAE_POSES.getAll())) {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_BACKWARDS;
     } else {
       cleanHigh = constMechanismPositions.CLEAN_HIGH_FORWARDS;
     }
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
-    globalStateMachine.setRobotState(RobotState.CLEAN_HIGH);
+    RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.CLEAN_ALGAE_SPEED);
+    RobotContainer.subMotion.setAllPosition(cleanHigh);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    globalMotion.setAllPosition(cleanHigh);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalRotors.hasAlgae();
+    return RobotContainer.subRotors.hasAlgae();
   }
 }

@@ -4,52 +4,37 @@
 
 package frc.robot.commands.States;
 
-import frc.robot.subsystems.StateMachine.RobotState;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.constLED;
+import java.util.Set;
+
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.subsystems.*;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class None extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  LED globalLED;
-  StateMachine globalStateMachine;
+public class None extends StateCommand {
 
-  public None(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors, LED subLED) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalLED = subLED;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public None() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.PREP_CLIMB, RobotState.SCORING_CORAL, RobotState.SCORING_ALGAE,
+        RobotState.INTAKE_CORAL_GROUND, RobotState.INTAKE_ALGAE_GROUND,
+        RobotState.INTAKE_CORAL_STATION, RobotState.CLEAN_HIGH, RobotState.CLEAN_LOW,
+        RobotState.EJECTING, RobotState.INTAKE_CORAL_L1, RobotState.SCORING_CORAL_L1,
+        RobotState.CLIMBING);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.NONE;
+  }
+
   @Override
   public void initialize() {
-    globalRotors.setAlgaeIntakeMotorSpeed(0);
-    globalRotors.setCoralIntakeMotorSpeed(0);
-    globalRotors.setClimberMotorPercentOutput(0);
-    globalStateMachine.setRobotState(RobotState.NONE);
-    // globalLED.setLED(constLED.NONE_ANIMATION, 0);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.NONE);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(0);
+    RobotContainer.subRotors.setCoralIntakeMotorSpeed(0);
+    RobotContainer.subRotors.setClimberMotorPercentOutput(0);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.NONE);
   }
 }

@@ -4,45 +4,44 @@
 
 package frc.robot.commands.States.prep_coral;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PrepCoralWithAlgae extends Command {
-  /** Creates a new PrepCoralWithAlgae. */
-  Drivetrain globalDrivetrain;
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
-  Pose2d closestPoseByRotation;
+public class PrepCoralWithAlgae extends StateCommand {
   MechanismPositionGroup prepL2;
   MechanismPositionGroup prepL3;
   MechanismPositionGroup prepL4;
   int targetLevel;
 
-  public PrepCoralWithAlgae(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors,
-      Drivetrain subDrivetrain, int level) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    globalDrivetrain = subDrivetrain;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepCoralWithAlgae(int level) {
     targetLevel = level;
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(
+        RobotState.HAS_ALGAE,
+        RobotState.INTAKE_ALGAE_GROUND,
+        RobotState.CLEAN_HIGH,
+        RobotState.CLEAN_LOW);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return targetLevel == 0 ? RobotState.PREP_CORAL_ZERO_WITH_ALGAE
+        : targetLevel == 2 ? RobotState.PREP_CORAL_L2_WITH_ALGAE
+            : targetLevel == 3 ? RobotState.PREP_CORAL_L3_WITH_ALGAE : RobotState.PREP_CORAL_L4_WITH_ALGAE;
+  }
+
   @Override
   public void initialize() {
-    if (globalDrivetrain.isActionBackwards(
+    if (RobotContainer.subDrivetrain.isActionBackwards(
         Field.FieldElementGroups.REEF_POSES.getAll()) == true) {
       prepL2 = constMechanismPositions.PREP_CORAL_L2_BACKWARDS;
       prepL3 = constMechanismPositions.PREP_CORAL_L3_BACKWARDS;
@@ -52,34 +51,15 @@ public class PrepCoralWithAlgae extends Command {
       prepL3 = constMechanismPositions.PREP_CORAL_L3_FORWARDS;
       prepL4 = constMechanismPositions.PREP_CORAL_L4_FORWARDS;
     }
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     if (targetLevel == 0) {
-      globalMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_ZERO_WITH_ALGAE);
+      RobotContainer.subMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
     } else if (targetLevel == 2) {
-      globalMotion.setAllPosition(prepL2);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L2_WITH_ALGAE);
+      RobotContainer.subMotion.setAllPosition(prepL2);
     } else if (targetLevel == 3) {
-      globalMotion.setAllPosition(prepL3);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L3_WITH_ALGAE);
+      RobotContainer.subMotion.setAllPosition(prepL3);
     } else if (targetLevel == 4) {
-      globalMotion.setAllPosition(prepL4);
-      globalStateMachine.setRobotState(RobotState.PREP_CORAL_L4_WITH_ALGAE);
+      RobotContainer.subMotion.setAllPosition(prepL4);
     }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

@@ -4,52 +4,48 @@
 
 package frc.robot.commands.States.first_scoring_element;
 
-import frc.robot.subsystems.StateMachine.RobotState;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeCoralGround extends Command {
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
+public class IntakeCoralGround extends StateCommand {
 
-  public IntakeCoralGround(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public IntakeCoralGround() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.NONE, RobotState.HAS_CORAL);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.INTAKE_CORAL_GROUND;
+  }
+
   @Override
   public void initialize() {
-    globalRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
-    globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
-    globalStateMachine.setRobotState(RobotState.INTAKE_CORAL_GROUND);
+    RobotContainer.subRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
+    RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_ALGAE_SPEED);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.INTAKE_CORAL_GROUND);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setAllIntake(0);
+    RobotContainer.subRotors.setAllIntake(0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return globalRotors.hasCoral();
+    return RobotContainer.subRotors.hasCoral();
   }
 }

@@ -11,8 +11,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.Constants.constField;
+import frc.robot.Constants.constRotors;
 
 @Logged
 public class RobotPoses extends SubsystemBase {

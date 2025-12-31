@@ -4,57 +4,35 @@
 
 package frc.robot.commands.States.climbing;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.Set;
+
 import frc.robot.Constants.constMechanismPositions;
-import frc.robot.Constants.constRotors;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Elastic;
-import frc.robot.subsystems.Motion;
-import frc.robot.subsystems.Rotors;
-import frc.robot.subsystems.StateMachine;
-import frc.robot.subsystems.StateMachine.RobotState;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PrepClimb extends Command {
-  /** Creates a new PrepClimb. */
-  Motion globalMotion;
-  Rotors globalRotors;
-  StateMachine globalStateMachine;
+public class PrepClimb extends StateCommand {
 
-  public PrepClimb(StateMachine globalStateMachine, Motion subMotion, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalMotion = subMotion;
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
+  public PrepClimb() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(RobotState.NONE, RobotState.HAS_CORAL, RobotState.HAS_ALGAE,
+        RobotState.HAS_CORAL_AND_ALGAE, RobotState.CLIMBING);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.PREP_CLIMB;
+  }
+
   @Override
   public void initialize() {
-    globalRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT); // Assuming this is
-                                                                                               // still
-                                                                                               // needed
-    globalStateMachine.setRobotState(RobotState.PREP_CLIMB);
-
+    RobotContainer.subRotors.setClimberMotorPercentOutput(constRotorsSpeeds.CLIMBER_MOTOR_PERCENT_OUTPUT);
+    RobotContainer.subMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
     Elastic.selectTab("Climbing");
-
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    globalMotion.setAllPosition(constMechanismPositions.PREP_CLIMB);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

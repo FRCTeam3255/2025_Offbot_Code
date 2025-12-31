@@ -4,50 +4,47 @@
 
 package frc.robot.commands.States.scoring;
 
-import frc.robot.subsystems.StateMachine.RobotState;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.StateMachine;
+import java.util.Set;
+
 import frc.robot.Constants.constRotorsSpeeds;
-import frc.robot.subsystems.Rotors;
+import frc.robot.RobotContainer;
+import frc.robot.commands.StateCommand;
+import frc.robot.subsystems.RobotState;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ScoringAlgae extends Command {
-  StateMachine globalStateMachine;
-  Rotors globalRotors;
+public class ScoringAlgae extends StateCommand {
 
-  public ScoringAlgae(StateMachine globalStateMachine, Rotors subRotors) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    globalRotors = subRotors;
-    this.globalStateMachine = globalStateMachine;
-    addRequirements(globalStateMachine);
-    addRequirements(globalRotors);
+  public ScoringAlgae() {
   }
 
-  // Called when the command is initially scheduled.
+  @Override
+  protected Set<RobotState> getAllowedPreviousStates() {
+    return Set.of(
+        RobotState.PREP_ALGAE_NET,
+        RobotState.PREP_ALGAE_PROCESSOR,
+        RobotState.PREP_ALGAE_ZERO);
+  }
+
+  @Override
+  protected RobotState getDesiredState() {
+    return RobotState.SCORING_ALGAE;
+  }
+
   @Override
   public void initialize() {
-    if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_NET) {
-      globalRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
-    } else if (globalStateMachine.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
-      globalRotors.setAlgaeIntakeMotorSpeed(0);
+    if (RobotContainer.getRobotState() == RobotState.PREP_ALGAE_NET) {
+      RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
+    } else if (RobotContainer.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
+      RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(0);
     }
-    globalStateMachine.setRobotState(RobotState.SCORING_ALGAE);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // No continuous execution needed
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    globalRotors.setHasAlgaeOverride(false);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RobotContainer.subRotors.setHasAlgaeOverride(false);
   }
 }
