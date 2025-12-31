@@ -4,34 +4,17 @@
 
 package frc.robot.commands.driver_states;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.DriverState;
+import frc.robot.RobotContainer;
 
 public class DriveManual extends Command {
-  Drivetrain subDrivetrain;
-  DoubleSupplier xAxis, yAxis, rotationAxis;
   boolean isOpenLoop;
-  DriverStateMachine subDriverStateMachine;
-  BooleanSupplier slowMode;
-  
-  public DriveManual(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine, DoubleSupplier xAxis,
-    DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode) {
-    this.subDrivetrain = subDrivetrain;
-    this.subDriverStateMachine = subDriverStateMachine;
-    this.xAxis = xAxis;
-    this.yAxis = yAxis;
-    this.slowMode = slowMode;
-    this.rotationAxis = rotationAxis;
 
+  public DriveManual() {
     isOpenLoop = true;
-
-    addRequirements(this.subDrivetrain);
-    addRequirements(this.subDriverStateMachine);
+    addRequirements(RobotContainer.subDrivetrain);
   }
 
   @Override
@@ -40,11 +23,15 @@ public class DriveManual extends Command {
 
   @Override
   public void execute() {
-    var velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
+    var velocities = RobotContainer.subDrivetrain.calculateVelocitiesFromInput(
+        RobotContainer.conDriver.axis_LeftY,
+        RobotContainer.conDriver.axis_LeftX,
+        RobotContainer.conDriver.axis_RightX,
+        RobotContainer.conDriver.btn_RightBumper);
 
-    subDriverStateMachine.setDriverState(DriverStateMachine.DriverState.MANUAL);
+    RobotContainer.setDriverState(DriverState.MANUAL);
 
-    subDrivetrain.drive(
+    RobotContainer.subDrivetrain.drive(
         new Translation2d(velocities.vxMetersPerSecond, velocities.vyMetersPerSecond),
         velocities.omegaRadiansPerSecond,
         isOpenLoop);
@@ -52,7 +39,7 @@ public class DriveManual extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    subDrivetrain.neutralDriveOutputs();
+    RobotContainer.subDrivetrain.neutralDriveOutputs();
   }
 
   @Override

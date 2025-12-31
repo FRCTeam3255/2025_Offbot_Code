@@ -1,8 +1,5 @@
 package frc.robot.commands.driver_states;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,31 +8,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.Field.FieldElementGroups;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.RobotState;
 
 @Logged
 public class PoseDriving extends Command {
-  Drivetrain subDrivetrain;
-  DriverStateMachine subDriverStateMachine;
-  DoubleSupplier xAxis, yAxis, rotationAxis;
-  BooleanSupplier slowMode;
   PoseDriveGroup poseGroup;
   Pose2d closestPose;
   public boolean isPoseAligned = false;
 
-  public PoseDriving(Drivetrain subDrivetrain, DriverStateMachine subDriverStateMachine,
-      DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier rotationAxis, BooleanSupplier slowMode,
-      PoseDriveGroup poseGroup) {
-    this.subDrivetrain = subDrivetrain;
-    this.subDriverStateMachine = subDriverStateMachine;
-    this.xAxis = xAxis;
-    this.yAxis = yAxis;
-    this.rotationAxis = rotationAxis;
+  public PoseDriving(PoseDriveGroup poseGroup) {
     this.poseGroup = poseGroup;
-    this.slowMode = slowMode;
-    addRequirements(this.subDriverStateMachine);
+    addRequirements(RobotContainer.subDrivetrain);
   }
 
   @Override
@@ -44,12 +27,16 @@ public class PoseDriving extends Command {
 
   @Override
   public void execute() {
-    closestPose = subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
-    subDrivetrain.lastDesiredPoseGroup = poseGroup;
+    closestPose = RobotContainer.subDrivetrain.getPose().nearest(poseGroup.targetPoseGroup);
+    RobotContainer.subDrivetrain.lastDesiredPoseGroup = poseGroup;
 
-    ChassisSpeeds velocities = subDrivetrain.calculateVelocitiesFromInput(xAxis, yAxis, rotationAxis, slowMode);
+    ChassisSpeeds velocities = RobotContainer.subDrivetrain.calculateVelocitiesFromInput(
+        RobotContainer.conDriver.axis_LeftY,
+        RobotContainer.conDriver.axis_LeftX,
+        RobotContainer.conDriver.axis_RightX,
+        RobotContainer.conDriver.btn_RightBumper);
 
-    boolean isInAutoDriveZone = subDrivetrain.isInAutoDriveZone(
+    boolean isInAutoDriveZone = RobotContainer.subDrivetrain.isInAutoDriveZone(
         poseGroup.minDistanceBeforeDrive,
         closestPose);
 
@@ -58,50 +45,52 @@ public class PoseDriving extends Command {
     boolean isInPrepL2States = RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2
         || RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE;
 
-    if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
+    if (RobotContainer.subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
         && backwardsAllowed
         && !isInPrepL2States) {
       closestPose = closestPose.rotateAround(closestPose.getTranslation(), Rotation2d.k180deg);
       velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
       velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
-    } else if (subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
+    } else if (RobotContainer.subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
         && backwardsAllowed
         && isInPrepL2States) {
       if (poseGroup.targetPoseGroup.equals(FieldElementGroups.LEFT_REEF_POSES.getAll())) {
-        closestPose = subDrivetrain.getPose().nearest(FieldElementGroups.LEFT_REEF_L2_BACKWARDS_POSES.getAll());
+        closestPose = RobotContainer.subDrivetrain.getPose()
+            .nearest(FieldElementGroups.LEFT_REEF_L2_BACKWARDS_POSES.getAll());
       } else if (poseGroup.targetPoseGroup.equals(FieldElementGroups.RIGHT_REEF_POSES.getAll())) {
-        closestPose = subDrivetrain.getPose().nearest(FieldElementGroups.RIGHT_REEF_L2_BACKWARDS_POSES.getAll());
+        closestPose = RobotContainer.subDrivetrain.getPose()
+            .nearest(FieldElementGroups.RIGHT_REEF_L2_BACKWARDS_POSES.getAll());
       }
       velocities.vxMetersPerSecond = -velocities.vxMetersPerSecond;
       velocities.vyMetersPerSecond = -velocities.vyMetersPerSecond;
     }
 
     if (isInAutoDriveZone) {
-      subDrivetrain.autoAlign(
+      RobotContainer.subDrivetrain.autoAlign(
           closestPose,
           velocities,
           true,
           poseGroup.lockX,
           poseGroup.lockY);
-      subDriverStateMachine.setDriverState(poseGroup.driveState);
+      RobotContainer.setDriverState(poseGroup.driveState);
     } else {
-      subDrivetrain.rotationalAlign(
+      RobotContainer.subDrivetrain.rotationalAlign(
           closestPose,
           velocities,
           true);
-      subDriverStateMachine.setDriverState(poseGroup.snapState);
+      RobotContainer.setDriverState(poseGroup.snapState);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    subDrivetrain.neutralDriveOutputs();
+    RobotContainer.subDrivetrain.neutralDriveOutputs();
   }
 
   @Override
   public boolean isFinished() {
-    isPoseAligned = subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
-        subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
+    isPoseAligned = RobotContainer.subDrivetrain.isAtPosition(closestPose, poseGroup.distanceTolerance) &&
+        RobotContainer.subDrivetrain.isAtRotation(closestPose.getRotation(), poseGroup.rotationTolerance);
     return isPoseAligned;
   }
 }

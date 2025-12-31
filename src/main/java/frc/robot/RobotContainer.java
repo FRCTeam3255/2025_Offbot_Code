@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.Set;
-
 import com.frcteam3255.joystick.SN_XboxController;
 
 import choreo.auto.AutoFactory;
@@ -17,11 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.DriverState;
 import frc.robot.Constants.constControllers;
 import frc.robot.Constants.constField;
 import frc.robot.Constants.constLED;
+import frc.robot.Constants.constPoseDrive;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.AddVisionMeasurement;
 import frc.robot.commands.States.None;
@@ -58,8 +57,8 @@ import frc.robot.commands.Zeroing.ManualZeroLift;
 import frc.robot.commands.Zeroing.ManualZeroPivot;
 import frc.robot.commands.Zeroing.ManualZeroWrist;
 import frc.robot.commands.Zeroing.StartingConfig;
-import frc.robot.subsystems.DriverStateMachine;
-import frc.robot.subsystems.DriverStateMachine.DriverState;
+import frc.robot.commands.driver_states.DriveManual;
+import frc.robot.commands.driver_states.PoseDriving;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Motion;
@@ -76,19 +75,38 @@ public class RobotContainer {
 
   private AutoFactory autoFactory;
 
-  private final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
-  private final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
+  public static final SN_XboxController conDriver = new SN_XboxController(mapControllers.DRIVER_USB);
+  public static final SN_XboxController conOperator = new SN_XboxController(mapControllers.OPERATOR_USB);
 
   public static final Drivetrain subDrivetrain = new Drivetrain();
   public static final Rotors subRotors = new Rotors();
   public static final Motion subMotion = new Motion();
   public static final LED subLED = new LED();
-  public static final DriverStateMachine subDriverStateMachine = new DriverStateMachine(subDrivetrain);
-  public static final RobotPoses robotPose = new RobotPoses(subDrivetrain, subMotion, subRotors);
+  public static final RobotPoses robotPoseInstance = new RobotPoses(subDrivetrain, subMotion, subRotors);
   public static final Vision subVision = new Vision();
+  public final RobotPoses robotPoses = robotPoseInstance;
 
   // Robot state tracking
   public static RobotState currentRobotState = RobotState.NONE;
+
+  // Driver state tracking
+  public static DriverState currentDriverState = DriverState.MANUAL;
+
+  public static void setDriverState(DriverState state) {
+    currentDriverState = state;
+  }
+
+  public static DriverState getDriverState() {
+    return currentDriverState;
+  }
+
+  public RobotState getCurrentRobotState() {
+    return currentRobotState;
+  }
+
+  public DriverState getCurrentDriverState() {
+    return currentDriverState;
+  }
 
   public static void setRobotState(RobotState state) {
     currentRobotState = state;
@@ -122,74 +140,16 @@ public class RobotContainer {
   private final Trigger hasCoralL1Trigger = new Trigger(() -> subRotors.hasL1Coral());
   private final Trigger isCageLatchedTrigger = new Trigger(() -> subRotors.isCageLatched());
   private final Trigger isInCSAutoDriveState = new Trigger(
-      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR
-          || subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
+      () -> currentDriverState == DriverState.CORAL_STATION_AUTO_DRIVING_FAR
+          || currentDriverState == DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE);
   private final Trigger isInProcessorAutoDriveState = new Trigger(
-      () -> subDriverStateMachine.getDriverState() == DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING);
+      () -> currentDriverState == DriverState.PROCESSOR_AUTO_DRIVING);
   private final Trigger isInPrepL2States = new Trigger(
       () -> getRobotState() == RobotState.PREP_CORAL_L2
           || getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE);
   private final Trigger isInClimbState = new Trigger(
       () -> getRobotState() == RobotState.CLIMBING
           || getRobotState() == RobotState.PREP_CLIMB);
-
-  // --- Driver State Commands ---
-  Command MANUAL = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.MANUAL, conDriver.axis_LeftY,
-          conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command REEF_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command CORAL_STATION_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command REEF_AUTO_DRIVING_LEFT = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_LEFT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command REEF_AUTO_DRIVING_RIGHT = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.REEF_AUTO_DRIVING_RIGHT,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command CORAL_STATION_AUTO_DRIVING_FAR = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_FAR,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command CORAL_STATION_AUTO_DRIVING_CLOSE = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CORAL_STATION_AUTO_DRIVING_CLOSE,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command PROCESSOR_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command PROCESSOR_AUTO_DRIVING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.PROCESSOR_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command NET_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command NET_AUTO_DRIVING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.NET_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command ALGAE_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command ALGAE_AUTO_DRIVING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.ALGAE_AUTO_DRIVING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
-  Command CAGE_ROTATION_SNAPPING = new DeferredCommand(
-      subDriverStateMachine.tryState(DriverStateMachine.DriverState.CAGE_ROTATION_SNAPPING,
-          conDriver.axis_LeftY, conDriver.axis_LeftX, conDriver.axis_RightX, conDriver.btn_RightBumper),
-      Set.of(subDriverStateMachine));
 
   private Command nonProcSide4Coral;
   private Command procSide4Coral;
@@ -200,8 +160,7 @@ public class RobotContainer {
     RobotController.setBrownoutVoltage(5.5);
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
-    subDriverStateMachine
-        .setDefaultCommand(MANUAL);
+    subDrivetrain.setDefaultCommand(new DriveManual());
 
     configDriverBindings();
     configOperatorBindings();
@@ -229,32 +188,32 @@ public class RobotContainer {
         subDrivetrain::resetPoseToPose, // A function that resets the current robot pose to the provided Pose2d
         subDrivetrain::followTrajectory, // The drive subsystem trajectory follower
         true, // If alliance flipping should be enabled
-        subDriverStateMachine // The drive subsystem
+        subDrivetrain // The drive subsystem
     );
 
     nonProcSide4Coral = Commands.sequence(
-        ScoreAndCollect("top_ji", "ji_cs", REEF_AUTO_DRIVING_RIGHT,
+        ScoreAndCollect("top_ji", "ji_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
             new PrepCoralLv(4)),
-        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_RIGHT,
+        ScoreAndCollect("cs_lk", "lk_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
             new PrepCoralLv(4)),
-        ScoreAndCollect("cs_lk", "lk_cs", REEF_AUTO_DRIVING_LEFT, new PrepCoralLv(4)),
-        ScoreAndCollect("cs_ab", "ab_cs", REEF_AUTO_DRIVING_LEFT,
+        ScoreAndCollect("cs_lk", "lk_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
+        ScoreAndCollect("cs_ab", "ab_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT),
             new PrepCoralLv(4)));
 
     procSide4Coral = Commands.sequence(
-        ScoreAndCollect("proc_ef", "ef_cs", REEF_AUTO_DRIVING_RIGHT,
+        ScoreAndCollect("proc_ef", "ef_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
             new PrepCoralLv(4)),
-        ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_RIGHT,
+        ScoreAndCollect("cs_cd", "cd_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
             new PrepCoralLv(4)),
-        ScoreAndCollect("cs_cd", "cd_cs", REEF_AUTO_DRIVING_LEFT, new PrepCoralLv(4)),
-        ScoreAndCollect("proc_cs_ab", "ab_proc_cs", REEF_AUTO_DRIVING_LEFT,
+        ScoreAndCollect("cs_cd", "cd_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
+        ScoreAndCollect("proc_cs_ab", "ab_proc_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT),
             new PrepCoralLv(4)));
 
     mid1Coral = Commands.sequence(
-        Score("mid_gh", REEF_AUTO_DRIVING_LEFT, new PrepCoralLv(4)));
+        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)));
 
     midAlgae = Commands.sequence(
-        Score("mid_gh", REEF_AUTO_DRIVING_LEFT, new PrepCoralLv(4)),
+        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
         FirstCleanAndScore("gh_net", new CleanLow()),
         CleanAndScore("net_ji", "ji_net", new CleanHigh()),
         CleanAndScore("net_ef", "ef_net", new CleanHigh()),
@@ -279,7 +238,7 @@ public class RobotContainer {
         new ScoringCoral().withTimeout(0.6),
         new None().withTimeout(0.05),
         runPath(endPath),
-        CORAL_STATION_AUTO_DRIVING_FAR.withDeadline(new IntakeCoralStation()).withTimeout(10));
+        new PoseDriving(constPoseDrive.CORAL_STATION_FAR).withDeadline(new IntakeCoralStation()).withTimeout(10));
   }
 
   Command Score(String startPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
@@ -297,11 +256,11 @@ public class RobotContainer {
   Command CleanAndScore(String startPath, String endPath, Command try_clean_lv) {
     return Commands.sequence(
         runPath(startPath),
-        ALGAE_AUTO_DRIVING.withDeadline(
+        new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
             try_clean_lv).withTimeout(4),
         Commands.runOnce(() -> RobotContainer.setRobotState(RobotState.HAS_ALGAE)),
         runPath(endPath),
-        NET_AUTO_DRIVING.alongWith(
+        new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(
                 new PrepNet()))
             .withTimeout(1.5),
@@ -311,12 +270,12 @@ public class RobotContainer {
 
   Command FirstCleanAndScore(String endPath, Command try_clean_lv) {
     return Commands.sequence(
-        ALGAE_AUTO_DRIVING.withTimeout(0.7).andThen(
-            ALGAE_AUTO_DRIVING.withDeadline(
+        new PoseDriving(constPoseDrive.ALGAE_REEF).withTimeout(0.7).andThen(
+            new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
                 try_clean_lv.withTimeout(4))),
         Commands.runOnce(() -> RobotContainer.setRobotState(RobotState.HAS_ALGAE)),
         runPath(endPath),
-        NET_AUTO_DRIVING.alongWith(
+        new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(
                 new PrepNet()))
             .withTimeout(1.5),
@@ -326,7 +285,7 @@ public class RobotContainer {
 
   Command runPath(String pathName) {
     return autoFactory.trajectoryCmd(pathName)
-        .alongWith(Commands.runOnce(() -> subDriverStateMachine.setDriverState(DriverState.CHOREO)));
+        .alongWith(Commands.runOnce(() -> RobotContainer.setDriverState(DriverState.CHOREO)));
   }
 
   private void configDriverBindings() {
@@ -336,56 +295,56 @@ public class RobotContainer {
             .runOnce(() -> subDrivetrain.resetPoseToPose(constField.RESET_POS)));
 
     conDriver.btn_LeftTrigger
-        .whileTrue(REEF_AUTO_DRIVING_LEFT).and(isInCleaningStates.negate())
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.CORAL_REEF_LEFT)).and(isInCleaningStates.negate())
+        .onFalse(new DriveManual());
 
     conDriver.btn_RightTrigger.and(isInCleaningStates.negate())
-        .whileTrue(REEF_AUTO_DRIVING_RIGHT)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT))
+        .onFalse(new DriveManual());
 
     conDriver.btn_LeftTrigger.and(isInCleaningStates)
-        .whileTrue(ALGAE_AUTO_DRIVING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.ALGAE_REEF))
+        .onFalse(new DriveManual());
 
     conDriver.btn_LeftTrigger.and(isInCleaningStates)
-        .whileTrue(ALGAE_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.ALGAE_REEF))
+        .onFalse(new DriveManual());
 
     conDriver.btn_RightTrigger.and(isInCleaningStates)
-        .whileTrue(ALGAE_AUTO_DRIVING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.ALGAE_REEF))
+        .onFalse(new DriveManual());
 
     conDriver.btn_RightTrigger.and(isInCleaningStates)
-        .whileTrue(ALGAE_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.ALGAE_REEF))
+        .onFalse(new DriveManual());
 
     conDriver.btn_X
-        .whileTrue(CORAL_STATION_AUTO_DRIVING_FAR)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.CORAL_STATION_FAR))
+        .onFalse(new DriveManual());
 
     conDriver.btn_B
-        .whileTrue(CORAL_STATION_AUTO_DRIVING_CLOSE)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.CORAL_STATION_CLOSE))
+        .onFalse(new DriveManual());
 
     conDriver.btn_East
-        .whileTrue(PROCESSOR_AUTO_DRIVING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.PROCESSOR))
+        .onFalse(new DriveManual());
 
     conDriver.btn_East
-        .whileTrue(PROCESSOR_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.PROCESSOR))
+        .onFalse(new DriveManual());
 
     conDriver.btn_South
-        .whileTrue(CAGE_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.CAGE))
+        .onFalse(new DriveManual());
 
     conDriver.btn_LeftBumper
-        .whileTrue(NET_AUTO_DRIVING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.NET))
+        .onFalse(new DriveManual());
 
     conDriver.btn_LeftBumper
-        .whileTrue(NET_ROTATION_SNAPPING)
-        .onFalse(MANUAL);
+        .whileTrue(new PoseDriving(constPoseDrive.NET))
+        .onFalse(new DriveManual());
 
     conDriver.btn_Start
         .onTrue(new PrepClimb());

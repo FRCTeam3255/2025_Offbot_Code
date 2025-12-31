@@ -53,7 +53,6 @@ import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.subsystems.DriverStateMachine.DriverState;
 
 public final class Constants {
   public static class constControllers {
@@ -906,5 +905,23 @@ public final class Constants {
     public static final int[] LIFT_ZERO_FAILED = { 0, 0, 255 }; // blue
     public static final int[] LIFT_ZERO_SUCCESS = { 0, 255, 0 }; // green
 
+  }
+
+  public enum DriverState {
+    MANUAL,
+    REEF_ROTATION_SNAPPING,
+    CORAL_STATION_ROTATION_SNAPPING,
+    REEF_AUTO_DRIVING_LEFT,
+    REEF_AUTO_DRIVING_RIGHT,
+    CORAL_STATION_AUTO_DRIVING_FAR,
+    CORAL_STATION_AUTO_DRIVING_CLOSE,
+    PROCESSOR_ROTATION_SNAPPING,
+    PROCESSOR_AUTO_DRIVING,
+    NET_ROTATION_SNAPPING,
+    NET_AUTO_DRIVING,
+    ALGAE_ROTATION_SNAPPING,
+    ALGAE_AUTO_DRIVING,
+    CAGE_ROTATION_SNAPPING,
+    CHOREO
   }
 }
