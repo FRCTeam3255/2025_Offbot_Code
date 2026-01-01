@@ -40,8 +40,15 @@ import frc.robot.commands.States.prep_algae.PrepNet;
 import frc.robot.commands.States.prep_algae.PrepNetWithCoral;
 import frc.robot.commands.States.prep_algae.PrepProcessor;
 import frc.robot.commands.States.prep_algae.PrepProcessorWithCoral;
-import frc.robot.commands.States.prep_coral.PrepCoralLv;
-import frc.robot.commands.States.prep_coral.PrepCoralWithAlgae;
+import frc.robot.commands.States.prep_coral.PrepCoralL1;
+import frc.robot.commands.States.prep_coral.PrepCoralL2;
+import frc.robot.commands.States.prep_coral.PrepCoralL3;
+import frc.robot.commands.States.prep_coral.PrepCoralL4;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL2;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL3;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL4;
+import frc.robot.commands.States.prep_coral.PrepCoralZero;
+import frc.robot.commands.States.prep_coral.PrepCoralZeroWithAlgae;
 import frc.robot.commands.States.scoring.ScoringAlgae;
 import frc.robot.commands.States.scoring.ScoringAlgaeWithCoral;
 import frc.robot.commands.States.scoring.ScoringCoral;
@@ -193,27 +200,27 @@ public class RobotContainer {
 
     nonProcSide4Coral = Commands.sequence(
         ScoreAndCollect("top_ji", "ji_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
-            new PrepCoralLv(4)),
+            new PrepCoralL4()),
         ScoreAndCollect("cs_lk", "lk_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
-            new PrepCoralLv(4)),
-        ScoreAndCollect("cs_lk", "lk_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
+            new PrepCoralL4()),
+        ScoreAndCollect("cs_lk", "lk_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralL4()),
         ScoreAndCollect("cs_ab", "ab_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT),
-            new PrepCoralLv(4)));
+            new PrepCoralL4()));
 
     procSide4Coral = Commands.sequence(
         ScoreAndCollect("proc_ef", "ef_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
-            new PrepCoralLv(4)),
+            new PrepCoralL4()),
         ScoreAndCollect("cs_cd", "cd_cs", new PoseDriving(constPoseDrive.CORAL_REEF_RIGHT),
-            new PrepCoralLv(4)),
-        ScoreAndCollect("cs_cd", "cd_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
+            new PrepCoralL4()),
+        ScoreAndCollect("cs_cd", "cd_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralL4()),
         ScoreAndCollect("proc_cs_ab", "ab_proc_cs", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT),
-            new PrepCoralLv(4)));
+            new PrepCoralL4()));
 
     mid1Coral = Commands.sequence(
-        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)));
+        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralL4()));
 
     midAlgae = Commands.sequence(
-        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralLv(4)),
+        Score("mid_gh", new PoseDriving(constPoseDrive.CORAL_REEF_LEFT), new PrepCoralL4()),
         FirstCleanAndScore("gh_net", new CleanLow()),
         CleanAndScore("net_ji", "ji_net", new CleanHigh()),
         CleanAndScore("net_ef", "ef_net", new CleanHigh()),
@@ -401,24 +408,24 @@ public class RobotContainer {
         .onFalse(new None());
 
     conOperator.btn_B
-        .onTrue(new PrepCoralLv(3))
-        .onTrue(new PrepCoralWithAlgae(3));
+        .onTrue(new PrepCoralL3())
+        .onTrue(new PrepCoralWithAlgaeL3());
 
     conOperator.btn_X
-        .onTrue(new PrepCoralLv(2))
-        .onTrue(new PrepCoralWithAlgae(2));
+        .onTrue(new PrepCoralL2())
+        .onTrue(new PrepCoralWithAlgaeL2());
 
     conOperator.btn_Y
-        .onTrue(new PrepCoralLv(4))
-        .onTrue(new PrepCoralWithAlgae(4));
+        .onTrue(new PrepCoralL4())
+        .onTrue(new PrepCoralWithAlgaeL4());
 
     conOperator.btn_LeftStick
         .whileTrue(new Ejecting())
         .onFalse(new None());
 
     conOperator.btn_RightStick
-        .onTrue(new PrepCoralLv(0))
-        .onTrue(new PrepCoralWithAlgae(0))
+        .onTrue(new PrepCoralZero())
+        .onTrue(new PrepCoralZeroWithAlgae())
         .onTrue(new PrepAlgaeZero());
     conOperator.btn_RightStick.and(isInClimbState).onTrue(new None());
 
@@ -445,7 +452,7 @@ public class RobotContainer {
     conOperator.btn_Start
 
         .onTrue(new HasCoral())
-        .onTrue(new PrepCoralLv(1));
+        .onTrue(new PrepCoralL1());
 
     conOperator.btn_Back
         .onTrue(new HasAlgae());
@@ -460,7 +467,7 @@ public class RobotContainer {
         .whileTrue(new HasCoralAndAlgae());
 
     hasCoralL1Trigger.debounce(0.1)
-        .whileTrue(new PrepCoralLv(1));
+        .whileTrue(new PrepCoralL1());
 
     isCageLatchedTrigger.debounce(0.4)
         .onTrue(new Climbing());
