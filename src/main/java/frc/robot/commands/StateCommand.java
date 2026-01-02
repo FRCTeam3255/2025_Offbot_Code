@@ -4,11 +4,11 @@
 
 package frc.robot.commands;
 
+import java.util.Objects;
 import java.util.Set;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.RobotContainer;
 
 /**
  * Abstract base class for state machine commands that validates state
@@ -21,6 +21,26 @@ import frc.robot.RobotContainer;
  * Users override initialize() and execute() like normal WPILib commands.
  */
 public abstract class StateCommand extends Command {
+
+  private static Class<? extends StateCommand> currentState;
+
+  /**
+   * Gets the current robot state.
+   * 
+   * @return The current state command class
+   */
+  public static Class<? extends StateCommand> getCurrentState() {
+    return currentState;
+  }
+
+  /**
+   * Sets the robot state manually.
+   * 
+   * @param state The new state
+   */
+  public static void setState(Class<? extends StateCommand> state) {
+    currentState = Objects.requireNonNull(state, "Robot state cannot be null");
+  }
 
   /**
    * Returns the set of states this command can transition from.
@@ -36,7 +56,6 @@ public abstract class StateCommand extends Command {
    * Validates if the state transition is legal.
    */
   private boolean isValidTransition() {
-    Class<? extends StateCommand> currentState = RobotContainer.getRobotState();
     Set<Class<? extends StateCommand>> allowedStates = getAllowedPreviousStates();
     return allowedStates.contains(currentState);
   }
@@ -45,12 +64,12 @@ public abstract class StateCommand extends Command {
   public final void schedule() {
     if (!isValidTransition()) {
       Commands.print("ERROR: Invalid state transition. Attempted to go from " +
-          RobotContainer.getRobotState() + " to " + this.getClass() +
+          currentState.getSimpleName() + " to " + this.getClass().getSimpleName() +
           ". Allowed previous states: " + getAllowedPreviousStates()).schedule();
       return;
     }
 
-    RobotContainer.setRobotState(this.getClass());
+    setState(this.getClass());
     super.schedule();
   }
 

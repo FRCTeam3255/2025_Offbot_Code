@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.Objects;
-
 import com.frcteam3255.joystick.SN_XboxController;
 
 import choreo.auto.AutoFactory;
@@ -95,11 +93,13 @@ public class RobotContainer {
   public static final Vision subVision = new Vision();
   public final RobotPoses robotPoses = robotPoseInstance;
 
-  // Robot state tracking (never null)
-  public static Class<? extends StateCommand> currentRobotState = None.class;
-
   // Driver state tracking
   public static DriverState currentDriverState = DriverState.MANUAL;
+
+  // Logged state name for telemetry
+  public String getRobotStateName() {
+    return StateCommand.getCurrentState().getSimpleName();
+  }
 
   public static void setDriverState(DriverState state) {
     currentDriverState = state;
@@ -113,19 +113,12 @@ public class RobotContainer {
     return currentDriverState;
   }
 
-  public static void setRobotState(Class<? extends StateCommand> state) {
-    currentRobotState = Objects.requireNonNull(state, "Robot state cannot be null");
-  }
-
-  public static Class<? extends StateCommand> getRobotState() {
-    return currentRobotState;
-  }
-
   public static boolean inCleaningState() {
-    return currentRobotState == CleanHigh.class
-        || currentRobotState == CleanLow.class
-        || currentRobotState == CleanHighWithCoral.class
-        || currentRobotState == CleanLowWithCoral.class;
+    Class<? extends StateCommand> state = StateCommand.getCurrentState().;
+    return state == CleanHigh.class
+        || state == CleanLow.class
+        || state == CleanHighWithCoral.class
+        || state == CleanLowWithCoral.class;
   }
 
   public Command manualZeroLift = new ManualZeroLift(subMotion, subLED).ignoringDisable(true);
@@ -150,18 +143,18 @@ public class RobotContainer {
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> currentDriverState == DriverState.PROCESSOR_AUTO_DRIVING);
   private final Trigger isInPrepL2States = new Trigger(
-      () -> getRobotState() == PrepCoralL2.class
-          || getRobotState() == PrepCoralWithAlgaeL2.class);
+      () -> StateCommand.getCurrentState() == PrepCoralL2.class
+          || StateCommand.getCurrentState() == PrepCoralWithAlgaeL2.class);
   private final Trigger isInClimbState = new Trigger(
-      () -> getRobotState() == Climbing.class
-          || getRobotState() == PrepClimb.class);
-
+      () -> StateCommand.getCurrentState() == Climbing.class
+          || StateCommand.getCurrentState() == PrepClimb.class);
   private Command nonProcSide4Coral;
   private Command procSide4Coral;
   private Command mid1Coral;
   private Command midAlgae;
 
   public RobotContainer() {
+    StateCommand.setState(None.class);
     RobotController.setBrownoutVoltage(5.5);
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
@@ -234,7 +227,7 @@ public class RobotContainer {
 
   Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
     return Commands.sequence(
-        Commands.runOnce(() -> RobotContainer.setRobotState(HasCoral.class)),
+        Commands.runOnce(() -> StateCommand.setState(HasCoral.class)),
         runPath(startPath),
         reef_auto_drive_branch.alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -248,7 +241,7 @@ public class RobotContainer {
 
   Command Score(String startPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
     return Commands.sequence(
-        Commands.runOnce(() -> RobotContainer.setRobotState(HasCoral.class)),
+        Commands.runOnce(() -> StateCommand.setState(HasCoral.class)),
         runPath(startPath),
         reef_auto_drive_branch.alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -263,7 +256,7 @@ public class RobotContainer {
         runPath(startPath),
         new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
             try_clean_lv).withTimeout(4),
-        Commands.runOnce(() -> RobotContainer.setRobotState(HasAlgae.class)),
+        Commands.runOnce(() -> StateCommand.setState(HasAlgae.class)),
         runPath(endPath),
         new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -278,7 +271,7 @@ public class RobotContainer {
         new PoseDriving(constPoseDrive.ALGAE_REEF).withTimeout(0.7).andThen(
             new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
                 try_clean_lv.withTimeout(4))),
-        Commands.runOnce(() -> RobotContainer.setRobotState(HasAlgae.class)),
+        Commands.runOnce(() -> StateCommand.setState(HasAlgae.class)),
         runPath(endPath),
         new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(

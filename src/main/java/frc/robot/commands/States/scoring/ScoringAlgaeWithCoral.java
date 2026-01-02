@@ -29,9 +29,9 @@ public class ScoringAlgaeWithCoral extends StateCommand {
   @Override
 
   public void initialize() {
-    if (RobotContainer.getRobotState() == PrepNet.class) {
+    if (StateCommand.getCurrentState() == PrepNet.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
-    } else if (RobotContainer.getRobotState() == PrepProcessor.class) {
+    } else if (StateCommand.getCurrentState() == PrepProcessor.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_PROCESSOR_SPEED);
     }
   }

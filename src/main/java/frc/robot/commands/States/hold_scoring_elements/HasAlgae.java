@@ -36,13 +36,13 @@ public class HasAlgae extends StateCommand {
   @Override
 
   public void initialize() {
-    if (RobotContainer.getRobotState() == IntakeAlgaeGround.class ||
-        RobotContainer.getRobotState() == IntakeAlgaeGroundWithCoral.class) {
+    if (StateCommand.getCurrentState() == IntakeAlgaeGround.class ||
+        StateCommand.getCurrentState() == IntakeAlgaeGroundWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
-    } else if (RobotContainer.getRobotState() == CleanHigh.class ||
-        RobotContainer.getRobotState() == CleanLow.class ||
-        RobotContainer.getRobotState() == CleanHighWithCoral.class ||
-        RobotContainer.getRobotState() == CleanLowWithCoral.class) {
+    } else if (StateCommand.getCurrentState() == CleanHigh.class ||
+        StateCommand.getCurrentState() == CleanLow.class ||
+        StateCommand.getCurrentState() == CleanHighWithCoral.class ||
+        StateCommand.getCurrentState() == CleanLowWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HARD_HOLD_SPEED);
     }
     RobotContainer.subRotors.setHasAlgaeOverride(true);
