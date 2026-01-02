@@ -9,7 +9,9 @@ import java.util.Set;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.prep_algae.PrepAlgaeZero;
+import frc.robot.commands.States.prep_algae.PrepNet;
+import frc.robot.commands.States.prep_algae.PrepProcessor;
 
 public class ScoringAlgae extends StateCommand {
 
@@ -17,23 +19,19 @@ public class ScoringAlgae extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.PREP_ALGAE_NET,
-        RobotState.PREP_ALGAE_PROCESSOR,
-        RobotState.PREP_ALGAE_ZERO);
+        PrepNet.class,
+        PrepProcessor.class,
+        PrepAlgaeZero.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.SCORING_ALGAE;
-  }
 
-  @Override
   public void initialize() {
-    if (RobotContainer.getRobotState() == RobotState.PREP_ALGAE_NET) {
+    if (RobotContainer.getRobotState() == PrepNet.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
-    } else if (RobotContainer.getRobotState() == RobotState.PREP_ALGAE_PROCESSOR) {
+    } else if (RobotContainer.getRobotState() == PrepProcessor.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(0);
     }
   }

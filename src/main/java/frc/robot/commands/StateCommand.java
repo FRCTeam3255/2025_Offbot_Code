@@ -9,7 +9,6 @@ import java.util.Set;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.RobotState;
 
 /**
  * Abstract base class for state machine commands that validates state
@@ -28,14 +27,7 @@ public abstract class StateCommand extends Command {
    * 
    * @return Set of valid previous states
    */
-  protected abstract Set<RobotState> getAllowedPreviousStates();
-
-  /**
-   * Returns the desired state this command transitions to.
-   * 
-   * @return The target robot state
-   */
-  protected abstract RobotState getDesiredState();
+  protected abstract Set<Class<? extends StateCommand>> getAllowedPreviousStates();
 
   public StateCommand() {
   }
@@ -44,8 +36,8 @@ public abstract class StateCommand extends Command {
    * Validates if the state transition is legal.
    */
   private boolean isValidTransition() {
-    RobotState currentState = RobotContainer.getRobotState();
-    Set<RobotState> allowedStates = getAllowedPreviousStates();
+    Class<? extends StateCommand> currentState = RobotContainer.getRobotState();
+    Set<Class<? extends StateCommand>> allowedStates = getAllowedPreviousStates();
     return allowedStates.contains(currentState);
   }
 
@@ -53,12 +45,12 @@ public abstract class StateCommand extends Command {
   public final void schedule() {
     if (!isValidTransition()) {
       Commands.print("ERROR: Invalid state transition. Attempted to go from " +
-          RobotContainer.getRobotState() + " to " + getDesiredState() +
+          RobotContainer.getRobotState() + " to " + this.getClass() +
           ". Allowed previous states: " + getAllowedPreviousStates()).schedule();
       return;
     }
 
-    RobotContainer.setRobotState(getDesiredState());
+    RobotContainer.setRobotState(this.getClass());
     super.schedule();
   }
 

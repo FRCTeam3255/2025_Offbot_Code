@@ -12,7 +12,8 @@ import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
+import frc.robot.commands.States.scoring.ScoringAlgaeWithCoral;
 
 public class CleanHighWithCoral extends StateCommand {
   MechanismPositionGroup cleanHighWithCoral;
@@ -21,18 +22,14 @@ public class CleanHighWithCoral extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.HAS_CORAL_AND_ALGAE,
-        RobotState.SCORING_ALGAE_WITH_CORAL);
+        HasCoralAndAlgae.class,
+        ScoringAlgaeWithCoral.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.CLEAN_HIGH_WITH_CORAL;
-  }
 
-  @Override
   public void initialize() {
     if (RobotContainer.subDrivetrain.isActionBackwards(
         Field.FieldElementGroups.ALGAE_POSES.getAll()) == true) {

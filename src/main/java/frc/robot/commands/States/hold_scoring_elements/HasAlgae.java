@@ -10,7 +10,12 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
+import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
+import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
+import frc.robot.commands.States.second_scoring_element.IntakeAlgaeGroundWithCoral;
 
 public class HasAlgae extends StateCommand {
 
@@ -18,30 +23,26 @@ public class HasAlgae extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.INTAKE_ALGAE_GROUND,
-        RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL,
-        RobotState.CLEAN_HIGH,
-        RobotState.CLEAN_LOW,
-        RobotState.CLEAN_HIGH_WITH_CORAL,
-        RobotState.CLEAN_LOW_WITH_CORAL);
+        IntakeAlgaeGround.class,
+        IntakeAlgaeGroundWithCoral.class,
+        CleanHigh.class,
+        CleanLow.class,
+        CleanHighWithCoral.class,
+        CleanLowWithCoral.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.HAS_ALGAE;
-  }
 
-  @Override
   public void initialize() {
-    if (RobotContainer.getRobotState() == RobotState.INTAKE_ALGAE_GROUND ||
-        RobotContainer.getRobotState() == RobotState.INTAKE_ALGAE_GROUND_WITH_CORAL) {
+    if (RobotContainer.getRobotState() == IntakeAlgaeGround.class ||
+        RobotContainer.getRobotState() == IntakeAlgaeGroundWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
-    } else if (RobotContainer.getRobotState() == RobotState.CLEAN_HIGH ||
-        RobotContainer.getRobotState() == RobotState.CLEAN_LOW ||
-        RobotContainer.getRobotState() == RobotState.CLEAN_HIGH_WITH_CORAL ||
-        RobotContainer.getRobotState() == RobotState.CLEAN_LOW_WITH_CORAL) {
+    } else if (RobotContainer.getRobotState() == CleanHigh.class ||
+        RobotContainer.getRobotState() == CleanLow.class ||
+        RobotContainer.getRobotState() == CleanHighWithCoral.class ||
+        RobotContainer.getRobotState() == CleanLowWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HARD_HOLD_SPEED);
     }
     RobotContainer.subRotors.setHasAlgaeOverride(true);

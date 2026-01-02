@@ -11,7 +11,9 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.hold_scoring_elements.HasCoral;
+import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
+import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
 
 public class PrepNetWithCoral extends StateCommand {
   MechanismPositionGroup prepNet;
@@ -20,19 +22,15 @@ public class PrepNetWithCoral extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.HAS_CORAL,
-        RobotState.CLEAN_HIGH_WITH_CORAL,
-        RobotState.CLEAN_LOW_WITH_CORAL);
+        HasCoral.class,
+        CleanHighWithCoral.class,
+        CleanLowWithCoral.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.PREP_ALGAE_NET_WITH_CORAL;
-  }
 
-  @Override
   public void initialize() {
     if (RobotContainer.subDrivetrain.isActionBackwards(
         Field.FieldElementGroups.NET_POSES.getAll())) {

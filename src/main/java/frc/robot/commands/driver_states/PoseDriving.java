@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PoseDriveGroup;
 import frc.robot.Field.FieldElementGroups;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.prep_coral.PrepCoralL2;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL2;
 
 @Logged
 public class PoseDriving extends Command {
@@ -42,8 +43,8 @@ public class PoseDriving extends Command {
 
     boolean backwardsAllowed = poseGroup.backwardsAllowed;
 
-    boolean isInPrepL2States = RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2
-        || RobotContainer.getRobotState() == RobotState.PREP_CORAL_L2_WITH_ALGAE;
+    boolean isInPrepL2States = RobotContainer.getRobotState() == PrepCoralL2.class
+        || RobotContainer.getRobotState() == PrepCoralWithAlgaeL2.class;
 
     if (RobotContainer.subDrivetrain.isActionBackwards(poseGroup.targetPoseGroup)
         && backwardsAllowed

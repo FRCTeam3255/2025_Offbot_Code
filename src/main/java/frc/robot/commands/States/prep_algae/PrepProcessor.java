@@ -9,7 +9,11 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.None;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 
 public class PrepProcessor extends StateCommand {
 
@@ -17,21 +21,17 @@ public class PrepProcessor extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.NONE,
-        RobotState.INTAKE_ALGAE_GROUND,
-        RobotState.CLEAN_HIGH,
-        RobotState.CLEAN_LOW,
-        RobotState.HAS_ALGAE);
+        None.class,
+        IntakeAlgaeGround.class,
+        CleanHigh.class,
+        CleanLow.class,
+        HasAlgae.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.PREP_ALGAE_PROCESSOR;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subMotion.setAllPosition(constMechanismPositions.PREP_PROCESSOR);
   }

@@ -10,7 +10,7 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 
 public class IntakeCoralGroundWithAlgae extends StateCommand {
 
@@ -18,16 +18,12 @@ public class IntakeCoralGroundWithAlgae extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
-    return Set.of(RobotState.HAS_ALGAE);
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+    return Set.of(HasAlgae.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.INTAKE_CORAL_GROUND_SPEED);
   }

@@ -9,7 +9,10 @@ import java.util.Set;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL2;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL3;
+import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL4;
+import frc.robot.commands.States.prep_coral.PrepCoralZeroWithAlgae;
 
 public class ScoringCoralWithAlgae extends StateCommand {
 
@@ -17,20 +20,16 @@ public class ScoringCoralWithAlgae extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.PREP_CORAL_L2_WITH_ALGAE,
-        RobotState.PREP_CORAL_L3_WITH_ALGAE,
-        RobotState.PREP_CORAL_L4_WITH_ALGAE,
-        RobotState.PREP_CORAL_ZERO_WITH_ALGAE);
+        PrepCoralWithAlgaeL2.class,
+        PrepCoralWithAlgaeL3.class,
+        PrepCoralWithAlgaeL4.class,
+        PrepCoralZeroWithAlgae.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.SCORING_CORAL_WITH_ALGAE;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.SCORE_CORAL_SPEED);
   }

@@ -10,27 +10,29 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralL1;
+import frc.robot.commands.States.None;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralStation;
+import frc.robot.commands.States.hold_scoring_elements.HasCoral;
 
 public class PrepCoralL3 extends StateCommand {
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.HAS_CORAL,
-        RobotState.NONE,
-        RobotState.CLEAN_HIGH,
-        RobotState.CLEAN_LOW,
-        RobotState.INTAKE_CORAL_GROUND,
-        RobotState.INTAKE_CORAL_STATION,
-        RobotState.INTAKE_CORAL_L1);
+        HasCoral.class,
+        None.class,
+        CleanHigh.class,
+        CleanLow.class,
+        IntakeCoralGround.class,
+        IntakeCoralStation.class,
+        IntakeCoralL1.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.PREP_CORAL_L3;
-  }
 
-  @Override
   public void initialize() {
     boolean backwards = RobotContainer.subDrivetrain.isActionBackwards(Field.FieldElementGroups.REEF_POSES.getAll());
     if (backwards) {

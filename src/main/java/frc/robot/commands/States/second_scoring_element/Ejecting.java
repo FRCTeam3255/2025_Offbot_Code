@@ -9,7 +9,9 @@ import java.util.Set;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
+import frc.robot.commands.States.hold_scoring_elements.HasCoral;
+import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
 
 public class Ejecting extends StateCommand {
 
@@ -17,19 +19,15 @@ public class Ejecting extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.HAS_CORAL,
-        RobotState.HAS_ALGAE,
-        RobotState.HAS_CORAL_AND_ALGAE);
+        HasCoral.class,
+        HasAlgae.class,
+        HasCoralAndAlgae.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.EJECTING;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);
     RobotContainer.subRotors.setCoralIntakeMotorSpeed(constRotorsSpeeds.EJECTING_GAME_PIECE_SPEED);

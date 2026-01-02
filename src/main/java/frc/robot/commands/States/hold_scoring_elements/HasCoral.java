@@ -9,7 +9,11 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralL1;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralStation;
+import frc.robot.commands.States.second_scoring_element.IntakeCoralGroundWithAlgae;
+import frc.robot.commands.States.second_scoring_element.IntakeCoralStationWithAlgae;
 
 public class HasCoral extends StateCommand {
 
@@ -17,21 +21,17 @@ public class HasCoral extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.INTAKE_CORAL_STATION,
-        RobotState.INTAKE_CORAL_GROUND,
-        RobotState.INTAKE_CORAL_L1,
-        RobotState.INTAKE_CORAL_STATION_WITH_ALGAE,
-        RobotState.INTAKE_CORAL_GROUND_WITH_ALGAE);
+        IntakeCoralStation.class,
+        IntakeCoralGround.class,
+        IntakeCoralL1.class,
+        IntakeCoralStationWithAlgae.class,
+        IntakeCoralGroundWithAlgae.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.HAS_CORAL;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subRotors.setHasCoralOverride(true);
     RobotContainer.subRotors.setCoralIntakeMotorSpeed(0);

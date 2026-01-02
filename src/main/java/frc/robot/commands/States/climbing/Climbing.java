@@ -10,7 +10,7 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Elastic;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.climbing.PrepClimb;
 
 public class Climbing extends StateCommand {
 
@@ -18,16 +18,12 @@ public class Climbing extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
-    return Set.of(RobotState.PREP_CLIMB);
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+    return Set.of(PrepClimb.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.CLIMBING;
-  }
 
-  @Override
   public void initialize() {
     Elastic.selectTab("Climbing");
     RobotContainer.subMotion.setAllPosition(constMechanismPositions.CLIMBED);

@@ -9,24 +9,23 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.first_scoring_element.CleanHigh;
+import frc.robot.commands.States.first_scoring_element.CleanLow;
+import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 
 public class PrepCoralZeroWithAlgae extends StateCommand {
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.HAS_ALGAE,
-        RobotState.INTAKE_ALGAE_GROUND,
-        RobotState.CLEAN_HIGH,
-        RobotState.CLEAN_LOW);
+        HasAlgae.class,
+        IntakeAlgaeGround.class,
+        CleanHigh.class,
+        CleanLow.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.PREP_CORAL_ZERO_WITH_ALGAE;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subMotion.setAllPosition(constMechanismPositions.PREP_CORAL_ZERO);
   }

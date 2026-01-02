@@ -10,7 +10,11 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.prep_coral.PrepCoralL1;
+import frc.robot.commands.States.prep_coral.PrepCoralL2;
+import frc.robot.commands.States.prep_coral.PrepCoralL3;
+import frc.robot.commands.States.prep_coral.PrepCoralL4;
+import frc.robot.commands.States.prep_coral.PrepCoralZero;
 
 public class ScoringCoral extends StateCommand {
 
@@ -18,21 +22,17 @@ public class ScoringCoral extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
     return Set.of(
-        RobotState.PREP_CORAL_L2,
-        RobotState.PREP_CORAL_L3,
-        RobotState.PREP_CORAL_L4,
-        RobotState.PREP_CORAL_ZERO,
-        RobotState.PREP_CORAL_L1);
+        PrepCoralL2.class,
+        PrepCoralL3.class,
+        PrepCoralL4.class,
+        PrepCoralZero.class,
+        PrepCoralL1.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.SCORING_CORAL;
-  }
 
-  @Override
   public void initialize() {
     double speed = constRotorsSpeeds.SCORE_CORAL_SPEED;
     if (RobotContainer.subMotion.arePositionsAtSetPoint(constMechanismPositions.PREP_CORAL_L2_BACKWARDS)

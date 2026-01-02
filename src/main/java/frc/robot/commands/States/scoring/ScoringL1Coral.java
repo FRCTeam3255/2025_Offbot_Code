@@ -9,7 +9,7 @@ import java.util.Set;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.prep_coral.PrepCoralL1;
 
 public class ScoringL1Coral extends StateCommand {
 
@@ -17,16 +17,12 @@ public class ScoringL1Coral extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
-    return Set.of(RobotState.PREP_CORAL_L1);
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+    return Set.of(PrepCoralL1.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.SCORING_CORAL_L1;
-  }
 
-  @Override
   public void initialize() {
     RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.L1_CORAL_SCORE_SPEED);
   }

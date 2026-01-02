@@ -11,7 +11,9 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StateCommand;
-import frc.robot.subsystems.RobotState;
+import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
+import frc.robot.commands.States.prep_algae.PrepAlgaeZero;
+import frc.robot.commands.States.prep_algae.PrepProcessor;
 
 public class PrepNet extends StateCommand {
   MechanismPositionGroup prepNet;
@@ -20,16 +22,12 @@ public class PrepNet extends StateCommand {
   }
 
   @Override
-  protected Set<RobotState> getAllowedPreviousStates() {
-    return Set.of(RobotState.HAS_ALGAE, RobotState.PREP_ALGAE_PROCESSOR, RobotState.PREP_ALGAE_ZERO);
+  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+    return Set.of(HasAlgae.class, PrepProcessor.class, PrepAlgaeZero.class);
   }
 
   @Override
-  protected RobotState getDesiredState() {
-    return RobotState.PREP_ALGAE_NET;
-  }
 
-  @Override
   public void initialize() {
     if (RobotContainer.subDrivetrain.isActionBackwards(Field.FieldElementGroups.NET_POSES.getAll())) {
       prepNet = constMechanismPositions.PREP_ALGAE_NET_BACKWARDS;
