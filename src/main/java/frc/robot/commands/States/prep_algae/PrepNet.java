@@ -10,19 +10,17 @@ import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
-import frc.robot.commands.States.prep_algae.PrepAlgaeZero;
-import frc.robot.commands.States.prep_algae.PrepProcessor;
 
-public class PrepNet extends StateCommand {
+public class PrepNet extends StatefulCommand {
   MechanismPositionGroup prepNet;
 
   public PrepNet() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(HasAlgae.class, PrepProcessor.class, PrepAlgaeZero.class);
   }
 

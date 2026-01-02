@@ -9,18 +9,18 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
-import frc.robot.commands.States.first_scoring_element.IntakeCoralL1;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.None;
 import frc.robot.commands.States.first_scoring_element.CleanHigh;
 import frc.robot.commands.States.first_scoring_element.CleanLow;
 import frc.robot.commands.States.first_scoring_element.IntakeCoralGround;
+import frc.robot.commands.States.first_scoring_element.IntakeCoralL1;
 import frc.robot.commands.States.first_scoring_element.IntakeCoralStation;
 import frc.robot.commands.States.hold_scoring_elements.HasCoral;
 
-public class PrepCoralL4 extends StateCommand {
+public class PrepCoralL4 extends StatefulCommand {
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         HasCoral.class,
         None.class,

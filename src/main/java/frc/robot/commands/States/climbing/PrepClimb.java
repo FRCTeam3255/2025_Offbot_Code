@@ -10,20 +10,19 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Elastic;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.None;
-import frc.robot.commands.States.climbing.Climbing;
 import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 import frc.robot.commands.States.hold_scoring_elements.HasCoral;
 import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
 
-public class PrepClimb extends StateCommand {
+public class PrepClimb extends StatefulCommand {
 
   public PrepClimb() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(None.class, HasCoral.class,
         HasAlgae.class,
         HasCoralAndAlgae.class,

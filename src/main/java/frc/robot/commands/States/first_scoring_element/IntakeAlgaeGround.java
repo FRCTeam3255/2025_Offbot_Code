@@ -9,17 +9,17 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.None;
 import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 
-public class IntakeAlgaeGround extends StateCommand {
+public class IntakeAlgaeGround extends StatefulCommand {
 
   public IntakeAlgaeGround() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(None.class, HasAlgae.class);
   }
 

@@ -20,16 +20,16 @@ import edu.wpi.first.wpilibj2.command.Commands;
  * 
  * Users override initialize() and execute() like normal WPILib commands.
  */
-public abstract class StateCommand extends Command {
+public abstract class StatefulCommand extends Command {
 
-  private static Class<? extends StateCommand> currentState;
+  private static Class<? extends StatefulCommand> currentState;
 
   /**
    * Gets the current robot state.
    * 
    * @return The current state command class
    */
-  public static Class<? extends StateCommand> getCurrentState() {
+  public static Class<? extends StatefulCommand> getCurrentState() {
     return currentState;
   }
 
@@ -38,7 +38,7 @@ public abstract class StateCommand extends Command {
    * 
    * @param state The new state
    */
-  public static void setState(Class<? extends StateCommand> state) {
+  public static void setState(Class<? extends StatefulCommand> state) {
     currentState = Objects.requireNonNull(state, "Robot state cannot be null");
   }
 
@@ -47,16 +47,16 @@ public abstract class StateCommand extends Command {
    * 
    * @return Set of valid previous states
    */
-  protected abstract Set<Class<? extends StateCommand>> getAllowedPreviousStates();
+  protected abstract Set<Class<? extends StatefulCommand>> getAllowedPreviousStates();
 
-  public StateCommand() {
+  public StatefulCommand() {
   }
 
   /**
    * Validates if the state transition is legal.
    */
   private boolean isValidTransition() {
-    Set<Class<? extends StateCommand>> allowedStates = getAllowedPreviousStates();
+    Set<Class<? extends StatefulCommand>> allowedStates = getAllowedPreviousStates();
     return allowedStates.contains(currentState);
   }
 

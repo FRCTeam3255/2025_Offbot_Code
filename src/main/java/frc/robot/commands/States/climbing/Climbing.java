@@ -9,16 +9,15 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Elastic;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
-import frc.robot.commands.States.climbing.PrepClimb;
+import frc.robot.commands.StatefulCommand;
 
-public class Climbing extends StateCommand {
+public class Climbing extends StatefulCommand {
 
   public Climbing() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(PrepClimb.class);
   }
 

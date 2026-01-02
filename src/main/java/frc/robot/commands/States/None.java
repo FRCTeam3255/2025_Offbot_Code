@@ -8,7 +8,7 @@ import java.util.Set;
 
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.climbing.Climbing;
 import frc.robot.commands.States.climbing.PrepClimb;
 import frc.robot.commands.States.first_scoring_element.CleanHigh;
@@ -22,13 +22,13 @@ import frc.robot.commands.States.scoring.ScoringCoral;
 import frc.robot.commands.States.scoring.ScoringL1Coral;
 import frc.robot.commands.States.second_scoring_element.Ejecting;
 
-public class None extends StateCommand {
+public class None extends StatefulCommand {
 
   public None() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(PrepClimb.class, ScoringCoral.class, ScoringAlgae.class,
         IntakeCoralGround.class, IntakeAlgaeGround.class,
         IntakeCoralStation.class, CleanHigh.class, CleanLow.class,

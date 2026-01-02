@@ -8,19 +8,19 @@ import java.util.Set;
 
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL2;
 import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL3;
 import frc.robot.commands.States.prep_coral.PrepCoralWithAlgaeL4;
 import frc.robot.commands.States.prep_coral.PrepCoralZeroWithAlgae;
 
-public class ScoringCoralWithAlgae extends StateCommand {
+public class ScoringCoralWithAlgae extends StatefulCommand {
 
   public ScoringCoralWithAlgae() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         PrepCoralWithAlgaeL2.class,
         PrepCoralWithAlgaeL3.class,

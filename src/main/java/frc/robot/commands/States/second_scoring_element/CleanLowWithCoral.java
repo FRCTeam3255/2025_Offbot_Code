@@ -11,18 +11,18 @@ import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.hold_scoring_elements.HasCoralAndAlgae;
 import frc.robot.commands.States.scoring.ScoringAlgaeWithCoral;
 
-public class CleanLowWithCoral extends StateCommand {
+public class CleanLowWithCoral extends StatefulCommand {
   MechanismPositionGroup cleanLowWithCoral;
 
   public CleanLowWithCoral() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         HasCoralAndAlgae.class,
         ScoringAlgaeWithCoral.class);

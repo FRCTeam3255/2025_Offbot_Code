@@ -23,7 +23,7 @@ import frc.robot.Constants.constLED;
 import frc.robot.Constants.constPoseDrive;
 import frc.robot.RobotMap.mapControllers;
 import frc.robot.commands.AddVisionMeasurement;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.None;
 import frc.robot.commands.States.climbing.Climbing;
 import frc.robot.commands.States.climbing.PrepClimb;
@@ -98,7 +98,7 @@ public class RobotContainer {
 
   // Logged state name for telemetry
   public String getRobotStateName() {
-    return StateCommand.getCurrentState().getSimpleName();
+    return StatefulCommand.getCurrentState().getSimpleName();
   }
 
   public static void setDriverState(DriverState state) {
@@ -114,7 +114,7 @@ public class RobotContainer {
   }
 
   public static boolean inCleaningState() {
-    Class<? extends StateCommand> state = StateCommand.getCurrentState().;
+    Class<? extends StatefulCommand> state = StatefulCommand.getCurrentState();
     return state == CleanHigh.class
         || state == CleanLow.class
         || state == CleanHighWithCoral.class
@@ -143,18 +143,18 @@ public class RobotContainer {
   private final Trigger isInProcessorAutoDriveState = new Trigger(
       () -> currentDriverState == DriverState.PROCESSOR_AUTO_DRIVING);
   private final Trigger isInPrepL2States = new Trigger(
-      () -> StateCommand.getCurrentState() == PrepCoralL2.class
-          || StateCommand.getCurrentState() == PrepCoralWithAlgaeL2.class);
+      () -> StatefulCommand.getCurrentState() == PrepCoralL2.class
+          || StatefulCommand.getCurrentState() == PrepCoralWithAlgaeL2.class);
   private final Trigger isInClimbState = new Trigger(
-      () -> StateCommand.getCurrentState() == Climbing.class
-          || StateCommand.getCurrentState() == PrepClimb.class);
+      () -> StatefulCommand.getCurrentState() == Climbing.class
+          || StatefulCommand.getCurrentState() == PrepClimb.class);
   private Command nonProcSide4Coral;
   private Command procSide4Coral;
   private Command mid1Coral;
   private Command midAlgae;
 
   public RobotContainer() {
-    StateCommand.setState(None.class);
+    StatefulCommand.setState(None.class);
     RobotController.setBrownoutVoltage(5.5);
     conDriver.setLeftDeadband(constControllers.DRIVER_LEFT_STICK_DEADBAND);
 
@@ -227,7 +227,7 @@ public class RobotContainer {
 
   Command ScoreAndCollect(String startPath, String endPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
     return Commands.sequence(
-        Commands.runOnce(() -> StateCommand.setState(HasCoral.class)),
+        Commands.runOnce(() -> StatefulCommand.setState(HasCoral.class)),
         runPath(startPath),
         reef_auto_drive_branch.alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -241,7 +241,7 @@ public class RobotContainer {
 
   Command Score(String startPath, Command reef_auto_drive_branch, Command try_prep_coral_l) {
     return Commands.sequence(
-        Commands.runOnce(() -> StateCommand.setState(HasCoral.class)),
+        Commands.runOnce(() -> StatefulCommand.setState(HasCoral.class)),
         runPath(startPath),
         reef_auto_drive_branch.alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -256,7 +256,7 @@ public class RobotContainer {
         runPath(startPath),
         new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
             try_clean_lv).withTimeout(4),
-        Commands.runOnce(() -> StateCommand.setState(HasAlgae.class)),
+        Commands.runOnce(() -> StatefulCommand.setState(HasAlgae.class)),
         runPath(endPath),
         new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(
@@ -271,7 +271,7 @@ public class RobotContainer {
         new PoseDriving(constPoseDrive.ALGAE_REEF).withTimeout(0.7).andThen(
             new PoseDriving(constPoseDrive.ALGAE_REEF).withDeadline(
                 try_clean_lv.withTimeout(4))),
-        Commands.runOnce(() -> StateCommand.setState(HasAlgae.class)),
+        Commands.runOnce(() -> StatefulCommand.setState(HasAlgae.class)),
         runPath(endPath),
         new PoseDriving(constPoseDrive.NET).alongWith(
             Commands.waitSeconds(0.3).andThen(

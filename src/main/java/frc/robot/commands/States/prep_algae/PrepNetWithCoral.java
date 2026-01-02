@@ -10,19 +10,19 @@ import frc.robot.Constants.MechanismPositionGroup;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Field;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.hold_scoring_elements.HasCoral;
 import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
 import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
 
-public class PrepNetWithCoral extends StateCommand {
+public class PrepNetWithCoral extends StatefulCommand {
   MechanismPositionGroup prepNet;
 
   public PrepNetWithCoral() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         HasCoral.class,
         CleanHighWithCoral.class,

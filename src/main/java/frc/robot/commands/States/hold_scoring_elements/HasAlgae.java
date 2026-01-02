@@ -9,7 +9,7 @@ import java.util.Set;
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.first_scoring_element.CleanHigh;
 import frc.robot.commands.States.first_scoring_element.CleanLow;
 import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
@@ -17,13 +17,13 @@ import frc.robot.commands.States.second_scoring_element.CleanHighWithCoral;
 import frc.robot.commands.States.second_scoring_element.CleanLowWithCoral;
 import frc.robot.commands.States.second_scoring_element.IntakeAlgaeGroundWithCoral;
 
-public class HasAlgae extends StateCommand {
+public class HasAlgae extends StatefulCommand {
 
   public HasAlgae() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         IntakeAlgaeGround.class,
         IntakeAlgaeGroundWithCoral.class,
@@ -36,13 +36,13 @@ public class HasAlgae extends StateCommand {
   @Override
 
   public void initialize() {
-    if (StateCommand.getCurrentState() == IntakeAlgaeGround.class ||
-        StateCommand.getCurrentState() == IntakeAlgaeGroundWithCoral.class) {
+    if (StatefulCommand.getCurrentState() == IntakeAlgaeGround.class ||
+        StatefulCommand.getCurrentState() == IntakeAlgaeGroundWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HOLD_SPEED);
-    } else if (StateCommand.getCurrentState() == CleanHigh.class ||
-        StateCommand.getCurrentState() == CleanLow.class ||
-        StateCommand.getCurrentState() == CleanHighWithCoral.class ||
-        StateCommand.getCurrentState() == CleanLowWithCoral.class) {
+    } else if (StatefulCommand.getCurrentState() == CleanHigh.class ||
+        StatefulCommand.getCurrentState() == CleanLow.class ||
+        StatefulCommand.getCurrentState() == CleanHighWithCoral.class ||
+        StatefulCommand.getCurrentState() == CleanLowWithCoral.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.ALGAE_HARD_HOLD_SPEED);
     }
     RobotContainer.subRotors.setHasAlgaeOverride(true);

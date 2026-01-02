@@ -8,20 +8,20 @@ import java.util.Set;
 
 import frc.robot.Constants.constMechanismPositions;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.None;
 import frc.robot.commands.States.first_scoring_element.CleanHigh;
 import frc.robot.commands.States.first_scoring_element.CleanLow;
 import frc.robot.commands.States.first_scoring_element.IntakeAlgaeGround;
 import frc.robot.commands.States.hold_scoring_elements.HasAlgae;
 
-public class PrepProcessor extends StateCommand {
+public class PrepProcessor extends StatefulCommand {
 
   public PrepProcessor() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         None.class,
         IntakeAlgaeGround.class,

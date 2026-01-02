@@ -8,16 +8,16 @@ import java.util.Set;
 
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.prep_coral.PrepCoralL1;
 
-public class ScoringL1Coral extends StateCommand {
+public class ScoringL1Coral extends StatefulCommand {
 
   public ScoringL1Coral() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(PrepCoralL1.class);
   }
 

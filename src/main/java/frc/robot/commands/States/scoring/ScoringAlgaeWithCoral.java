@@ -8,19 +8,19 @@ import java.util.Set;
 
 import frc.robot.Constants.constRotorsSpeeds;
 import frc.robot.RobotContainer;
-import frc.robot.commands.StateCommand;
+import frc.robot.commands.StatefulCommand;
 import frc.robot.commands.States.prep_algae.PrepNet;
 import frc.robot.commands.States.prep_algae.PrepNetWithCoral;
 import frc.robot.commands.States.prep_algae.PrepProcessor;
 import frc.robot.commands.States.prep_algae.PrepProcessorWithCoral;
 
-public class ScoringAlgaeWithCoral extends StateCommand {
+public class ScoringAlgaeWithCoral extends StatefulCommand {
 
   public ScoringAlgaeWithCoral() {
   }
 
   @Override
-  protected Set<Class<? extends StateCommand>> getAllowedPreviousStates() {
+  protected Set<Class<? extends StatefulCommand>> getAllowedPreviousStates() {
     return Set.of(
         PrepNetWithCoral.class,
         PrepProcessorWithCoral.class);
@@ -29,9 +29,9 @@ public class ScoringAlgaeWithCoral extends StateCommand {
   @Override
 
   public void initialize() {
-    if (StateCommand.getCurrentState() == PrepNet.class) {
+    if (StatefulCommand.getCurrentState() == PrepNet.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_NET_SPEED);
-    } else if (StateCommand.getCurrentState() == PrepProcessor.class) {
+    } else if (StatefulCommand.getCurrentState() == PrepProcessor.class) {
       RobotContainer.subRotors.setAlgaeIntakeMotorSpeed(constRotorsSpeeds.SCORE_ALGAE_PROCESSOR_SPEED);
     }
   }
